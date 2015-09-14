@@ -2,8 +2,46 @@
 <resources>
 
     <string name="app_name">BoomMall</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="exit">再按一次退出程序</string>
+    <string name="company">南京壹前零后科技有限公司</string>
+    <string name="copyright">版权所有</string>
+    <string name="agreement_title">服务协议</string>
+
+    <!-- common -->
+    <string name="prompt">提示</string>
+    <string name="confirm">确定</string>
+    <string name="cancal">取消</string>
+
+    <!-- account -->
+      <string name="login_emptyname_or_emptypwd">用户名或密码为空，请重新输入</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="forget_pwd">忘记密码</string>
+    <string name="phone">手机</string>
+    <string name="pwd">密码</string>
+    <string name="login_successful">登录成功</string>
+    <string name="login_fail">登录失败</string>
+    <string name="user_name_hint">请输入用户名</string>
+    <string name="user_psw_hint">请输入密码</string>
+    <string name="user_confirm_psw_hint">请再次输入密码</string>
+
+    <!-- pay -->
+    <string name="add_cart">加入购物车</string>
+    <string name="now_buy">立即购买</string>
+    <string name="pay_type">支付方式</string>
+    <string name="pay_on_delivery">货到付款</string>
+    <string name="pay_on_delivery_brief">送货上门后付款，支持现金、刷卡</string>
+    <string name="pay_online">在线支付</string>
+    <string name="pay_online_brief">支持银联卡及第三方支付平台</string>
+    <string name="pay_confirm">确认支付</string>
+    <string name="pay_in_cash">现金支付</string>
+    <string name="pay_in_pos">POS机刷卡</string>
+    <string name="alipay">支付宝</string>
+    <string name="wechat">微信</string>
+    <string name="unionpay">银联</string>
+    <string name="pay_suc">支付成功</string>
+    <string name="pay_fail">支付失败</string>
+    <string name="pay_way_hint">请选择支付方式</string>
+    <string name="buy">购买</string>
 
 </resources>
