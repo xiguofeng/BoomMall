@@ -95,14 +95,14 @@ public class GoodsLogic {
 			final int pageSize) {
 
 		String url = RequestUrl.HOST_URL
-				+ RequestUrl.goods.queryGoodsByCategory;
+				+ RequestUrl.goods.queryGoodsByCategoryNew;
 		Log.e("xxx_url", url);
 		JSONObject requestJson = new JSONObject();
 		try {
 			// URLEncoder.encode("防晒", "UTF-8")
 			requestJson.put("category", URLEncoder.encode("防晒", "UTF-8"));
-			requestJson.put("c", Integer.parseInt("1"));
-			requestJson.put("s", Integer.parseInt("100"));
+			requestJson.put("c", Integer.parseInt("0"));
+			requestJson.put("s", Integer.parseInt("5"));
 
 			BaseApplication.getInstanceRequestQueue().add(
 					new JsonObjectRequest(Method.POST, url, requestJson,

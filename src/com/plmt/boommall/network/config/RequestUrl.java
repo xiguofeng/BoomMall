@@ -47,6 +47,12 @@ public class RequestUrl {
 		 * 根据商品种类查询商品
 		 */
 		public String queryGoodsByCategory = "/getproducts";
+		
+		/**
+		 * 根据商品种类查询商品
+		 */
+		public String queryGoodsByCategoryNew = "/getproductsnew";
+
 
 		public String queryGoodsCategory = "queryProductCategory";
 

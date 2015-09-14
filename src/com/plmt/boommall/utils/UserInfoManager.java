@@ -17,13 +17,17 @@ public class UserInfoManager {
 
 	public static final String USER_ID_KEY = "user_id";
 
-	public static final String USER_ACCOUNT_KEY = "user_account";
-
 	public static final String USER_NAME_KEY = "user_name";
 
 	public static final String USER_PWD_KEY = "password";
 
 	public static final String USER_SEX_KEY = "sex";
+
+	public static final String USER_PHONE_KEY = "user_phone";
+
+	public static final String USER_ADDRESS_KEY = "address";
+	
+	public static final String USER_INVOICE_KEY = "invoice";
 
 	public static final String USER_SIGNATURE_KEY = "signature";
 
@@ -41,6 +45,8 @@ public class UserInfoManager {
 
 	public static final String USER_GESTURUE_PWD_IS_OPEN = "is_open_gesturue_pwd";
 
+	public static final String USER_AUTH_IS_MUST = "is_must_auth";
+
 	public static User userInfo = new User();
 
 	/**
@@ -54,8 +60,6 @@ public class UserInfoManager {
 
 		UserInfoManager.userInfo.setUserId(userInfoPreferences.getString(
 				USER_ID_KEY, ""));
-		UserInfoManager.userInfo.setAccount(userInfoPreferences.getString(
-				USER_ACCOUNT_KEY, ""));
 
 		UserInfoManager.userInfo.setUserName(userInfoPreferences.getString(
 				USER_NAME_KEY, ""));
@@ -66,7 +70,6 @@ public class UserInfoManager {
 				USER_SEX_KEY, ""));
 		UserInfoManager.userInfo.setSignature(userInfoPreferences.getString(
 				USER_SIGNATURE_KEY, ""));
-
 	}
 
 	/**
@@ -85,8 +88,6 @@ public class UserInfoManager {
 
 			userInfoSp.putString(USER_ID_KEY, null == user.getUserId() ? ""
 					: user.getUserId());
-			userInfoSp.putString(USER_ACCOUNT_KEY,
-					null == user.getAccount() ? "" : user.getAccount());
 
 			userInfoSp.putString(USER_NAME_KEY, user.getUserName());
 			userInfoSp.putString(USER_PWD_KEY, user.getPassword());
@@ -106,7 +107,6 @@ public class UserInfoManager {
 				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE).edit();
 
 		userInfoSp.putString(USER_ID_KEY, "");
-		userInfoSp.putString(USER_ACCOUNT_KEY, "");
 
 		userInfoSp.putString(USER_NAME_KEY, "");
 		userInfoSp.putString(USER_PWD_KEY, "");
@@ -289,17 +289,147 @@ public class UserInfoManager {
 
 	}
 
-	/**
-	 * 获取用户ID
-	 * @param context
-	 * @return
-	 */
-	public static String getUserId(Context context) {
+	public static boolean getIsMustAuth(Context context) {
 		SharedPreferences userInfo = context.getSharedPreferences(
 				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE);
 
-		return userInfo.getString(USER_ID_KEY, "");
+		return userInfo.getBoolean(USER_AUTH_IS_MUST, true);
 
 	}
 
+	public static void setIsMustAuth(Context context, boolean isMust) {
+		SharedPreferences.Editor userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE).edit();
+		userInfo.putBoolean(USER_AUTH_IS_MUST, isMust);
+		userInfo.commit();
+	}
+
+	public static String getPhone(Context context) {
+		SharedPreferences userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE);
+		return userInfo.getString(USER_PHONE_KEY, "");
+
+	}
+
+	public static void setPhone(Context context, String phone) {
+		SharedPreferences.Editor userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE).edit();
+
+		if (!TextUtils.isEmpty(phone)) {
+			userInfo.putString(USER_PHONE_KEY, phone);
+		} else {
+			userInfo.putString(USER_PHONE_KEY, "");
+		}
+		userInfo.commit();
+
+	}
+
+	public static String getAddress(Context context) {
+		SharedPreferences userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE);
+		return userInfo.getString(USER_ADDRESS_KEY, "");
+
+	}
+
+	public static void setAddress(Context context, String address) {
+		SharedPreferences.Editor userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE).edit();
+
+		if (!TextUtils.isEmpty(address)) {
+			userInfo.putString(USER_ADDRESS_KEY, address);
+		} else {
+			userInfo.putString(USER_ADDRESS_KEY, "");
+		}
+		userInfo.commit();
+
+	}
+
+	public static void saveAddress(Context context, String address) {
+		String tempString = "";
+		String string = getAddressHistory(context);
+		if (!TextUtils.isEmpty(string)) {
+			String[] strings = string.substring(0, string.length()).split(";");
+			int size = 5;
+			if (strings.length < 5) {
+				size = strings.length;
+			}
+			for (int i = 0; i < size; i++) {
+				if (!address.equals(strings[i])) {
+					if (!TextUtils.isEmpty(tempString)) {
+						tempString = tempString + ";" + strings[i];
+					} else {
+						tempString = strings[i];
+					}
+				}
+			}
+		}
+		SharedPreferences.Editor userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE).edit();
+		if (!TextUtils.isEmpty(tempString)) {
+			userInfo.putString(USER_ADDRESS_KEY, address + ";" + tempString);
+		} else {
+			userInfo.putString(USER_ADDRESS_KEY, address);
+		}
+		userInfo.commit();
+	}
+
+	public static String getAddressHistory(Context context) {
+		String result = "";
+		SharedPreferences userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE);
+		result = userInfo.getString(USER_ADDRESS_KEY, "");
+
+		return result;
+	}
+
+	public static boolean isHasAddress(Context context, String address) {
+		boolean isHas = false;
+		String string = getAddressHistory(context);
+		String[] strings = string.substring(0, string.length() - 1).split(";");
+		for (String s : strings) {
+			if (address.equals(s)) {
+				isHas = true;
+				break;
+			}
+		}
+		return isHas;
+	}
+	
+	public static void saveInvoice(Context context, String invoice) {
+		String tempString = "";
+		String string = getInvoiceHistory(context);
+		if (!TextUtils.isEmpty(string)) {
+			String[] strings = string.substring(0, string.length()).split(";");
+			int size = 5;
+			if (strings.length < 5) {
+				size = strings.length;
+			}
+			for (int i = 0; i < size; i++) {
+				if (!invoice.equals(strings[i])) {
+					if (!TextUtils.isEmpty(tempString)) {
+						tempString = tempString + ";" + strings[i];
+					} else {
+						tempString = strings[i];
+					}
+				}
+			}
+		}
+		SharedPreferences.Editor userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE).edit();
+		if (!TextUtils.isEmpty(tempString)) {
+			userInfo.putString(USER_INVOICE_KEY, invoice + ";" + tempString);
+		} else {
+			userInfo.putString(USER_INVOICE_KEY, invoice);
+		}
+		userInfo.commit();
+	}
+
+	public static String getInvoiceHistory(Context context) {
+		String result = "";
+		SharedPreferences userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE);
+		result = userInfo.getString(USER_INVOICE_KEY, "");
+
+		return result;
+	}
 }

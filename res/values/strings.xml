@@ -17,6 +17,9 @@
     <string name="prompt">提示</string>
     <string name="confirm">确定</string>
     <string name="cancal">取消</string>
+    <string name="num_digits">0123456789</string>
+    <string name="submit">提交</string>
+    
 
     <!-- account -->
     <string name="login_emptyname_or_emptypwd">用户名或密码为空，请重新输入</string>
@@ -25,11 +28,16 @@
     <string name="forget_pwd">忘记密码</string>
     <string name="phone">手机</string>
     <string name="pwd">密码</string>
+    <string name="pwd_confirm">确认密码</string>
     <string name="login_successful">登录成功</string>
     <string name="login_fail">登录失败</string>
     <string name="user_name_hint">请输入用户名</string>
     <string name="user_psw_hint">请输入密码</string>
     <string name="user_confirm_psw_hint">请再次输入密码</string>
+    <string name="mobile_phone_hint">请填写手机号码</string>
+    <string name="verification_code">验证码</string>
+    <string name="get_verification_code">获取验证码</string>
+    <string name="verification_code_hint">请输入正确的验证码</string>
 
     <!-- pay -->
     <string name="add_cart">加入购物车</string>
