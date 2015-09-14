@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 注意：的#5000000前两位是透明的效果参数(从00到99透明不怎么透明)后6位是颜色的设置 -->
+
+
+    <!-- common -->
+    <color name="white_tab_bg">#fafafa</color>
+    <color name="blue_title_bg">#1d2b46</color>
+    <color name="blue_text">#1d2b46</color>
+    <color name="common_bg">#f4f4f5</color>
+    <color name="white_common_bg">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_transparent">#85ffffff</color>
+    <color name="white_list_content_bg">#f7f7f7</color>
+    <color name="white_list_bg">#f8f8f8</color>
+    <color name="black_tab_bg">#2f2f2f</color>
+    <color name="black_character">#000000</color>
+    <color name="black_character_title">#3d3d3d</color>
+    <color name="gray_title_bg">#F6F6F6</color>
+    <color name="gray_text">#909090</color>
+    <color name="gray_bg">#f2f2f2</color>
+    <color name="gray_brief_bg">#f1f1f1</color>
+    <color name="gray_text_title">#898989</color>
+    <color name="gray_common_bg">#f0f0f0</color>
+    <color name="gray_search_bg">#fcfcfc</color>
+    <color name="orange_text">#f56344</color>
+    <color name="orange_title_bar_bg">#ec5c43</color>
+    <color name="orange_stroke">#f5a623</color>
+    <color name="orange_bg">#f5a623</color>
+    <color name="yello_bottom_bg">#ffa204</color>
+    <!-- <color name="red_title_bg">#cf021b</color> -->
+    <color name="red_title_bg">#D0021B</color>
+    <color name="red_btn_bg">#d0021b</color>
+    
+    <color name="zero_all">#00000000</color>
+    <color name="transparent_background">#50000000</color>
+
+    <!-- line -->
+    <color name="white_divide_line">#e8e8e8</color>
+    <color name="gray_divide_line">#9f9e9e</color>
+    <color name="province_line_border">#C7C7C7</color>
+    <!-- 自定义Dialog的背景颜色 -->
+    <color name="dialog_bg">#50000000</color>
+    <color name="corner_border_color">#F3F4F3</color>
+
+</resources>
