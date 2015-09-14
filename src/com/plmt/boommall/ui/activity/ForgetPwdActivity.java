@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.network.logic.UserLogic;
+import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.utils.UserInfoManager;
 
 public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
@@ -42,6 +43,8 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 	private String mAddress;
 
 	private String mId;
+
+	private MultiStateView mMultiStateView;
 
 	private int mTiming = 60;
 
@@ -145,6 +148,19 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 
 		// mBackIv = (ImageView) findViewById(R.id.forget_pwd_input_back_iv);
 
+		mMultiStateView = (MultiStateView) findViewById(R.id.forget_multiStateView);
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
+				.findViewById(R.id.retry)
+				.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						mMultiStateView
+								.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(),
+								"Fetching Data", Toast.LENGTH_SHORT).show();
+					}
+				});
+		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 	}
 
 	private void setUpListener() {
