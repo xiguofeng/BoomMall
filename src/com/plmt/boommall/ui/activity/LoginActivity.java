@@ -114,7 +114,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 						mMultiStateView
 								.setViewState(MultiStateView.VIEW_STATE_LOADING);
 						Toast.makeText(getApplicationContext(),
-								"Fetching Data", Toast.LENGTH_SHORT).show();
+								"正在", Toast.LENGTH_SHORT).show();
 					}
 				});
 	}

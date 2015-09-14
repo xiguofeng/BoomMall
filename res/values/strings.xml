@@ -7,13 +7,19 @@
     <string name="copyright">版权所有</string>
     <string name="agreement_title">服务协议</string>
 
+    <!-- loading -->
+    <string name="loading">加载</string>
+    <string name="loading_hint">正在加载中...</string>
+    <string name="loading_err">抱歉，数据加载失败，请点击重新加载</string>
+    <string name="loading_suc">数据加载成功</string>
+
     <!-- common -->
     <string name="prompt">提示</string>
     <string name="confirm">确定</string>
     <string name="cancal">取消</string>
 
     <!-- account -->
-      <string name="login_emptyname_or_emptypwd">用户名或密码为空，请重新输入</string>
+    <string name="login_emptyname_or_emptypwd">用户名或密码为空，请重新输入</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="forget_pwd">忘记密码</string>
