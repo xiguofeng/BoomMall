@@ -19,7 +19,6 @@
     <string name="cancal">取消</string>
     <string name="num_digits">0123456789</string>
     <string name="submit">提交</string>
-    
 
     <!-- account -->
     <string name="login_emptyname_or_emptypwd">用户名或密码为空，请重新输入</string>
@@ -57,5 +56,9 @@
     <string name="pay_fail">支付失败</string>
     <string name="pay_way_hint">请选择支付方式</string>
     <string name="buy">购买</string>
+
+    <!-- cart -->
+    <string name="shopping_cart">购物车</string>
+    <string name="cart_no_hint">有好多商品等着亲来选购哟</string>
 
 </resources>

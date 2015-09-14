@@ -1,9 +1,6 @@
 package com.plmt.boommall.ui.activity;
 
-import android.app.AlertDialog;
 import android.app.TabActivity;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -125,32 +122,10 @@ public class HomeActivity extends TabActivity implements
 
 	}
 
-	protected void exitApp() {
-		showAlertDialog("退出程序", "确定退出？", "确定", new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-
-			}
-		}, "取消", new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}
-		});
+	public static void showMainByOnkey() {
+		// mTabHost.setCurrentTabByTag(TAB_MAIN);
+		mMainRb.setChecked(true);
 	}
 
-	/** 含有标题、内容、两个按钮的对话框 **/
-	protected void showAlertDialog(String title, String message,
-			String positiveText,
-			DialogInterface.OnClickListener onPositiveClickListener,
-			String negativeText,
-			DialogInterface.OnClickListener onNegativeClickListener) {
-		new AlertDialog.Builder(this).setTitle(title).setMessage(message)
-				.setPositiveButton(positiveText, onPositiveClickListener)
-				.setNegativeButton(negativeText, onNegativeClickListener)
-				.show();
-	}
 
 }
