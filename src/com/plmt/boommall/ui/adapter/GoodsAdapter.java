@@ -1,93 +1,93 @@
 package com.plmt.boommall.ui.adapter;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import android.support.v7.widget.RecyclerView;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.ui.utils.MyItemClickListener;
-import com.squareup.picasso.Picasso;
 
-public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> {
+public class GoodsAdapter extends BaseAdapter {
 
-	private List<Goods> items;
-	private int itemLayout;
-	private MyItemClickListener mItemClickListener;
+	private Context mContext;
 
-	public GoodsAdapter(List<Goods> items, int itemLayout) {
-		this.items = items;
-		this.itemLayout = itemLayout;
+	private ArrayList<Goods> mDatas;
+
+	private LayoutInflater mInflater;
+
+	public GoodsAdapter(Context context, ArrayList<Goods> datas) {
+		this.mContext = context;
+		this.mDatas = datas;
+		mInflater = LayoutInflater.from(mContext);
+
 	}
 
 	@Override
-	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View v = LayoutInflater.from(parent.getContext()).inflate(itemLayout,
-				parent, false);
-		return new ViewHolder(v, mItemClickListener);
+	public int getCount() {
+		if (mDatas != null) {
+			return mDatas.size();
+		}
+		return 0;
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
-		Goods item = items.get(position);
-		holder.name.setText(item.getName());
-		holder.iconIv.setImageBitmap(null);
-		Picasso.with(holder.iconIv.getContext()).cancelRequest(holder.iconIv);
-		Picasso.with(holder.iconIv.getContext()).load(item.getIconUrl())
-				.into(holder.iconIv);
-		holder.itemView.setTag(item);
+	public Object getItem(int position) {
+		return position;
 	}
 
 	@Override
-	public int getItemCount() {
-		return items.size();
+	public long getItemId(int position) {
+		return position;
 	}
 
-	public void setOnItemClickListener(MyItemClickListener listener) {
-		this.mItemClickListener = listener;
-	}
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolder holder = null;
+		if (convertView == null) {
+			convertView = mInflater.inflate(R.layout.list_goods_item, null);
 
-	public static class ViewHolder extends RecyclerView.ViewHolder implements
-			OnClickListener, OnLongClickListener {
-		public ImageView iconIv;
-		public TextView name;
-		public TextView price;
-		public TextView originalPrice;
-
-		// private ListItemClickHelp mClickHelp;
-		private MyItemClickListener mListener;
-
-		public ViewHolder(View itemView, MyItemClickListener listener) {
-			super(itemView);
-
-			iconIv = (ImageView) itemView.findViewById(R.id.goods_iv);
-			name = (TextView) itemView.findViewById(R.id.goods_name_tv);
-			price = (TextView) itemView.findViewById(R.id.goods_price_tv);
-			originalPrice = (TextView) itemView
+			holder = new ViewHolder();
+			holder.mName = (TextView) convertView
+					.findViewById(R.id.goods_name_tv);
+			holder.mPrice = (TextView) convertView
+					.findViewById(R.id.goods_price_tv);
+			holder.mOriginalPrice = (TextView) convertView
 					.findViewById(R.id.goods_original_prices_tv);
 
-			this.mListener = listener;
-			itemView.setOnClickListener(this);
+			holder.mIcon = (ImageView) convertView.findViewById(R.id.goods_iv);
+
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
 		}
 
-		@Override
-		public boolean onLongClick(View v) {
-			return false;
-		}
+		holder.mName.setText(mDatas.get(position).getName());
+		holder.mPrice.setText("￥" + mDatas.get(position).getSalesPrice());
+		holder.mOriginalPrice.setText("原价￥"
+				+ mDatas.get(position).getMarketPrice());
 
-		@Override
-		public void onClick(View v) {
-			if (mListener != null) {
-				mListener.onItemClick(v, getPosition());
-			}
-		}
+		ImageLoader.getInstance().displayImage(
+				mDatas.get(position).getIconUrl(), holder.mIcon);
 
+		return convertView;
 	}
+
+	static class ViewHolder {
+
+		public TextView mName;
+
+		public TextView mPrice;
+
+		public TextView mOriginalPrice;
+
+		public ImageView mIcon;
+	}
+
 }

@@ -2,11 +2,8 @@ package com.plmt.boommall.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.ui.activity.HomeActivity;
-import com.plmt.boommall.ui.activity.MainActivity;
 
 public class CartManager {
 

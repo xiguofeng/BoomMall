@@ -9,22 +9,20 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Category;
+import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.ui.utils.MyItemClickListener;
 import com.squareup.picasso.Picasso;
 
-public class CategoryAdapter extends
-		RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+public class RVGoodsAdapter extends RecyclerView.Adapter<RVGoodsAdapter.ViewHolder> {
 
-	private List<Category> items;
+	private List<Goods> items;
 	private int itemLayout;
 	private MyItemClickListener mItemClickListener;
 
-	public CategoryAdapter(List<Category> items, int itemLayout) {
+	public RVGoodsAdapter(List<Goods> items, int itemLayout) {
 		this.items = items;
 		this.itemLayout = itemLayout;
 	}
@@ -38,11 +36,11 @@ public class CategoryAdapter extends
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		Category item = items.get(position);
-		holder.name.setText(item.getPpid());
+		Goods item = items.get(position);
+		holder.name.setText(item.getName());
 		holder.iconIv.setImageBitmap(null);
 		Picasso.with(holder.iconIv.getContext()).cancelRequest(holder.iconIv);
-		Picasso.with(holder.iconIv.getContext()).load(item.getPpmc())
+		Picasso.with(holder.iconIv.getContext()).load(item.getIconUrl())
 				.into(holder.iconIv);
 		holder.itemView.setTag(item);
 	}
@@ -59,21 +57,21 @@ public class CategoryAdapter extends
 	public static class ViewHolder extends RecyclerView.ViewHolder implements
 			OnClickListener, OnLongClickListener {
 		public ImageView iconIv;
-		public ImageView selectIv;
-		public LinearLayout bgIv;
 		public TextView name;
+		public TextView price;
+		public TextView originalPrice;
 
 		// private ListItemClickHelp mClickHelp;
 		private MyItemClickListener mListener;
 
 		public ViewHolder(View itemView, MyItemClickListener listener) {
 			super(itemView);
-			bgIv = (LinearLayout) itemView.findViewById(R.id.category_item_ll);
-			name = (TextView) itemView.findViewById(R.id.category_item_name_tv);
-			iconIv = (ImageView) itemView
-					.findViewById(R.id.category_item_icon_iv);
-			selectIv = (ImageView) itemView
-					.findViewById(R.id.category_item_select_iv);
+
+			iconIv = (ImageView) itemView.findViewById(R.id.goods_iv);
+			name = (TextView) itemView.findViewById(R.id.goods_name_tv);
+			price = (TextView) itemView.findViewById(R.id.goods_price_tv);
+			originalPrice = (TextView) itemView
+					.findViewById(R.id.goods_original_prices_tv);
 
 			this.mListener = listener;
 			itemView.setOnClickListener(this);
@@ -92,5 +90,4 @@ public class CategoryAdapter extends
 		}
 
 	}
-
 }

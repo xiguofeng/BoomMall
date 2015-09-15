@@ -12,5 +12,9 @@
             <enum name="loading" value="3" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="BGAMoocStyleRefreshView">
+        <attr name="mv_ultimateColor" format="reference|color" />
+        <attr name="mv_originalImg" format="reference" />
+    </declare-styleable>
 
 </resources>

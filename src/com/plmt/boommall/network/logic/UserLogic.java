@@ -1,21 +1,14 @@
 package com.plmt.boommall.network.logic;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 
 import com.plmt.boommall.entity.User;
 import com.plmt.boommall.network.config.MsgResult;
-import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.utils.JsonUtils;
 
 public class UserLogic {
