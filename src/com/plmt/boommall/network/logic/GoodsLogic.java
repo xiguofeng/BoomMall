@@ -35,6 +35,13 @@ public class GoodsLogic {
 	public static final int GOODS_GET_FAIL = GOODS_GET_SUC + 1;
 
 	public static final int GOODS_GET_EXCEPTION = GOODS_GET_FAIL + 1;
+	
+	public static final int CATEGROY_LIST_GET_SUC = GOODS_GET_EXCEPTION + 1;
+
+	public static final int CATEGROY_LIST_GET_FAIL = CATEGROY_LIST_GET_SUC + 1;
+
+	public static final int CATEGROY_LIST_GET_EXCEPTION = CATEGROY_LIST_GET_FAIL + 1;
+
 
 	public static void getGoodsListByCategory(final Context context,
 			final Handler handler, String category, final int pageNum,

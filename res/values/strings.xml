@@ -6,7 +6,10 @@
     <string name="company">南京壹前零后科技有限公司</string>
     <string name="copyright">版权所有</string>
     <string name="agreement_title">服务协议</string>
-
+    <string name="search">搜索 </string>
+    <string name="search_hint"> 请输入商品名称</string>
+    <string name="search_thing">请输入您想要的物品名称</string>
+    
     <!-- loading -->
     <string name="loading">加载</string>
     <string name="loading_hint">正在加载中...</string>

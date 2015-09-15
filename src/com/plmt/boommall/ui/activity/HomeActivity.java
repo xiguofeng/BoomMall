@@ -50,7 +50,7 @@ public class HomeActivity extends TabActivity implements
 		mTabHost = getTabHost();
 
 		Intent i_home = new Intent(this, MainActivity.class);
-		Intent i_logi_confirm = new Intent(this, MainActivity.class);
+		Intent i_logi_confirm = new Intent(this, CategoryActivity.class);
 		Intent i_history = new Intent(this, MainActivity.class);
 		Intent i_psw = new Intent(this, MainActivity.class);
 
