@@ -63,5 +63,14 @@
     <!-- cart -->
     <string name="shopping_cart">购物车</string>
     <string name="cart_no_hint">有好多商品等着亲来选购哟</string>
+    
+     <!-- pullrefresh -->
+    <string name="header_hint_refresh_normal">下拉更新</string>
+    <string name="header_hint_refresh_ready">释放更新</string>
+    <string name="header_hint_refresh_loading">更新中&#8230;</string>
+    <string name="header_hint_refresh_time">时间：</string>
+    <string name="footer_hint_load_normal">加载中...</string>
+    <string name="footer_hint_load_ready">加载更多</string>
+    <string name="footer_toast">显示下25条</string>
 
 </resources>
