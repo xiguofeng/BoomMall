@@ -17,6 +17,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,6 +75,7 @@ public class CategoryActivity extends Activity implements OnClickListener,
 					mGoodsList.clear();
 					mGoodsList.addAll((Collection<? extends Goods>) msg.obj);
 					mGoodsAdapter.notifyDataSetChanged();
+					onLoadComplete();
 				}
 				break;
 			}
@@ -141,6 +143,12 @@ public class CategoryActivity extends Activity implements OnClickListener,
 
 	private void initData() {
 		mGoodsLv = (XListView) findViewById(R.id.category_xlv);
+		mGoodsLv.setPullRefreshEnable(true);
+		mGoodsLv.setPullLoadEnable(true);
+		mGoodsLv.setAutoLoadEnable(true);
+		mGoodsLv.setXListViewListener(this);
+		mGoodsLv.setRefreshTime(getTime());
+		
 		mGoodsAdapter = new GoodsAdapter(mContext, mGoodsList);
 		mGoodsLv.setAdapter(mGoodsAdapter);
 
@@ -164,7 +172,7 @@ public class CategoryActivity extends Activity implements OnClickListener,
 				// Log.i(TAG, "正在滚动");
 			}
 		});
-
+		refreshGoods();
 	}
 
 	private void initHorizaontal() {
@@ -199,7 +207,6 @@ public class CategoryActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
-		refreshGoods();
 	}
 
 	private void refreshGoods() {
@@ -222,12 +229,15 @@ public class CategoryActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void onRefresh() {
+		Log.e("xxx_onRefresh()", "");
+		refreshGoods();
 
 	}
 
 	@Override
 	public void onLoadMore() {
-
+		Log.e("xxx_onLoadMore", "");
+		refreshGoods();
 	}
 
 	@Override

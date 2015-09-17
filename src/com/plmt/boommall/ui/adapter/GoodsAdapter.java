@@ -73,8 +73,7 @@ public class GoodsAdapter extends BaseAdapter {
 		holder.mOriginalPrice.setText("原价￥"
 				+ mDatas.get(position).getPrice());
 
-		ImageLoader.getInstance().displayImage(
-				mDatas.get(position).getImage(), holder.mIcon);
+		ImageLoader.getInstance().displayImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg", holder.mIcon);
 
 		return convertView;
 	}
