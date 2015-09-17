@@ -40,7 +40,7 @@ public class RVGoodsAdapter extends RecyclerView.Adapter<RVGoodsAdapter.ViewHold
 		holder.name.setText(item.getName());
 		holder.iconIv.setImageBitmap(null);
 		Picasso.with(holder.iconIv.getContext()).cancelRequest(holder.iconIv);
-		Picasso.with(holder.iconIv.getContext()).load(item.getIconUrl())
+		Picasso.with(holder.iconIv.getContext()).load(item.getImage())
 				.into(holder.iconIv);
 		holder.itemView.setTag(item);
 	}

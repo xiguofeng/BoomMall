@@ -1,7 +1,11 @@
 package com.plmt.boommall.ui.activity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -20,7 +24,6 @@ import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
@@ -31,12 +34,12 @@ import com.plmt.boommall.ui.adapter.CategoryAdapter;
 import com.plmt.boommall.ui.adapter.GoodsAdapter;
 import com.plmt.boommall.ui.adapter.RVGoodsAdapter;
 import com.plmt.boommall.ui.utils.MyItemClickListener;
-import com.plmt.boommall.ui.view.listview.refreshlayout.BGARefreshLayout;
+import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 import com.plmt.boommall.ui.view.recyclerviewflexibledivider.DividerItemDecoration;
 import com.plmt.boommall.utils.SystemUtils;
 
 public class CategoryActivity extends Activity implements OnClickListener,
-		MyItemClickListener, BGARefreshLayout.BGARefreshLayoutDelegate {
+		MyItemClickListener, XListView.IXListViewListener {
 
 	private Context mContext;
 	private LinearLayout mSearchLl;
@@ -48,10 +51,9 @@ public class CategoryActivity extends Activity implements OnClickListener,
 	private CategoryAdapter mCategoryAdapter;
 	private RVGoodsAdapter mRVGoodsAdapter;
 
-	private ListView mGoodsLv;
+	private XListView mGoodsLv;
 	private GoodsAdapter mGoodsAdapter;
-
-	private BGARefreshLayout mRefreshLayout;
+	private int mCurrentPage = 1;
 
 	private float y;
 	private HashMap<String, Object> mAllMsgMap = new HashMap<String, Object>();
@@ -67,35 +69,25 @@ public class CategoryActivity extends Activity implements OnClickListener,
 			int what = msg.what;
 			switch (what) {
 
-			case GoodsLogic.CATEGROY_LIST_GET_SUC: {
+			case GoodsLogic.GOODS_LIST_BY_KEY_GET_SUC: {
 				if (null != msg.obj) {
+					mGoodsList.clear();
+					mGoodsList.addAll((Collection<? extends Goods>) msg.obj);
+					mGoodsAdapter.notifyDataSetChanged();
 				}
 				break;
 			}
-			case GoodsLogic.CATEGROY_LIST_GET_FAIL: {
+			case GoodsLogic.GOODS_LIST_BY_KEY_GET_FAIL: {
 				break;
 			}
-			case GoodsLogic.CATEGROY_LIST_GET_EXCEPTION: {
-				break;
-			}
-
-			case GoodsLogic.GOODS_LIST_GET_SUC: {
-				if (null != msg.obj) {
-
-				}
-				break;
-			}
-			case GoodsLogic.GOODS_LIST_GET_FAIL: {
-				break;
-			}
-			case GoodsLogic.GOODS_LIST_GET_EXCEPTION: {
+			case GoodsLogic.GOODS_LIST_BY_KEY_GET_EXCEPTION: {
 				break;
 			}
 
 			default:
 				break;
 			}
-
+			onLoadComplete();
 		}
 
 	};
@@ -148,14 +140,18 @@ public class CategoryActivity extends Activity implements OnClickListener,
 	}
 
 	private void initData() {
-		mGoodsLv = (ListView) findViewById(R.id.recyclerview_vertical);
+		mGoodsLv = (XListView) findViewById(R.id.category_xlv);
 		mGoodsAdapter = new GoodsAdapter(mContext, mGoodsList);
 		mGoodsLv.setAdapter(mGoodsAdapter);
 
-		mRefreshLayout = (BGARefreshLayout) findViewById(R.id.rl_listview_refresh);
-		mRefreshLayout.setDelegate(this);
-		// 设置正在加载更多时不显示加载更多控件
-		mRefreshLayout.setIsShowLoadingMoreView(false);
+		for (int i = 0; i < 10; i++) {
+			Goods goods = new Goods();
+			goods.setName("商品" + i);
+			goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
+			mGoodsList.add(goods);
+		}
+		mGoodsAdapter.notifyDataSetChanged();
+
 		mGoodsLv.setOnScrollListener(new AbsListView.OnScrollListener() {
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -200,52 +196,37 @@ public class CategoryActivity extends Activity implements OnClickListener,
 		// recyclerView.setAdapter(adapter);
 	}
 
-	public void initVertical() {
-		RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview_vertical);
-
-		for (int i = 0; i < 10; i++) {
-			Goods goods = new Goods();
-			goods.setName("商品" + i);
-			goods.setIconUrl("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
-			mGoodsList.add(goods);
-		}
-
-		// 创建一个线性布局管理器
-		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-		// 默认是Vertical，可以不写
-		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-		// 设置布局管理器
-		recyclerView.setLayoutManager(layoutManager);
-
-		// 创建Adapter，并指定数据集
-		mRVGoodsAdapter = new RVGoodsAdapter(mGoodsList,
-				R.layout.list_goods_item);
-		mRVGoodsAdapter.setOnItemClickListener(this);
-		recyclerView.setAdapter(mRVGoodsAdapter);
-		recyclerView.addItemDecoration(new DividerItemDecoration(mContext,
-				LinearLayoutManager.VERTICAL, mContext.getResources().getColor(
-						R.color.gray_bg), SystemUtils.dip2Px(mContext, 20)));
-		// 设置Adapter
-		// recyclerView.setAdapter(adapter);
-	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();
 		refreshGoods();
 	}
 
-	private static void refreshGoods() {
+	private void refreshGoods() {
+		GoodsLogic.getGoodsListByCategory(mContext, mHandler, "1", 1, 1);
 	}
 
 	private void search(String key) {
 	}
 
-	private void firstShowData(HashMap<String, Object> msgMap) {
+	private void onLoadComplete() {
+		mGoodsLv.stopRefresh();
+		mGoodsLv.stopLoadMore();
+		mGoodsLv.setRefreshTime(getTime());
+	}
+
+	private String getTime() {
+		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)
+				.format(new Date());
+	}
+
+	@Override
+	public void onRefresh() {
 
 	}
 
-	private void refreshAllData(HashMap<String, Object> msgMap) {
+	@Override
+	public void onLoadMore() {
 
 	}
 
@@ -282,16 +263,4 @@ public class CategoryActivity extends Activity implements OnClickListener,
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-
-	@Override
-	public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-
-	}
-
-	@Override
-	public boolean onBGARefreshLayoutBeginLoadingMore(
-			BGARefreshLayout refreshLayout) {
-		return false;
-	}
-
 }

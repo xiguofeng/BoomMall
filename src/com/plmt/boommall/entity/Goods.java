@@ -10,41 +10,25 @@ public class Goods implements Serializable {
 
 	private String name;
 
-	/**
-	 * 产品介绍
-	 */
-	private String desc;
+	private String countryOfManufacture;
 
-	private String salesPrice;
+	private String wc_model;
 
-	private String marketPrice;
+	private String price;
 
-	private String iconUrl;
+	private String image;
 	
-	private String imagesUrl;
+	private String tierPrice;
 
-	private String area;
+	private String wc_cap;
 
-	private String degree;
+	private String finalPrice;
 
-	private String level;
+	private String isSaleable;
 
-	/**
-	 * 香型
-	 */
-	private String model;
-
+	private String cn_price;
+	
 	private String num;
-	
-	private String promotionPrice;
-	
-	private String metrial;
-	
-	private String importType;
-	
-	private String factory;
-	
-	private String content;
 
 	public String getId() {
 		return id;
@@ -62,78 +46,78 @@ public class Goods implements Serializable {
 		this.name = name;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getCountryOfManufacture() {
+		return countryOfManufacture;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setCountryOfManufacture(String countryOfManufacture) {
+		this.countryOfManufacture = countryOfManufacture;
 	}
 
-	public String getSalesPrice() {
-		return salesPrice;
+	public String getWc_model() {
+		return wc_model;
 	}
 
-	public void setSalesPrice(String salesPrice) {
-		this.salesPrice = salesPrice;
+	public void setWc_model(String wc_model) {
+		this.wc_model = wc_model;
 	}
 
-	public String getMarketPrice() {
-		return marketPrice;
+	public String getPrice() {
+		return price;
 	}
 
-	public void setMarketPrice(String marketPrice) {
-		this.marketPrice = marketPrice;
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
-	public String getIconUrl() {
-		return iconUrl;
+	public String getImage() {
+		return image;
 	}
 
-	public void setIconUrl(String iconUrl) {
-		this.iconUrl = iconUrl;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
-	public String getImagesUrl() {
-		return imagesUrl;
+	public String getTierPrice() {
+		return tierPrice;
 	}
 
-	public void setImagesUrl(String imagesUrl) {
-		this.imagesUrl = imagesUrl;
+	public void setTierPrice(String tierPrice) {
+		this.tierPrice = tierPrice;
 	}
 
-	public String getArea() {
-		return area;
+	public String getWc_cap() {
+		return wc_cap;
 	}
 
-	public void setArea(String area) {
-		this.area = area;
+	public void setWc_cap(String wc_cap) {
+		this.wc_cap = wc_cap;
 	}
 
-	public String getDegree() {
-		return degree;
+	public String getFinalPrice() {
+		return finalPrice;
 	}
 
-	public void setDegree(String degree) {
-		this.degree = degree;
+	public void setFinalPrice(String finalPrice) {
+		this.finalPrice = finalPrice;
 	}
 
-	public String getLevel() {
-		return level;
+	public String getIsSaleable() {
+		return isSaleable;
 	}
 
-	public void setLevel(String level) {
-		this.level = level;
+	public void setIsSaleable(String isSaleable) {
+		this.isSaleable = isSaleable;
 	}
 
-	public String getModel() {
-		return model;
+	public String getCn_price() {
+		return cn_price;
 	}
 
-	public void setModel(String model) {
-		this.model = model;
+	public void setCn_price(String cn_price) {
+		this.cn_price = cn_price;
 	}
-
+	
 	public String getNum() {
 		return num;
 	}
@@ -141,48 +125,5 @@ public class Goods implements Serializable {
 	public void setNum(String num) {
 		this.num = num;
 	}
-
-	public String getPromotionPrice() {
-		return promotionPrice;
-	}
-
-	public void setPromotionPrice(String promotionPrice) {
-		this.promotionPrice = promotionPrice;
-	}
-
-	public String getMetrial() {
-		return metrial;
-	}
-
-	public void setMetrial(String metrial) {
-		this.metrial = metrial;
-	}
-
-	public String getImportType() {
-		return importType;
-	}
-
-	public void setImportType(String importType) {
-		this.importType = importType;
-	}
-
-	public String getFactory() {
-		return factory;
-	}
-
-	public void setFactory(String factory) {
-		this.factory = factory;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-
-
 
 }

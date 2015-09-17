@@ -65,7 +65,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-		GoodsLogic.getGoodsListByCategory2(mContext, mHandler, "1", 1, 1);
+		GoodsLogic.getGoodsListByCategory(mContext, mHandler, "1", 1, 1);
 	}
 
 	@Override

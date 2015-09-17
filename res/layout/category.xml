@@ -16,111 +16,105 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/red_title_bg"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="5dip" >
+        android:orientation="vertical" >
 
-        <ImageView
-            android:layout_width="30dip"
-            android:layout_height="30dip"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dip"
-            android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop"
-            android:src="@drawable/title_logo" />
-
-        <RelativeLayout
-            android:id="@+id/category_search_rl"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="13dip"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/corners_search_bg_red"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal" >
-
-            <LinearLayout
-                android:id="@+id/category_search_ll"
-                android:layout_width="match_parent"
-                android:layout_height="30dip"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/app_name"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/search" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
-                    android:text="@string/search"
-                    android:textColor="@color/gray_text" />
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/category_search_et"
-                android:layout_width="match_parent"
-                android:layout_height="35dip"
-                android:layout_centerInParent="true"
-                android:background="@null"
-                android:paddingLeft="5dip"
-                android:paddingRight="5dip"
-                android:singleLine="true"
-                android:textColor="@color/gray_text" />
+            android:background="@color/red_title_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dip" >
 
             <ImageView
-                android:id="@+id/category_search_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dip"
                 android:contentDescription="@string/app_name"
-                android:padding="8dip"
                 android:scaleType="centerCrop"
-                android:src="@drawable/search"
-                android:visibility="gone" />
-        </RelativeLayout>
-    </LinearLayout>
+                android:src="@drawable/title_logo" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Horizontal"
-        android:textSize="18sp" />
+            <RelativeLayout
+                android:id="@+id/category_search_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dip"
+                android:layout_marginRight="5dip"
+                android:background="@drawable/corners_search_bg_red"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal" >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:scrollbars="horizontal" />
+                <LinearLayout
+                    android:id="@+id/category_search_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dip"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Vertical"
-        android:textSize="18sp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/search" />
 
-    <com.plmt.boommall.ui.view.listview.refreshlayout.BGARefreshLayout
-        android:id="@+id/rl_listview_refresh"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/gray_bg"
-        android:orientation="vertical" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dip"
+                        android:text="@string/search"
+                        android:textColor="@color/gray_text" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/category_search_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dip"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:paddingLeft="5dip"
+                    android:paddingRight="5dip"
+                    android:singleLine="true"
+                    android:textColor="@color/gray_text" />
+
+                <ImageView
+                    android:id="@+id/category_search_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:padding="8dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/search"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+        <com.plmt.boommall.ui.view.listview.pullrefresh.XListView
+            android:id="@+id/category_xlv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:cacheColorHint="#00000000"
+            android:divider="@null"
+            android:dividerHeight="1dip"
+            android:fastScrollEnabled="false"
+            android:focusable="true"
+            android:scrollbars="none" />
 
         <ListView
             android:id="@+id/recyclerview_vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-    </com.plmt.boommall.ui.view.listview.refreshlayout.BGARefreshLayout>
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </com.plmt.boommall.ui.view.MultiStateView>

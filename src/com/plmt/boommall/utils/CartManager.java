@@ -38,7 +38,7 @@ public class CartManager {
 		for (Goods goods : sSelectCartList) {
 			totalPay = totalPay
 					+ (Integer.parseInt(goods.getNum()) * Double
-							.parseDouble(goods.getSalesPrice()));
+							.parseDouble(goods.getFinalPrice()));
 		}
 		// ShopCartActivity.mCartNullTv.setVisibility(View.VISIBLE);
 		// if (sCartList.size() > 0) {
@@ -54,7 +54,7 @@ public class CartManager {
 		for (Goods goods : sCartList) {
 			totalPay = totalPay
 					+ (Integer.parseInt(goods.getNum()) * Double
-							.parseDouble(goods.getSalesPrice()));
+							.parseDouble(goods.getFinalPrice()));
 		}
 
 		if (0 == (int) totalPay) {

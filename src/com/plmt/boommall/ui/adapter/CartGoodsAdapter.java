@@ -102,12 +102,12 @@ public class CartGoodsAdapter extends BaseAdapter {
 		}
 
 		holder.mName.setText(mDatas.get(position).getName());
-		holder.mPrice.setText("￥" + mDatas.get(position).getSalesPrice());
+		holder.mPrice.setText("￥" + mDatas.get(position).getFinalPrice());
 		holder.mOriginalPrice.setText("原价￥"
-				+ mDatas.get(position).getMarketPrice());
-		holder.mNum.setText(mDatas.get(position).getNum());
+				+ mDatas.get(position).getPrice());
+		holder.mNum.setText("1");
 		ImageLoader.getInstance().displayImage(
-				mDatas.get(position).getIconUrl(), holder.mIcon);
+				mDatas.get(position).getImage(), holder.mIcon);
 
 		final int tempPosition = position;
 		holder.vId = tempPosition;
@@ -163,30 +163,30 @@ public class CartGoodsAdapter extends BaseAdapter {
 		holder.mCheckIb.setChecked(getmIsSelected().get(position));
 		final boolean isChecked = getmIsSelected().get(position);
 
-		holder.mAddIb.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Goods goods = mDatas.get(tempPosition);
-				goods.setNum(String.valueOf(Integer.parseInt(goods.getNum()) + 1));
-				mDatas.set(tempPosition, goods);
-				CartManager.cartModifyByCart(goods, isChecked);
-				notifyDataSetChanged();
-
-			}
-		});
-		holder.mReduceIb.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Goods goods = mDatas.get(tempPosition);
-				if (Integer.parseInt(goods.getNum()) > 1) {
-					goods.setNum(String.valueOf(Integer.parseInt(goods.getNum()) - 1));
-					mDatas.set(tempPosition, goods);
-					CartManager.cartModifyByCart(goods, isChecked);
-					notifyDataSetChanged();
-				}
-
-			}
-		});
+		// holder.mAddIb.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// Goods goods = mDatas.get(tempPosition);
+		// goods.setNum(String.valueOf(Integer.parseInt(goods.getNum()) + 1));
+		// mDatas.set(tempPosition, goods);
+		// CartManager.cartModifyByCart(goods, isChecked);
+		// notifyDataSetChanged();
+		//
+		// }
+		// });
+		// holder.mReduceIb.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// Goods goods = mDatas.get(tempPosition);
+		// if (Integer.parseInt(goods.getNum()) > 1) {
+		// goods.setNum(String.valueOf(Integer.parseInt(goods.getNum()) - 1));
+		// mDatas.set(tempPosition, goods);
+		// CartManager.cartModifyByCart(goods, isChecked);
+		// notifyDataSetChanged();
+		// }
+		//
+		// }
+		// });
 		return convertView;
 	}
 

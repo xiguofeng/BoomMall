@@ -4,21 +4,22 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.plmt.boommall.BaseApplication;
+import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.config.RequestUrl;
-import com.plmt.boommall.network.utils.HttpUtils;
+import com.plmt.boommall.utils.JsonUtils;
 
 public class GoodsLogic {
 
@@ -30,74 +31,25 @@ public class GoodsLogic {
 
 	public static final int GOODS_LIST_GET_EXCEPTION = GOODS_LIST_GET_FAIL + 1;
 
-	public static final int GOODS_GET_SUC = GOODS_LIST_GET_EXCEPTION + 1;
+	public static final int GOODS_LIST_BY_KEY_GET_SUC = GOODS_LIST_GET_EXCEPTION + 1;
+
+	public static final int GOODS_LIST_BY_KEY_GET_FAIL = GOODS_LIST_BY_KEY_GET_SUC + 1;
+
+	public static final int GOODS_LIST_BY_KEY_GET_EXCEPTION = GOODS_LIST_BY_KEY_GET_FAIL + 1;
+
+	public static final int GOODS_GET_SUC = GOODS_LIST_BY_KEY_GET_EXCEPTION + 1;
 
 	public static final int GOODS_GET_FAIL = GOODS_GET_SUC + 1;
 
 	public static final int GOODS_GET_EXCEPTION = GOODS_GET_FAIL + 1;
-	
+
 	public static final int CATEGROY_LIST_GET_SUC = GOODS_GET_EXCEPTION + 1;
 
 	public static final int CATEGROY_LIST_GET_FAIL = CATEGROY_LIST_GET_SUC + 1;
 
 	public static final int CATEGROY_LIST_GET_EXCEPTION = CATEGROY_LIST_GET_FAIL + 1;
 
-
 	public static void getGoodsListByCategory(final Context context,
-			final Handler handler, String category, final int pageNum,
-			final int pageSize) {
-
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-
-				String url = RequestUrl.HOST_URL
-						+ RequestUrl.goods.queryGoodsByCategory;
-
-				ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-				try {
-					params.add(new BasicNameValuePair("category", URLEncoder
-							.encode("防晒", "UTF-8")));
-					params.add(new BasicNameValuePair("c", String.valueOf("1")));
-					params.add(new BasicNameValuePair("s", String.valueOf("5")));
-
-					String resultStr = HttpUtils
-							.sendHttpRequestByHttpClientGet(url, params);
-					Log.e("xxx_url", resultStr);
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				//
-				// String url = RequestUrl.HOST_URL
-				// + RequestUrl.goods.queryGoodsByCategory;
-				// Log.e("xxx_url", url);
-				// JSONObject response = null;
-				//
-				// JSONObject requestJson = new JSONObject();
-				// try {
-				// // URLEncoder.encode("防晒", "UTF-8")
-				// requestJson.put("category", "防晒");
-				// requestJson.put("c", Integer.parseInt("1"));
-				// requestJson.put("s", Integer.parseInt("5"));
-				//
-				// response = new JSONObject(
-				// HttpUtils.sendHttpRequestByHttpClientPost(url,
-				// requestJson));
-				//
-				// Log.e("xxx_queryGoodsByCategory", response.toString());
-				//
-				// } catch (JSONException e) {
-				// e.printStackTrace();
-				// }
-
-			}
-		}).start();
-	}
-
-	public static void getGoodsListByCategory2(final Context context,
 			final Handler handler, String category, final int pageNum,
 			final int pageSize) {
 
@@ -136,6 +88,34 @@ public class GoodsLogic {
 
 	private static void parseGoodsListByCategoryData(JSONObject response,
 			Handler handler) {
+
+		try {
+			String sucResult = response.getString("is_success").trim();
+			if (sucResult.equals("1")) {
+
+				JSONArray jsonArray = response.getJSONArray("data");
+				ArrayList<Goods> mTempGoodsList = new ArrayList<Goods>();
+				
+				int size = jsonArray.length();
+				for (int j = 0; j < size; j++) {
+					JSONObject categoryJsonObject = jsonArray.getJSONObject(j);
+					Goods goods = (Goods) JsonUtils.fromJsonToJava(categoryJsonObject, Goods.class);
+					goods.setNum("0");
+					mTempGoodsList.add(goods);
+				}
+
+				Message message = new Message();
+				message.what = GOODS_LIST_BY_KEY_GET_SUC;
+				message.obj = mTempGoodsList;
+				handler.sendMessage(message);
+
+			} else {
+				handler.sendEmptyMessage(GOODS_LIST_BY_KEY_GET_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(GOODS_LIST_BY_KEY_GET_EXCEPTION);
+		}
+
 	}
 
 }
