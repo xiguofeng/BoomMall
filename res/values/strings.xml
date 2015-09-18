@@ -64,6 +64,13 @@
     <string name="shopping_cart">购物车</string>
     <string name="cart_no_hint">有好多商品等着亲来选购哟</string>
     
+
+     <!-- 头像 -->
+    <string name="set_head">上传图片</string>
+    <string name="from_camera">照相</string>
+    <string name="from_album">从相册中选择</string>
+    
+    
      <!-- pullrefresh -->
     <string name="header_hint_refresh_normal">下拉更新</string>
     <string name="header_hint_refresh_ready">释放更新</string>
