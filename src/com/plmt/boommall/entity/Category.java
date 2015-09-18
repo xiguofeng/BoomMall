@@ -12,6 +12,8 @@ public class Category implements Serializable {
 
 	private String pplx;
 	
+	private int localImage;
+	
 	public String getPpid() {
 		return ppid;
 	}
@@ -35,5 +37,14 @@ public class Category implements Serializable {
 	public void setPplx(String pplx) {
 		this.pplx = pplx;
 	}
+	
+	public int getLocalImage() {
+		return localImage;
+	}
+
+	public void setLocalImage(int localImage) {
+		this.localImage = localImage;
+	}
+
 
 }

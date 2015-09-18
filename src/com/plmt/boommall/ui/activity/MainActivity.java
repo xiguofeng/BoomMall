@@ -1,5 +1,8 @@
 package com.plmt.boommall.ui.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,21 +11,62 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
-import com.plmt.boommall.entity.User;
+import com.plmt.boommall.entity.Ads;
+import com.plmt.boommall.entity.Category;
+import com.plmt.boommall.entity.DemoItem;
+import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.GoodsLogic;
-import com.plmt.boommall.network.logic.UserLogic;
+import com.plmt.boommall.ui.adapter.BannerAdapter;
+import com.plmt.boommall.ui.adapter.DefaultListAdapter;
+import com.plmt.boommall.ui.adapter.DemoAdapter;
+import com.plmt.boommall.ui.adapter.HomeGvCategoryAdapter;
+import com.plmt.boommall.ui.view.CustomGridView;
 import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.ui.view.asymmetricgridview.Utils;
+import com.plmt.boommall.ui.view.asymmetricgridview.model.AsymmetricItem;
+import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView;
+import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridViewAdapter;
+import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
+import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 
 public class MainActivity extends Activity implements OnClickListener {
 
 	private Context mContext;
 
-	private long exitTime = 0;
-
 	private MultiStateView mMultiStateView;
+
+	private LinearLayout mSearchLl;
+	private EditText mSearchEt;
+	private ImageView mSearchIv;
+
+	private ViewFlow mViewFlow;
+	private CircleFlowIndicator mIndic;
+	private ArrayList<Ads> mBannerActivityList = new ArrayList<Ads>();
+	private BannerAdapter mBannerAdapter;
+	private FrameLayout mBannerFl;
+
+	private CustomGridView mCategoryGv;
+	private ArrayList<Category> mCategoryList = new ArrayList<Category>();
+	private HomeGvCategoryAdapter mCategoryAdapter;
+	private int[] pic_path_classify = { R.drawable.menu_guide_1,
+			R.drawable.menu_guide_2, R.drawable.menu_guide_3,
+			R.drawable.menu_guide_4, R.drawable.menu_guide_5,
+			R.drawable.menu_guide_6, R.drawable.menu_guide_7,
+			R.drawable.menu_guide_8 };
+
+	private AsymmetricGridView mAsymmetricGridView;
+	private DemoAdapter mGoodsAdapter;
+	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
+
+	private long exitTime = 0;
 
 	private Handler mHandler = new Handler() {
 
@@ -63,11 +107,122 @@ public class MainActivity extends Activity implements OnClickListener {
 								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
-		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+
+		initSearchView();
+		initCircleimage();
+		initCategoryView();
+		initGoodsShow();
+	}
+
+	private void initSearchView() {
+		mSearchLl = (LinearLayout) findViewById(R.id.main_search_ll);
+
+		mSearchIv = (ImageView) findViewById(R.id.main_search_iv);
+		mSearchIv.setOnClickListener(this);
+
+		mSearchEt = (EditText) findViewById(R.id.main_search_et);
+		mSearchEt
+				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							// 此处为得到焦点时的处理内容
+							mSearchLl.setVisibility(View.GONE);
+							mSearchIv.setVisibility(View.VISIBLE);
+						} else {
+							// 此处为失去焦点时的处理内容
+							mSearchEt.setText("");
+							mSearchLl.setVisibility(View.VISIBLE);
+							mSearchIv.setVisibility(View.GONE);
+						}
+					}
+				});
+	}
+
+	private void initCircleimage() {
+		mBannerFl = (FrameLayout) findViewById(R.id.main_framelayout);
+		mBannerFl.setVisibility(View.VISIBLE);
+		mViewFlow = (ViewFlow) findViewById(R.id.main_viewflow);
+		mIndic = (CircleFlowIndicator) findViewById(R.id.main_viewflowindic);
+		for (int i = 0; i < 3; i++) {
+			Ads promotion = new Ads();
+			promotion.setImgUrl("");
+			mBannerActivityList.add(promotion);
+		}
+
+		showcircleimage();
+	}
+
+	private void showcircleimage() {
+		mBannerAdapter = new BannerAdapter(mContext, mBannerActivityList);
+		mViewFlow.setAdapter(mBannerAdapter);
+		mViewFlow.setmSideBuffer(3); // 实际图片张数
+		mViewFlow.setFlowIndicator(mIndic);
+		mViewFlow.setTimeSpan(2000);
+		mViewFlow.setSelection(3 * 1000); // 设置初始位置
+		mViewFlow.startAutoFlowTimer(); // 启动自动播放
+		mViewFlow.requestFocus();
+	}
+
+	private void initCategoryView() {
+		mCategoryGv = (CustomGridView) findViewById(R.id.main_category_gv);
+		int size = pic_path_classify.length;
+		for (int i = 0; i < size; i++) {
+			Category category = new Category();
+			category.setLocalImage(pic_path_classify[i]);
+			mCategoryList.add(category);
+		}
+
+		mCategoryAdapter = new HomeGvCategoryAdapter(mContext, mCategoryList);
+		mCategoryGv.setAdapter(mCategoryAdapter);
+	}
+
+	private void initGoodsShow() {
+		mAsymmetricGridView = (AsymmetricGridView) findViewById(R.id.main_goods_classify_lv);
+		for (int i = 0; i < 10; i++) {
+			Goods goods = new Goods();
+			goods.setName("商品" + i);
+			goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
+			mGoodsList.add(goods);
+		}
+
+		mAsymmetricGridView.setRequestedColumnWidth(Utils.dpToPx(this, 120));
+		mAsymmetricGridView.setRequestedColumnCount(3);
+		mAsymmetricGridView.setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
+		mAsymmetricGridView.setDebugging(true);
+		
+		 final List<AsymmetricItem> items = new ArrayList<>();
+
+		    // initialize your items array
+		 mGoodsAdapter = new DefaultListAdapter(this, getMoreItems(10));
+		 AsymmetricGridViewAdapter asymmetricAdapter =
+		        new AsymmetricGridViewAdapter<>(this, mAsymmetricGridView, mGoodsAdapter);
+		
+		mAsymmetricGridView.setAdapter(asymmetricAdapter);
+
+		// initialize your items array
+
 	}
 
 	private void initData() {
 		GoodsLogic.getGoodsListByCategory(mContext, mHandler, "1", 1, 1);
+	}
+
+	private List<DemoItem> getMoreItems(int qty) {
+		List<DemoItem> items = new ArrayList<>();
+
+		for (int i = 0; i < qty; i++) {
+			int colSpan = Math.random() < 0.2f ? 2 : 1;
+			// Swap the next 2 lines to have items with variable
+			// column/row span.
+			// int rowSpan = Math.random() < 0.2f ? 2 : 1;
+			int rowSpan = colSpan;
+			DemoItem item = new DemoItem(colSpan, rowSpan, i);
+			items.add(item);
+		}
+
+		return items;
 	}
 
 	@Override

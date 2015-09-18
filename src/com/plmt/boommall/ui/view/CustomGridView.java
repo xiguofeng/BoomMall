@@ -4,17 +4,17 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.GridView;
 
-public class CoustomGridView extends GridView {
+public class CustomGridView extends GridView {
 
-	public CoustomGridView(Context context) {
+	public CustomGridView(Context context) {
 		super(context);
 	}
 
-	public CoustomGridView(Context context, AttributeSet attrs) {
+	public CustomGridView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public CoustomGridView(Context context, AttributeSet attrs, int defStyle) {
+	public CustomGridView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 

@@ -17,14 +17,14 @@ import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.ui.utils.MyItemClickListener;
 import com.squareup.picasso.Picasso;
 
-public class CategoryAdapter extends
-		RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+public class RVCategoryAdapter extends
+		RecyclerView.Adapter<RVCategoryAdapter.ViewHolder> {
 
 	private List<Category> items;
 	private int itemLayout;
 	private MyItemClickListener mItemClickListener;
 
-	public CategoryAdapter(List<Category> items, int itemLayout) {
+	public RVCategoryAdapter(List<Category> items, int itemLayout) {
 		this.items = items;
 		this.itemLayout = itemLayout;
 	}

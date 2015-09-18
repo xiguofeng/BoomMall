@@ -31,7 +31,7 @@ import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.GoodsLogic;
-import com.plmt.boommall.ui.adapter.CategoryAdapter;
+import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
 import com.plmt.boommall.ui.adapter.GoodsAdapter;
 import com.plmt.boommall.ui.adapter.RVGoodsAdapter;
 import com.plmt.boommall.ui.utils.MyItemClickListener;
@@ -48,12 +48,12 @@ public class CategoryActivity extends Activity implements OnClickListener,
 	private ImageView mSearchIv;
 
 	private ArrayList<Category> mCategoryList = new ArrayList<Category>();
-	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
-	private CategoryAdapter mCategoryAdapter;
+	private RVCategoryAdapter mCategoryAdapter;
 	private RVGoodsAdapter mRVGoodsAdapter;
 
 	private XListView mGoodsLv;
 	private GoodsAdapter mGoodsAdapter;
+	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
 	private int mCurrentPage = 1;
 
 	private float y;
@@ -191,7 +191,7 @@ public class CategoryActivity extends Activity implements OnClickListener,
 		recyclerView.setLayoutManager(layoutManager);
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-		mCategoryAdapter = new CategoryAdapter(mCategoryList,
+		mCategoryAdapter = new RVCategoryAdapter(mCategoryList,
 				R.layout.list_category_item);
 		mCategoryAdapter.setOnItemClickListener(this);
 		recyclerView.setAdapter(mCategoryAdapter);

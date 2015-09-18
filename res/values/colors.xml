@@ -33,6 +33,10 @@
     <color name="red_title_bg">#D0021B</color>
     <color name="red_btn_bg">#d0021b</color>
     
+    <color name="red">#f2100c</color>
+    <color name="dark_red">#40000c</color>
+    <color name="window_background">#FFF5F5F5</color>
+    
     <color name="zero_all">#00000000</color>
     <color name="transparent_background">#50000000</color>
 
