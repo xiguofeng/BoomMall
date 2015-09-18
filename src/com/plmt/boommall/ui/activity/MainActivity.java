@@ -189,16 +189,15 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		mAsymmetricGridView.setRequestedColumnWidth(Utils.dpToPx(this, 120));
 		mAsymmetricGridView.setRequestedColumnCount(3);
-		mAsymmetricGridView.setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
+		mAsymmetricGridView
+				.setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
 		mAsymmetricGridView.setDebugging(true);
-		
-		 final List<AsymmetricItem> items = new ArrayList<>();
 
-		    // initialize your items array
-		 mGoodsAdapter = new DefaultListAdapter(this, getMoreItems(10));
-		 AsymmetricGridViewAdapter asymmetricAdapter =
-		        new AsymmetricGridViewAdapter<>(this, mAsymmetricGridView, mGoodsAdapter);
-		
+		// initialize your items array
+		mGoodsAdapter = new DefaultListAdapter(this, getMoreItems(5));
+		AsymmetricGridViewAdapter asymmetricAdapter = new AsymmetricGridViewAdapter<>(
+				this, mAsymmetricGridView, mGoodsAdapter);
+
 		mAsymmetricGridView.setAdapter(asymmetricAdapter);
 
 		// initialize your items array
