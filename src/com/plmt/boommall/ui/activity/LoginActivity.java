@@ -158,6 +158,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 			user.setPassword("admin123");
 			//UserLogic.login(mContext, mLoginHandler, user);
 			UserLogic.getInfo(mContext, mHandler);
+			UserLogic.getInfoByHttpUrl(mContext, mHandler);
 		}
 	}
 

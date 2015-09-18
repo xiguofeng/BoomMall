@@ -22,6 +22,7 @@ import com.plmt.boommall.network.utils.CookieRequest;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
 import com.plmt.boommall.utils.StringUtils;
+import com.plmt.boommall.utils.UserInfoManager;
 
 import android.content.Context;
 import android.os.Handler;
@@ -107,8 +108,8 @@ public class UserLogic {
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				JSONObject jsonObject = response.getJSONObject(MsgResult.RESULT_DATAS_TAG);
 
-				String session = response.getString("Set-Cookie");
-				session = StringUtils.getCookieValue(session);
+				String session = jsonObject.getString("session");
+				// session = StringUtils.getCookieValue(session);
 				Message message = new Message();
 				message.what = LOGIN_SUC;
 				message.obj = session;
@@ -125,8 +126,8 @@ public class UserLogic {
 		JSONObject requestJson = new JSONObject();
 		try {
 			// URLEncoder.encode(UserInfoManager.getSession(context), "UTF-8")
-			requestJson.put("sessionid", "1i2078g2tl8i5qans4cph1suq4");
-			Log.e("xxx_sessionid", "1i2078g2tl8i5qans4cph1suq4");
+			requestJson.put("sessionid", "ibismkhnd9hto8m8j5sj1vg5s5");
+			Log.e("xxx_sessionid", UserInfoManager.getSession(context));
 			String url = RequestUrl.HOST_URL + RequestUrl.account.getInfo;
 			Log.e("xxx_getInfo_url", url);
 
@@ -141,7 +142,7 @@ public class UserLogic {
 				}
 
 			}, null);
-			cookieRequest.setCookie("1i2078g2tl8i5qans4cph1suq4");
+			cookieRequest.setCookie("ibismkhnd9hto8m8j5sj1vg5s5");
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
 		} catch (JSONException e) {
@@ -151,43 +152,52 @@ public class UserLogic {
 	}
 
 	public static void getInfoByHttpUrl(final Context context, final Handler handler) {
-		try {
-			URL httpurl = new URL(RequestUrl.HOST_URL + RequestUrl.account.getInfo);
-			HttpURLConnection connection = (HttpURLConnection) httpurl.openConnection();
-
-			connection.setDoOutput(true);// 允许连接提交信息
-			connection.setRequestMethod("POST");//提交方式“GET”、“POST”
-			connection.setRequestProperty("Cookie", "1i2078g2tl8i5qans4cph1suq4");// 将当前的sessionid一并上传
+		
+		new Thread(new Runnable() {
 			
-			connection.connect();
-			// POST请求
-			DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-			JSONObject obj = new JSONObject();
-			obj.put("sessionid", "1i2078g2tl8i5qans4cph1suq4");
+			@Override
+			public void run() {
+				try {
+					URL httpurl = new URL(RequestUrl.HOST_URL + RequestUrl.account.getInfo);
+					HttpURLConnection connection = (HttpURLConnection) httpurl.openConnection();
 
-			out.writeBytes(obj.toString());
-			out.flush();
-			out.close();
+					connection.setDoOutput(true);// 允许连接提交信息
+					connection.setRequestMethod("POST");// 提交方式“GET”、“POST”
+					connection.setRequestProperty("Cookie", "ibismkhnd9hto8m8j5sj1vg5s5");// 将当前的sessionid一并上传
 
-			// 读取响应
-			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String lines;
-			StringBuffer sb = new StringBuffer("");
-			while ((lines = reader.readLine()) != null) {
-				lines = new String(lines.getBytes(), "utf-8");
-				sb.append(lines);
+					connection.connect();
+					// POST请求
+					DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+					JSONObject obj = new JSONObject();
+					obj.put("sessionid", "ibismkhnd9hto8m8j5sj1vg5s5");
+
+					out.writeBytes(obj.toString());
+					out.flush();
+					out.close();
+
+					// 读取响应
+					BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+					String lines;
+					StringBuffer sb = new StringBuffer("");
+					while ((lines = reader.readLine()) != null) {
+						lines = new String(lines.getBytes(), "utf-8");
+						sb.append(lines);
+						Log.e("xxx_urlconnection_getinfo", sb.toString());
+					}
+					reader.close();
+					// 断开连接
+					connection.disconnect();
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				
 			}
-			reader.close();
-			// 断开连接
-			connection.disconnect();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
+		}).start();
+		
 	}
 
 	public static void modifyPwd(final Context context, final Handler handler, final User user, final String authCode) {
