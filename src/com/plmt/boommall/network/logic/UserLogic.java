@@ -1,9 +1,15 @@
 package com.plmt.boommall.network.logic;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,11 +19,9 @@ import com.plmt.boommall.entity.User;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;
-import com.plmt.boommall.network.volley.AuthFailureError;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
 import com.plmt.boommall.utils.StringUtils;
-import com.plmt.boommall.utils.UserInfoManager;
 
 import android.content.Context;
 import android.os.Handler;
@@ -120,9 +124,9 @@ public class UserLogic {
 	public static void getInfo(final Context context, final Handler handler) {
 		JSONObject requestJson = new JSONObject();
 		try {
-			//URLEncoder.encode(UserInfoManager.getSession(context), "UTF-8")
-			requestJson.put("sessionid","1i2078g2tl8i5qans4cph1suq4");
-			Log.e("xxx_sessionid","1i2078g2tl8i5qans4cph1suq4");
+			// URLEncoder.encode(UserInfoManager.getSession(context), "UTF-8")
+			requestJson.put("sessionid", "1i2078g2tl8i5qans4cph1suq4");
+			Log.e("xxx_sessionid", "1i2078g2tl8i5qans4cph1suq4");
 			String url = RequestUrl.HOST_URL + RequestUrl.account.getInfo;
 			Log.e("xxx_getInfo_url", url);
 
@@ -131,7 +135,7 @@ public class UserLogic {
 				public void onResponse(JSONObject response) {
 					if (null != response) {
 						Log.e("xxx_getInfo", response.toString());
-						parseLoginData(response, handler);
+						// parseLoginData(response, handler);
 					}
 
 				}
@@ -140,7 +144,46 @@ public class UserLogic {
 			cookieRequest.setCookie("1i2078g2tl8i5qans4cph1suq4");
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
-			Log.e("xxx_getInfo_start", url);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void getInfoByHttpUrl(final Context context, final Handler handler) {
+		try {
+			URL httpurl = new URL(RequestUrl.HOST_URL + RequestUrl.account.getInfo);
+			HttpURLConnection connection = (HttpURLConnection) httpurl.openConnection();
+
+			connection.setDoOutput(true);// 允许连接提交信息
+			connection.setRequestMethod("POST");//提交方式“GET”、“POST”
+			connection.setRequestProperty("Cookie", "1i2078g2tl8i5qans4cph1suq4");// 将当前的sessionid一并上传
+			
+			connection.connect();
+			// POST请求
+			DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+			JSONObject obj = new JSONObject();
+			obj.put("sessionid", "1i2078g2tl8i5qans4cph1suq4");
+
+			out.writeBytes(obj.toString());
+			out.flush();
+			out.close();
+
+			// 读取响应
+			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String lines;
+			StringBuffer sb = new StringBuffer("");
+			while ((lines = reader.readLine()) != null) {
+				lines = new String(lines.getBytes(), "utf-8");
+				sb.append(lines);
+			}
+			reader.close();
+			// 断开连接
+			connection.disconnect();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
