@@ -4,9 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.plmt.boommall.config.Constants;
+import com.plmt.boommall.network.volley.RequestQueue;
+import com.plmt.boommall.network.volley.toolbox.Volley;
 import com.plmt.boommall.utils.image.ImageLoaderConfig;
 
 public class BaseApplication extends Application {

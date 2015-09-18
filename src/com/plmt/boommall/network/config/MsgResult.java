@@ -28,7 +28,7 @@ public class MsgResult {
 	/**
 	 * datas
 	 */
-	public static final String RESULT_DATAS_TAG = "datas";
+	public static final String RESULT_DATAS_TAG = "data";
 	
 	/**
 	 * list

@@ -50,19 +50,23 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 			switch (what) {
 			case UserLogic.LOGIN_SUC: {
 				if (null != msg.obj) {
-					mUser = (User) msg.obj;
-					mUser.setPassword(mPassWord);
-					UserInfoManager.setRememberPwd(mContext, true);
-					UserInfoManager.saveUserInfo(LoginActivity.this, mUser);
-					UserInfoManager.setUserInfo(LoginActivity.this);
-					UserInfoManager.setLoginIn(LoginActivity.this, true);
+					String session = (String) msg.obj;
+					UserInfoManager.setSession(mContext, session);
 
-					Intent intent = new Intent(LoginActivity.this,
-							HomeActivity.class);
-					startActivity(intent);
-					LoginActivity.this.finish();
-					overridePendingTransition(R.anim.push_left_in,
-							R.anim.push_left_out);
+					UserLogic.getInfo(mContext, mHandler);
+					// mUser = (User) msg.obj;
+					// mUser.setPassword(mPassWord);
+					// UserInfoManager.setRememberPwd(mContext, true);
+					// UserInfoManager.saveUserInfo(LoginActivity.this, mUser);
+					// UserInfoManager.setUserInfo(LoginActivity.this);
+					// UserInfoManager.setLoginIn(LoginActivity.this, true);
+					//
+					// Intent intent = new Intent(LoginActivity.this,
+					// HomeActivity.class);
+					// startActivity(intent);
+					// LoginActivity.this.finish();
+					// overridePendingTransition(R.anim.push_left_in,
+					// R.anim.push_left_out);
 				}
 
 				break;
@@ -112,8 +116,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					public void onClick(View v) {
 						mMultiStateView
 								.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(),
-								"正在", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), "正在",
+								Toast.LENGTH_SHORT).show();
 					}
 				});
 	}
@@ -140,13 +144,19 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					Toast.LENGTH_SHORT).show();
 		} else {
 
-			Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-			startActivity(intent);
-			LoginActivity.this.finish();
-			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			// Intent intent = new Intent(LoginActivity.this,
+			// HomeActivity.class);
+			// startActivity(intent);
+			// LoginActivity.this.finish();
+			// overridePendingTransition(R.anim.push_left_in,
+			// R.anim.push_left_out);
 			// mUser.setAccount(mAccount);
 			// mUser.setPassword(mPassWord);
 			// UserLogic.login(mContext, mLoginHandler, mUser);
+			User user = new User();
+			user.setUserName("13813003736");
+			user.setPassword("admin123");
+			UserLogic.login(mContext, mLoginHandler, user);
 		}
 	}
 

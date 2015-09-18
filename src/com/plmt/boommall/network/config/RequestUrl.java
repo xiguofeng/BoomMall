@@ -7,7 +7,8 @@ public class RequestUrl {
 
 	public static final String NAMESPACE = "http://139.196.15.154";
 
-	public static final String HOST_URL = "http://120.55.116.206:8080/mapi/plp";
+	//http://120.55.116.206:8080/mapi
+	public static final String HOST_URL = "http://120.55.116.206:8080/mapi";
 	
 	
 
@@ -24,7 +25,13 @@ public class RequestUrl {
 		/**
 		 * 登陆
 		 */
-		public String login = "loginDelivery";
+		public String login = "/account/login";
+		
+		/**
+		 * 获取用户信息
+		 */
+		public String getInfo = "/user/baseinfo";
+		
 
 		public String modifyPwd = "changePwd";
 		
@@ -46,7 +53,7 @@ public class RequestUrl {
 		/**
 		 * 根据商品种类查询商品
 		 */
-		public String queryGoodsByCategory = "/getproducts";
+		public String queryGoodsByCategory = "/plp/getproducts";
 		
 		/**
 		 * 根据商品种类查询商品

@@ -13,12 +13,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.android.volley.Request.Method;
-import com.android.volley.Response.Listener;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.config.RequestUrl;
+import com.plmt.boommall.network.volley.Request.Method;
+import com.plmt.boommall.network.volley.Response.Listener;
+import com.plmt.boommall.network.volley.toolbox.JsonObjectRequest;
 import com.plmt.boommall.utils.JsonUtils;
 
 public class GoodsLogic {

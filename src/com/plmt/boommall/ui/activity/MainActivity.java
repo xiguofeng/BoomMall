@@ -11,7 +11,9 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
+import com.plmt.boommall.entity.User;
 import com.plmt.boommall.network.logic.GoodsLogic;
+import com.plmt.boommall.network.logic.UserLogic;
 import com.plmt.boommall.ui.view.MultiStateView;
 
 public class MainActivity extends Activity implements OnClickListener {

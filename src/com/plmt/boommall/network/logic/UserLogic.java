@@ -1,15 +1,26 @@
 package com.plmt.boommall.network.logic;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
+import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.User;
 import com.plmt.boommall.network.config.MsgResult;
+import com.plmt.boommall.network.config.RequestUrl;
+import com.plmt.boommall.network.utils.CookieRequest;
+import com.plmt.boommall.network.volley.Request.Method;
+import com.plmt.boommall.network.volley.Response.Listener;
+import com.plmt.boommall.network.volley.toolbox.JsonObjectRequest;
 import com.plmt.boommall.utils.JsonUtils;
+import com.plmt.boommall.utils.UserInfoManager;
 
 public class UserLogic {
 
@@ -42,8 +53,51 @@ public class UserLogic {
 	public static void login(final Context context, final Handler handler,
 			final User user) {
 
+		String url = RequestUrl.HOST_URL + RequestUrl.account.login;
+		Log.e("xxx_url", url);
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("name",
+					URLEncoder.encode(user.getUserName(), "UTF-8"));
+			requestJson.put("password",
+					URLEncoder.encode(user.getPassword(), "UTF-8"));
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_login", response.toString());
+								parseLoginData(response, handler);
+							}
+
+						}
+					}, null);
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+			// //
+			// new JsonObjectRequest(Method.POST, url, requestJson,
+			// new Listener<JSONObject>() {
+			// @Override
+			// public void onResponse(JSONObject response) {
+			// if (null != response) {
+			// Log.e("xxx_login", response.toString());
+			// parseLoginData(response, handler);
+			// }
+			//
+			// }
+			// }, null)
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 
+	// {"data":{"session":"vuoklov0duuvgekolkm1set245"},"result":"0","msg":"","Set-Cookie":"frontend=63t4cuvurhsbqdhunafrshf0h4;
+	// path=\/"}
 	private static void parseLoginData(JSONObject response, Handler handler) {
 		try {
 			// Log.e("xxx_login_suc", response.toString());
@@ -51,11 +105,11 @@ public class UserLogic {
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				JSONObject jsonObject = response
 						.getJSONObject(MsgResult.RESULT_DATAS_TAG);
-				User user = (User) JsonUtils.fromJsonToJava(jsonObject,
-						User.class);
+
+				String session = jsonObject.getString("session");
 				Message message = new Message();
 				message.what = LOGIN_SUC;
-				message.obj = user;
+				message.obj = session;
 				handler.sendMessage(message);
 			} else {
 				handler.sendEmptyMessage(LOGIN_FAIL);
@@ -65,8 +119,40 @@ public class UserLogic {
 		}
 	}
 
+	public static void getInfo(final Context context, final Handler handler) {
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("sessionid", URLEncoder.encode(
+					UserInfoManager.getSession(context), "UTF-8"));
+			String url = RequestUrl.HOST_URL + RequestUrl.account.getInfo;
+			Log.e("xxx_getInfo_url", url);
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_getInfo", response.toString());
+								parseLoginData(response, handler);
+							}
+
+						}
+					}, null);
+			//cookieRequest.setCookie(UserInfoManager.getSession(context));
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+			Log.e("xxx_getInfo_start", url);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	public static void modifyPwd(final Context context, final Handler handler,
-			final User user, final String authCode) {}
+			final User user, final String authCode) {
+	}
 
 	// {"datas":"{}","message":"操作成功","result":"0"}
 	private static void parseModifyPwdData(JSONObject response, Handler handler) {
@@ -93,7 +179,8 @@ public class UserLogic {
 	 * @return
 	 */
 	public static void sendAuthCode(final Context context,
-			final Handler handler, final String phone, final String authType) {}
+			final Handler handler, final String phone, final String authType) {
+	}
 
 	// {"datas":{"authCode":750152},"message":"操作成功","result":"0"}
 	private static void parseSendAuthCodeData(JSONObject response,

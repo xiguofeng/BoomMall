@@ -26,7 +26,7 @@ public class UserInfoManager {
 	public static final String USER_PHONE_KEY = "user_phone";
 
 	public static final String USER_ADDRESS_KEY = "address";
-	
+
 	public static final String USER_INVOICE_KEY = "invoice";
 
 	public static final String USER_SIGNATURE_KEY = "signature";
@@ -46,6 +46,8 @@ public class UserInfoManager {
 	public static final String USER_GESTURUE_PWD_IS_OPEN = "is_open_gesturue_pwd";
 
 	public static final String USER_AUTH_IS_MUST = "is_must_auth";
+
+	public static final String USER_SESSION = "user_session";
 
 	public static User userInfo = new User();
 
@@ -324,6 +326,26 @@ public class UserInfoManager {
 
 	}
 
+	public static String getSession(Context context) {
+		SharedPreferences userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE);
+		return userInfo.getString(USER_SESSION, "");
+
+	}
+
+	public static void setSession(Context context, String session) {
+		SharedPreferences.Editor userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE).edit();
+
+		if (!TextUtils.isEmpty(session)) {
+			userInfo.putString(USER_SESSION, session);
+		} else {
+			userInfo.putString(USER_SESSION, "");
+		}
+		userInfo.commit();
+
+	}
+
 	public static String getAddress(Context context) {
 		SharedPreferences userInfo = context.getSharedPreferences(
 				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE);
@@ -394,7 +416,7 @@ public class UserInfoManager {
 		}
 		return isHas;
 	}
-	
+
 	public static void saveInvoice(Context context, String invoice) {
 		String tempString = "";
 		String string = getInvoiceHistory(context);

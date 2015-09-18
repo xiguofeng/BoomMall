@@ -51,7 +51,7 @@ public class HomeActivity extends TabActivity implements
 
 		Intent i_home = new Intent(this, MainActivity.class);
 		Intent i_logi_confirm = new Intent(this, CategoryActivity.class);
-		Intent i_history = new Intent(this, MainActivity.class);
+		Intent i_history = new Intent(this, LoginActivity.class);
 		Intent i_psw = new Intent(this, MainActivity.class);
 
 		mTabHost.addTab(mTabHost.newTabSpec(TAB_MAIN).setIndicator(TAB_MAIN)
@@ -126,6 +126,5 @@ public class HomeActivity extends TabActivity implements
 		// mTabHost.setCurrentTabByTag(TAB_MAIN);
 		mMainRb.setChecked(true);
 	}
-
 
 }
