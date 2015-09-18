@@ -11,13 +11,104 @@
     app:msv_viewState="content"
     tools:context=".MainActivity" >
 
-    <LinearLayout
-        android:id="@+id/main_bg"
+    <RelativeLayout
+        android:id="@+id/main_bg_rl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:gravity="center"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:background="@color/gray_bg" >
+
+        <LinearLayout
+            android:id="@+id/main_title_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red_title_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dip" >
+
+            <ImageView
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dip"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop"
+                android:src="@drawable/title_logo" />
+
+            <RelativeLayout
+                android:id="@+id/category_search_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dip"
+                android:layout_marginRight="5dip"
+                android:background="@drawable/corners_search_bg_red"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/category_search_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dip"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/search" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dip"
+                        android:text="@string/search"
+                        android:textColor="@color/gray_text" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/category_search_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dip"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:paddingLeft="5dip"
+                    android:paddingRight="5dip"
+                    android:singleLine="true"
+                    android:textColor="@color/gray_text" />
+
+                <ImageView
+                    android:id="@+id/category_search_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:padding="8dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/search"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_below="@id/main_title_ll" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical" >
+                
+                
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
 
 </com.plmt.boommall.ui.view.MultiStateView>
