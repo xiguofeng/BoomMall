@@ -109,6 +109,7 @@ public class UserLogic {
 				JSONObject jsonObject = response.getJSONObject(MsgResult.RESULT_DATAS_TAG);
 
 				String session = jsonObject.getString("session");
+				//String session = response.getString("Set-Cookie");
 				// session = StringUtils.getCookieValue(session);
 				Message message = new Message();
 				message.what = LOGIN_SUC;
@@ -126,8 +127,8 @@ public class UserLogic {
 		JSONObject requestJson = new JSONObject();
 		try {
 			// URLEncoder.encode(UserInfoManager.getSession(context), "UTF-8")
-			requestJson.put("sessionid", "ibismkhnd9hto8m8j5sj1vg5s5");
-			Log.e("xxx_sessionid", UserInfoManager.getSession(context));
+			requestJson.put("sessionid", "frontend="+UserInfoManager.getSession(context));
+			Log.e("xxx_sessionid", "frontend="+UserInfoManager.getSession(context));
 			String url = RequestUrl.HOST_URL + RequestUrl.account.getInfo;
 			Log.e("xxx_getInfo_url", url);
 
@@ -142,7 +143,9 @@ public class UserLogic {
 				}
 
 			}, null);
-			cookieRequest.setCookie("ibismkhnd9hto8m8j5sj1vg5s5");
+			cookieRequest.setCookie("frontend="+UserInfoManager.getSession(context));
+			
+			
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
 		} catch (JSONException e) {
