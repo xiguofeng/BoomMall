@@ -21,7 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/red_title_bg"
+            android:background="@color/red_transparent_bg"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="5dip" >
@@ -33,7 +33,7 @@
                 android:layout_marginLeft="8dip"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
-                android:src="@drawable/title_logo" />
+                android:src="@drawable/android_search_button_icon" />
 
             <RelativeLayout
                 android:id="@+id/category_search_rl"

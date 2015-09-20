@@ -31,6 +31,7 @@
     <color name="yello_bottom_bg">#ffa204</color>
     <!-- <color name="red_title_bg">#cf021b</color> -->
     <color name="red_title_bg">#D0021B</color>
+    <color name="red_transparent_bg">#50D0021B</color>
     <color name="red_btn_bg">#d0021b</color>
     
     <color name="red">#f2100c</color>
