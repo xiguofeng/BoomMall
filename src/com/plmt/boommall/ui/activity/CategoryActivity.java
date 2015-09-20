@@ -42,7 +42,7 @@ import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 import com.plmt.boommall.ui.view.recyclerviewflexibledivider.DividerItemDecoration;
 import com.plmt.boommall.utils.SystemUtils;
 
-public class CategoryActivity2 extends Activity implements OnClickListener {
+public class CategoryActivity extends Activity implements OnClickListener {
 
 	private Context mContext;
 	private LinearLayout mSearchLl;
@@ -92,8 +92,8 @@ public class CategoryActivity2 extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.category_info);
-		mContext = CategoryActivity2.this;
+		setContentView(R.layout.category);
+		mContext = CategoryActivity.this;
 		initView();
 		initData();
 	}
