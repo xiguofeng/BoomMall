@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/main_hori_goods_icon_iv"
-        android:layout_width="80dip"
-        android:layout_height="80dip"
-        android:scaleType="centerCrop" />
+        android:layout_width="90dip"
+        android:layout_height="90dip"
+        android:scaleType="centerInside" />
 
     <TextView
         android:id="@+id/main_hori_goods_name_tv"

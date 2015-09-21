@@ -12,7 +12,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="@color/gray_bg"
+        android:padding="10dip" >
 
         <ImageView
             android:id="@+id/custom_classify_iv"
@@ -25,7 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dip"
             android:text="心脑..."
             android:textColor="@color/red"
             android:textSize="@dimen/small_text_size" />
@@ -44,6 +45,8 @@
     <com.plmt.boommall.ui.view.HorizontalListView
         android:id="@+id/custom_classify_goods_lv"
         android:layout_width="fill_parent"
-        android:layout_height="100dip" />
+        android:layout_height="110dip"
+        android:divider="@color/gray_divide_line"
+        android:dividerHeight="10dip" />
 
 </LinearLayout>
