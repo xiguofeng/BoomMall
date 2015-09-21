@@ -110,7 +110,7 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <ScrollView
+        <com.plmt.boommall.ui.view.CustomScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/main_title_ll"
@@ -175,12 +175,20 @@
                     android:verticalSpacing="10dp" >
                 </com.plmt.boommall.ui.view.CustomGridView>
 
-                <com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView
-                    android:id="@+id/main_goods_classify_lv"
+                <LinearLayout
+                    android:id="@+id/main_list_categoty_ll"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <!-- <com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView -->
+                <!-- android:id="@+id/main_goods_classify_lv" -->
+                <!-- android:layout_width="match_parent" -->
+                <!-- android:layout_height="match_parent" /> -->
             </LinearLayout>
-        </ScrollView>
+        </com.plmt.boommall.ui.view.CustomScrollView>
     </RelativeLayout>
 
 </com.plmt.boommall.ui.view.MultiStateView>

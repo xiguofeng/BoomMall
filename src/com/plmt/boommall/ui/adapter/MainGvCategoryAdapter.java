@@ -12,11 +12,11 @@ import android.widget.ImageView;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Category;
 
-public class HomeGvCategoryAdapter extends BaseAdapter {
+public class MainGvCategoryAdapter extends BaseAdapter {
 	private Context context;
 	private ArrayList<Category> data;
 
-	public HomeGvCategoryAdapter(Context context, ArrayList<Category> data) {
+	public MainGvCategoryAdapter(Context context, ArrayList<Category> data) {
 
 		this.context = context;
 		this.data = data;
@@ -43,7 +43,7 @@ public class HomeGvCategoryAdapter extends BaseAdapter {
 		if (currentView == null) {
 			holderView = new HolderView();
 			currentView = LayoutInflater.from(context).inflate(
-					R.layout.home_gv_category_item, null);
+					R.layout.main_gv_category_item, null);
 			holderView.iconIv = (ImageView) currentView
 					.findViewById(R.id.iv_adapter_grid_pic);
 			currentView.setTag(holderView);

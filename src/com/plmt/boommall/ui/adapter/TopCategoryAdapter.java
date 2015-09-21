@@ -43,7 +43,7 @@ public class TopCategoryAdapter extends BaseAdapter {
 		if (currentView == null) {
 			holderView = new HolderView();
 			currentView = LayoutInflater.from(context).inflate(
-					R.layout.home_gv_category_item, null);
+					R.layout.main_gv_category_item, null);
 			holderView.iconIv = (ImageView) currentView
 					.findViewById(R.id.iv_adapter_grid_pic);
 			currentView.setTag(holderView);

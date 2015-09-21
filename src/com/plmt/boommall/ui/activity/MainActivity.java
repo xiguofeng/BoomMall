@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +21,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
@@ -28,15 +30,13 @@ import com.plmt.boommall.entity.DemoItem;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.ui.adapter.BannerAdapter;
-import com.plmt.boommall.ui.adapter.DefaultListAdapter;
 import com.plmt.boommall.ui.adapter.DemoAdapter;
-import com.plmt.boommall.ui.adapter.HomeGvCategoryAdapter;
+import com.plmt.boommall.ui.adapter.MainGvCategoryAdapter;
+import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
+import com.plmt.boommall.ui.view.CustomClassifyView;
 import com.plmt.boommall.ui.view.CustomGridView;
 import com.plmt.boommall.ui.view.MultiStateView;
-import com.plmt.boommall.ui.view.asymmetricgridview.Utils;
-import com.plmt.boommall.ui.view.asymmetricgridview.model.AsymmetricItem;
 import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView;
-import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridViewAdapter;
 import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
 import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 
@@ -58,12 +58,15 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private CustomGridView mCategoryGv;
 	private ArrayList<Category> mCategoryList = new ArrayList<Category>();
-	private HomeGvCategoryAdapter mCategoryAdapter;
+	private MainGvCategoryAdapter mCategoryAdapter;
 	private int[] pic_path_classify = { R.drawable.menu_guide_1,
 			R.drawable.menu_guide_2, R.drawable.menu_guide_3,
 			R.drawable.menu_guide_4, R.drawable.menu_guide_5,
 			R.drawable.menu_guide_6, R.drawable.menu_guide_7,
 			R.drawable.menu_guide_8 };
+
+
+	private LinearLayout mCategoryAndGoodsListLl;
 
 	private AsymmetricGridView mAsymmetricGridView;
 	private DemoAdapter mGoodsAdapter;
@@ -177,7 +180,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			mCategoryList.add(category);
 		}
 
-		mCategoryAdapter = new HomeGvCategoryAdapter(mContext, mCategoryList);
+		mCategoryAdapter = new MainGvCategoryAdapter(mContext, mCategoryList);
 		mCategoryGv.setAdapter(mCategoryAdapter);
 		mCategoryGv.setOnItemClickListener(new OnItemClickListener() {
 
@@ -192,28 +195,40 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void initGoodsShow() {
-		mAsymmetricGridView = (AsymmetricGridView) findViewById(R.id.main_goods_classify_lv);
-		for (int i = 0; i < 10; i++) {
-			Goods goods = new Goods();
-			goods.setName("商品" + i);
-			goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
-			mGoodsList.add(goods);
+		mCategoryAndGoodsListLl = (LinearLayout) findViewById(R.id.main_list_categoty_ll);
+
+		// initialize your items array
+		for (int i = 0; i < 5; i++) {
+			CustomClassifyView cv = new CustomClassifyView(mContext, null);
+			mCategoryAndGoodsListLl.addView(cv);
 		}
+	}
 
-		mAsymmetricGridView.setRequestedColumnWidth(Utils.dpToPx(this, 120));
-		mAsymmetricGridView.setRequestedColumnCount(3);
-		mAsymmetricGridView
-				.setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
-		mAsymmetricGridView.setDebugging(true);
-
-		// initialize your items array
-		mGoodsAdapter = new DefaultListAdapter(this, getMoreItems(5));
-		AsymmetricGridViewAdapter asymmetricAdapter = new AsymmetricGridViewAdapter<>(
-				this, mAsymmetricGridView, mGoodsAdapter);
-
-		mAsymmetricGridView.setAdapter(asymmetricAdapter);
-
-		// initialize your items array
+	private void initGoodsShowOld() {
+		// mAsymmetricGridView = (AsymmetricGridView)
+		// findViewById(R.id.main_goods_classify_lv);
+		// for (int i = 0; i < 10; i++) {
+		// Goods goods = new Goods();
+		// goods.setName("商品" + i);
+		// goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
+		// mGoodsList.add(goods);
+		// }
+		//
+		// mAsymmetricGridView.setRequestedColumnWidth(Utils.dpToPx(this, 120));
+		// mAsymmetricGridView.setRequestedColumnCount(3);
+		// mAsymmetricGridView
+		// .setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
+		// mAsymmetricGridView.setDebugging(true);
+		//
+		// // initialize your items array
+		// mGoodsAdapter = new DefaultListAdapter(this, getMoreItems(5));
+		// AsymmetricGridViewAdapter asymmetricAdapter = new
+		// AsymmetricGridViewAdapter<>(
+		// this, mAsymmetricGridView, mGoodsAdapter);
+		//
+		// mAsymmetricGridView.setAdapter(asymmetricAdapter);
+		//
+		// // initialize your items array
 
 	}
 
