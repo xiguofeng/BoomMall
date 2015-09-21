@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:background="@color/gray_bg" >
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/main_title_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,20 +29,34 @@
             android:padding="5dip" >
 
             <ImageView
-                android:layout_width="30dip"
-                android:layout_height="30dip"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dip"
+                android:id="@+id/main_qr_code_iv"
+                android:layout_width="25dip"
+                android:layout_height="25dip"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dip"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
-                android:src="@drawable/title_logo" />
+                android:src="@drawable/common_scan_selected" />
+
+            <ImageView
+                android:id="@+id/main_msg_iv"
+                android:layout_width="25dip"
+                android:layout_height="25dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/common_icon_message_normal" />
 
             <RelativeLayout
                 android:id="@+id/main_search_rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="13dip"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
+                android:layout_toLeftOf="@+id/main_msg_iv"
+                android:layout_toRightOf="@+id/main_qr_code_iv"
                 android:background="@drawable/corners_search_bg_red"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -94,13 +108,13 @@
                     android:src="@drawable/search"
                     android:visibility="gone" />
             </RelativeLayout>
-        </LinearLayout>
+        </RelativeLayout>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_below="@id/main_title_ll" >
+            android:layout_below="@id/main_title_ll"
+            android:background="@color/white" >
 
             <LinearLayout
                 android:layout_width="match_parent"
