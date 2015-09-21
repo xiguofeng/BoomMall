@@ -70,6 +70,11 @@
     <string name="from_camera">照相</string>
     <string name="from_album">从相册中选择</string>
     
+     <!-- wechatpay -->
+    <string name="app_tip">提示</string>
+    <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+    
     
      <!-- pullrefresh -->
     <string name="header_hint_refresh_normal">下拉更新</string>
