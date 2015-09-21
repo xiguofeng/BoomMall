@@ -155,7 +155,7 @@ public class CartGoodsAdapter extends BaseAdapter {
 						// mDatas.get(tempPosition));
 						// }
 						// }
-						CartManager.setCartTotalMoney();
+						//CartManager.setCartTotalMoney();
 						notifyDataSetChanged();
 					}
 				});

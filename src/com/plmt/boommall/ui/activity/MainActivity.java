@@ -5,12 +5,15 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -176,6 +179,16 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		mCategoryAdapter = new HomeGvCategoryAdapter(mContext, mCategoryList);
 		mCategoryGv.setAdapter(mCategoryAdapter);
+		mCategoryGv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(MainActivity.this,
+						LoginActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	private void initGoodsShow() {

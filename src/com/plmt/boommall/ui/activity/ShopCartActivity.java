@@ -143,7 +143,18 @@ public class ShopCartActivity extends Activity implements OnClickListener {
 
 	private void initData() {
 		mGoodsList.clear();
-		mGoodsList.addAll(CartManager.getsCartList());
+		// mGoodsList.addAll(CartManager.getsCartList());
+		for (int i = 0; i < 5; i++) {
+			Goods goods = new Goods();
+			goods.setId(""+i);
+			goods.setName("商品" + i);
+			goods.setPrice("1" + i);
+			goods.setFinalPrice("1" + i);
+			goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
+			mGoodsList.add(goods);
+		}
+		CartManager.getsCartList().addAll(mGoodsList);
+
 		mGoodsAdapter.initCheck();
 		mGoodsAdapter.notifyDataSetChanged();
 		mTotalNumTv.setText("(" + String.valueOf(mGoodsList.size()) + ")");
@@ -157,11 +168,11 @@ public class ShopCartActivity extends Activity implements OnClickListener {
 		CartManager.getsSelectCartList().addAll(CartManager.getsCartList());
 
 		if (CartManager.getsSelectCartList().size() > 0) {
-			//HomeActivity.mCheckAllIb.setChecked(true);
+			// HomeActivity.mCheckAllIb.setChecked(true);
 		} else {
-			//HomeActivity.mCheckAllIb.setChecked(false);
+			// HomeActivity.mCheckAllIb.setChecked(false);
 		}
-		CartManager.setCartTotalMoney();
+		//CartManager.setCartTotalMoney();
 
 	}
 

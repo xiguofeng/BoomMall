@@ -54,7 +54,7 @@
         android:textSize="@dimen/middle_text_size"
         android:visibility="gone" />
 
-    <com.xgf.winecome.ui.view.listview.SwipeMenuListView
+    <com.plmt.boommall.ui.view.listview.SwipeMenuListView
         android:id="@+id/shop_cart_order_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

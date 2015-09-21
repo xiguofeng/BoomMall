@@ -52,6 +52,12 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.plmt.boommall.ui.activity.ShopCartActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.plmt.boommall.ui.activity.CategoryAndGoodsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
