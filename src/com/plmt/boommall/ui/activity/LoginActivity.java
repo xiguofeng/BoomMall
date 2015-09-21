@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.User;
+import com.plmt.boommall.network.logic.OrderLogic;
 import com.plmt.boommall.network.logic.UserLogic;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.utils.UserInfoManager;
@@ -54,6 +55,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					UserInfoManager.setSession(mContext, session);
 
 					UserLogic.getInfo(mContext, mHandler);
+					OrderLogic.getOrders(mContext, mHandler, session, "1", "5");
 					// mUser = (User) msg.obj;
 					// mUser.setPassword(mPassWord);
 					// UserInfoManager.setRememberPwd(mContext, true);
@@ -157,8 +159,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 			user.setUserName("13813003736");
 			user.setPassword("admin123");
 			UserLogic.login(mContext, mLoginHandler, user);
-//			UserLogic.getInfo(mContext, mHandler);
-//			UserLogic.getInfoByHttpUrl(mContext, mHandler);
+			// UserLogic.getInfo(mContext, mHandler);
+			// UserLogic.getInfoByHttpUrl(mContext, mHandler);
 		}
 	}
 

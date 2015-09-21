@@ -7,10 +7,8 @@ public class RequestUrl {
 
 	public static final String NAMESPACE = "http://139.196.15.154";
 
-	//http://120.55.116.206:8080/mapi
+	// http://120.55.116.206:8080/mapi
 	public static final String HOST_URL = "http://120.55.116.206:8080/mapi";
-	
-	
 
 	public interface connect {
 		/**
@@ -26,40 +24,37 @@ public class RequestUrl {
 		 * 登陆
 		 */
 		public String login = "/account/login";
-		
+
 		/**
 		 * 获取用户信息
 		 */
 		public String getInfo = "/user/baseinfo";
-		
 
 		public String modifyPwd = "changePwd";
-		
+
 		/**
 		 * 验证码
 		 */
 		public String sendAuthCode = "sendAuthCode";
-
 
 	}
 
 	public interface goods {
 
 		/**
-		 * 查询全部商品
-		 */
-		public String queryAllGoods = "queryAllProduct";
-
-		/**
 		 * 根据商品种类查询商品
 		 */
 		public String queryGoodsByCategory = "/plp/getproducts";
-		
+
 		/**
 		 * 根据商品种类查询商品
 		 */
-		public String queryGoodsByCategoryNew = "/getproductsnew";
+		public String queryGoodsByCategoryNew = "/plp/getproductsnew";
 
+		/**
+		 * 根据商品Id查询商品
+		 */
+		public String queryGoodsByID = "/pdp/getproductdetail";
 
 		public String queryGoodsCategory = "queryProductCategory";
 
@@ -72,19 +67,7 @@ public class RequestUrl {
 
 	public interface order {
 
-		public String queryOrderForGrab = "queryOrderForGrab";
-
-		public String grabOrder = "grab";
-
-		/**
-		 * 获取抢单历史(已抢订单)
-		 */
-		public String queryOrderOfDelivery = "queryOrderOfDelivery";
-
-		/**
-		 * 订单确认
-		 */
-		public String recieveConfirm = "recieveConfirm";
+		public String queryOrderList = "/account_order/list";
 
 	}
 

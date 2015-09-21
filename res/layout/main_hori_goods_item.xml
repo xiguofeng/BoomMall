@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:gravity="center"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <ImageView
@@ -18,5 +19,14 @@
         android:layout_height="wrap_content"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/small_text_size" />
+    
+       <TextView
+        android:id="@+id/main_hori_goods_price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red_title_bg"
+        android:textSize="@dimen/small_text_size" 
+        android:text="￥150"/>
+    
 
 </LinearLayout>

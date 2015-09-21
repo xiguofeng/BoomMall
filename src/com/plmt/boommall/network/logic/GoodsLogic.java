@@ -94,11 +94,12 @@ public class GoodsLogic {
 
 				JSONArray jsonArray = response.getJSONArray("data");
 				ArrayList<Goods> mTempGoodsList = new ArrayList<Goods>();
-				
+
 				int size = jsonArray.length();
 				for (int j = 0; j < size; j++) {
 					JSONObject categoryJsonObject = jsonArray.getJSONObject(j);
-					Goods goods = (Goods) JsonUtils.fromJsonToJava(categoryJsonObject, Goods.class);
+					Goods goods = (Goods) JsonUtils.fromJsonToJava(
+							categoryJsonObject, Goods.class);
 					goods.setNum("0");
 					mTempGoodsList.add(goods);
 				}
@@ -115,6 +116,41 @@ public class GoodsLogic {
 			handler.sendEmptyMessage(GOODS_LIST_BY_KEY_GET_EXCEPTION);
 		}
 
+	}
+
+	public static void getGoodsById(final Context context,
+			final Handler handler, String id) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.goods.queryGoodsByID;
+		Log.e("xxx_getGoodsById_url", url);
+		JSONObject requestJson = new JSONObject();
+		try {
+			id = "21612";
+			requestJson.put("id", URLEncoder.encode(id, "UTF-8"));
+
+			BaseApplication.getInstanceRequestQueue().add(
+					new JsonObjectRequest(Method.POST, url, requestJson,
+							new Listener<JSONObject>() {
+								@Override
+								public void onResponse(JSONObject response) {
+									Log.e("xxx_queryGoodsByID",
+											response.toString());
+									if (null != response) {
+										Log.e("xxx_queryGoodsByID",
+												response.toString());
+										parseGoodsListByCategoryData(response,
+												handler);
+									}
+
+								}
+							}, null));
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

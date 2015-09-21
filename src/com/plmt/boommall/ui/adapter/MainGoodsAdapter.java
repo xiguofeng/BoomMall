@@ -75,7 +75,7 @@ public class MainGoodsAdapter extends BaseAdapter {
 		ImageLoader
 				.getInstance()
 				.displayImage(
-						"http://pic22.nipic.com/20120719/7892341_123816485174_2.jpg",
+						"http://img.tom61.com/photo/599/596/1010241222b8f22d310a4af69f.jpg",
 						holder.mIcon);
 
 		return convertView;

@@ -9,9 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,12 +28,12 @@ import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.ui.adapter.BannerAdapter;
 import com.plmt.boommall.ui.adapter.DemoAdapter;
+import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
 import com.plmt.boommall.ui.adapter.MainGvCategoryAdapter;
-import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
-import com.plmt.boommall.ui.view.CustomClassifyView;
 import com.plmt.boommall.ui.view.CustomGridView;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView;
+import com.plmt.boommall.ui.view.listview.HorizontalListView;
 import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
 import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 
@@ -65,8 +62,31 @@ public class MainActivity extends Activity implements OnClickListener {
 			R.drawable.menu_guide_6, R.drawable.menu_guide_7,
 			R.drawable.menu_guide_8 };
 
-
 	private LinearLayout mCategoryAndGoodsListLl;
+
+	private HorizontalListView mHotGoodsLv;
+	private ArrayList<Goods> mHotGoodsList = new ArrayList<Goods>();
+	private MainGoodsAdapter mHotGoodsAdapter;
+
+	private HorizontalListView mFirstGoodsLv;
+	private ArrayList<Goods> mFirstGoodsList = new ArrayList<Goods>();
+	private MainGoodsAdapter mFirstGoodsAdapter;
+
+	private HorizontalListView mSecondGoodsLv;
+	private ArrayList<Goods> mSecondGoodsList = new ArrayList<Goods>();
+	private MainGoodsAdapter mSecondGoodsAdapter;
+
+	private HorizontalListView mThirdGoodsLv;
+	private ArrayList<Goods> mThirdGoodsList = new ArrayList<Goods>();
+	private MainGoodsAdapter mThirdGoodsAdapter;
+
+	private HorizontalListView mFourthGoodsLv;
+	private ArrayList<Goods> mFourthGoodsList = new ArrayList<Goods>();
+	private MainGoodsAdapter mFourthGoodsAdapter;
+
+	private HorizontalListView mFifthGoodsLv;
+	private ArrayList<Goods> mFifthGoodsList = new ArrayList<Goods>();
+	private MainGoodsAdapter mFifthGoodsAdapter;
 
 	private AsymmetricGridView mAsymmetricGridView;
 	private DemoAdapter mGoodsAdapter;
@@ -197,11 +217,78 @@ public class MainActivity extends Activity implements OnClickListener {
 	private void initGoodsShow() {
 		mCategoryAndGoodsListLl = (LinearLayout) findViewById(R.id.main_list_categoty_ll);
 
-		// initialize your items array
-		for (int i = 0; i < 5; i++) {
-			CustomClassifyView cv = new CustomClassifyView(mContext, null);
-			mCategoryAndGoodsListLl.addView(cv);
+		mHotGoodsLv = (HorizontalListView) findViewById(R.id.main_hot_brand_goods_lv);
+		for (int i = 0; i < 6; i++) {
+			Goods goods = new Goods();
+			goods.setName("商品" + i);
+			goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
+			mHotGoodsList.add(goods);
 		}
+		mHotGoodsAdapter = new MainGoodsAdapter(mContext, mHotGoodsList);
+		mHotGoodsLv.setAdapter(mHotGoodsAdapter);
+		mHotGoodsAdapter.notifyDataSetChanged();
+
+		mFirstGoodsLv = (HorizontalListView) findViewById(R.id.main_first_classify_goods_lv);
+		for (int i = 0; i < 6; i++) {
+			Goods goods = new Goods();
+			goods.setName("1商品" + i);
+			goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
+			mFirstGoodsList.add(goods);
+		}
+		mFirstGoodsAdapter = new MainGoodsAdapter(mContext, mFirstGoodsList);
+		mFirstGoodsLv.setAdapter(mFirstGoodsAdapter);
+		mFirstGoodsAdapter.notifyDataSetChanged();
+
+		mSecondGoodsLv = (HorizontalListView) findViewById(R.id.main_second_classify_goods_lv);
+		for (int i = 0; i < 6; i++) {
+			Goods goods = new Goods();
+			goods.setName("2商品" + i);
+			goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
+			mSecondGoodsList.add(goods);
+		}
+		mSecondGoodsAdapter = new MainGoodsAdapter(mContext, mSecondGoodsList);
+		mSecondGoodsLv.setAdapter(mSecondGoodsAdapter);
+		mSecondGoodsAdapter.notifyDataSetChanged();
+
+		mThirdGoodsLv = (HorizontalListView) findViewById(R.id.main_three_classify_goods_lv);
+		for (int i = 0; i < 6; i++) {
+			Goods goods = new Goods();
+			goods.setName("3商品" + i);
+			goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
+			mThirdGoodsList.add(goods);
+		}
+		mThirdGoodsAdapter = new MainGoodsAdapter(mContext, mThirdGoodsList);
+		mThirdGoodsLv.setAdapter(mThirdGoodsAdapter);
+		mThirdGoodsAdapter.notifyDataSetChanged();
+
+		mFourthGoodsLv = (HorizontalListView) findViewById(R.id.main_fourth_classify_goods_lv);
+		for (int i = 0; i < 6; i++) {
+			Goods goods = new Goods();
+			goods.setName("4商品" + i);
+			goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
+			mFourthGoodsList.add(goods);
+		}
+		mFourthGoodsAdapter = new MainGoodsAdapter(mContext, mFourthGoodsList);
+		mFourthGoodsLv.setAdapter(mFourthGoodsAdapter);
+		mFourthGoodsAdapter.notifyDataSetChanged();
+
+		mFifthGoodsLv = (HorizontalListView) findViewById(R.id.main_fifth_classify_goods_lv);
+		for (int i = 0; i < 6; i++) {
+			Goods goods = new Goods();
+			goods.setName("5商品" + i);
+			goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
+			mFifthGoodsList.add(goods);
+		}
+		mFifthGoodsAdapter = new MainGoodsAdapter(mContext, mFifthGoodsList);
+		mFifthGoodsLv.setAdapter(mFifthGoodsAdapter);
+		mFifthGoodsAdapter.notifyDataSetChanged();
+		// initialize your items array
+		// for (int i = 0; i < 5; i++) {
+		// CustomClassifyView cv = new CustomClassifyView(mContext, null);
+		// mCategoryAndGoodsListLl.addView(cv);
+		// }
+
+		GoodsLogic.getGoodsById(mContext, mHandler, "");
 	}
 
 	private void initGoodsShowOld() {

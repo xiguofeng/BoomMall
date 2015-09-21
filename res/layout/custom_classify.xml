@@ -42,11 +42,13 @@
             android:textSize="@dimen/small_text_size" />
     </RelativeLayout>
 
-    <com.plmt.boommall.ui.view.HorizontalListView
+    <com.plmt.boommall.ui.view.listview.HorizontalListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:widget="http://schemas.android.com/apk/res-auto"
         android:id="@+id/custom_classify_goods_lv"
         android:layout_width="fill_parent"
         android:layout_height="110dip"
-        android:divider="@color/gray_divide_line"
-        android:dividerHeight="10dip" />
+        android:divider="#878787"
+        widget:dividerWidth="2dp" />
 
 </LinearLayout>

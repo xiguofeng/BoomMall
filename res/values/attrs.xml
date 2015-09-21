@@ -16,7 +16,6 @@
         <attr name="mv_ultimateColor" format="reference|color" />
         <attr name="mv_originalImg" format="reference" />
     </declare-styleable>
-   
     <declare-styleable name="ViewFlow">
         <attr name="sidebuffer" format="integer" />
     </declare-styleable>
@@ -40,6 +39,12 @@
     <declare-styleable name="SpanVariableGridView">
         <attr name="numColumns" format="integer" />
         <attr name="itemMargin" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="HorizontalListView">
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="android:divider" />
+        <attr name="android:requiresFadingEdge" />
+        <attr name="android:fadingEdgeLength" />
     </declare-styleable>
 
 </resources>

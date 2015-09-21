@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
+import com.plmt.boommall.ui.view.listview.HorizontalListView;
+
+
 
 public class CustomClassifyView extends LinearLayout {
 
