@@ -38,12 +38,14 @@ import com.plmt.boommall.ui.adapter.GoodsAdapter;
 import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
 import com.plmt.boommall.ui.adapter.RVGoodsAdapter;
 import com.plmt.boommall.ui.utils.MyItemClickListener;
+import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 
 public class CategoryAndGoodsActivity extends Activity implements
 		OnClickListener, MyItemClickListener, XListView.IXListViewListener {
 
 	private Context mContext;
+	private MultiStateView mMultiStateView;
 	private LinearLayout mSearchLl;
 	private EditText mSearchEt;
 	private ImageView mSearchIv;
@@ -90,6 +92,8 @@ public class CategoryAndGoodsActivity extends Activity implements
 			default:
 				break;
 			}
+
+			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
 			onLoadComplete();
 		}
 
@@ -105,6 +109,21 @@ public class CategoryAndGoodsActivity extends Activity implements
 	}
 
 	private void initView() {
+		mMultiStateView = (MultiStateView) findViewById(R.id.category_and_goods_multiStateView);
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
+				.findViewById(R.id.retry)
+				.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						mMultiStateView
+								.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(),
+								"Fetching Data", Toast.LENGTH_SHORT).show();
+					}
+				});
+		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+
 		initHorizaontal();
 		// initVertical();
 
@@ -153,14 +172,6 @@ public class CategoryAndGoodsActivity extends Activity implements
 		mGoodsAdapter = new GoodsAdapter(mContext, mGoodsList);
 		mGoodsLv.setAdapter(mGoodsAdapter);
 
-		for (int i = 0; i < 10; i++) {
-			Goods goods = new Goods();
-			goods.setName("商品" + i);
-			goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
-			mGoodsList.add(goods);
-		}
-		mGoodsAdapter.notifyDataSetChanged();
-
 		mGoodsLv.setOnScrollListener(new AbsListView.OnScrollListener() {
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -178,14 +189,16 @@ public class CategoryAndGoodsActivity extends Activity implements
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(CategoryAndGoodsActivity.this,
-						GoodsDetailActivity.class);
-				intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
-				Bundle bundle = new Bundle();
-				bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
-						mGoodsList.get(position).getId());
-				intent.putExtras(bundle);
-				startActivity(intent);
+				if (position > 0) {
+					Intent intent = new Intent(CategoryAndGoodsActivity.this,
+							GoodsDetailActivity.class);
+					intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
+							mGoodsList.get(position - 1).getId());
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
 
 			}
 		});
