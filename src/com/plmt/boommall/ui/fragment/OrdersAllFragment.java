@@ -5,33 +5,32 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.plmt.boommall.R;
-import com.plmt.boommall.entity.OrderOld;
+import com.plmt.boommall.entity.Order;
 import com.plmt.boommall.network.logic.OrderLogic;
-import com.plmt.boommall.network.logic.UserLogic;
 import com.plmt.boommall.ui.adapter.OrderAdapter;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
-import com.plmt.boommall.utils.UserInfoManager;
 
 public class OrdersAllFragment extends Fragment implements
 		XListView.IXListViewListener, ListItemClickHelp {
 
 	private XListView mListView;
 
-	private OrderAdapter mNewsAdapter;
+	private OrderAdapter mOrderAdapter;
 
-	private ArrayList<OrderOld> mNewsList = new ArrayList<OrderOld>();
+	private ArrayList<Order> mOrderList = new ArrayList<Order>();
 
 	private HashMap<String, Object> mMsgMap = new HashMap<String, Object>();
 
@@ -47,8 +46,10 @@ public class OrdersAllFragment extends Fragment implements
 			switch (what) {
 			case OrderLogic.ORDERLIST_GET_SUC: {
 				if (null != msg.obj) {
-					String session = (String) msg.obj;
-
+					mMsgMap.clear();
+					mMsgMap.putAll((Map<? extends String, ? extends Object>) msg.obj);
+					Log.e("xxx_size", "" + mMsgMap.size());
+					mOrderAdapter.notifyDataSetChanged();
 				}
 
 				break;
@@ -85,7 +86,6 @@ public class OrdersAllFragment extends Fragment implements
 	}
 
 	private void initView(View view) {
-		mHandler = new Handler();
 
 		mListView = (XListView) view.findViewById(R.id.orders_lv);
 		mListView.setPullRefreshEnable(true);
@@ -94,10 +94,10 @@ public class OrdersAllFragment extends Fragment implements
 		mListView.setXListViewListener(this);
 		mListView.setRefreshTime(getTime());
 
-		mNewsList.clear();
+		mOrderList.clear();
 
-		mNewsAdapter = new OrderAdapter(getActivity(), mMsgMap, this);
-		mListView.setAdapter(mNewsAdapter);
+		mOrderAdapter = new OrderAdapter(getActivity(), mMsgMap, this);
+		mListView.setAdapter(mOrderAdapter);
 
 		OrderLogic.getOrders(getActivity(), mHandler, "", "", "");
 	}

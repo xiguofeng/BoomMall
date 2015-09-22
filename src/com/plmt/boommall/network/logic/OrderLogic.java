@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.entity.Order;
 import com.plmt.boommall.entity.OrderOld;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
@@ -72,8 +73,8 @@ public class OrderLogic {
 	public static final int ORDER_PAY_UNION_TN_GET_EXCEPTION = ORDER_PAY_UNION_TN_GET_FAIL + 1;
 
 	public static void createOrder(final Context context,
-			final Handler handler, final OrderOld orderOld, final String authCode,
-			final ArrayList<Goods> goodsList) {
+			final Handler handler, final OrderOld orderOld,
+			final String authCode, final ArrayList<Goods> goodsList) {
 
 	}
 
@@ -125,7 +126,7 @@ public class OrderLogic {
 						public void onResponse(JSONObject response) {
 							if (null != response) {
 								Log.e("xxx_getOrders", response.toString());
-								// parseLoginData(response, handler);
+								parseOrdersData(response, handler);
 							}
 
 						}
@@ -148,12 +149,9 @@ public class OrderLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 
-				JSONObject jsonObject = response
-						.getJSONObject(MsgResult.RESULT_DATA_TAG);
-
-				ArrayList<OrderOld> tempOrderList = new ArrayList<OrderOld>();
-				JSONArray orderListArray = jsonObject
-						.getJSONArray(MsgResult.RESULT_LIST_TAG);
+				ArrayList<Order> tempOrderList = new ArrayList<Order>();
+				JSONArray orderListArray = response
+						.getJSONArray(MsgResult.RESULT_DATA_TAG);
 
 				HashMap<String, Object> msgMap = new HashMap<String, Object>();
 
@@ -161,9 +159,9 @@ public class OrderLogic {
 				for (int i = 0; i < size; i++) {
 					JSONObject orderJsonObject = orderListArray
 							.getJSONObject(i);
-					OrderOld orderOld = (OrderOld) JsonUtils.fromJsonToJava(
-							orderJsonObject, OrderOld.class);
-					tempOrderList.add(orderOld);
+					Order order = (Order) JsonUtils.fromJsonToJava(
+							orderJsonObject, Order.class);
+					tempOrderList.add(order);
 
 					ArrayList<Goods> tempGoodsList = new ArrayList<Goods>();
 					JSONArray goodsArray = orderJsonObject
@@ -172,17 +170,19 @@ public class OrderLogic {
 					for (int j = 0; j < goodsArray.length(); j++) {
 						JSONObject goodsJsonObject = goodsArray
 								.getJSONObject(j);
-						Goods goods = new Goods();
-						goods.setId(goodsJsonObject.getString("productId"));
-						goods.setName(goodsJsonObject.getString("productName"));
-
-						goods.setNum(goodsJsonObject.getString("count"));
+						Goods goods = (Goods) JsonUtils.fromJsonToJava(
+								goodsJsonObject, Goods.class);
 						tempGoodsList.add(goods);
 					}
-					msgMap.put(orderOld.getId(), tempGoodsList);
+					ArrayList<Goods> goodsList = new ArrayList<Goods>();
+					order.setGoodsList(goodsList);
+					order.getGoodsList().addAll(tempGoodsList);
+					msgMap.put(order.getIncrement_id(), tempGoodsList);
 
 				}
 				msgMap.put(MsgResult.ORDER_TAG, tempOrderList);
+				
+				Log.e("xxx_getorder", "suc"+msgMap.size());
 
 				Message message = new Message();
 				message.what = ORDERLIST_GET_SUC;
