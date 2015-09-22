@@ -1,23 +1,19 @@
 ﻿package com.plmt.boommall.utils.cropimage.uitls;
 
 
-import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 
 public class MediaPlayerHelper implements MediaPlayer.OnPreparedListener, 
                                       MediaPlayer.OnErrorListener,

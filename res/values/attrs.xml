@@ -59,4 +59,7 @@
         <attr name="matProg_linearProgress" format="boolean" />
     </declare-styleable>
 
+    <attr name="card" format="reference" />
+    <attr name="backColor" format="reference" />
+
 </resources>

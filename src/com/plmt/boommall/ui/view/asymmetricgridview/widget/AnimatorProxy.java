@@ -1,5 +1,8 @@
 package com.plmt.boommall.ui.view.asymmetricgridview.widget;
 
+import java.lang.ref.WeakReference;
+import java.util.WeakHashMap;
+
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.os.Build;
@@ -7,9 +10,6 @@ import android.util.FloatMath;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
-
-import java.lang.ref.WeakReference;
-import java.util.WeakHashMap;
 
 public final class AnimatorProxy extends Animation {
 

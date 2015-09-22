@@ -1,10 +1,10 @@
 package com.plmt.boommall.ui.view.asymmetricgridview.widget;
 
+import java.util.Stack;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-
-import java.util.Stack;
 
 class ObjectPool<T> implements Parcelable {
 

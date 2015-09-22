@@ -163,6 +163,7 @@
                 android:background="@color/gray_bg" />
 
             <LinearLayout
+                android:id="@+id/user_my_order_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

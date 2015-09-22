@@ -2,8 +2,6 @@
 
 package com.plmt.boommall.ui.view.listview.refreshlayout;
 
-import com.plmt.boommall.R;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -12,6 +10,8 @@ import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.plmt.boommall.R;
 
 public abstract class BGARefreshViewHolder {
     /**

@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.plmt.boommall.R;
@@ -22,6 +23,8 @@ public class UserActivity extends Activity implements OnClickListener {
 	private Context mContext;
 
 	private TextView mUserNameTv;
+
+	private LinearLayout mMyOrdersLl;
 
 	private CropHelper mCropHelper;
 	private ChooseDialog mDialog;
@@ -43,11 +46,14 @@ public class UserActivity extends Activity implements OnClickListener {
 	}
 
 	private void initView() {
+		mMyOrdersLl = (LinearLayout) findViewById(R.id.user_my_order_ll);
+		mMyOrdersLl.setOnClickListener(this);
+
 		headImage = (ImageView) findViewById(R.id.user_icon_iv);
+		headImage.setOnClickListener(this);
 		mCropHelper = new CropHelper(this, OSUtils.getSdCardDirectory()
 				+ "/head.png");
 		mDialog = new ChooseDialog(this, mCropHelper);
-		headImage.setOnClickListener(this);
 
 	}
 
@@ -86,7 +92,22 @@ public class UserActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		mDialog.popSelectDialog();
+		switch (v.getId()) {
+		case R.id.user_my_order_ll: {
+			Intent intent = new Intent(UserActivity.this,
+					OrderListActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+		case R.id.user_icon_iv: {
+			mDialog.popSelectDialog();
+			break;
+		}
+		default:
+			break;
+		}
+
 	}
 
 	@Override

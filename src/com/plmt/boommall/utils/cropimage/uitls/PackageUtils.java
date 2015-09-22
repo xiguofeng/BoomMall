@@ -1,12 +1,8 @@
 ﻿package com.plmt.boommall.utils.cropimage.uitls;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-
-
 
 import android.net.Uri;
 import android.util.Log;

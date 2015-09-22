@@ -1,7 +1,5 @@
 package com.plmt.boommall.ui.view.recyclerviewflexibledivider;
 
-import com.plmt.boommall.R;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;

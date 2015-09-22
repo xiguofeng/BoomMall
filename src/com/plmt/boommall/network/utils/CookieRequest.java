@@ -7,8 +7,6 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.plmt.boommall.network.volley.AuthFailureError;
 import com.plmt.boommall.network.volley.NetworkResponse;
 import com.plmt.boommall.network.volley.ParseError;

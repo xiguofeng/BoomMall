@@ -2,17 +2,16 @@ package com.plmt.boommall.utils.cropimage.uitls;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.SocketException; 
+import java.net.SocketException;
 import java.util.Enumeration;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context; 
-import android.net.ConnectivityManager; 
-import android.net.NetworkInfo; 
-import android.net.wifi.WifiInfo; 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.telephony.TelephonyManager; 
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 

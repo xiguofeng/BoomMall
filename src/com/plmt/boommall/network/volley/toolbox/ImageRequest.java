@@ -24,8 +24,6 @@ import com.plmt.boommall.network.volley.DefaultRetryPolicy;
 import com.plmt.boommall.network.volley.NetworkResponse;
 import com.plmt.boommall.network.volley.ParseError;
 import com.plmt.boommall.network.volley.Request;
-import com.plmt.boommall.network.volley.Request.Method;
-import com.plmt.boommall.network.volley.Request.Priority;
 import com.plmt.boommall.network.volley.Response;
 import com.plmt.boommall.network.volley.VolleyLog;
 

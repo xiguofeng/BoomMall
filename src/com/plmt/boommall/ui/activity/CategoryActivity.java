@@ -1,11 +1,7 @@
 package com.plmt.boommall.ui.activity;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -13,15 +9,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -31,16 +22,8 @@ import android.widget.Toast;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Category;
-import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.GoodsLogic;
-import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
-import com.plmt.boommall.ui.adapter.GoodsAdapter;
-import com.plmt.boommall.ui.adapter.RVGoodsAdapter;
 import com.plmt.boommall.ui.adapter.TopCategoryAdapter;
-import com.plmt.boommall.ui.utils.MyItemClickListener;
-import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
-import com.plmt.boommall.ui.view.recyclerviewflexibledivider.DividerItemDecoration;
-import com.plmt.boommall.utils.SystemUtils;
 
 public class CategoryActivity extends Activity implements OnClickListener {
 

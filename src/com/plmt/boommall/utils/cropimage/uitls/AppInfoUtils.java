@@ -1,9 +1,10 @@
 package com.plmt.boommall.utils.cropimage.uitls;
 
 import java.util.List;
+
 import android.app.ActivityManager;
-import android.app.KeyguardManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;

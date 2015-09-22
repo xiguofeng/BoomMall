@@ -2,6 +2,7 @@
 package com.plmt.boommall.ui.view.listview.refreshlayout;
 
 import java.lang.reflect.Field;
+
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;

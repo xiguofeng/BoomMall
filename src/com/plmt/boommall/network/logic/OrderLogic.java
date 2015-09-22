@@ -1,15 +1,11 @@
 package com.plmt.boommall.network.logic;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
 import android.os.Handler;
@@ -25,10 +21,6 @@ import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
-import com.plmt.boommall.pay.AlipayMerchant;
-import com.plmt.boommall.pay.PayConstants;
-import com.plmt.boommall.pay.UnionpayMerchant;
-import com.plmt.boommall.pay.WechatpayMerchant;
 import com.plmt.boommall.utils.JsonUtils;
 import com.plmt.boommall.utils.OrderManager;
 import com.plmt.boommall.utils.UserInfoManager;

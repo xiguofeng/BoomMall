@@ -23,7 +23,6 @@ import org.json.JSONException;
 
 import com.plmt.boommall.network.volley.NetworkResponse;
 import com.plmt.boommall.network.volley.ParseError;
-import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response;
 import com.plmt.boommall.network.volley.Response.ErrorListener;
 import com.plmt.boommall.network.volley.Response.Listener;

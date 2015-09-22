@@ -22,8 +22,6 @@ import android.os.Looper;
 import com.plmt.boommall.network.volley.Cache;
 import com.plmt.boommall.network.volley.NetworkResponse;
 import com.plmt.boommall.network.volley.Request;
-import com.plmt.boommall.network.volley.Request.Method;
-import com.plmt.boommall.network.volley.Request.Priority;
 import com.plmt.boommall.network.volley.Response;
 
 /**

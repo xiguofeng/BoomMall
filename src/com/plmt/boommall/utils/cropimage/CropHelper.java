@@ -2,18 +2,15 @@ package com.plmt.boommall.utils.cropimage;
 
 import java.io.File;
 
-
-
-
-import com.plmt.boommall.utils.cropimage.uitls.BitmapUtils;
-import com.plmt.boommall.utils.cropimage.uitls.FileUtils;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.Toast;
+
+import com.plmt.boommall.utils.cropimage.uitls.BitmapUtils;
+import com.plmt.boommall.utils.cropimage.uitls.FileUtils;
 
 public class CropHelper {
 	// SD卡不存在

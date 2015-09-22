@@ -2,7 +2,6 @@ package com.plmt.boommall.network.logic;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -14,6 +13,11 @@ import java.net.URLEncoder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.User;
 import com.plmt.boommall.network.config.MsgResult;
@@ -21,13 +25,7 @@ import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
-import com.plmt.boommall.utils.StringUtils;
 import com.plmt.boommall.utils.UserInfoManager;
-
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 
 public class UserLogic {
 

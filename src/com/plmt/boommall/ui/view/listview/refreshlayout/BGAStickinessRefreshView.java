@@ -30,6 +30,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
+
 import com.plmt.boommall.R;
 
 public class BGAStickinessRefreshView extends View {

@@ -3,6 +3,7 @@ package com.plmt.boommall.ui.adapter;
 import java.util.List;
 
 import android.widget.ListAdapter;
+
 import com.plmt.boommall.entity.DemoItem;
 
 public interface DemoAdapter extends ListAdapter {

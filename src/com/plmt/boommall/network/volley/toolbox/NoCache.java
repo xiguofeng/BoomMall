@@ -17,7 +17,6 @@
 package com.plmt.boommall.network.volley.toolbox;
 
 import com.plmt.boommall.network.volley.Cache;
-import com.plmt.boommall.network.volley.Cache.Entry;
 
 /**
  * A cache that doesn't.

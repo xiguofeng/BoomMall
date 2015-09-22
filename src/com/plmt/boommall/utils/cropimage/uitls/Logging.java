@@ -1,9 +1,7 @@
 ﻿package com.plmt.boommall.utils.cropimage.uitls;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-
 
 import android.util.Log;
 

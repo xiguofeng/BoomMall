@@ -34,7 +34,6 @@ import java.util.Map;
 import android.os.SystemClock;
 
 import com.plmt.boommall.network.volley.Cache;
-import com.plmt.boommall.network.volley.Cache.Entry;
 import com.plmt.boommall.network.volley.VolleyLog;
 
 /**
