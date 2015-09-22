@@ -133,12 +133,14 @@ public class MainActivity extends Activity implements OnClickListener {
 								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
-		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
 		initSearchView();
 		initCircleimage();
 		initCategoryView();
 		initGoodsShow();
+		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
 	}
 
 	private void initSearchView() {
