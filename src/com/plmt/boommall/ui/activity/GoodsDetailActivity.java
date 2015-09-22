@@ -3,6 +3,8 @@ package com.plmt.boommall.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,26 +21,31 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.ui.view.BadgeView;
+import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.utils.ActivitiyInfoManager;
 import com.plmt.boommall.utils.CartManager;
 import com.plmt.boommall.utils.SystemUtils;
 
 public class GoodsDetailActivity extends Activity implements OnClickListener {
 
-	public static final String GOODS_KEY = "GoodsKey";
+	public static final String GOODS_ID_KEY = "GoodsIdKey";
 
 	public static final String ORIGIN_FROM_ADS_ACTION = "ADS";
 
 	public static final String ORIGIN_FROM_MAIN_ACTION = "MAINS";
 
-	public static final String ORIGIN_FROM_CART_ACTION = "CARTS";
+	public static final String ORIGIN_FROM_CATE_ACTION = "CATE";
 
 	private Context mContext;
+
+	private MultiStateView mMultiStateView;
 
 	private TextView mGoodsNameTv;
 
@@ -92,6 +99,39 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private BadgeView mBuyNumView;// 购物车上的数量标签
 
+	private Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case GoodsLogic.GOODS_GET_SUC: {
+				if (null != msg.obj) {
+					mGoods = (Goods) msg.obj;
+					fillUpGoodsData();
+				}
+
+				break;
+			}
+			case GoodsLogic.GOODS_GET_FAIL: {
+
+				break;
+			}
+			case GoodsLogic.GOODS_GET_EXCEPTION: {
+
+				break;
+			}
+			case GoodsLogic.NET_ERROR: {
+
+				break;
+			}
+			default:
+				break;
+			}
+			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+		}
+
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -104,7 +144,6 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
 							this);
 		}
-		// AppManager.getInstance().addActivity(GoodsDetailActivity.this);
 		initView();
 		initData();
 	}
@@ -115,6 +154,21 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void initView() {
+		mMultiStateView = (MultiStateView) findViewById(R.id.goods_detail_multiStateView);
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
+				.findViewById(R.id.retry)
+				.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						mMultiStateView
+								.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(),
+								"Fetching Data", Toast.LENGTH_SHORT).show();
+					}
+				});
+		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+
 		mGoodsIconIv = (ImageView) findViewById(R.id.goods_detail_iv);
 
 		mGoodsNameTv = (TextView) findViewById(R.id.goods_detail_name_tv);
@@ -174,21 +228,21 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-		mGoods = (Goods) getIntent().getSerializableExtra(
-				GoodsDetailActivity.GOODS_KEY);
+		mGoodsId = (String) getIntent().getSerializableExtra(
+				GoodsDetailActivity.GOODS_ID_KEY);
 		mNowAction = getIntent().getAction();
-		if (null != mGoods) {
-			fillUpGoodsData();
+
+		// if (null != mGoods) {
+		// fillUpGoodsData();
+		// }
+		if (!TextUtils.isEmpty(mGoodsId)) {
+			GoodsLogic.getGoodsById(mContext, mHandler, mGoodsId);
 		}
 
-		// mBuyNumView.setText(String.valueOf(CartManager.getAllCartNum()));//
-		// mBuyNumView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
-		// mBuyNumView.show();
 	}
 
 	private void fillUpGoodsData() {
-		ImageLoader.getInstance().displayImage(mGoods.getImage(),
-				mGoodsIconIv);
+		ImageLoader.getInstance().displayImage(mGoods.getImage(), mGoodsIconIv);
 
 		mGoods.setNum("1");
 		mNum.setText(mGoods.getNum());
@@ -196,25 +250,26 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				.getName() : "");
 		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥"
 				+ mGoods.getFinalPrice() : "¥");
-		mGoodsOrgPriceTv
-				.setText(!TextUtils.isEmpty(mGoods.getPrice()) ? "原价:¥"
-						+ mGoods.getPrice() : "原价:¥");
-//		mGoodsProductAreaTv
-//				.setText(!TextUtils.isEmpty(mGoods.getArea()) ? "商品产地："
-//						+ mGoods.getArea() : "商品产地：");
-//		mGoodsFactoryTv.setText(!TextUtils.isEmpty(mGoods.getFactory()) ? "酒厂："
-//				+ mGoods.getFactory() : "酒厂：");
-//		mGoodsBrandTv.setText(!TextUtils.isEmpty(mGoods.getLevel()) ? "产品品牌："
-//				+ mGoods.getLevel() : "产品品牌：");
-//		mGoodsJHLTv.setText(!TextUtils.isEmpty(mGoods.getContent()) ? "净含量："
-//				+ mGoods.getContent() : "净含量：");
-//		mGoodsDegreeTv.setText(!TextUtils.isEmpty(mGoods.getDegree()) ? "酒精度："
-//				+ mGoods.getDegree() : "酒精度：");
-//		mGoodsScentTv.setText(!TextUtils.isEmpty(mGoods.getModel()) ? "香型："
-//				+ mGoods.getModel() : "香型：");
-//		mGoodsMaterialTv
-//				.setText(!TextUtils.isEmpty(mGoods.getMetrial()) ? "原料："
-//						+ mGoods.getMetrial() : "原料：");
+		mGoodsOrgPriceTv.setText(!TextUtils.isEmpty(mGoods.getPrice()) ? "原价:¥"
+				+ mGoods.getPrice() : "原价:¥");
+		// mGoodsProductAreaTv
+		// .setText(!TextUtils.isEmpty(mGoods.getArea()) ? "商品产地："
+		// + mGoods.getArea() : "商品产地：");
+		// mGoodsFactoryTv.setText(!TextUtils.isEmpty(mGoods.getFactory()) ?
+		// "酒厂："
+		// + mGoods.getFactory() : "酒厂：");
+		// mGoodsBrandTv.setText(!TextUtils.isEmpty(mGoods.getLevel()) ? "产品品牌："
+		// + mGoods.getLevel() : "产品品牌：");
+		// mGoodsJHLTv.setText(!TextUtils.isEmpty(mGoods.getContent()) ? "净含量："
+		// + mGoods.getContent() : "净含量：");
+		// mGoodsDegreeTv.setText(!TextUtils.isEmpty(mGoods.getDegree()) ?
+		// "酒精度："
+		// + mGoods.getDegree() : "酒精度：");
+		// mGoodsScentTv.setText(!TextUtils.isEmpty(mGoods.getModel()) ? "香型："
+		// + mGoods.getModel() : "香型：");
+		// mGoodsMaterialTv
+		// .setText(!TextUtils.isEmpty(mGoods.getMetrial()) ? "原料："
+		// + mGoods.getMetrial() : "原料：");
 		// mGoodsBriefTv.setText(mGoods.getDesc());
 
 		// String string = mGoods.getImagesUrl();
@@ -329,11 +384,11 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		case R.id.goods_detail_cart_iv: {
 			if (!TextUtils.isEmpty(mNowAction)
 					&& ORIGIN_FROM_ADS_ACTION.equals(mNowAction)) {
-				ActivitiyInfoManager
-						.finishActivity("com.xgf.winecome.ui.activity.SpecialEventsActivity");
+				// ActivitiyInfoManager
+				// .finishActivity("com.xgf.winecome.ui.activity.SpecialEventsActivity");
 			}
 			finish();
-			//HomeActivity.setTab(HomeActivity.TAB_CART);
+			// HomeActivity.setTab(HomeActivity.TAB_CART);
 			break;
 		}
 		case R.id.goods_detail_add_cart_ll: {
@@ -366,11 +421,11 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 			if (!TextUtils.isEmpty(mNowAction)
 					&& ORIGIN_FROM_ADS_ACTION.equals(mNowAction)) {
-				ActivitiyInfoManager
-						.finishActivity("com.xgf.winecome.ui.activity.SpecialEventsActivity");
+				// ActivitiyInfoManager
+				// .finishActivity("com.xgf.winecome.ui.activity.SpecialEventsActivity");
 			}
 			finish();
-			//HomeActivity.setTab(HomeActivity.TAB_CART);
+			// HomeActivity.setTab(HomeActivity.TAB_CART);
 
 			// ArrayList<Goods> goodsList = new ArrayList<Goods>();
 			// mGoods.setNum(mNum.getText().toString().trim());

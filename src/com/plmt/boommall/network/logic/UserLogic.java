@@ -106,7 +106,7 @@ public class UserLogic {
 			// Log.e("xxx_login_suc", response.toString());
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-				JSONObject jsonObject = response.getJSONObject(MsgResult.RESULT_DATAS_TAG);
+				JSONObject jsonObject = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
 
 				String session = jsonObject.getString("session");
 				//String session = response.getString("Set-Cookie");
@@ -240,7 +240,7 @@ public class UserLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 
-				JSONObject jsonObject = response.getJSONObject(MsgResult.RESULT_DATAS_TAG);
+				JSONObject jsonObject = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
 
 				String authCode = jsonObject.getString("authCode");
 				Message message = new Message();

@@ -10,6 +10,7 @@ import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +23,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,16 +34,14 @@ import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.GoodsLogic;
-import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
 import com.plmt.boommall.ui.adapter.GoodsAdapter;
+import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
 import com.plmt.boommall.ui.adapter.RVGoodsAdapter;
 import com.plmt.boommall.ui.utils.MyItemClickListener;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
-import com.plmt.boommall.ui.view.recyclerviewflexibledivider.DividerItemDecoration;
-import com.plmt.boommall.utils.SystemUtils;
 
-public class CategoryAndGoodsActivity extends Activity implements OnClickListener,
-		MyItemClickListener, XListView.IXListViewListener {
+public class CategoryAndGoodsActivity extends Activity implements
+		OnClickListener, MyItemClickListener, XListView.IXListViewListener {
 
 	private Context mContext;
 	private LinearLayout mSearchLl;
@@ -148,7 +149,7 @@ public class CategoryAndGoodsActivity extends Activity implements OnClickListene
 		mGoodsLv.setAutoLoadEnable(true);
 		mGoodsLv.setXListViewListener(this);
 		mGoodsLv.setRefreshTime(getTime());
-		
+
 		mGoodsAdapter = new GoodsAdapter(mContext, mGoodsList);
 		mGoodsLv.setAdapter(mGoodsAdapter);
 
@@ -170,6 +171,22 @@ public class CategoryAndGoodsActivity extends Activity implements OnClickListene
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
 				// Log.i(TAG, "正在滚动");
+			}
+		});
+		mGoodsLv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(CategoryAndGoodsActivity.this,
+						GoodsDetailActivity.class);
+				intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
+						mGoodsList.get(position).getId());
+				intent.putExtras(bundle);
+				startActivity(intent);
+
 			}
 		});
 		refreshGoods();

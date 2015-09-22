@@ -3,6 +3,7 @@ package com.plmt.boommall.network.logic;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +16,8 @@ import android.util.Log;
 
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.entity.Order;
+import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
@@ -89,10 +92,11 @@ public class GoodsLogic {
 			Handler handler) {
 
 		try {
-			String sucResult = response.getString("is_success").trim();
-			if (sucResult.equals("1")) {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 
-				JSONArray jsonArray = response.getJSONArray("data");
+				JSONArray jsonArray = response
+						.getJSONArray(MsgResult.RESULT_DATA_TAG);
 				ArrayList<Goods> mTempGoodsList = new ArrayList<Goods>();
 
 				int size = jsonArray.length();
@@ -125,7 +129,6 @@ public class GoodsLogic {
 		Log.e("xxx_getGoodsById_url", url);
 		JSONObject requestJson = new JSONObject();
 		try {
-			id = "21612";
 			requestJson.put("id", URLEncoder.encode(id, "UTF-8"));
 
 			BaseApplication.getInstanceRequestQueue().add(
@@ -133,13 +136,10 @@ public class GoodsLogic {
 							new Listener<JSONObject>() {
 								@Override
 								public void onResponse(JSONObject response) {
-									Log.e("xxx_queryGoodsByID",
-											response.toString());
 									if (null != response) {
 										Log.e("xxx_queryGoodsByID",
 												response.toString());
-										parseGoodsListByCategoryData(response,
-												handler);
+										parseGoodsByIdData(response, handler);
 									}
 
 								}
@@ -150,6 +150,31 @@ public class GoodsLogic {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private static void parseGoodsByIdData(JSONObject response, Handler handler) {
+
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+
+				JSONObject jsonObject = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
+
+				Goods goods = (Goods) JsonUtils.fromJsonToJava(jsonObject,
+						Goods.class);
+				goods.setNum("0");
+				Message message = new Message();
+				message.what = GOODS_GET_SUC;
+				message.obj = goods;
+				handler.sendMessage(message);
+
+			} else {
+				handler.sendEmptyMessage(GOODS_GET_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(GOODS_GET_EXCEPTION);
 		}
 	}
 

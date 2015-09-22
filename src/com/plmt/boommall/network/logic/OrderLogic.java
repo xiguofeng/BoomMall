@@ -157,7 +157,7 @@ public class OrderLogic {
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 
 				JSONObject jsonObject = response
-						.getJSONObject(MsgResult.RESULT_DATAS_TAG);
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
 
 				ArrayList<Order> tempOrderList = new ArrayList<Order>();
 				JSONArray orderListArray = jsonObject
