@@ -15,7 +15,7 @@ import android.util.Log;
 
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.entity.Order;
+import com.plmt.boommall.entity.OrderOld;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;
@@ -72,7 +72,7 @@ public class OrderLogic {
 	public static final int ORDER_PAY_UNION_TN_GET_EXCEPTION = ORDER_PAY_UNION_TN_GET_FAIL + 1;
 
 	public static void createOrder(final Context context,
-			final Handler handler, final Order order, final String authCode,
+			final Handler handler, final OrderOld orderOld, final String authCode,
 			final ArrayList<Goods> goodsList) {
 
 	}
@@ -151,7 +151,7 @@ public class OrderLogic {
 				JSONObject jsonObject = response
 						.getJSONObject(MsgResult.RESULT_DATA_TAG);
 
-				ArrayList<Order> tempOrderList = new ArrayList<Order>();
+				ArrayList<OrderOld> tempOrderList = new ArrayList<OrderOld>();
 				JSONArray orderListArray = jsonObject
 						.getJSONArray(MsgResult.RESULT_LIST_TAG);
 
@@ -161,9 +161,9 @@ public class OrderLogic {
 				for (int i = 0; i < size; i++) {
 					JSONObject orderJsonObject = orderListArray
 							.getJSONObject(i);
-					Order order = (Order) JsonUtils.fromJsonToJava(
-							orderJsonObject, Order.class);
-					tempOrderList.add(order);
+					OrderOld orderOld = (OrderOld) JsonUtils.fromJsonToJava(
+							orderJsonObject, OrderOld.class);
+					tempOrderList.add(orderOld);
 
 					ArrayList<Goods> tempGoodsList = new ArrayList<Goods>();
 					JSONArray goodsArray = orderJsonObject
@@ -179,7 +179,7 @@ public class OrderLogic {
 						goods.setNum(goodsJsonObject.getString("count"));
 						tempGoodsList.add(goods);
 					}
-					msgMap.put(order.getId(), tempGoodsList);
+					msgMap.put(orderOld.getId(), tempGoodsList);
 
 				}
 				msgMap.put(MsgResult.ORDER_TAG, tempOrderList);

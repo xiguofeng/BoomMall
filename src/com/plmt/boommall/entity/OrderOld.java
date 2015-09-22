@@ -2,7 +2,7 @@ package com.plmt.boommall.entity;
 
 import java.io.Serializable;
 
-public class Order implements Serializable {
+public class OrderOld implements Serializable {
 
 	private static final long serialVersionUID = 8912365559481657349L;
 

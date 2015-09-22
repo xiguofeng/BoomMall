@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Order;
+import com.plmt.boommall.entity.OrderOld;
 import com.plmt.boommall.ui.adapter.OrderAdapter;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
@@ -26,7 +26,7 @@ public class OrdersUnPayFragment extends Fragment implements
 
 	private OrderAdapter mNewsAdapter;
 
-	private ArrayList<Order> mNewsList = new ArrayList<Order>();
+	private ArrayList<OrderOld> mNewsList = new ArrayList<OrderOld>();
 
 	private HashMap<String, Object> mMsgMap = new HashMap<String, Object>();
 

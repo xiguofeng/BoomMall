@@ -10,6 +10,7 @@
         android:id="@+id/order_list_topbar_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="5dip"
         android:background="@color/orange_bg" >
 
         <ImageView
@@ -18,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:contentDescription="@null"
-            android:visibility="gone"
             android:src="@drawable/back_selector" />
 
         <TextView

@@ -3,7 +3,7 @@ package com.plmt.boommall.utils;
 import java.util.ArrayList;
 
 import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.entity.Order;
+import com.plmt.boommall.entity.OrderOld;
 
 public class OrderManager {
 
@@ -11,25 +11,25 @@ public class OrderManager {
 	
 	public static String sCurrentCommentOrderId;
 
-	public static ArrayList<Order> sOrderList = new ArrayList<Order>();
+	public static ArrayList<OrderOld> sOrderList = new ArrayList<OrderOld>();
 
-	public static Order sCurrentOrder = new Order();
+	public static OrderOld sCurrentOrder = new OrderOld();
 	
 	public static  ArrayList<Goods> sCurrentOrderGoodsList = new ArrayList<Goods>();
 
-	public static ArrayList<Order> getsOrderList() {
+	public static ArrayList<OrderOld> getsOrderList() {
 		return sOrderList;
 	}
 
-	public static void setsOrderList(ArrayList<Order> sOrderList) {
+	public static void setsOrderList(ArrayList<OrderOld> sOrderList) {
 		OrderManager.sOrderList = sOrderList;
 	}
 
-	public static Order getsCurrentOrder() {
+	public static OrderOld getsCurrentOrder() {
 		return sCurrentOrder;
 	}
 
-	public static void setsCurrentOrder(Order sCurrentOrder) {
+	public static void setsCurrentOrder(OrderOld sCurrentOrder) {
 		OrderManager.sCurrentOrder = sCurrentOrder;
 	}
 

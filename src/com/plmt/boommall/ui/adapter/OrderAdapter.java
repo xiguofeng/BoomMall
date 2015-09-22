@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.entity.Order;
+import com.plmt.boommall.entity.OrderOld;
 import com.plmt.boommall.entity.OrderState;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.pay.PayConstants;
@@ -43,8 +43,8 @@ public class OrderAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		if (((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)) != null) {
-			return ((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).size();
+		if (((ArrayList<OrderOld>) mMap.get(MsgResult.ORDER_TAG)) != null) {
+			return ((ArrayList<OrderOld>) mMap.get(MsgResult.ORDER_TAG)).size();
 		}
 		return 0;
 	}
@@ -89,25 +89,25 @@ public class OrderAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		if (((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).size() > position) {
+		if (((ArrayList<OrderOld>) mMap.get(MsgResult.ORDER_TAG)).size() > position) {
 
-			holder.mId.setText(((ArrayList<Order>) mMap
+			holder.mId.setText(((ArrayList<OrderOld>) mMap
 					.get(MsgResult.ORDER_TAG)).get(position).getId());
-			holder.mTime.setText(((ArrayList<Order>) mMap
+			holder.mTime.setText(((ArrayList<OrderOld>) mMap
 					.get(MsgResult.ORDER_TAG)).get(position).getPayTime());
 
-			int orderStateCode = Integer.parseInt(((ArrayList<Order>) mMap
+			int orderStateCode = Integer.parseInt(((ArrayList<OrderOld>) mMap
 					.get(MsgResult.ORDER_TAG)).get(position).getOrderStatus());
 			if (orderStateCode <= OrderState.state.length) {
 				holder.mState.setText(OrderState.state[orderStateCode - 1]);
 			}
 			
-			holder.mTotalMoney.setText("合计：￥"+((ArrayList<Order>) mMap
+			holder.mTotalMoney.setText("合计：￥"+((ArrayList<OrderOld>) mMap
 					.get(MsgResult.ORDER_TAG)).get(position).getAmount());
 
 			String orderStateCodeStr = String.valueOf(orderStateCode);
 			String orderPayStateCodeStr = String
-					.valueOf(((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG))
+					.valueOf(((ArrayList<OrderOld>) mMap.get(MsgResult.ORDER_TAG))
 							.get(position).getPayStatus());
 
 			holder.mPayBtn.setVisibility(View.GONE);
@@ -182,7 +182,7 @@ public class OrderAdapter extends BaseAdapter {
 
 			ArrayList<Goods> goodsList = new ArrayList<Goods>();
 			goodsList.addAll(((ArrayList<Goods>) mMap
-					.get(((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG))
+					.get(((ArrayList<OrderOld>) mMap.get(MsgResult.ORDER_TAG))
 							.get(position).getId())));
 			for (int i = 0; i < goodsList.size(); i++) {
 				// TODO

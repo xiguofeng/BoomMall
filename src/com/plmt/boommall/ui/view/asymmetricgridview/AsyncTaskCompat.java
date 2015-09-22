@@ -124,7 +124,7 @@ import android.os.Process;
  * refer to them in {@link #doInBackground}. <li>Set member fields in {@link #doInBackground}, and
  * refer to them in {@link #onProgressUpdate} and {@link #onPostExecute}. </ul>
  *
- * <h2>Order of execution</h2> <p>When first introduced, AsyncTasks were executed serially on a
+ * <h2>OrderOld of execution</h2> <p>When first introduced, AsyncTasks were executed serially on a
  * single background thread. Starting with {@link android.os.Build.VERSION_CODES#DONUT}, this was
  * changed to a pool of threads allowing multiple tasks to operate in parallel. Starting with {@link
  * android.os.Build.VERSION_CODES#HONEYCOMB}, tasks are executed on a single thread to avoid common

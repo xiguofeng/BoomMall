@@ -8,16 +8,21 @@ import java.util.Locale;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Order;
+import com.plmt.boommall.entity.OrderOld;
+import com.plmt.boommall.network.logic.OrderLogic;
+import com.plmt.boommall.network.logic.UserLogic;
 import com.plmt.boommall.ui.adapter.OrderAdapter;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
+import com.plmt.boommall.utils.UserInfoManager;
 
 public class OrdersAllFragment extends Fragment implements
 		XListView.IXListViewListener, ListItemClickHelp {
@@ -26,15 +31,45 @@ public class OrdersAllFragment extends Fragment implements
 
 	private OrderAdapter mNewsAdapter;
 
-	private ArrayList<Order> mNewsList = new ArrayList<Order>();
+	private ArrayList<OrderOld> mNewsList = new ArrayList<OrderOld>();
 
 	private HashMap<String, Object> mMsgMap = new HashMap<String, Object>();
-
-	private Handler mHandler;
 
 	private int mIndex = 0;
 
 	private int mRefreshIndex = 0;
+
+	Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			int what = msg.what;
+			switch (what) {
+			case OrderLogic.ORDERLIST_GET_SUC: {
+				if (null != msg.obj) {
+					String session = (String) msg.obj;
+
+				}
+
+				break;
+			}
+			case OrderLogic.ORDERLIST_GET_FAIL: {
+				break;
+			}
+			case OrderLogic.ORDERLIST_GET_EXCEPTION: {
+				break;
+			}
+			case OrderLogic.NET_ERROR: {
+				break;
+			}
+
+			default:
+				break;
+			}
+
+		}
+
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +85,6 @@ public class OrdersAllFragment extends Fragment implements
 	}
 
 	private void initView(View view) {
-
 		mHandler = new Handler();
 
 		mListView = (XListView) view.findViewById(R.id.orders_lv);
@@ -64,16 +98,9 @@ public class OrdersAllFragment extends Fragment implements
 
 		mNewsAdapter = new OrderAdapter(getActivity(), mMsgMap, this);
 		mListView.setAdapter(mNewsAdapter);
-	}
 
-	// @Override
-	// public void onWindowFocusChanged(boolean hasFocus) {
-	// super.onWindowFocusChanged(hasFocus);
-	//
-	// if (hasFocus) {
-	// mListView.autoRefresh();
-	// }
-	// }
+		OrderLogic.getOrders(getActivity(), mHandler, "", "", "");
+	}
 
 	@Override
 	public void onRefresh() {
@@ -109,7 +136,6 @@ public class OrdersAllFragment extends Fragment implements
 
 	@Override
 	public void onClick(View item, View widget, int position, int which) {
-		// TODO Auto-generated method stub
 
 	}
 
