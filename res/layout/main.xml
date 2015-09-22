@@ -110,7 +110,7 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <ScrollView
+        <com.plmt.boommall.ui.view.MyScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/main_title_ll"
@@ -477,7 +477,7 @@
                 <!-- android:layout_width="match_parent" -->
                 <!-- android:layout_height="match_parent" /> -->
             </LinearLayout>
-        </ScrollView>
+        </com.plmt.boommall.ui.view.MyScrollView>
     </RelativeLayout>
 
 </com.plmt.boommall.ui.view.MultiStateView>
