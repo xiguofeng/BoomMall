@@ -40,9 +40,9 @@ public class OrderGoodsView extends LinearLayout {
 	public void fillData(Context context, Goods goods) {
 
 		ImageLoader.getInstance().displayImage(goods.getImage(), mIv);
-		mNameTv.setText(goods.getName());
-		mPriceTv.setText("￥" + goods.getFinalPrice());
-		mNumTv.setText(goods.getNum() + "瓶");
+		mNameTv.setText(goods.getId());
+		// mPriceTv.setText("￥" + goods.getFinalPrice());
+		// mNumTv.setText(goods.getNum() + "瓶");
 	}
 
 }

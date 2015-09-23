@@ -178,9 +178,11 @@ public class OrderAdapter extends BaseAdapter {
 			holder.mWineLl.removeAllViews();
 
 			ArrayList<Goods> goodsList = new ArrayList<Goods>();
-			goodsList.addAll(((ArrayList<Goods>) mMap
-					.get(((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG))
-							.get(position).getIncrement_id())));
+			goodsList.addAll(((ArrayList<Order>) mMap
+					.get(MsgResult.ORDER_TAG)).get(position).getGoodsList());
+			// goodsList.addAll(((ArrayList<Goods>) mMap
+			// .get(((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG))
+			// .get(position).getIncrement_id())));
 			for (int i = 0; i < goodsList.size(); i++) {
 				// TODO
 				Goods goods = goodsList.get(i);
