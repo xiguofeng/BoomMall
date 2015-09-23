@@ -41,11 +41,15 @@
     <string name="verification_code">验证码</string>
     <string name="get_verification_code">获取验证码</string>
     <string name="verification_code_hint">请输入正确的验证码</string>
+    <string name="my_account">我的账户</string>
     
     <!-- user info -->
     <string name="collection_goods">收藏的商品</string>
     <string name="attention_brand">关注的品牌</string>
     <string name="browsing_history">浏览记录</string>
+    <string name="my_property">我的资产</string>
+    <string name="view_all_property">查看全部资产</string>
+   
 
     <!-- pay -->
     <string name="add_cart">加入购物车</string>

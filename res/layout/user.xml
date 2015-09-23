@@ -173,7 +173,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/gray_bg"
                 android:gravity="center"
                 android:orientation="vertical" >
 
@@ -194,7 +194,7 @@
                         android:layout_weight="1"
                         android:text="@string/my_order"
                         android:textColor="@color/black_character"
-                        android:textSize="@dimen/small_text_size" />
+                        android:textSize="@dimen/middle_text_size" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -224,175 +224,77 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:cacheColorHint="#00000000"
+                    android:horizontalSpacing="1dip"
+                    android:listSelector="@android:color/transparent"
                     android:numColumns="4"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp" >
+                    android:verticalSpacing="1dip" >
                 </com.plmt.boommall.ui.view.CustomGridView>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_bg" />
-
-            <com.plmt.boommall.ui.view.CustomGridView
-                android:id="@+id/user_gv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:cacheColorHint="#00000000"
-                android:numColumns="5"
-                android:paddingBottom="8dp"
-                android:paddingTop="10dp" >
-            </com.plmt.boommall.ui.view.CustomGridView>
-
-            <View
-                android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:background="@color/gray_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/gray_bg"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp" >
+                android:orientation="vertical" >
 
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/user_my_property_ll"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="我的卡卷包"
-                    android:textColor="@color/black_character"
-                    android:textSize="17sp" />
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp" >
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="@string/my_property"
+                        android:textColor="@color/black_character"
+                        android:textSize="@dimen/middle_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="@string/view_all_property"
+                        android:textColor="@color/gray_character"
+                        android:textSize="@dimen/micro_text_size" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/arrow" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/arrow" />
-            </LinearLayout>
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:background="@drawable/h_line" >
+                </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_bg" />
-
-            <LinearLayout
-                android:id="@+id/ll_user_life"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
+                <com.plmt.boommall.ui.view.CustomGridView
+                    android:id="@+id/user_property_gv"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:src="@null" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="生活卷"
-                    android:textColor="@color/black_character" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/arrow" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_bg" />
-
-            <LinearLayout
-                android:id="@+id/ll_user_store"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:src="@null" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="网店卷"
-                    android:textColor="@color/black_character" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="暂无可用优惠卷" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/arrow" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_bg" />
-
-            <LinearLayout
-                android:id="@+id/ll_user_members"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:src="@null" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="会员卡"
-                    android:textColor="@color/black_character" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="一卡在手，逛店无忧" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/arrow" />
+                    android:cacheColorHint="#00000000"
+                    android:horizontalSpacing="1dip"
+                    android:listSelector="@android:color/transparent"
+                    android:numColumns="4"
+                    android:verticalSpacing="1dip" >
+                </com.plmt.boommall.ui.view.CustomGridView>
             </LinearLayout>
 
             <View
@@ -401,6 +303,7 @@
                 android:background="@color/gray_bg" />
 
             <LinearLayout
+                android:id="@+id/user_my_account_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -414,46 +317,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
-                    android:text="我的专享特权"
+                    android:text="@string/my_account"
                     android:textColor="@color/black_character"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="领金币，看优惠" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/arrow" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/gray_bg" />
-
-            <LinearLayout
-                android:id="@+id/ll_user_opinion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp" >
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="开发感言"
-                    android:textColor="@color/black_character"
-                    android:textSize="17sp" />
+                    android:textSize="@dimen/middle_text_size" />
 
                 <ImageView
                     android:layout_width="wrap_content"

@@ -12,14 +12,14 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Category;
-import com.plmt.boommall.ui.adapter.MainGvCategoryAdapter;
+import com.plmt.boommall.entity.MenuItem;
+import com.plmt.boommall.ui.adapter.UserGvCommonAdapter;
 import com.plmt.boommall.ui.view.CustomGridView;
 import com.plmt.boommall.utils.cropimage.ChooseDialog;
 import com.plmt.boommall.utils.cropimage.CropHelper;
@@ -31,19 +31,31 @@ public class UserActivity extends Activity implements OnClickListener {
 
 	private TextView mUserNameTv;
 
-	private LinearLayout mMyOrdersLl;
-
 	private CropHelper mCropHelper;
 	private ChooseDialog mDialog;
 	private ImageView headImage;
 
+	private LinearLayout mMyOrdersLl;
 	private CustomGridView mOrderGv;
-	private ArrayList<Category> mOrderList = new ArrayList<Category>();
-	private MainGvCategoryAdapter mOrderAdapter;
-	private int[] mPicPath = { R.drawable.personal_order_wait_for_payment,
+	private ArrayList<MenuItem> mOrderList = new ArrayList<MenuItem>();
+	private UserGvCommonAdapter mOrderAdapter;
+	private int[] mOrderStatePicPath = {
+			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment };
+	private String[] mOrderStateStr = { "待付款", "待收货", "待评价", "退款/售后" };
+	
+	private LinearLayout mMyPropertyLl;
+	private CustomGridView mPropertyGv;
+	private ArrayList<MenuItem> mPropertyList = new ArrayList<MenuItem>();
+	private UserGvCommonAdapter mPropertyAdapter;
+	private int[] mPropertyStatePicPath = {
+			R.drawable.personal_order_wait_for_payment,
+			R.drawable.personal_order_wait_for_payment,
+			R.drawable.personal_order_wait_for_payment,
+			R.drawable.personal_order_wait_for_payment };
+	private String[] mPropertyStateStr = { "余额", "旺卡", "积分", "优惠券" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +75,7 @@ public class UserActivity extends Activity implements OnClickListener {
 	private void initView() {
 		intCropImage();
 		initOrderView();
+		initPropertyView();
 	}
 
 	private void intCropImage() {
@@ -78,14 +91,15 @@ public class UserActivity extends Activity implements OnClickListener {
 		mMyOrdersLl.setOnClickListener(this);
 
 		mOrderGv = (CustomGridView) findViewById(R.id.user_order_gv);
-		int size = mPicPath.length;
+		int size = mOrderStatePicPath.length;
 		for (int i = 0; i < size; i++) {
-			Category category = new Category();
-			category.setLocalImage(mPicPath[i]);
-			mOrderList.add(category);
+			MenuItem menuItem = new MenuItem();
+			menuItem.setLocalImage(mOrderStatePicPath[i]);
+			menuItem.setName(mOrderStateStr[i]);
+			mOrderList.add(menuItem);
 		}
 
-		mOrderAdapter = new MainGvCategoryAdapter(mContext, mOrderList);
+		mOrderAdapter = new UserGvCommonAdapter(mContext, mOrderList);
 		mOrderGv.setAdapter(mOrderAdapter);
 		mOrderGv.setOnItemClickListener(new OnItemClickListener() {
 
@@ -98,6 +112,35 @@ public class UserActivity extends Activity implements OnClickListener {
 			}
 		});
 	}
+	
+	
+	private void initPropertyView() {
+		mMyPropertyLl = (LinearLayout) findViewById(R.id.user_my_property_ll);
+		mMyPropertyLl.setOnClickListener(this);
+
+		mPropertyGv = (CustomGridView) findViewById(R.id.user_property_gv);
+		int size = mPropertyStatePicPath.length;
+		for (int i = 0; i < size; i++) {
+			MenuItem menuItem = new MenuItem();
+			menuItem.setLocalImage(mPropertyStatePicPath[i]);
+			menuItem.setName(mPropertyStateStr[i]);
+			mPropertyList.add(menuItem);
+		}
+
+		mPropertyAdapter = new UserGvCommonAdapter(mContext, mPropertyList);
+		mPropertyGv.setAdapter(mPropertyAdapter);
+		mPropertyGv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(UserActivity.this,
+						LoginActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
+
 
 	private void initData() {
 
