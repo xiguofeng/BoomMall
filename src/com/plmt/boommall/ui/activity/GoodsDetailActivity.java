@@ -191,7 +191,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 		// mBuyNumView = new BadgeView(mContext, mCartIv);
 		mBuyNumView = new BadgeView(this, mCartIv);
-		mBuyNumView.setText(String.valueOf(CartManager.getAllCartNum()));
+		//mBuyNumView.setText(String.valueOf(CartManager.getAllCartNum()));
 		mBuyNumView.show();
 
 		mBriefLl = (LinearLayout) findViewById(R.id.goods_detail_content);
