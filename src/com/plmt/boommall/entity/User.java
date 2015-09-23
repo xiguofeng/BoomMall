@@ -2,12 +2,12 @@ package com.plmt.boommall.entity;
 
 public class User {
 
-	private String userId;
+	private String id;
 
 	/**
 	 * 用户名
 	 */
-	private String userName;
+	private String username;
 
 	private String account;
 
@@ -38,20 +38,20 @@ public class User {
 
 	private String signature;
 
-	public String getUserId() {
-		return userId;
+	public String getId() {
+		return id;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getAccount() {

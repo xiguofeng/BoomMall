@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,6 +22,10 @@ import com.plmt.boommall.R;
 import com.plmt.boommall.entity.MenuItem;
 import com.plmt.boommall.ui.adapter.UserGvCommonAdapter;
 import com.plmt.boommall.ui.view.CustomGridView;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.OnSheetItemClickListener;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.SheetItemColor;
+import com.plmt.boommall.utils.UserInfoManager;
 import com.plmt.boommall.utils.cropimage.ChooseDialog;
 import com.plmt.boommall.utils.cropimage.CropHelper;
 import com.plmt.boommall.utils.cropimage.uitls.OSUtils;
@@ -45,7 +50,7 @@ public class UserActivity extends Activity implements OnClickListener {
 			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment };
 	private String[] mOrderStateStr = { "待付款", "待收货", "待评价", "退款/售后" };
-	
+
 	private LinearLayout mMyPropertyLl;
 	private CustomGridView mPropertyGv;
 	private ArrayList<MenuItem> mPropertyList = new ArrayList<MenuItem>();
@@ -56,6 +61,9 @@ public class UserActivity extends Activity implements OnClickListener {
 			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment };
 	private String[] mPropertyStateStr = { "余额", "旺卡", "积分", "优惠券" };
+
+	private LinearLayout mMyAccountLl;
+	private String[] mCorpImgStr = { "照相", "从相册中选择" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +84,10 @@ public class UserActivity extends Activity implements OnClickListener {
 		intCropImage();
 		initOrderView();
 		initPropertyView();
+
+		mMyAccountLl = (LinearLayout) findViewById(R.id.user_my_account_ll);
+		mMyAccountLl.setOnClickListener(this);
+		mUserNameTv = (TextView) findViewById(R.id.user_name_tv);
 	}
 
 	private void intCropImage() {
@@ -106,14 +118,24 @@ public class UserActivity extends Activity implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(UserActivity.this,
-						LoginActivity.class);
-				startActivity(intent);
+				if (!TextUtils.isEmpty(UserInfoManager.userInfo.getUsername())) {
+					Intent intent = new Intent(UserActivity.this,
+							OrderListActivity.class);
+					startActivity(intent);
+					overridePendingTransition(R.anim.push_left_in,
+							R.anim.push_left_out);
+				} else {
+					Intent intent = new Intent(UserActivity.this,
+							LoginActivity.class);
+					intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
+					startActivity(intent);
+					overridePendingTransition(R.anim.push_left_in,
+							R.anim.push_left_out);
+				}
 			}
 		});
 	}
-	
-	
+
 	private void initPropertyView() {
 		mMyPropertyLl = (LinearLayout) findViewById(R.id.user_my_property_ll);
 		mMyPropertyLl.setOnClickListener(this);
@@ -134,16 +156,28 @@ public class UserActivity extends Activity implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(UserActivity.this,
-						LoginActivity.class);
-				startActivity(intent);
+				if (!TextUtils.isEmpty(UserInfoManager.userInfo.getUsername())) {
+					Intent intent = new Intent(UserActivity.this,
+							OrderListActivity.class);
+					startActivity(intent);
+					overridePendingTransition(R.anim.push_left_in,
+							R.anim.push_left_out);
+				} else {
+					Intent intent = new Intent(UserActivity.this,
+							LoginActivity.class);
+					intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
+					startActivity(intent);
+					overridePendingTransition(R.anim.push_left_in,
+							R.anim.push_left_out);
+				}
 			}
 		});
 	}
 
-
 	private void initData() {
-
+		if (!TextUtils.isEmpty(UserInfoManager.userInfo.getUsername())) {
+			mUserNameTv.setText(UserInfoManager.userInfo.getUsername());
+		}
 	}
 
 	@Override
@@ -179,14 +213,51 @@ public class UserActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.user_my_order_ll: {
-			Intent intent = new Intent(UserActivity.this,
-					OrderListActivity.class);
+			if (!TextUtils.isEmpty(UserInfoManager.userInfo.getUsername())) {
+				Intent intent = new Intent(UserActivity.this,
+						OrderListActivity.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.push_left_in,
+						R.anim.push_left_out);
+			} else {
+				Intent intent = new Intent(UserActivity.this,
+						LoginActivity.class);
+				intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
+				startActivity(intent);
+				overridePendingTransition(R.anim.push_left_in,
+						R.anim.push_left_out);
+			}
+
+			break;
+		}
+		case R.id.user_my_account_ll: {
+			Intent intent = new Intent(UserActivity.this, LoginActivity.class);
+			intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		}
+
 		case R.id.user_icon_iv: {
 			mDialog.popSelectDialog();
+			// new ActionSheetDialog(UserActivity.this)
+			// .builder()
+			// .setTitle(getString(R.string.modify_head_portrait))
+			// .setCancelable(false)
+			// .setCanceledOnTouchOutside(false)
+			// .addSheetItem(mCorpImgStr[0], SheetItemColor.Blue,
+			// new OnSheetItemClickListener() {
+			// @Override
+			// public void onClick(int which) {
+			// }
+			// })
+			// .addSheetItem(mCorpImgStr[1], SheetItemColor.Blue,
+			// new OnSheetItemClickListener() {
+			// @Override
+			// public void onClick(int which) {
+			//
+			// }
+			// }).show();
 			break;
 		}
 		default:

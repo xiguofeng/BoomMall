@@ -13,7 +13,8 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="@color/white" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -27,9 +28,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:paddingBottom="20dip"
-                android:paddingTop="20dip"
+                android:paddingTop="40dip"
                 android:scaleType="centerInside"
-                android:background="@color/gray_bg"
                 android:src="@drawable/icon_user" />
 
             <LinearLayout
@@ -126,7 +126,7 @@
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
                 android:layout_marginTop="20dip"
-                android:background="@drawable/corners_bg_red_all"
+                android:background="@drawable/corners_bg_gray_all"
                 android:gravity="center"
                 android:paddingBottom="8dip"
                 android:paddingTop="8dip"

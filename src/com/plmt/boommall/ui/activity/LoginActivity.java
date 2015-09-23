@@ -1,19 +1,22 @@
 package com.plmt.boommall.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.User;
-import com.plmt.boommall.network.logic.OrderLogic;
 import com.plmt.boommall.network.logic.UserLogic;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.utils.UserInfoManager;
@@ -21,10 +24,17 @@ import com.plmt.boommall.utils.UserInfoManager;
 /**
  * 登录界面
  */
-public class LoginActivity extends BaseActivity implements OnClickListener {
+public class LoginActivity extends BaseActivity implements OnClickListener,
+		TextWatcher {
+	public static final String ORIGIN_FROM_NULL = "com.null";
+
 	public static final String ORIGIN_FROM_REG_KEY = "com.reg";
 
 	public static final String ORIGIN_FROM_ORDER_KEY = "com.order";
+
+	public static final String ORIGIN_FROM_USER_KEY = "com.user";
+
+	private Context mContext;
 
 	private EditText mAccountEt;
 	private EditText mPassWordEt;
@@ -39,10 +49,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 	private MultiStateView mMultiStateView;
 
-	private Context mContext;
+	private String mNowAction = ORIGIN_FROM_NULL;
 
 	// 登陆装填提示handler更新主线程，提示登陆状态情况
-	Handler mLoginHandler = new Handler() {
+	Handler mHandler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
@@ -54,20 +64,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					UserInfoManager.setSession(mContext, session);
 
 					UserLogic.getInfo(mContext, mHandler);
-					OrderLogic.getOrders(mContext, mHandler, session, "1", "5");
-					// mUser = (User) msg.obj;
-					// mUser.setPassword(mPassWord);
-					// UserInfoManager.setRememberPwd(mContext, true);
-					// UserInfoManager.saveUserInfo(LoginActivity.this, mUser);
-					// UserInfoManager.setUserInfo(LoginActivity.this);
-					// UserInfoManager.setLoginIn(LoginActivity.this, true);
-					//
-					// Intent intent = new Intent(LoginActivity.this,
-					// HomeActivity.class);
-					// startActivity(intent);
-					// LoginActivity.this.finish();
-					// overridePendingTransition(R.anim.push_left_in,
-					// R.anim.push_left_out);
 				}
 
 				break;
@@ -78,6 +74,28 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 				break;
 			}
 			case UserLogic.LOGIN_EXCEPTION: {
+				break;
+			}
+			case UserLogic.USER_INFO_GET_SUC: {
+				if (null != msg.obj) {
+					mUser = (User) msg.obj;
+					mUser.setPassword(mPassWord);
+
+					UserInfoManager.setRememberPwd(mContext, true);
+					UserInfoManager.saveUserInfo(LoginActivity.this, mUser);
+					UserInfoManager.setUserInfo(LoginActivity.this);
+					UserInfoManager.setLoginIn(LoginActivity.this, true);
+
+					handle();
+				}
+
+				break;
+
+			}
+			case UserLogic.USER_INFO_GET_FAIL: {
+				break;
+			}
+			case UserLogic.USER_INFO_GET_EXCEPTION: {
 				break;
 			}
 			case UserLogic.NET_ERROR: {
@@ -105,9 +123,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	protected void initView() {
 		mAccountEt = (EditText) findViewById(R.id.login_username);
 		mPassWordEt = (EditText) findViewById(R.id.login_password);
+		mAccountEt.addTextChangedListener(this);
+		mPassWordEt.addTextChangedListener(this);
 
 		mLoginBtn = (Button) findViewById(R.id.login_btn);
 		mLoginBtn.setOnClickListener(this);
+		mLoginBtn.setClickable(false);
 
 		mMultiStateView = (MultiStateView) findViewById(R.id.login_multiStateView);
 		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
@@ -124,11 +145,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initData() {
+		mNowAction = getIntent().getAction();
 
 		if (UserInfoManager.getRememberPwd(mContext)) {
 			UserInfoManager.setUserInfo(mContext);
 
-			mAccountEt.setText(UserInfoManager.userInfo.getAccount());
+			mAccountEt.setText(UserInfoManager.userInfo.getUsername());
 			mPassWordEt.setText(UserInfoManager.userInfo.getPassword());
 		}
 
@@ -144,23 +166,58 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					mContext.getString(R.string.login_emptyname_or_emptypwd),
 					Toast.LENGTH_SHORT).show();
 		} else {
-
-			// Intent intent = new Intent(LoginActivity.this,
-			// HomeActivity.class);
-			// startActivity(intent);
-			// LoginActivity.this.finish();
-			// overridePendingTransition(R.anim.push_left_in,
-			// R.anim.push_left_out);
-			// mUser.setAccount(mAccount);
-			// mUser.setPassword(mPassWord);
-			// UserLogic.login(mContext, mLoginHandler, mUser);
+			mPassWord = "admin123";
 			User user = new User();
-			user.setUserName("13813003736");
+			user.setUsername("13813003736");
 			user.setPassword("admin123");
-			UserLogic.login(mContext, mLoginHandler, user);
-			// UserLogic.getInfo(mContext, mHandler);
-			// UserLogic.getInfoByHttpUrl(mContext, mHandler);
+			UserLogic.login(mContext, mHandler, user);
 		}
+	}
+
+	private void handle() {
+		if (mNowAction.equals(ORIGIN_FROM_NULL)) {
+			Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+			startActivity(intent);
+			LoginActivity.this.finish();
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+		} else if (mNowAction.equals(ORIGIN_FROM_REG_KEY)) {
+
+		} else if (mNowAction.equals(ORIGIN_FROM_ORDER_KEY)) {
+
+		} else if (mNowAction.equals(ORIGIN_FROM_USER_KEY)) {
+			LoginActivity.this.finish();
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
+		}
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+	}
+
+	@SuppressLint("NewApi")
+	@Override
+	public void afterTextChanged(Editable s) {
+		mAccount = mAccountEt.getText().toString().trim();
+		mPassWord = mPassWordEt.getText().toString().trim();
+
+		if (!TextUtils.isEmpty(mAccount) && !TextUtils.isEmpty(mPassWord)) {
+			mLoginBtn.setClickable(true);
+			mLoginBtn.setBackground(mContext.getResources().getDrawable(
+					R.drawable.corners_bg_red_all));
+		} else {
+			mLoginBtn.setClickable(false);
+			mLoginBtn.setBackground(mContext.getResources().getDrawable(
+					R.drawable.corners_bg_gray_all));
+		}
+
 	}
 
 	@Override

@@ -10,7 +10,6 @@ public abstract class BaseActivity extends Activity {
 
 	public static final String TAG = BaseActivity.class.getSimpleName();
 
-	protected Handler mHandler = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -11,19 +11,18 @@
         android:id="@+id/dialog_setting_head_title"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="60dp"
         android:layout_weight="1"
-        android:gravity="center_vertical|left"
+        android:gravity="center_horizontal"
         android:paddingBottom="15dp"
         android:paddingTop="15dp"
-        android:text="添加头像"
-        android:textColor="#10cfac"
-        android:textSize="38sp" />
+        android:text="@string/modify_head_portrait"
+        android:textColor="@color/orange_bg"
+        android:textSize="@dimen/middle_text_size" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="#10cfac" />
+        android:layout_height="2dp"
+        android:background="@drawable/h_line" />
 
     <LinearLayout
         android:id="@+id/take_pictures_layout"
@@ -43,14 +42,14 @@
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
             android:text="@string/from_camera"
-            android:textColor="#747474"
-            android:textSize="27sp" />
+            android:textColor="@color/black_character"
+            android:textSize="@dimen/middle_text_size" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#e1e1e1" />
+        android:layout_height="1dp"
+        android:background="@drawable/h_line" />
 
     <LinearLayout
         android:id="@+id/select_photo_layout"
@@ -69,14 +68,14 @@
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
             android:text="@string/from_album"
-            android:textColor="#747474"
-            android:textSize="27sp" />
+            android:textColor="@color/black_character"
+            android:textSize="@dimen/middle_text_size" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#e1e1e1" />
+        android:layout_height="1dp"
+        android:background="@drawable/h_line" />
 
     <Button
         android:id="@+id/select_cancel"
@@ -87,8 +86,8 @@
         android:gravity="center"
         android:paddingBottom="15dp"
         android:paddingTop="15dp"
-        android:text="取消 "
-        android:textColor="#747474"
-        android:textSize="27sp" />
+        android:text="@string/cancal"
+        android:textColor="@color/gray_character"
+        android:textSize="@dimen/middle_text_size" />
 
 </LinearLayout>

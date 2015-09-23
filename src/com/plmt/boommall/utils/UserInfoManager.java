@@ -60,10 +60,10 @@ public class UserInfoManager {
 		SharedPreferences userInfoPreferences = context.getSharedPreferences(
 				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE);
 
-		UserInfoManager.userInfo.setUserId(userInfoPreferences.getString(
+		UserInfoManager.userInfo.setId(userInfoPreferences.getString(
 				USER_ID_KEY, ""));
 
-		UserInfoManager.userInfo.setUserName(userInfoPreferences.getString(
+		UserInfoManager.userInfo.setUsername(userInfoPreferences.getString(
 				USER_NAME_KEY, ""));
 		UserInfoManager.userInfo.setPassword(userInfoPreferences.getString(
 				USER_PWD_KEY, ""));
@@ -88,10 +88,10 @@ public class UserInfoManager {
 			SharedPreferences.Editor userInfoSp = context.getSharedPreferences(
 					USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE).edit();
 
-			userInfoSp.putString(USER_ID_KEY, null == user.getUserId() ? ""
-					: user.getUserId());
+			userInfoSp.putString(USER_ID_KEY, null == user.getId() ? ""
+					: user.getId());
 
-			userInfoSp.putString(USER_NAME_KEY, user.getUserName());
+			userInfoSp.putString(USER_NAME_KEY, user.getUsername());
 			userInfoSp.putString(USER_PWD_KEY, user.getPassword());
 
 			userInfoSp.putString(USER_SEX_KEY, null == user.getSex() ? ""
@@ -120,9 +120,9 @@ public class UserInfoManager {
 		userInfoSp.putBoolean(USER_REMEMBER_PSW, false);
 		userInfoSp.commit();
 
-		UserInfoManager.userInfo.setUserId("");
+		UserInfoManager.userInfo.setId("");
 
-		UserInfoManager.userInfo.setUserName("");
+		UserInfoManager.userInfo.setUsername("");
 		UserInfoManager.userInfo.setPassword("");
 		UserInfoManager.userInfo.setSex("");
 		UserInfoManager.userInfo.setSignature("");
