@@ -38,7 +38,7 @@
             android:layout_marginRight="10dip"
             android:layout_toLeftOf="@+id/custom_classify_second_name_tv"
             android:text="营养"
-            android:textColor="@color/gray_text"
+            android:textColor="@color/gray_character"
             android:textSize="@dimen/small_text_size" />
     </RelativeLayout>
 

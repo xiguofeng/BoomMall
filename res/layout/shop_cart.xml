@@ -50,7 +50,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dip"
         android:text="@string/cart_no_hint"
-        android:textColor="@color/gray_text"
+        android:textColor="@color/gray_character"
         android:textSize="@dimen/middle_text_size"
         android:visibility="gone" />
 

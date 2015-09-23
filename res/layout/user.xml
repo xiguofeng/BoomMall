@@ -22,24 +22,26 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="10dp"
-                    android:padding="10dip"
-                    android:layout_marginRight="10dp" >
+                    android:layout_marginRight="10dp"
+                    android:padding="10dip" >
 
                     <ImageView
                         android:id="@+id/user_icon_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/title_logo" />
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/icon_user" />
 
                     <TextView
                         android:id="@+id/user_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@+id/user_icon_iv"
-                        android:text="恋上猫女衣坊"
+                        android:layout_below="@+id/user_icon_iv"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dip"
+                        android:text="登陆/注册"
                         android:textColor="@color/white" />
 
                     <ImageView
@@ -62,7 +64,7 @@
                         android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/add" />
+                        android:src="@null" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -86,15 +88,17 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="180"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/micro_text_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"
-                            android:text="收藏的宝贝"
-                            android:textColor="@color/white" />
+                            android:text="@string/collection_goods"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/micro_text_size" />
                     </LinearLayout>
 
                     <View
@@ -114,16 +118,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="28"
-                            android:textColor="@color/white" />
+                            android:text="10"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/micro_text_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"
-                            android:text="收藏的店铺"
-                            android:textColor="@color/white" />
+                            android:text="@string/attention_brand"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/micro_text_size" />
                     </LinearLayout>
 
                     <View
@@ -144,15 +150,17 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="58"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/micro_text_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"
-                            android:text="我的足迹"
-                            android:textColor="@color/white" />
+                            android:text="@string/browsing_history"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/micro_text_size" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -163,35 +171,63 @@
                 android:background="@color/gray_bg" />
 
             <LinearLayout
-                android:id="@+id/user_my_order_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:background="@color/white"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp" >
+                android:gravity="center"
+                android:orientation="vertical" >
 
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/user_my_order_ll"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="我的订单"
-                    android:textColor="@color/black_character"
-                    android:textSize="17sp" />
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="查看全部已购宝贝" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="@string/my_order"
+                        android:textColor="@color/black_character"
+                        android:textSize="@dimen/small_text_size" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="@string/viewa_all_orders"
+                        android:textColor="@color/gray_character"
+                        android:textSize="@dimen/micro_text_size" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/arrow" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/add" />
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:background="@drawable/h_line" >
+                </LinearLayout>
+
+                <com.plmt.boommall.ui.view.CustomGridView
+                    android:id="@+id/user_order_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cacheColorHint="#00000000"
+                    android:numColumns="4"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp" >
+                </com.plmt.boommall.ui.view.CustomGridView>
             </LinearLayout>
 
             <View
@@ -217,8 +253,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:background="@color/white"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp" >
@@ -236,7 +272,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/add" />
+                    android:src="@drawable/arrow" />
             </LinearLayout>
 
             <View
@@ -246,9 +282,9 @@
 
             <LinearLayout
                 android:id="@+id/ll_user_life"
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="10dp"
@@ -272,7 +308,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/add" />
+                    android:src="@drawable/arrow" />
             </LinearLayout>
 
             <View
@@ -284,8 +320,8 @@
                 android:id="@+id/ll_user_store"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:background="@color/white"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp" >
@@ -314,7 +350,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/add" />
+                    android:src="@drawable/arrow" />
             </LinearLayout>
 
             <View
@@ -326,9 +362,9 @@
                 android:id="@+id/ll_user_members"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:background="@color/white"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp" >
 
@@ -356,7 +392,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/add" />
+                    android:src="@drawable/arrow" />
             </LinearLayout>
 
             <View
@@ -367,9 +403,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:background="@color/white"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp" >
 
@@ -392,7 +428,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/add" />
+                    android:src="@drawable/arrow" />
             </LinearLayout>
 
             <View
@@ -404,8 +440,8 @@
                 android:id="@+id/ll_user_opinion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:background="@color/white"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp" >
@@ -423,7 +459,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/add" />
+                    android:src="@drawable/arrow" />
             </LinearLayout>
 
             <View

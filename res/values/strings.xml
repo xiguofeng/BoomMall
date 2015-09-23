@@ -41,6 +41,11 @@
     <string name="verification_code">验证码</string>
     <string name="get_verification_code">获取验证码</string>
     <string name="verification_code_hint">请输入正确的验证码</string>
+    
+    <!-- user info -->
+    <string name="collection_goods">收藏的商品</string>
+    <string name="attention_brand">关注的品牌</string>
+    <string name="browsing_history">浏览记录</string>
 
     <!-- pay -->
     <string name="add_cart">加入购物车</string>
@@ -86,6 +91,7 @@
 
     <!-- order list -->
     <string name="my_order">我的订单</string>
+    <string name="viewa_all_orders">查看全部订单</string>
     <string name="order_list">订单列表</string>
     <string name="order_all">全部订单</string>
     <string name="order_unpay">待付款</string>

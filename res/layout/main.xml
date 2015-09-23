@@ -82,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dip"
                         android:text="@string/search"
-                        android:textColor="@color/gray_text" />
+                        android:textColor="@color/gray_character" />
                 </LinearLayout>
 
                 <EditText
@@ -94,7 +94,7 @@
                     android:paddingLeft="5dip"
                     android:paddingRight="5dip"
                     android:singleLine="true"
-                    android:textColor="@color/gray_text" />
+                    android:textColor="@color/gray_character" />
 
                 <ImageView
                     android:id="@+id/main_search_iv"
@@ -210,7 +210,7 @@
                             android:layout_marginRight="10dip"
                             android:layout_toLeftOf="@+id/main_hot_brand_second_classify_tv"
                             android:text="防嗮"
-                            android:textColor="@color/gray_text"
+                            android:textColor="@color/gray_character"
                             android:textSize="@dimen/small_text_size" />
                     </RelativeLayout>
 
@@ -258,7 +258,7 @@
                             android:layout_marginRight="10dip"
                             android:layout_toLeftOf="@+id/main_first_classify_second_name_tv"
                             android:text="营养"
-                            android:textColor="@color/gray_text"
+                            android:textColor="@color/gray_character"
                             android:textSize="@dimen/small_text_size" />
                     </RelativeLayout>
 
@@ -306,7 +306,7 @@
                             android:layout_marginRight="10dip"
                             android:layout_toLeftOf="@+id/main_second_classify_second_name_tv"
                             android:text="奶粉"
-                            android:textColor="@color/gray_text"
+                            android:textColor="@color/gray_character"
                             android:textSize="@dimen/small_text_size" />
                     </RelativeLayout>
 
@@ -354,7 +354,7 @@
                             android:layout_marginRight="10dip"
                             android:layout_toLeftOf="@+id/main_three_classify_second_name_tv"
                             android:text="奶粉"
-                            android:textColor="@color/gray_text"
+                            android:textColor="@color/gray_character"
                             android:textSize="@dimen/small_text_size" />
                     </RelativeLayout>
 
@@ -402,7 +402,7 @@
                             android:layout_marginRight="10dip"
                             android:layout_toLeftOf="@+id/main_fourth_classify_second_name_tv"
                             android:text="奶粉"
-                            android:textColor="@color/gray_text"
+                            android:textColor="@color/gray_character"
                             android:textSize="@dimen/small_text_size" />
                     </RelativeLayout>
 
@@ -450,7 +450,7 @@
                             android:layout_marginRight="10dip"
                             android:layout_toLeftOf="@+id/main_fifth_classify_second_name_tv"
                             android:text="奶粉"
-                            android:textColor="@color/gray_text"
+                            android:textColor="@color/gray_character"
                             android:textSize="@dimen/small_text_size" />
                     </RelativeLayout>
 

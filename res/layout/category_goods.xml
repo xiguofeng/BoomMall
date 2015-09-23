@@ -65,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dip"
                         android:text="@string/search"
-                        android:textColor="@color/gray_text" />
+                        android:textColor="@color/gray_character" />
                 </LinearLayout>
 
                 <EditText
@@ -77,7 +77,7 @@
                     android:paddingLeft="5dip"
                     android:paddingRight="5dip"
                     android:singleLine="true"
-                    android:textColor="@color/gray_text" />
+                    android:textColor="@color/gray_character" />
 
                 <ImageView
                     android:id="@+id/category_search_iv"

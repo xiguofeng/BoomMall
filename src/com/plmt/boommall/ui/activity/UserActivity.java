@@ -1,5 +1,7 @@
 package com.plmt.boommall.ui.activity;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +11,16 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Category;
+import com.plmt.boommall.ui.adapter.MainGvCategoryAdapter;
+import com.plmt.boommall.ui.view.CustomGridView;
 import com.plmt.boommall.utils.cropimage.ChooseDialog;
 import com.plmt.boommall.utils.cropimage.CropHelper;
 import com.plmt.boommall.utils.cropimage.uitls.OSUtils;
@@ -29,6 +36,14 @@ public class UserActivity extends Activity implements OnClickListener {
 	private CropHelper mCropHelper;
 	private ChooseDialog mDialog;
 	private ImageView headImage;
+
+	private CustomGridView mOrderGv;
+	private ArrayList<Category> mOrderList = new ArrayList<Category>();
+	private MainGvCategoryAdapter mOrderAdapter;
+	private int[] mPicPath = { R.drawable.personal_order_wait_for_payment,
+			R.drawable.personal_order_wait_for_payment,
+			R.drawable.personal_order_wait_for_payment,
+			R.drawable.personal_order_wait_for_payment };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +61,42 @@ public class UserActivity extends Activity implements OnClickListener {
 	}
 
 	private void initView() {
-		mMyOrdersLl = (LinearLayout) findViewById(R.id.user_my_order_ll);
-		mMyOrdersLl.setOnClickListener(this);
+		intCropImage();
+		initOrderView();
+	}
 
+	private void intCropImage() {
 		headImage = (ImageView) findViewById(R.id.user_icon_iv);
 		headImage.setOnClickListener(this);
 		mCropHelper = new CropHelper(this, OSUtils.getSdCardDirectory()
 				+ "/head.png");
 		mDialog = new ChooseDialog(this, mCropHelper);
+	}
 
+	private void initOrderView() {
+		mMyOrdersLl = (LinearLayout) findViewById(R.id.user_my_order_ll);
+		mMyOrdersLl.setOnClickListener(this);
+
+		mOrderGv = (CustomGridView) findViewById(R.id.user_order_gv);
+		int size = mPicPath.length;
+		for (int i = 0; i < size; i++) {
+			Category category = new Category();
+			category.setLocalImage(mPicPath[i]);
+			mOrderList.add(category);
+		}
+
+		mOrderAdapter = new MainGvCategoryAdapter(mContext, mOrderList);
+		mOrderGv.setAdapter(mOrderAdapter);
+		mOrderGv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(UserActivity.this,
+						LoginActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	private void initData() {

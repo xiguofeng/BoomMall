@@ -39,6 +39,30 @@ public class RequestUrl {
 
 	}
 
+	public interface address {
+
+		/**
+		 * 地址列表
+		 */
+		public String list = "/address/list";
+
+		/**
+		 * 地址详细信息
+		 */
+		public String detail = "/address/view";
+
+		/**
+		 * 地址修改
+		 */
+		public String modify = "/address/update";
+
+		/**
+		 * 地址删除
+		 */
+		public String del = "/address/delete";
+
+	}
+
 	public interface goods {
 
 		/**
