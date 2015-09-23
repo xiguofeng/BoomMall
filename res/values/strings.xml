@@ -27,6 +27,8 @@
     <!-- account -->
     <string name="login_emptyname_or_emptypwd">用户名或密码为空，请重新输入</string>
     <string name="login">登录</string>
+    <string name="login_anonymous">匿名登录</string>
+    <string name="login_fast">快速登录</string>
     <string name="register">注册</string>
     <string name="forget_pwd">忘记密码</string>
     <string name="phone">手机</string>
@@ -42,14 +44,13 @@
     <string name="get_verification_code">获取验证码</string>
     <string name="verification_code_hint">请输入正确的验证码</string>
     <string name="my_account">我的账户</string>
-    
+
     <!-- user info -->
     <string name="collection_goods">收藏的商品</string>
     <string name="attention_brand">关注的品牌</string>
     <string name="browsing_history">浏览记录</string>
     <string name="my_property">我的资产</string>
     <string name="view_all_property">查看全部资产</string>
-   
 
     <!-- pay -->
     <string name="add_cart">加入购物车</string>

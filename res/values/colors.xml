@@ -18,7 +18,7 @@
     <color name="black_character">#000000</color>
     <color name="black_character_title">#3d3d3d</color>
     <color name="gray_title_bg">#F6F6F6</color>
-    <color name="gray_character">#909090</color>
+    <color name="gray_character">#646464</color>
     <color name="gray_bg">#f2f2f2</color>
     <color name="gray_brief_bg">#f1f1f1</color>
     <color name="gray_character_title">#898989</color>
@@ -31,8 +31,9 @@
     <color name="yello_bottom_bg">#ffa204</color>
     <!-- <color name="red_title_bg">#cf021b</color> -->
     <color name="red_title_bg">#D0021B</color>
+    <color name="red_character">#f37381</color>
     <color name="red_transparent_bg">#50D0021B</color>
-    <color name="red_btn_bg">#d0021b</color>
+    <color name="red_btn_bg">#f03c55</color>
     <color name="red">#f2100c</color>
     <color name="dark_red">#40000c</color>
     <color name="window_background">#FFF5F5F5</color>
