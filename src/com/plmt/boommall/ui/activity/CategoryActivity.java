@@ -22,7 +22,9 @@ import android.widget.Toast;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Category;
+import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.network.logic.GoodsLogic;
+import com.plmt.boommall.ui.adapter.CategoryGvAdapter;
 import com.plmt.boommall.ui.adapter.TopCategoryAdapter;
 
 public class CategoryActivity extends Activity implements OnClickListener {
@@ -35,11 +37,16 @@ public class CategoryActivity extends Activity implements OnClickListener {
 	private ListView mTopLevelLv;
 	private TopCategoryAdapter mTopCategoryAdapter;
 	private ArrayList<Category> mTopCategoryList = new ArrayList<Category>();
-	
-	private GridView mSecondLevelGv;
-	private TopCategoryAdapter mSecondCategoryAdapter;
-	private ArrayList<Category> mSecondCategoryList = new ArrayList<Category>();
+	private int[] mOrderStatePicPath = {
+			R.drawable.personal_order_wait_for_payment,
+			R.drawable.personal_order_wait_for_payment,
+			R.drawable.personal_order_wait_for_payment,
+			R.drawable.personal_order_wait_for_payment };
+	private String[] mOrderStateStr = { "待付款", "待收货", "待评价", "退款/售后" };
 
+	private GridView mSecondLevelGv;
+	private CategoryGvAdapter mSecondCategoryAdapter;
+	private ArrayList<Category> mSecondCategoryList = new ArrayList<Category>();
 
 	Handler mHandler = new Handler() {
 
@@ -51,9 +58,10 @@ public class CategoryActivity extends Activity implements OnClickListener {
 			case GoodsLogic.GOODS_LIST_BY_KEY_GET_SUC: {
 				if (null != msg.obj) {
 					mTopCategoryList.clear();
-					mTopCategoryList.addAll((Collection<? extends Category>) msg.obj);
+					mTopCategoryList
+							.addAll((Collection<? extends Category>) msg.obj);
 					mTopCategoryAdapter.notifyDataSetChanged();
-					
+
 				}
 				break;
 			}
@@ -67,7 +75,7 @@ public class CategoryActivity extends Activity implements OnClickListener {
 			default:
 				break;
 			}
-		
+
 		}
 
 	};
@@ -113,33 +121,41 @@ public class CategoryActivity extends Activity implements OnClickListener {
 
 			}
 		});
-		
+
 		initCategoryView();
 	}
-	
-	private void initCategoryView(){
+
+	private void initCategoryView() {
 		mTopLevelLv = (ListView) findViewById(R.id.category_top_lv);
-		mSecondLevelGv =  (GridView) findViewById(R.id.category_second_gv);
+		int size = mOrderStatePicPath.length;
+		for (int i = 0; i < size; i++) {
+			Category category = new Category();
+			category.setLocalImage(mOrderStatePicPath[i]);
+			category.setPpmc(mOrderStateStr[i]);
+			mTopCategoryList.add(category);
+		}
+
+		mTopCategoryAdapter = new TopCategoryAdapter(mContext, mTopCategoryList);
+		mTopLevelLv.setAdapter(mTopCategoryAdapter);
+
+		mSecondLevelGv = (GridView) findViewById(R.id.category_second_gv);
 	}
 
 	private void initData() {
-		
+
 	}
 
-	
 	@Override
 	protected void onResume() {
 		super.onResume();
 	}
-
-
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.category_search_iv: {
 			if (!TextUtils.isEmpty(mSearchEt.getText().toString().trim())) {
-				
+
 			} else {
 				Toast.makeText(mContext, getString(R.string.search_hint),
 						Toast.LENGTH_SHORT).show();
@@ -150,7 +166,6 @@ public class CategoryActivity extends Activity implements OnClickListener {
 			break;
 		}
 	}
-
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
