@@ -10,14 +10,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
-import com.plmt.boommall.entity.MenuItem;
+import com.plmt.boommall.entity.Category;
 
 public class CategoryGvAdapter extends BaseAdapter {
 	private Context context;
-	private ArrayList<MenuItem> data;
+	private ArrayList<Category> data;
 
-	public CategoryGvAdapter(Context context, ArrayList<MenuItem> data) {
+	public CategoryGvAdapter(Context context, ArrayList<Category> data) {
 
 		this.context = context;
 		this.data = data;
@@ -44,11 +45,11 @@ public class CategoryGvAdapter extends BaseAdapter {
 		if (currentView == null) {
 			holderView = new HolderView();
 			currentView = LayoutInflater.from(context).inflate(
-					R.layout.user_gv_common_item, null);
+					R.layout.gv_category_item, null);
 			holderView.iconIv = (ImageView) currentView
-					.findViewById(R.id.user_gv_common_iv);
+					.findViewById(R.id.gv_category_common_iv);
 			holderView.nameTv = (TextView) currentView
-					.findViewById(R.id.user_gv_common_name_tv);
+					.findViewById(R.id.gv_category_common_name_tv);
 
 			currentView.setTag(holderView);
 		} else {
@@ -57,7 +58,11 @@ public class CategoryGvAdapter extends BaseAdapter {
 
 		holderView.iconIv.setImageResource(data.get(position).getLocalImage());
 		holderView.nameTv.setText(data.get(position).getName());
-
+		ImageLoader
+				.getInstance()
+				.displayImage(
+						"http://i2.cqnews.net/fashion/attachement/jpg/site82/20130609/002522274bb0131e71bc43.jpg",
+						holderView.iconIv);
 		return currentView;
 	}
 

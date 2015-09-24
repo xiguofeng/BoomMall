@@ -6,6 +6,7 @@ import java.util.Collection;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,8 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -37,12 +40,11 @@ public class CategoryActivity extends Activity implements OnClickListener {
 	private ListView mTopLevelLv;
 	private TopCategoryAdapter mTopCategoryAdapter;
 	private ArrayList<Category> mTopCategoryList = new ArrayList<Category>();
-	private int[] mOrderStatePicPath = {
-			R.drawable.personal_order_wait_for_payment,
+	private int[] mTopPicPath = { R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment };
-	private String[] mOrderStateStr = { "待付款", "待收货", "待评价", "退款/售后" };
+	private String[] mTopCategory = { "待付款", "待收货", "待评价", "退款/售后" };
 
 	private GridView mSecondLevelGv;
 	private CategoryGvAdapter mSecondCategoryAdapter;
@@ -127,18 +129,52 @@ public class CategoryActivity extends Activity implements OnClickListener {
 
 	private void initCategoryView() {
 		mTopLevelLv = (ListView) findViewById(R.id.category_top_lv);
-		int size = mOrderStatePicPath.length;
-		for (int i = 0; i < size; i++) {
+		// int size = mTopPicPath.length;
+		for (int i = 0; i < 10; i++) {
 			Category category = new Category();
-			category.setLocalImage(mOrderStatePicPath[i]);
-			category.setPpmc(mOrderStateStr[i]);
+			category.setId("" + i);
+			// category.setLocalImage(mTopPicPath[i]);
+			category.setName("一级分类" + i);
 			mTopCategoryList.add(category);
 		}
 
 		mTopCategoryAdapter = new TopCategoryAdapter(mContext, mTopCategoryList);
 		mTopLevelLv.setAdapter(mTopCategoryAdapter);
+		mTopCategoryAdapter.setmCurrentSelect("0");
+		mTopLevelLv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				mTopCategoryAdapter.setmCurrentSelect(mTopCategoryList.get(
+						position).getId());
+				mTopCategoryAdapter.notifyDataSetChanged();
+			}
+		});
 
 		mSecondLevelGv = (GridView) findViewById(R.id.category_second_gv);
+		for (int i = 0; i < 10; i++) {
+			Category category = new Category();
+			category.setId("" + i);
+			category.setLocalImage(mTopPicPath[0]);
+			category.setName("二级分类" + i);
+			mSecondCategoryList.add(category);
+		}
+		mSecondCategoryAdapter = new CategoryGvAdapter(mContext,
+				mSecondCategoryList);
+		mSecondLevelGv.setAdapter(mSecondCategoryAdapter);
+		mSecondLevelGv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(CategoryActivity.this,
+						GoodsListActivity.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.push_left_in,
+						R.anim.push_left_out);
+			}
+		});
 	}
 
 	private void initData() {

@@ -15,14 +15,13 @@
     <color name="white_list_content_bg">#f7f7f7</color>
     <color name="white_list_bg">#f8f8f8</color>
     <color name="black_tab_bg">#2f2f2f</color>
-    <color name="black_character">#000000</color>
+    <color name="black_character">#646464</color>
     <color name="black_character_title">#3d3d3d</color>
     <color name="gray_title_bg">#F6F6F6</color>
     <color name="gray_character">#646464</color>
     <color name="gray_bg">#f2f2f2</color>
-    <color name="gray_brief_bg">#f1f1f1</color>
+    <color name="gray_select_bg">#f3f3f3</color>
     <color name="gray_character_title">#898989</color>
-    <color name="gray_common_bg">#f0f0f0</color>
     <color name="gray_search_bg">#fcfcfc</color>
     <color name="orange_text">#f56344</color>
     <color name="orange_title_bar_bg">#ec5c43</color>

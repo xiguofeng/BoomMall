@@ -61,7 +61,7 @@ public class GoodsLogic {
 		try {
 			requestJson.put("category", URLEncoder.encode("防晒", "UTF-8"));
 			requestJson.put("c", Integer.parseInt("0"));
-			requestJson.put("s", Integer.parseInt("5"));
+			requestJson.put("s", Integer.parseInt("10"));
 
 			BaseApplication.getInstanceRequestQueue().add(
 					new JsonObjectRequest(Method.POST, url, requestJson,

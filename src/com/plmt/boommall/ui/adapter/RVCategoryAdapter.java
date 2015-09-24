@@ -39,10 +39,10 @@ public class RVCategoryAdapter extends
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		Category item = items.get(position);
-		holder.name.setText(item.getPpid());
+		holder.name.setText(item.getName());
 		holder.iconIv.setImageBitmap(null);
 		Picasso.with(holder.iconIv.getContext()).cancelRequest(holder.iconIv);
-		Picasso.with(holder.iconIv.getContext()).load(item.getPpmc())
+		Picasso.with(holder.iconIv.getContext()).load(item.getImgUrl())
 				.into(holder.iconIv);
 		holder.itemView.setTag(item);
 	}

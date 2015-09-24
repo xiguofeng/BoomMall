@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ptr="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res/com.plmt.boommall"
-    android:id="@+id/main_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:gravity="center"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/red_transparent_bg"
+        android:background="@color/red_title_bg"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="5dip" >
@@ -28,7 +24,7 @@
             android:src="@drawable/android_search_button_icon" />
 
         <RelativeLayout
-            android:id="@+id/category_search_rl"
+            android:id="@+id/category_goods_search_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="13dip"
@@ -39,7 +35,7 @@
             android:orientation="horizontal" >
 
             <LinearLayout
-                android:id="@+id/category_search_ll"
+                android:id="@+id/category_goods_search_ll"
                 android:layout_width="match_parent"
                 android:layout_height="30dip"
                 android:layout_centerInParent="true"
@@ -62,7 +58,7 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/category_search_et"
+                android:id="@+id/category_goods_search_et"
                 android:layout_width="match_parent"
                 android:layout_height="35dip"
                 android:layout_centerInParent="true"
@@ -73,7 +69,7 @@
                 android:textColor="@color/gray_character" />
 
             <ImageView
-                android:id="@+id/category_search_iv"
+                android:id="@+id/category_goods_search_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -86,49 +82,26 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <com.plmt.boommall.ui.view.MultiStateView
+        android:id="@+id/goods_list_multiStateView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:gravity="center"
-        android:orientation="horizontal" >
+        app:msv_emptyView="@layout/empty_view"
+        app:msv_errorView="@layout/error_view"
+        app:msv_loadingView="@layout/loading_view"
+        app:msv_viewState="content" >
 
-        <ListView
-            android:id="@+id/category_top_lv"
+        <com.plmt.boommall.ui.view.listview.pullrefresh.XListView
+            android:id="@+id/goods_list_goods_xlv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="8"
-            android:cacheColorHint="@color/white"
-            android:dividerHeight="0.5dip"
+            android:cacheColorHint="#00000000"
+            android:divider="@null"
+            android:dividerHeight="1dip"
             android:fastScrollEnabled="false"
             android:focusable="true"
             android:scrollbars="none" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:background="@color/gray_bg"
-            android:gravity="center" >
-
-            <GridView
-                android:id="@+id/category_second_gv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:cacheColorHint="#00000000"
-                android:dividerHeight="0.5dip"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
-                android:fastScrollEnabled="false"
-                android:horizontalSpacing="5dip"
-                android:listSelector="@android:color/transparent"
-                android:numColumns="2"
-                android:scrollbars="none"
-                android:verticalSpacing="5dip" />
-        </LinearLayout>
-        <!-- android:focusable="true" -->
-
-    </LinearLayout>
+    </com.plmt.boommall.ui.view.MultiStateView>
 
 </LinearLayout>

@@ -41,8 +41,8 @@ import com.plmt.boommall.ui.utils.MyItemClickListener;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 
-public class CategoryAndGoodsActivity extends Activity implements
-		OnClickListener, MyItemClickListener, XListView.IXListViewListener {
+public class GoodsListActivity extends Activity implements OnClickListener,
+		MyItemClickListener, XListView.IXListViewListener {
 
 	private Context mContext;
 	private MultiStateView mMultiStateView;
@@ -102,14 +102,14 @@ public class CategoryAndGoodsActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.category_goods);
-		mContext = CategoryAndGoodsActivity.this;
+		setContentView(R.layout.goods_list);
+		mContext = GoodsListActivity.this;
 		initView();
 		initData();
 	}
 
 	private void initView() {
-		mMultiStateView = (MultiStateView) findViewById(R.id.category_and_goods_multiStateView);
+		mMultiStateView = (MultiStateView) findViewById(R.id.goods_list_multiStateView);
 		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
 				.findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
@@ -121,11 +121,9 @@ public class CategoryAndGoodsActivity extends Activity implements
 								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
-		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+	
 		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
-		initHorizaontal();
-		// initVertical();
 
 		mSearchLl = (LinearLayout) findViewById(R.id.category_goods_search_ll);
 
@@ -162,7 +160,7 @@ public class CategoryAndGoodsActivity extends Activity implements
 	}
 
 	private void initData() {
-		mGoodsLv = (XListView) findViewById(R.id.category_goods_xlv);
+		mGoodsLv = (XListView) findViewById(R.id.goods_list_goods_xlv);
 		mGoodsLv.setPullRefreshEnable(true);
 		mGoodsLv.setPullLoadEnable(true);
 		mGoodsLv.setAutoLoadEnable(true);
@@ -190,7 +188,7 @@ public class CategoryAndGoodsActivity extends Activity implements
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if (position > 0) {
-					Intent intent = new Intent(CategoryAndGoodsActivity.this,
+					Intent intent = new Intent(GoodsListActivity.this,
 							GoodsDetailActivity.class);
 					intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
 					Bundle bundle = new Bundle();
@@ -205,35 +203,7 @@ public class CategoryAndGoodsActivity extends Activity implements
 		refreshGoods();
 	}
 
-	private void initHorizaontal() {
-		RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview_horizontal);
-
-		for (int i = 0; i < 15; i++) {
-			Category category = new Category();
-			category.setName("分类" + i);
-			category.setImgUrl("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
-			mCategoryList.add(category);
-		}
-		// 创建一个线性布局管理器
-		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-		layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-		// 设置布局管理器
-		recyclerView.setLayoutManager(layoutManager);
-		recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-		mCategoryAdapter = new RVCategoryAdapter(mCategoryList,
-				R.layout.list_category_item);
-		mCategoryAdapter.setOnItemClickListener(this);
-		recyclerView.setAdapter(mCategoryAdapter);
-		// recyclerView.addItemDecoration(new DividerItemDecoration(mContext,
-		// LinearLayoutManager.HORIZONTAL, mContext.getResources()
-		// .getColor(R.color.transparent_background), SystemUtils
-		// .dip2Px(mContext, 5)));
-
-		// 设置Adapter
-		// recyclerView.setAdapter(adapter);
-	}
-
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -298,7 +268,7 @@ public class CategoryAndGoodsActivity extends Activity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-			CategoryAndGoodsActivity.this.finish();
+			GoodsListActivity.this.finish();
 			overridePendingTransition(R.anim.push_right_in,
 					R.anim.push_right_out);
 			return true;

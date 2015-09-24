@@ -6,38 +6,38 @@ public class Category implements Serializable {
 
 	private static final long serialVersionUID = 8912365559481657349L;
 
-	private String ppid;
+	private String id;
 
-	private String ppmc;
-
-	private String pplx;
+	private String name;
+	
+	private String imgUrl;
 	
 	private int localImage;
-	
-	public String getPpid() {
-		return ppid;
+
+	public String getId() {
+		return id;
 	}
 
-	public void setPpid(String ppid) {
-		this.ppid = ppid;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getPpmc() {
-		return ppmc;
+	public String getName() {
+		return name;
 	}
 
-	public void setPpmc(String ppmc) {
-		this.ppmc = ppmc;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getPplx() {
-		return pplx;
+	public String getImgUrl() {
+		return imgUrl;
 	}
 
-	public void setPplx(String pplx) {
-		this.pplx = pplx;
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
-	
+
 	public int getLocalImage() {
 		return localImage;
 	}
@@ -46,5 +46,7 @@ public class Category implements Serializable {
 		this.localImage = localImage;
 	}
 
+	
+	
 
 }

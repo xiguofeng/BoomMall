@@ -8,23 +8,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Category;
 
 public class TopCategoryAdapter extends BaseAdapter {
-	private Context context;
-	private ArrayList<Category> data;
+	private Context mContext;
+	private ArrayList<Category> mDatas;
+	private LayoutInflater mInflater;
+
+	private String mCurrentSelect;
 
 	public TopCategoryAdapter(Context context, ArrayList<Category> data) {
 
-		this.context = context;
-		this.data = data;
+		this.mContext = context;
+		this.mDatas = data;
+		mInflater = LayoutInflater.from(context);
 	}
 
 	@Override
 	public int getCount() {
-		return data.size();
+		return mDatas.size();
 	}
 
 	@Override
@@ -38,28 +44,61 @@ public class TopCategoryAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View currentView, ViewGroup arg2) {
-		HolderView holderView = null;
-		if (currentView == null) {
-			holderView = new HolderView();
-			currentView = LayoutInflater.from(context).inflate(
-					R.layout.main_gv_category_item, null);
-			holderView.iconIv = (ImageView) currentView
-					.findViewById(R.id.iv_adapter_grid_pic);
-			currentView.setTag(holderView);
+	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolder holder = null;
+		if (convertView == null) {
+			convertView = mInflater.inflate(
+					R.layout.list_category_category_item, null);
+
+			holder = new ViewHolder();
+			holder.mName = (TextView) convertView
+					.findViewById(R.id.category_item_name_tv);
+			holder.mBg = (LinearLayout) convertView
+					.findViewById(R.id.category_item_ll);
+			holder.mSelectIv = (ImageView) convertView
+					.findViewById(R.id.category_item_select_iv);
+			holder.mIconIv = (ImageView) convertView
+					.findViewById(R.id.category_item_icon_iv);
+
+			convertView.setTag(holder);
 		} else {
-			holderView = (HolderView) currentView.getTag();
+			holder = (ViewHolder) convertView.getTag();
 		}
+		holder.mSelectIv.setVisibility(View.INVISIBLE);
+		holder.mIconIv.setVisibility(View.GONE);
 
-		holderView.iconIv.setImageResource(data.get(position).getLocalImage());
-
-		return currentView;
+		holder.mBg.setBackgroundColor(mContext.getResources().getColor(
+				R.color.white));
+		holder.mName.setTextColor(mContext.getResources().getColor(
+				R.color.black_character));
+		if (mCurrentSelect.equals(mDatas.get(position).getId())) {
+			holder.mSelectIv.setVisibility(View.VISIBLE);
+			holder.mBg.setBackgroundColor(mContext.getResources().getColor(
+					R.color.gray_select_bg));
+			holder.mName.setTextColor(mContext.getResources().getColor(
+					R.color.black_character));
+		}
+		holder.mName.setText(mDatas.get(position).getName());
+		return convertView;
 	}
 
-	public class HolderView {
+	static class ViewHolder {
 
-		private ImageView iconIv;
+		public LinearLayout mBg;
 
+		public TextView mName;
+
+		public ImageView mSelectIv;
+
+		public ImageView mIconIv;
+	}
+
+	public String getmCurrentSelect() {
+		return mCurrentSelect;
+	}
+
+	public void setmCurrentSelect(String mCurrentSelect) {
+		this.mCurrentSelect = mCurrentSelect;
 	}
 
 }

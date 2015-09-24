@@ -35,7 +35,7 @@
                 android:src="@drawable/android_search_button_icon" />
 
             <RelativeLayout
-                android:id="@+id/category_search_rl"
+                android:id="@+id/category_goods_search_rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="13dip"
@@ -46,7 +46,7 @@
                 android:orientation="horizontal" >
 
                 <LinearLayout
-                    android:id="@+id/category_search_ll"
+                    android:id="@+id/category_goods_search_ll"
                     android:layout_width="match_parent"
                     android:layout_height="30dip"
                     android:layout_centerInParent="true"
@@ -69,7 +69,7 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/category_search_et"
+                    android:id="@+id/category_goods_search_et"
                     android:layout_width="match_parent"
                     android:layout_height="35dip"
                     android:layout_centerInParent="true"
@@ -80,7 +80,7 @@
                     android:textColor="@color/gray_character" />
 
                 <ImageView
-                    android:id="@+id/category_search_iv"
+                    android:id="@+id/category_goods_search_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -99,7 +99,7 @@
             android:layout_height="50dp" />
 
         <com.plmt.boommall.ui.view.listview.pullrefresh.XListView
-            android:id="@+id/category_xlv"
+            android:id="@+id/category_goods_xlv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -109,11 +109,6 @@
             android:fastScrollEnabled="false"
             android:focusable="true"
             android:scrollbars="none" />
-
-        <ListView
-            android:id="@+id/recyclerview_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </com.plmt.boommall.ui.view.MultiStateView>
