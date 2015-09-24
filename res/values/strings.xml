@@ -12,7 +12,7 @@
     <string name="query">查询</string>
 
     <!-- loading -->
-    <string name="loading">加载</string>
+    <string name="loading">加载&#8230;</string>
     <string name="loading_hint">正在加载中...</string>
     <string name="loading_err">抱歉，数据加载失败，请点击重新加载</string>
     <string name="loading_suc">数据加载成功</string>
