@@ -20,8 +20,8 @@
             android:layout_width="25dip"
             android:layout_height="25dip"
             android:layout_alignParentRight="true"
-            android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
             android:layout_marginRight="8dip"
             android:contentDescription="@string/app_name"
             android:scaleType="centerCrop"
@@ -30,10 +30,10 @@
         <RelativeLayout
             android:id="@+id/goods_list_search_rl"
             android:layout_width="match_parent"
-            android:layout_toLeftOf="@+id/goods_list_msg_iv"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="10dip"
+            android:layout_toLeftOf="@+id/goods_list_msg_iv"
             android:background="@drawable/corners_search_bg_red"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -96,6 +96,21 @@
         app:msv_loadingView="@layout/loading_view"
         app:msv_viewState="content" >
 
+        <com.plmt.boommall.ui.view.gridview.paging.PagingGridView
+            android:id="@+id/goods_list_goods_pgv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:cacheColorHint="#00000000"
+            android:dividerHeight="0.5dip"
+            android:fastScrollEnabled="false"
+            android:horizontalSpacing="5dip"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="2"
+            android:scrollbars="none"
+            android:verticalSpacing="5dip" />
+
         <com.plmt.boommall.ui.view.listview.pullrefresh.XListView
             android:id="@+id/goods_list_goods_xlv"
             android:layout_width="match_parent"
@@ -106,7 +121,8 @@
             android:dividerHeight="1dip"
             android:fastScrollEnabled="false"
             android:focusable="true"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            android:visibility="gone" />
     </com.plmt.boommall.ui.view.MultiStateView>
 
 </LinearLayout>

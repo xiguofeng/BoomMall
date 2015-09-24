@@ -18,7 +18,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -45,7 +44,6 @@ public class CategoryActivity extends Activity implements OnClickListener {
 			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment };
-	private String[] mTopCategory = { "待付款", "待收货", "待评价", "退款/售后" };
 
 	private GridViewWithHeaderAndFooter mSecondLevelGv;
 	private CategoryGvAdapter mSecondCategoryAdapter;

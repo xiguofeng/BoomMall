@@ -32,10 +32,12 @@ import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.ui.adapter.GoodsAdapter;
+import com.plmt.boommall.ui.adapter.GoodsGvPagingAdaper;
 import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
 import com.plmt.boommall.ui.adapter.RVGoodsAdapter;
 import com.plmt.boommall.ui.utils.MyItemClickListener;
 import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.ui.view.gridview.paging.PagingGridView;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 
 public class GoodsListActivity extends Activity implements OnClickListener,
@@ -56,6 +58,9 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
 	private int mCurrentPage = 1;
 
+	private PagingGridView mGoodsGv;
+	private GoodsGvPagingAdaper mGoodsGvAdapter;
+
 	private float y;
 	private HashMap<String, Object> mAllMsgMap = new HashMap<String, Object>();
 	private HashMap<String, Object> mSearchMsgMap = new HashMap<String, Object>();
@@ -74,8 +79,16 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 				if (null != msg.obj) {
 					mGoodsList.clear();
 					mGoodsList.addAll((Collection<? extends Goods>) msg.obj);
-					mGoodsAdapter.notifyDataSetChanged();
-					onLoadComplete();
+
+					if (mGoodsGv.getAdapter() == null) {
+						mGoodsGv.setAdapter(mGoodsGvAdapter);
+					}
+					ArrayList<Goods> goodsList = new ArrayList<Goods>();
+					goodsList.addAll(mGoodsList);
+					mGoodsGv.onFinishLoading(true, goodsList);
+
+					// mGoodsAdapter.notifyDataSetChanged();
+					// onLoadComplete();
 				}
 				break;
 			}
@@ -118,9 +131,8 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
-	
-		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
+		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
 		mSearchLl = (LinearLayout) findViewById(R.id.goods_list_search_ll);
 
@@ -154,9 +166,16 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 			}
 		});
 
+		initListView();
+		initGridView();
+
 	}
 
 	private void initData() {
+		refreshGoods();
+	}
+
+	private void initListView() {
 		mGoodsLv = (XListView) findViewById(R.id.goods_list_goods_xlv);
 		mGoodsLv.setPullRefreshEnable(true);
 		mGoodsLv.setPullLoadEnable(true);
@@ -197,13 +216,30 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 			}
 		});
-		refreshGoods();
+
 	}
 
-	
+	private void initGridView() {
+		mGoodsGv = (PagingGridView) findViewById(R.id.goods_list_goods_pgv);
+		mGoodsGvAdapter = new GoodsGvPagingAdaper();
+		// mGoodsGv.setAdapter(mGoodsGvAdapter);
+		mGoodsGv.setHasMoreItems(true);
+		mGoodsGv.setPagingableListener(new PagingGridView.Pagingable() {
+			@Override
+			public void onLoadMoreItems() {
+				if (mCurrentPage < 3) {
+					refreshGoods();
+				} else {
+					mGoodsGv.onFinishLoading(false, null);
+				}
+			}
+		});
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
+		// refreshGoods();
 	}
 
 	private void refreshGoods() {

@@ -19,7 +19,7 @@ public class LoadingView extends LinearLayout {
 	}
 
 	private void init() {
-		inflate(getContext(), R.layout.gv_paging_loading_view, this);
+		inflate(getContext(), R.layout.view_gv_paging_loading, this);
 	}
 
 }
