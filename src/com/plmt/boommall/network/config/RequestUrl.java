@@ -39,6 +39,30 @@ public class RequestUrl {
 
 	}
 
+	public interface cart {
+
+		/**
+		 * 购物车列表
+		 */
+		public String list = "/cart/list";
+
+		/**
+		 * 购物车添加
+		 */
+		public String add = "/cart/add";
+
+		/**
+		 * 购物车修改
+		 */
+		public String update = "/cart/update";
+
+		/**
+		 * 购物车删除
+		 */
+		public String del = "/cart/delete";
+
+	}
+
 	public interface address {
 
 		/**
@@ -54,7 +78,7 @@ public class RequestUrl {
 		/**
 		 * 地址修改
 		 */
-		public String modify = "/address/update";
+		public String update = "/address/update";
 
 		/**
 		 * 地址删除

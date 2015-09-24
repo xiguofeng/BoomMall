@@ -1,15 +1,5 @@
 package com.plmt.boommall.network.logic;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,7 +9,6 @@ import android.os.Message;
 import android.util.Log;
 
 import com.plmt.boommall.BaseApplication;
-import com.plmt.boommall.entity.User;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;
