@@ -42,6 +42,8 @@ import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 
 public class GoodsListActivity extends Activity implements OnClickListener,
 		MyItemClickListener, XListView.IXListViewListener {
+	public static final int VIEW_MODE_LIST = 0;
+	public static final int VIEW_MODE_GRID = 1;
 
 	private Context mContext;
 	private MultiStateView mMultiStateView;
@@ -56,7 +58,6 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	private XListView mGoodsLv;
 	private GoodsAdapter mGoodsAdapter;
 	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
-	private int mCurrentPage = 1;
 
 	private PagingGridView mGoodsGv;
 	private GoodsGvPagingAdaper mGoodsGvAdapter;
@@ -67,6 +68,8 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	private HashMap<String, Object> mShowMsgMap = new HashMap<String, Object>();
 
 	private long exitTime = 0;
+	private int mCurrentPage = 1;
+	private int mCurrentViewMode = 0;
 
 	Handler mHandler = new Handler() {
 
@@ -80,15 +83,18 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 					mGoodsList.clear();
 					mGoodsList.addAll((Collection<? extends Goods>) msg.obj);
 
-					if (mGoodsGv.getAdapter() == null) {
-						mGoodsGv.setAdapter(mGoodsGvAdapter);
+					if (mCurrentViewMode == VIEW_MODE_LIST) {
+						mGoodsAdapter.notifyDataSetChanged();
+						onLoadComplete();
+					} else {
+						if (mGoodsGv.getAdapter() == null) {
+							mGoodsGv.setAdapter(mGoodsGvAdapter);
+						}
+						ArrayList<Goods> goodsList = new ArrayList<Goods>();
+						goodsList.addAll(mGoodsList);
+						mGoodsGv.onFinishLoading(true, goodsList);
 					}
-					ArrayList<Goods> goodsList = new ArrayList<Goods>();
-					goodsList.addAll(mGoodsList);
-					mGoodsGv.onFinishLoading(true, goodsList);
 
-					// mGoodsAdapter.notifyDataSetChanged();
-					// onLoadComplete();
 				}
 				break;
 			}
@@ -116,6 +122,12 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		mContext = GoodsListActivity.this;
 		initView();
 		initData();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// refreshGoods();
 	}
 
 	private void initView() {
@@ -168,7 +180,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 		initListView();
 		initGridView();
-
+		showViewMode(VIEW_MODE_LIST);
 	}
 
 	private void initData() {
@@ -177,7 +189,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 	private void initListView() {
 		mGoodsLv = (XListView) findViewById(R.id.goods_list_goods_xlv);
-		mGoodsLv.setPullRefreshEnable(true);
+		mGoodsLv.setPullRefreshEnable(false);
 		mGoodsLv.setPullLoadEnable(true);
 		mGoodsLv.setAutoLoadEnable(true);
 		mGoodsLv.setXListViewListener(this);
@@ -236,10 +248,15 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		});
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		// refreshGoods();
+	private void showViewMode(int mode) {
+		mCurrentViewMode = mode;
+		if (mode == VIEW_MODE_LIST) {
+			mGoodsGv.setVisibility(View.GONE);
+			mGoodsLv.setVisibility(View.VISIBLE);
+		} else {
+			mGoodsGv.setVisibility(View.VISIBLE);
+			mGoodsLv.setVisibility(View.GONE);
+		}
 	}
 
 	private void refreshGoods() {
