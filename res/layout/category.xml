@@ -10,7 +10,7 @@
     android:gravity="center"
     android:orientation="vertical" >
 
-       <RelativeLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/red_title_bg"
@@ -23,8 +23,8 @@
             android:layout_width="25dip"
             android:layout_height="25dip"
             android:layout_alignParentRight="true"
-            android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
             android:layout_marginRight="8dip"
             android:contentDescription="@string/app_name"
             android:scaleType="centerCrop"
@@ -33,10 +33,10 @@
         <RelativeLayout
             android:id="@+id/category_search_rl"
             android:layout_width="match_parent"
-            android:layout_toLeftOf="@+id/category_msg_iv"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="10dip"
+            android:layout_toLeftOf="@+id/category_msg_iv"
             android:background="@drawable/corners_search_bg_red"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -116,14 +116,14 @@
             android:background="@color/gray_bg"
             android:gravity="center" >
 
-            <GridView
+            <com.plmt.boommall.ui.view.gridview.GridViewWithHeaderAndFooter
                 android:id="@+id/category_second_gv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:cacheColorHint="#00000000"
-                android:dividerHeight="0.5dip"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
+                android:cacheColorHint="#00000000"
+                android:dividerHeight="0.5dip"
                 android:fastScrollEnabled="false"
                 android:horizontalSpacing="5dip"
                 android:listSelector="@android:color/transparent"

@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -25,10 +26,10 @@ import android.widget.Toast;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Category;
-import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.ui.adapter.CategoryGvAdapter;
 import com.plmt.boommall.ui.adapter.TopCategoryAdapter;
+import com.plmt.boommall.ui.view.gridview.GridViewWithHeaderAndFooter;
 
 public class CategoryActivity extends Activity implements OnClickListener {
 
@@ -46,7 +47,7 @@ public class CategoryActivity extends Activity implements OnClickListener {
 			R.drawable.personal_order_wait_for_payment };
 	private String[] mTopCategory = { "待付款", "待收货", "待评价", "退款/售后" };
 
-	private GridView mSecondLevelGv;
+	private GridViewWithHeaderAndFooter mSecondLevelGv;
 	private CategoryGvAdapter mSecondCategoryAdapter;
 	private ArrayList<Category> mSecondCategoryList = new ArrayList<Category>();
 
@@ -152,7 +153,10 @@ public class CategoryActivity extends Activity implements OnClickListener {
 			}
 		});
 
-		mSecondLevelGv = (GridView) findViewById(R.id.category_second_gv);
+		mSecondLevelGv = (GridViewWithHeaderAndFooter) findViewById(R.id.category_second_gv);
+		LayoutInflater layoutInflater = LayoutInflater.from(this);
+		View headerView = layoutInflater.inflate(R.layout.view_gv_header, null);
+		mSecondLevelGv.addHeaderView(headerView);
 		for (int i = 0; i < 10; i++) {
 			Category category = new Category();
 			category.setId("" + i);
@@ -175,6 +179,7 @@ public class CategoryActivity extends Activity implements OnClickListener {
 						R.anim.push_left_out);
 			}
 		});
+
 	}
 
 	private void initData() {
