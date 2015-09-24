@@ -1,5 +1,9 @@
 package com.plmt.boommall.ui.activity;
 
+import java.util.Collection;
+
+import org.w3c.dom.Text;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -26,6 +30,7 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.network.logic.CartLogic;
 import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.ui.view.BadgeView;
 import com.plmt.boommall.ui.view.MultiStateView;
@@ -132,6 +137,65 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	};
 
+	Handler mCartHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			int what = msg.what;
+			switch (what) {
+			case CartLogic.CART_MODIFY_SUC: {
+				if (null != msg.obj) {
+				}
+
+				break;
+
+			}
+			case CartLogic.CART_MODIFY_FAIL: {
+				break;
+			}
+			case CartLogic.CART_MODIFY_EXCEPTION: {
+				break;
+			}
+			case CartLogic.CART_DEL_SUC: {
+				if (null != msg.obj) {
+				}
+
+				break;
+
+			}
+			case CartLogic.CART_DEL_FAIL: {
+				break;
+			}
+			case CartLogic.CART_DEL_EXCEPTION: {
+				break;
+			}
+			case CartLogic.CART_ADD_SUC: {
+				if (null != msg.obj) {
+
+				}
+
+				break;
+			}
+			case CartLogic.CART_ADD_FAIL: {
+				Toast.makeText(mContext, R.string.login_fail,
+						Toast.LENGTH_SHORT).show();
+				break;
+			}
+			case CartLogic.CART_ADD_EXCEPTION: {
+				break;
+			}
+			case CartLogic.NET_ERROR: {
+				break;
+			}
+
+			default:
+				break;
+			}
+			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+		}
+
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -191,7 +255,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 		// mBuyNumView = new BadgeView(mContext, mCartIv);
 		mBuyNumView = new BadgeView(this, mCartIv);
-		//mBuyNumView.setText(String.valueOf(CartManager.getAllCartNum()));
+		// mBuyNumView.setText(String.valueOf(CartManager.getAllCartNum()));
 		mBuyNumView.show();
 
 		mBriefLl = (LinearLayout) findViewById(R.id.goods_detail_content);
@@ -244,7 +308,6 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	private void fillUpGoodsData() {
 		ImageLoader.getInstance().displayImage(mGoods.getImage(), mGoodsIconIv);
 
-		mGoods.setNum("1");
 		mNum.setText(mGoods.getNum());
 		mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods
 				.getName() : "");
@@ -399,8 +462,22 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			// buyImg是动画的图片，我的是一个小球（R.drawable.sign）
 			// mBall.setImageResource(R.drawable.sign);// 设置buyImg的图片
 			// setAnim(mBall, startLocation);// 开始执行动画
-			//
+
 			mAddCartLl.setClickable(false);
+			if (TextUtils.isEmpty(mGoods.getNum())
+					|| "null".equals(mGoods.getNum())) {
+				mGoods.setNum("0");
+			}
+
+			CartLogic.add(mContext, mCartHandler, mGoods.getId(), "1");
+//			if (Integer.valueOf(mGoods.getNum()) == 0) {
+//				CartLogic.add(mContext, mCartHandler, mGoods.getId(), "1");
+//			} else {
+//				// CartLogic.update(mContext, mCartHandler, "", "",
+//				// String.valueOf(Integer.valueOf(mGoods.getNum()) + 1));
+//			}
+//			//
+
 			// int addNum = Integer.parseInt(mNum.getText().toString().trim());
 			int addNum = 1;
 			boolean isSuc = CartManager.cartModifyByDetail(mGoods, addNum);
@@ -442,8 +519,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		}
 		case R.id.goods_detail_back_iv: {
 			finish();
-			// overridePendingTransition(R.anim.push_right_in,
-			// R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			break;
 		}
 		default:

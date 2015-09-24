@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.ui.utils.ListItemClickHelp;
 import com.plmt.boommall.utils.CartManager;
 
 public class CartGoodsAdapter extends BaseAdapter {
@@ -30,12 +31,17 @@ public class CartGoodsAdapter extends BaseAdapter {
 	private ArrayList<Goods> mDatas;
 
 	private LayoutInflater mInflater;
+
+	private ListItemClickHelp mCallback;
+
 	// 用来控制CheckBox的选中状况
 	private static HashMap<Integer, Boolean> mIsSelected = new HashMap<Integer, Boolean>();
 
-	public CartGoodsAdapter(Context context, ArrayList<Goods> datas) {
+	public CartGoodsAdapter(Context context, ArrayList<Goods> datas,
+			ListItemClickHelp callback) {
 		mContext = context;
 		mDatas = datas;
+		mCallback = callback;
 		mInflater = LayoutInflater.from(mContext);
 	}
 
@@ -109,6 +115,10 @@ public class CartGoodsAdapter extends BaseAdapter {
 				holder.mIcon);
 
 		final int tempPosition = position;
+		final View view = convertView;
+		final int whichAdd = holder.mAddIb.getId();
+		final int whichReduce = holder.mReduceIb.getId();
+
 		holder.vId = tempPosition;
 
 		holder.mCheckIb
@@ -126,40 +136,44 @@ public class CartGoodsAdapter extends BaseAdapter {
 					}
 				});
 
-		// if (null != getmIsSelected().get(position)) {
-		//
-		// }
 		holder.mCheckIb.setChecked(getmIsSelected().get(position));
 		final boolean isChecked = getmIsSelected().get(position);
 		holder.mAddIb.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Goods goods = mDatas.get(tempPosition);
-				if (TextUtils.isEmpty(goods.getNum())
-						|| "null".equals(goods.getNum())) {
-					goods.setNum("1");
-				}
-				goods.setNum(String.valueOf(Integer.parseInt(goods.getNum()) + 1));
-				mDatas.set(tempPosition, goods);
-				CartManager.cartModifyByCart(goods, isChecked);
-				notifyDataSetChanged();
+
+				mCallback.onClick(view, v, tempPosition, whichAdd);
+
+				// Goods goods = mDatas.get(tempPosition);
+				// if (TextUtils.isEmpty(goods.getNum())
+				// || "null".equals(goods.getNum())) {
+				// goods.setNum("1");
+				// }
+				// goods.setNum(String.valueOf(Integer.parseInt(goods.getNum())
+				// + 1));
+				// mDatas.set(tempPosition, goods);
+				// CartManager.cartModifyByCart(goods, isChecked);
+				// notifyDataSetChanged();
 
 			}
 		});
 		holder.mReduceIb.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Goods goods = mDatas.get(tempPosition);
-				if (TextUtils.isEmpty(goods.getNum())
-						|| "null".equals(goods.getNum())) {
-					goods.setNum("1");
-				}
-				if (Integer.parseInt(goods.getNum()) > 1) {
-					goods.setNum(String.valueOf(Integer.parseInt(goods.getNum()) - 1));
-					mDatas.set(tempPosition, goods);
-					CartManager.cartModifyByCart(goods, isChecked);
-					notifyDataSetChanged();
-				}
+
+				mCallback.onClick(view, v, tempPosition, whichReduce);
+				// Goods goods = mDatas.get(tempPosition);
+				// if (TextUtils.isEmpty(goods.getNum())
+				// || "null".equals(goods.getNum())) {
+				// goods.setNum("1");
+				// }
+				// if (Integer.parseInt(goods.getNum()) > 1) {
+				// goods.setNum(String.valueOf(Integer.parseInt(goods.getNum())
+				// - 1));
+				// mDatas.set(tempPosition, goods);
+				// CartManager.cartModifyByCart(goods, isChecked);
+				// notifyDataSetChanged();
+				// }
 			}
 		});
 		return convertView;

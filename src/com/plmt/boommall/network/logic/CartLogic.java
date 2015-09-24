@@ -165,13 +165,14 @@ public class CartLogic {
 					"frontend=" + UserInfoManager.getSession(context));
 			requestJson.put("cartitemsid",
 					URLEncoder.encode(cartitemsid, "UTF-8"));
-			requestJson.put("action", URLEncoder.encode(action, "UTF-8"));
+			requestJson.put("action", URLEncoder.encode("update_qty", "UTF-8"));
 			requestJson.put("qty", URLEncoder.encode(qty, "UTF-8"));
 
 			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
 					requestJson, new Listener<JSONObject>() {
 						@Override
 						public void onResponse(JSONObject response) {
+							Log.e("xxx_cart_update", response.toString());
 							if (null != response) {
 								Log.e("xxx_cart_update", response.toString());
 								// parseListData(response, handler);
@@ -179,7 +180,6 @@ public class CartLogic {
 
 						}
 					}, null);
-
 			cookieRequest.setCookie("frontend="
 					+ UserInfoManager.getSession(context));
 

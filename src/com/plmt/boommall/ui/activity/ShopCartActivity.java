@@ -24,6 +24,8 @@ import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.CartLogic;
 import com.plmt.boommall.ui.adapter.CartGoodsAdapter;
+import com.plmt.boommall.ui.utils.ListItemClickHelp;
+import com.plmt.boommall.ui.utils.MyItemClickListener;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.listview.SwipeMenu;
 import com.plmt.boommall.ui.view.listview.SwipeMenuCreator;
@@ -32,7 +34,8 @@ import com.plmt.boommall.ui.view.listview.SwipeMenuListView;
 import com.plmt.boommall.utils.CartManager;
 import com.plmt.boommall.utils.UserInfoManager;
 
-public class ShopCartActivity extends Activity implements OnClickListener {
+public class ShopCartActivity extends Activity implements OnClickListener,
+		ListItemClickHelp {
 
 	private Context mContext;
 
@@ -167,7 +170,7 @@ public class ShopCartActivity extends Activity implements OnClickListener {
 		mCartNullTv = (TextView) findViewById(R.id.shop_cart_null_tv);
 
 		mGoodsLv = (SwipeMenuListView) findViewById(R.id.shop_cart_order_lv);
-		mGoodsAdapter = new CartGoodsAdapter(mContext, mGoodsList);
+		mGoodsAdapter = new CartGoodsAdapter(mContext, mGoodsList, this);
 		mGoodsLv.setAdapter(mGoodsAdapter);
 
 		// step 1. create a MenuCreator
@@ -202,27 +205,27 @@ public class ShopCartActivity extends Activity implements OnClickListener {
 				case 0:
 
 					mGoodsList.remove(position);
-					CartManager.cartRemove(position);
-					// del
-					for (int i = 0; i < mGoodsList.size(); i++) {
-						if (i < position) {
-							mGoodsAdapter.getmIsSelected().put(i,
-									mGoodsAdapter.getmIsSelected().get(i));
-
-						} else {
-							mGoodsAdapter.getmIsSelected().put(i,
-									mGoodsAdapter.getmIsSelected().get(i + 1));
-						}
-
-					}
-					mGoodsAdapter.getmIsSelected()
-							.remove(mGoodsList.size() + 1);
-					mGoodsAdapter.notifyDataSetChanged();
-
-					mCartNullTv.setVisibility(View.VISIBLE);
-					if (CartManager.getsCartList().size() > 0) {
-						mCartNullTv.setVisibility(View.GONE);
-					}
+					// CartManager.cartRemove(position);
+					// // del
+					// for (int i = 0; i < mGoodsList.size(); i++) {
+					// if (i < position) {
+					// mGoodsAdapter.getmIsSelected().put(i,
+					// mGoodsAdapter.getmIsSelected().get(i));
+					//
+					// } else {
+					// mGoodsAdapter.getmIsSelected().put(i,
+					// mGoodsAdapter.getmIsSelected().get(i + 1));
+					// }
+					//
+					// }
+					// mGoodsAdapter.getmIsSelected()
+					// .remove(mGoodsList.size() + 1);
+					// mGoodsAdapter.notifyDataSetChanged();
+					//
+					// mCartNullTv.setVisibility(View.VISIBLE);
+					// if (CartManager.getsCartList().size() > 0) {
+					// mCartNullTv.setVisibility(View.GONE);
+					// }
 
 					break;
 
@@ -288,6 +291,33 @@ public class ShopCartActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
+	public void onClick(View v) {
+	}
+
+	@Override
+	public void onClick(View item, View widget, int position, int which) {
+		switch (which) {
+		case R.id.cart_goods_add_ib: {
+			Goods goods = mGoodsList.get(position);
+			String num = String.valueOf(Integer.parseInt(goods.getNum()) + 1);
+			CartLogic.update(mContext, mHandler, goods.getScid(), "", num);
+			break;
+		}
+		case R.id.cart_goods_reduce_ib: {
+			Goods goods = mGoodsList.get(position);
+			if (Integer.parseInt(goods.getNum()) > 1) {
+				String num = String
+						.valueOf(Integer.parseInt(goods.getNum()) - 1);
+				CartLogic.update(mContext, mHandler, goods.getScid(), "", num);
+			}
+			break;
+		}
+		default:
+			break;
+		}
+	}
+
+	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -295,10 +325,6 @@ public class ShopCartActivity extends Activity implements OnClickListener {
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
-	}
-
-	@Override
-	public void onClick(View v) {
 	}
 
 }
