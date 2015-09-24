@@ -209,9 +209,9 @@ public class MainActivity extends Activity implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(MainActivity.this,
-						LoginActivity.class);
-				startActivity(intent);
+				// Intent intent = new Intent(MainActivity.this,
+				// LoginActivity.class);
+				// startActivity(intent);
 			}
 		});
 	}
