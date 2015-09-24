@@ -171,9 +171,11 @@ public class CartLogic {
 					requestJson, new Listener<JSONObject>() {
 						@Override
 						public void onResponse(JSONObject response) {
-							Log.e("xxx_cart_update", response.toString());
+							Log.e("xxx_cart_update_response",
+									response.toString());
 							if (null != response) {
-								Log.e("xxx_cart_update", response.toString());
+								Log.e("xxx_cart_update_response",
+										response.toString());
 								// parseListData(response, handler);
 							}
 
