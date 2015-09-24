@@ -220,8 +220,8 @@
                         android:id="@+id/main_hot_brand_goods_lv"
                         android:layout_width="fill_parent"
                         android:layout_height="110dip"
-                        android:divider="#878787"
-                        widget:dividerWidth="2dp" />
+                        android:divider="@color/gray_bg"
+                        widget:dividerWidth="1dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -268,8 +268,8 @@
                         android:id="@+id/main_first_classify_goods_lv"
                         android:layout_width="fill_parent"
                         android:layout_height="110dip"
-                        android:divider="#878787"
-                        widget:dividerWidth="2dp" />
+                        android:divider="@color/gray_bg"
+                        widget:dividerWidth="1dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -316,8 +316,8 @@
                         android:id="@+id/main_second_classify_goods_lv"
                         android:layout_width="fill_parent"
                         android:layout_height="110dip"
-                        android:divider="#878787"
-                        widget:dividerWidth="2dp" />
+                        android:divider="@color/gray_bg"
+                        widget:dividerWidth="1dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -364,8 +364,8 @@
                         android:id="@+id/main_three_classify_goods_lv"
                         android:layout_width="fill_parent"
                         android:layout_height="110dip"
-                        android:divider="#878787"
-                        widget:dividerWidth="2dp" />
+                        android:divider="@color/gray_bg"
+                        widget:dividerWidth="1dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -412,8 +412,8 @@
                         android:id="@+id/main_fourth_classify_goods_lv"
                         android:layout_width="fill_parent"
                         android:layout_height="110dip"
-                        android:divider="#878787"
-                        widget:dividerWidth="2dp" />
+                        android:divider="@color/gray_bg"
+                        widget:dividerWidth="1dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -460,8 +460,8 @@
                         android:id="@+id/main_fifth_classify_goods_lv"
                         android:layout_width="fill_parent"
                         android:layout_height="110dip"
-                        android:divider="#878787"
-                        widget:dividerWidth="2dp" />
+                        android:divider="@color/gray_bg"
+                        widget:dividerWidth="1dp" />
                 </LinearLayout>
 
                 <LinearLayout
