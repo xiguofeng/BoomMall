@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/red_title_bg"
@@ -15,27 +16,31 @@
         android:padding="5dip" >
 
         <ImageView
-            android:layout_width="30dip"
-            android:layout_height="30dip"
+            android:id="@+id/goods_list_msg_iv"
+            android:layout_width="25dip"
+            android:layout_height="25dip"
+            android:layout_alignParentRight="true"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dip"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dip"
             android:contentDescription="@string/app_name"
             android:scaleType="centerCrop"
             android:src="@drawable/android_search_button_icon" />
 
         <RelativeLayout
-            android:id="@+id/category_goods_search_rl"
+            android:id="@+id/goods_list_search_rl"
             android:layout_width="match_parent"
+            android:layout_toLeftOf="@+id/goods_list_msg_iv"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="13dip"
-            android:layout_marginRight="5dip"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="10dip"
             android:background="@drawable/corners_search_bg_red"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal" >
 
             <LinearLayout
-                android:id="@+id/category_goods_search_ll"
+                android:id="@+id/goods_list_search_ll"
                 android:layout_width="match_parent"
                 android:layout_height="30dip"
                 android:layout_centerInParent="true"
@@ -58,7 +63,7 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/category_goods_search_et"
+                android:id="@+id/goods_list_search_et"
                 android:layout_width="match_parent"
                 android:layout_height="35dip"
                 android:layout_centerInParent="true"
@@ -69,7 +74,7 @@
                 android:textColor="@color/gray_character" />
 
             <ImageView
-                android:id="@+id/category_goods_search_iv"
+                android:id="@+id/goods_list_search_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -80,7 +85,7 @@
                 android:src="@drawable/search"
                 android:visibility="gone" />
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <com.plmt.boommall.ui.view.MultiStateView
         android:id="@+id/goods_list_multiStateView"

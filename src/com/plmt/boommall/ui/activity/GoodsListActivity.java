@@ -125,12 +125,12 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
 
-		mSearchLl = (LinearLayout) findViewById(R.id.category_goods_search_ll);
+		mSearchLl = (LinearLayout) findViewById(R.id.goods_list_search_ll);
 
-		mSearchIv = (ImageView) findViewById(R.id.category_goods_search_iv);
+		mSearchIv = (ImageView) findViewById(R.id.goods_list_search_iv);
 		mSearchIv.setOnClickListener(this);
 
-		mSearchEt = (EditText) findViewById(R.id.category_goods_search_et);
+		mSearchEt = (EditText) findViewById(R.id.goods_list_search_et);
 		mSearchEt
 				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
 					@Override
@@ -243,7 +243,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.category_goods_search_iv: {
+		case R.id.goods_list_search_iv: {
 			if (!TextUtils.isEmpty(mSearchEt.getText().toString().trim())) {
 				search(mSearchEt.getText().toString().trim());
 			} else {
