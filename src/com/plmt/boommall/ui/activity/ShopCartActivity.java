@@ -25,7 +25,6 @@ import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.CartLogic;
 import com.plmt.boommall.ui.adapter.CartGoodsAdapter;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
-import com.plmt.boommall.ui.utils.MyItemClickListener;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.listview.SwipeMenu;
 import com.plmt.boommall.ui.view.listview.SwipeMenuCreator;
@@ -89,6 +88,7 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 				break;
 			}
 			case CartLogic.CART_DEL_SUC: {
+				getCartList();
 				if (null != msg.obj) {
 				}
 
@@ -203,8 +203,9 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 					int index) {
 				switch (index) {
 				case 0:
-
-					mGoodsList.remove(position);
+					CartLogic.del(mContext, mHandler, mGoodsList.get(position)
+							.getScid());
+					// mGoodsList.remove(position);
 					// CartManager.cartRemove(position);
 					// // del
 					// for (int i = 0; i < mGoodsList.size(); i++) {

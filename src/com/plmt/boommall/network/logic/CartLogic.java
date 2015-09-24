@@ -66,7 +66,6 @@ public class CartLogic {
 						@Override
 						public void onResponse(JSONObject response) {
 							if (null != response) {
-								Log.e("xxx_cart_getList", response.toString());
 								parseListData(response, handler);
 							}
 
@@ -105,7 +104,6 @@ public class CartLogic {
 					goods.setNum(goodsJsonObject.getString("qty"));
 					tempGoodsList.add(goods);
 				}
-				Log.e("xxx_Cartlist", "" + tempGoodsList.size());
 				Message message = new Message();
 				message.what = CART_LIST_GET_SUC;
 				message.obj = tempGoodsList;
@@ -159,6 +157,7 @@ public class CartLogic {
 			final String cartitemsid, final String action, final String qty) {
 
 		String url = RequestUrl.HOST_URL + RequestUrl.cart.update;
+		Log.e("xxx_cart_update", url);
 		JSONObject requestJson = new JSONObject();
 		try {
 			requestJson.put("sessionid",
@@ -185,6 +184,7 @@ public class CartLogic {
 
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
+			Log.e("xxx_cart_update", "start()");
 
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -210,12 +210,11 @@ public class CartLogic {
 						public void onResponse(JSONObject response) {
 							if (null != response) {
 								Log.e("xxx_cart_del", response.toString());
-								// parseListData(response, handler);
+								parseDelData(response, handler);
 							}
 
 						}
 					}, null);
-
 			cookieRequest.setCookie("frontend="
 					+ UserInfoManager.getSession(context));
 
@@ -226,6 +225,20 @@ public class CartLogic {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private static void parseDelData(JSONObject response, Handler handler) {
+
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				handler.sendEmptyMessage(CART_DEL_SUC);
+			} else {
+				handler.sendEmptyMessage(CART_DEL_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(CART_DEL_EXCEPTION);
 		}
 	}
 
