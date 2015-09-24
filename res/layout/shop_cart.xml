@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res/com.plmt.boommall"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_bg"
@@ -43,27 +46,37 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/shop_cart_null_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dip"
-        android:text="@string/cart_no_hint"
-        android:textColor="@color/gray_character"
-        android:textSize="@dimen/middle_text_size"
-        android:visibility="gone" />
-
-    <com.plmt.boommall.ui.view.listview.SwipeMenuListView
-        android:id="@+id/shop_cart_order_lv"
+    <com.plmt.boommall.ui.view.MultiStateView
+        android:id="@+id/shop_cart_multiStateView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:cacheColorHint="@color/gray_bg"
-        android:divider="@color/gray_bg"
-        android:dividerHeight="15dip"
-        android:fastScrollEnabled="false"
-        android:focusable="true"
-        android:scrollbars="none" />
+        app:msv_emptyView="@layout/empty_view"
+        app:msv_errorView="@layout/error_view"
+        app:msv_loadingView="@layout/loading_view"
+        app:msv_viewState="content" >
+
+        <TextView
+            android:id="@+id/shop_cart_null_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="100dip"
+            android:text="@string/cart_no_hint"
+            android:textColor="@color/gray_character"
+            android:textSize="@dimen/middle_text_size"
+            android:visibility="gone" />
+
+        <com.plmt.boommall.ui.view.listview.SwipeMenuListView
+            android:id="@+id/shop_cart_order_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:cacheColorHint="@color/gray_bg"
+            android:divider="@color/gray_bg"
+            android:dividerHeight="15dip"
+            android:fastScrollEnabled="false"
+            android:focusable="true"
+            android:scrollbars="none" />
+    </com.plmt.boommall.ui.view.MultiStateView>
 
 </LinearLayout>

@@ -30,6 +30,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 	public static final String ORIGIN_FROM_REG_KEY = "com.reg";
 
+	public static final String ORIGIN_FROM_CART_KEY = "com.cart";
+
 	public static final String ORIGIN_FROM_ORDER_KEY = "com.order";
 
 	public static final String ORIGIN_FROM_USER_KEY = "com.user";
@@ -176,12 +178,18 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 	private void handle() {
 		if (mNowAction.equals(ORIGIN_FROM_NULL)) {
-			Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-			startActivity(intent);
-			LoginActivity.this.finish();
-			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			// Intent intent = new Intent(LoginActivity.this,
+			// HomeActivity.class);
+			// startActivity(intent);
+			// LoginActivity.this.finish();
+			// overridePendingTransition(R.anim.push_left_in,
+			// R.anim.push_left_out);
 		} else if (mNowAction.equals(ORIGIN_FROM_REG_KEY)) {
 
+		} else if (mNowAction.equals(ORIGIN_FROM_CART_KEY)) {
+			LoginActivity.this.finish();
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 		} else if (mNowAction.equals(ORIGIN_FROM_ORDER_KEY)) {
 
 		} else if (mNowAction.equals(ORIGIN_FROM_USER_KEY)) {

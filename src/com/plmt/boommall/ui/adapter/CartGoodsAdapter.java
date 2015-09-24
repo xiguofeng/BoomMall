@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -28,7 +30,6 @@ public class CartGoodsAdapter extends BaseAdapter {
 	private ArrayList<Goods> mDatas;
 
 	private LayoutInflater mInflater;
-
 	// 用来控制CheckBox的选中状况
 	private static HashMap<Integer, Boolean> mIsSelected = new HashMap<Integer, Boolean>();
 
@@ -102,11 +103,10 @@ public class CartGoodsAdapter extends BaseAdapter {
 
 		holder.mName.setText(mDatas.get(position).getName());
 		holder.mPrice.setText("￥" + mDatas.get(position).getFinalPrice());
-		holder.mOriginalPrice.setText("原价￥"
-				+ mDatas.get(position).getPrice());
-		holder.mNum.setText("1");
-		ImageLoader.getInstance().displayImage(
-				mDatas.get(position).getImage(), holder.mIcon);
+		holder.mOriginalPrice.setText("原价￥" + mDatas.get(position).getPrice());
+		holder.mNum.setText(mDatas.get(position).getNum());
+		ImageLoader.getInstance().displayImage(mDatas.get(position).getImage(),
+				holder.mIcon);
 
 		final int tempPosition = position;
 		holder.vId = tempPosition;
@@ -121,71 +121,47 @@ public class CartGoodsAdapter extends BaseAdapter {
 
 						CartManager.cartCheckDataRefresh(
 								mDatas.get(tempPosition), isChecked);
-						// if (!isChecked) {
-						//
-						// for (int i = 0; i < CartManager
-						// .getsSelectCartList().size(); i++) {
-						// if (CartManager
-						// .getsSelectCartList()
-						// .get(i)
-						// .getId()
-						// .equals(mDatas.get(tempPosition)
-						// .getId())) {
-						// CartManager.getsSelectCartList().remove(i);
-						// break;
-						// }
-						// }
-						// } else {
-						// boolean isHas = false;
-						// for (int i = 0; i < CartManager
-						// .getsSelectCartList().size(); i++) {
-						// if (CartManager
-						// .getsSelectCartList()
-						// .get(i)
-						// .getId()
-						// .equals(mDatas.get(tempPosition)
-						// .getId())) {
-						// isHas = true;
-						// break;
-						// }
-						// }
-						// if (!isHas) {
-						// CartManager.getsSelectCartList().add(
-						// mDatas.get(tempPosition));
-						// }
-						// }
-						//CartManager.setCartTotalMoney();
+
 						notifyDataSetChanged();
 					}
 				});
 
+		// if (null != getmIsSelected().get(position)) {
+		//
+		// }
 		holder.mCheckIb.setChecked(getmIsSelected().get(position));
 		final boolean isChecked = getmIsSelected().get(position);
+		holder.mAddIb.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Goods goods = mDatas.get(tempPosition);
+				if (TextUtils.isEmpty(goods.getNum())
+						|| "null".equals(goods.getNum())) {
+					goods.setNum("1");
+				}
+				goods.setNum(String.valueOf(Integer.parseInt(goods.getNum()) + 1));
+				mDatas.set(tempPosition, goods);
+				CartManager.cartModifyByCart(goods, isChecked);
+				notifyDataSetChanged();
 
-		// holder.mAddIb.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// Goods goods = mDatas.get(tempPosition);
-		// goods.setNum(String.valueOf(Integer.parseInt(goods.getNum()) + 1));
-		// mDatas.set(tempPosition, goods);
-		// CartManager.cartModifyByCart(goods, isChecked);
-		// notifyDataSetChanged();
-		//
-		// }
-		// });
-		// holder.mReduceIb.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// Goods goods = mDatas.get(tempPosition);
-		// if (Integer.parseInt(goods.getNum()) > 1) {
-		// goods.setNum(String.valueOf(Integer.parseInt(goods.getNum()) - 1));
-		// mDatas.set(tempPosition, goods);
-		// CartManager.cartModifyByCart(goods, isChecked);
-		// notifyDataSetChanged();
-		// }
-		//
-		// }
-		// });
+			}
+		});
+		holder.mReduceIb.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Goods goods = mDatas.get(tempPosition);
+				if (TextUtils.isEmpty(goods.getNum())
+						|| "null".equals(goods.getNum())) {
+					goods.setNum("1");
+				}
+				if (Integer.parseInt(goods.getNum()) > 1) {
+					goods.setNum(String.valueOf(Integer.parseInt(goods.getNum()) - 1));
+					mDatas.set(tempPosition, goods);
+					CartManager.cartModifyByCart(goods, isChecked);
+					notifyDataSetChanged();
+				}
+			}
+		});
 		return convertView;
 	}
 

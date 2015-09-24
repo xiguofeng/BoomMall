@@ -2,7 +2,10 @@ package com.plmt.boommall.network.logic;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,24 +15,27 @@ import android.os.Message;
 import android.util.Log;
 
 import com.plmt.boommall.BaseApplication;
+import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.entity.Order;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
+import com.plmt.boommall.utils.JsonUtils;
 import com.plmt.boommall.utils.UserInfoManager;
 
 public class CartLogic {
 
 	public static final int NET_ERROR = 0;
 
-	public static final int CART_GET_SUC = NET_ERROR + 1;
+	public static final int CART_ADD_SUC = NET_ERROR + 1;
 
-	public static final int CART_GET_FAIL = CART_GET_SUC + 1;
+	public static final int CART_ADD_FAIL = CART_ADD_SUC + 1;
 
-	public static final int CART_GET_EXCEPTION = CART_GET_FAIL + 1;
+	public static final int CART_ADD_EXCEPTION = CART_ADD_FAIL + 1;
 
-	public static final int CART_LIST_GET_SUC = CART_GET_EXCEPTION + 1;
+	public static final int CART_LIST_GET_SUC = CART_ADD_EXCEPTION + 1;
 
 	public static final int CART_LIST_GET_FAIL = CART_LIST_GET_SUC + 1;
 
@@ -60,9 +66,8 @@ public class CartLogic {
 						@Override
 						public void onResponse(JSONObject response) {
 							if (null != response) {
-								Log.e("xxx_address_getList",
-										response.toString());
-								// parseListData(response, handler);
+								Log.e("xxx_cart_getList", response.toString());
+								parseListData(response, handler);
 							}
 
 						}
@@ -80,19 +85,32 @@ public class CartLogic {
 	}
 
 	private static void parseListData(JSONObject response, Handler handler) {
-		try {
 
+		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-				JSONObject jsonObject = response
+
+				JSONObject cartJsonObject = response
 						.getJSONObject(MsgResult.RESULT_DATA_TAG);
 
-				String session = jsonObject.getString("session");
-
+				JSONArray goodsArray = cartJsonObject.getJSONArray("items");
+				int size = goodsArray.length();
+				ArrayList<Goods> tempGoodsList = new ArrayList<Goods>();
+				for (int i = 0; i < size; i++) {
+					JSONObject goodsJsonObject = goodsArray.getJSONObject(i);
+					Goods goods = (Goods) JsonUtils.fromJsonToJava(
+							goodsJsonObject, Goods.class);
+					goods.setId(goodsJsonObject.getString("pid"));
+					goods.setScid(goodsJsonObject.getString("id"));
+					goods.setNum(goodsJsonObject.getString("qty"));
+					tempGoodsList.add(goods);
+				}
+				Log.e("xxx_Cartlist", "" + tempGoodsList.size());
 				Message message = new Message();
 				message.what = CART_LIST_GET_SUC;
-				message.obj = session;
+				message.obj = tempGoodsList;
 				handler.sendMessage(message);
+
 			} else {
 				handler.sendEmptyMessage(CART_LIST_GET_FAIL);
 			}
@@ -191,7 +209,7 @@ public class CartLogic {
 						@Override
 						public void onResponse(JSONObject response) {
 							if (null != response) {
-								Log.e("xxx_cart_update", response.toString());
+								Log.e("xxx_cart_del", response.toString());
 								// parseListData(response, handler);
 							}
 

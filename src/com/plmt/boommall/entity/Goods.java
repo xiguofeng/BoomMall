@@ -17,7 +17,7 @@ public class Goods implements Serializable {
 	private String price;
 
 	private String image;
-	
+
 	private String tierPrice;
 
 	private String wc_cap;
@@ -27,8 +27,21 @@ public class Goods implements Serializable {
 	private String isSaleable;
 
 	private String cn_price;
-	
+
 	private String num;
+
+	private String minSaleQty;
+	
+	private String maxSaleQty;
+	/**
+	 * 对应购物车的数量
+	 */
+	private String qty;
+	
+	/**
+	 * 对应购物车的id
+	 */
+	private String scid;
 
 	public String getId() {
 		return id;
@@ -117,7 +130,7 @@ public class Goods implements Serializable {
 	public void setCn_price(String cn_price) {
 		this.cn_price = cn_price;
 	}
-	
+
 	public String getNum() {
 		return num;
 	}
@@ -126,4 +139,37 @@ public class Goods implements Serializable {
 		this.num = num;
 	}
 
+	public String getMinSaleQty() {
+		return minSaleQty;
+	}
+
+	public void setMinSaleQty(String minSaleQty) {
+		this.minSaleQty = minSaleQty;
+	}
+
+	public String getMaxSaleQty() {
+		return maxSaleQty;
+	}
+
+	public void setMaxSaleQty(String maxSaleQty) {
+		this.maxSaleQty = maxSaleQty;
+	}
+
+	public String getQty() {
+		return qty;
+	}
+
+	public void setQty(String qty) {
+		this.qty = qty;
+	}
+
+	public String getScid() {
+		return scid;
+	}
+
+	public void setScid(String scid) {
+		this.scid = scid;
+	}
+
+	
 }
