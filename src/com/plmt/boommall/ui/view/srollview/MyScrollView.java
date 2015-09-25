@@ -1,4 +1,4 @@
-package com.plmt.boommall.ui.view;
+package com.plmt.boommall.ui.view.srollview;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -51,6 +51,7 @@ public class MyScrollView extends ScrollView{
         }
         return super.onTouchEvent(ev);
     }
+    
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {

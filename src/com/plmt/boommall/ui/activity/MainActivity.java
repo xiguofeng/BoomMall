@@ -11,12 +11,14 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
@@ -34,6 +36,8 @@ import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView;
 import com.plmt.boommall.ui.view.gridview.CustomGridView;
 import com.plmt.boommall.ui.view.listview.HorizontalListView;
+import com.plmt.boommall.ui.view.srollview.BorderScrollView;
+import com.plmt.boommall.ui.view.srollview.BorderScrollView.OnBorderListener;
 import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
 import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 
@@ -42,7 +46,14 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Context mContext;
 
 	private MultiStateView mMultiStateView;
+	private BorderScrollView mCustomSv;
+	private boolean isSvInTop = true;
+	private boolean hasMeasured = false;
 
+	private RelativeLayout mSearchRl;
+	private RelativeLayout mSearchStandardRl;
+	private RelativeLayout mSearchSimpleRl;
+	private ImageView mSearchSimpleIv;
 	private LinearLayout mSearchLl;
 	private EditText mSearchEt;
 	private ImageView mSearchIv;
@@ -119,31 +130,77 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void initView() {
-		mContext = MainActivity.this;
+		mCustomSv = (BorderScrollView) findViewById(R.id.main_sv);
+		mSearchRl = (RelativeLayout) findViewById(R.id.main_title_ll);
+		ViewTreeObserver vto = mSearchRl.getViewTreeObserver();
 
-		mMultiStateView = (MultiStateView) findViewById(R.id.main_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
-				.findViewById(R.id.retry)
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						mMultiStateView
-								.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(),
-								"Fetching Data", Toast.LENGTH_SHORT).show();
-					}
-				});
-		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
-		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+		vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+			public boolean onPreDraw() {
+				if (!hasMeasured) {
+					int height = mSearchRl.getMeasuredHeight();
+					mCustomSv.setHeadHeight(height);
+					hasMeasured = true;
+				}
+				return true;
+			}
+		});
+		int height = mSearchRl.getMeasuredHeight();
+
+		// mCustomSv.setTopViewHeight(height);
+		mCustomSv.setOnBorderListener(new OnBorderListener() {
+
+			@Override
+			public void onTop() {
+				if (!isSvInTop) {
+					isSvInTop = true;
+					mSearchStandardRl.setVisibility(View.VISIBLE);
+					mSearchSimpleRl.setVisibility(View.GONE);
+				}
+			}
+
+			@Override
+			public void onBottom() {
+
+			}
+
+			@Override
+			public void onLeaveTop() {
+				if (isSvInTop) {
+					mSearchStandardRl.setVisibility(View.GONE);
+					mSearchSimpleRl.setVisibility(View.VISIBLE);
+					isSvInTop = false;
+				}
+
+			}
+		});
+
+		// mMultiStateView = (MultiStateView)
+		// findViewById(R.id.main_multiStateView);
+		// mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
+		// .findViewById(R.id.retry)
+		// .setOnClickListener(new View.OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// mMultiStateView
+		// .setViewState(MultiStateView.VIEW_STATE_LOADING);
+		// Toast.makeText(getApplicationContext(),
+		// "Fetching Data", Toast.LENGTH_SHORT).show();
+		// }
+		// });
+		// // mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
 		initSearchView();
 		initCircleimage();
 		initCategoryView();
 		initGoodsShow();
-		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
 	}
 
 	private void initSearchView() {
+		mSearchStandardRl = (RelativeLayout) findViewById(R.id.main_title_standard_ll);
+		mSearchSimpleRl = (RelativeLayout) findViewById(R.id.main_title_simple_ll);
+
 		mSearchLl = (LinearLayout) findViewById(R.id.main_search_ll);
 
 		mSearchIv = (ImageView) findViewById(R.id.main_search_iv);

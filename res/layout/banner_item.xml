@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/banner_iv"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="160dip"
         android:layout_gravity="center_vertical|center_horizontal"
         android:contentDescription="@string/app_name"
         android:scaleType="fitXY"
