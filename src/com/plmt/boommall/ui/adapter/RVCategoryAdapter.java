@@ -42,7 +42,7 @@ public class RVCategoryAdapter extends
 		holder.name.setText(item.getName());
 		holder.iconIv.setImageBitmap(null);
 		Picasso.with(holder.iconIv.getContext()).cancelRequest(holder.iconIv);
-		Picasso.with(holder.iconIv.getContext()).load(item.getImgUrl())
+		Picasso.with(holder.iconIv.getContext()).load(item.getSubimageurl())
 				.into(holder.iconIv);
 		holder.itemView.setTag(item);
 	}

@@ -86,6 +86,8 @@ public class RequestUrl {
 		public String del = "/address/delete";
 
 	}
+	
+	
 
 	public interface goods {
 
@@ -104,12 +106,15 @@ public class RequestUrl {
 		 */
 		public String queryGoodsByID = "/pdp/getproductdetail";
 
-		public String queryGoodsCategory = "queryProductCategory";
+		/**
+		 * 查询一级分类
+		 */
+		public String queryTopCategory = "/category/getcategory";
 
 		/**
-		 * 查询商品（关键字）
+		 * 一级分类获取二级分类和一级分类的banner接口
 		 */
-		public String queryGoodsByKey = "/goods/queryGoodsByKeyword";
+		public String querySubCategory = "/category/getsubCategory";
 
 	}
 

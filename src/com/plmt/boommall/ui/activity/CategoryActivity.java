@@ -56,7 +56,7 @@ public class CategoryActivity extends Activity implements OnClickListener {
 			int what = msg.what;
 			switch (what) {
 
-			case GoodsLogic.GOODS_LIST_BY_KEY_GET_SUC: {
+			case GoodsLogic.CATEGROY_TOP_LIST_GET_SUC: {
 				if (null != msg.obj) {
 					mTopCategoryList.clear();
 					mTopCategoryList
@@ -66,10 +66,10 @@ public class CategoryActivity extends Activity implements OnClickListener {
 				}
 				break;
 			}
-			case GoodsLogic.GOODS_LIST_BY_KEY_GET_FAIL: {
+			case GoodsLogic.CATEGROY_TOP_LIST_GET_FAIL: {
 				break;
 			}
-			case GoodsLogic.GOODS_LIST_BY_KEY_GET_EXCEPTION: {
+			case GoodsLogic.CATEGROY_TOP_LIST_GET_EXCEPTION: {
 				break;
 			}
 
@@ -181,7 +181,8 @@ public class CategoryActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-
+		GoodsLogic.getTopCategory(mContext, mHandler);
+		GoodsLogic.getSubCategory(mContext, mHandler, "美妆个护");
 	}
 
 	@Override

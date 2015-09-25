@@ -211,7 +211,7 @@ public class CategoryAndGoodsActivity extends Activity implements
 		for (int i = 0; i < 15; i++) {
 			Category category = new Category();
 			category.setName("分类" + i);
-			category.setImgUrl("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
+			category.setSubimageurl("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
 			mCategoryList.add(category);
 		}
 		// 创建一个线性布局管理器

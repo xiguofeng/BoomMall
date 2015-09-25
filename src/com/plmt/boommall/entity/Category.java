@@ -10,7 +10,7 @@ public class Category implements Serializable {
 
 	private String name;
 	
-	private String imgUrl;
+	private String subimageurl;
 	
 	private int localImage;
 
@@ -30,12 +30,12 @@ public class Category implements Serializable {
 		this.name = name;
 	}
 
-	public String getImgUrl() {
-		return imgUrl;
+	public String getSubimageurl() {
+		return subimageurl;
 	}
 
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
+	public void setSubimageurl(String subimageurl) {
+		this.subimageurl = subimageurl;
 	}
 
 	public int getLocalImage() {

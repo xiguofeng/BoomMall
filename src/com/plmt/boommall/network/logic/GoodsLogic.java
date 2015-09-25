@@ -14,6 +14,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.plmt.boommall.BaseApplication;
+import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
@@ -44,11 +45,17 @@ public class GoodsLogic {
 
 	public static final int GOODS_GET_EXCEPTION = GOODS_GET_FAIL + 1;
 
-	public static final int CATEGROY_LIST_GET_SUC = GOODS_GET_EXCEPTION + 1;
+	public static final int CATEGROY_TOP_LIST_GET_SUC = GOODS_GET_EXCEPTION + 1;
 
-	public static final int CATEGROY_LIST_GET_FAIL = CATEGROY_LIST_GET_SUC + 1;
+	public static final int CATEGROY_TOP_LIST_GET_FAIL = CATEGROY_TOP_LIST_GET_SUC + 1;
 
-	public static final int CATEGROY_LIST_GET_EXCEPTION = CATEGROY_LIST_GET_FAIL + 1;
+	public static final int CATEGROY_TOP_LIST_GET_EXCEPTION = CATEGROY_TOP_LIST_GET_FAIL + 1;
+	
+	public static final int CATEGROY_SUB_LIST_GET_SUC = CATEGROY_TOP_LIST_GET_EXCEPTION + 1;
+
+	public static final int CATEGROY_SUB_LIST_GET_FAIL = CATEGROY_SUB_LIST_GET_SUC + 1;
+
+	public static final int CATEGROY_SUB_LIST_GET_EXCEPTION = CATEGROY_SUB_LIST_GET_FAIL + 1;
 
 	public static void getGoodsListByCategory(final Context context,
 			final Handler handler, String category, final int pageNum,
@@ -173,6 +180,126 @@ public class GoodsLogic {
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(GOODS_GET_EXCEPTION);
+		}
+	}
+	
+	public static void getTopCategory(final Context context,
+			final Handler handler) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.goods.queryTopCategory;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("action", URLEncoder.encode("getcategory", "UTF-8"));
+
+			BaseApplication.getInstanceRequestQueue().add(
+					new JsonObjectRequest(Method.POST, url, requestJson,
+							new Listener<JSONObject>() {
+								@Override
+								public void onResponse(JSONObject response) {
+									if (null != response) {
+										Log.e("xxx_getTopCategory",
+												response.toString());
+										parseSubCategoryData(response, handler);
+									}
+
+								}
+							}, null));
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void parseTopCategoryData(JSONObject response, Handler handler) {
+
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+
+				JSONArray jsonArray = response
+						.getJSONArray(MsgResult.RESULT_DATA_TAG);
+
+				ArrayList<Category> mTempCategoryList = new ArrayList<Category>();
+				int size = jsonArray.length();
+				for (int i = 0; i < size; i++) {
+					JSONObject categoryJsonObject = jsonArray.getJSONObject(i);
+					Category category = (Category) JsonUtils.fromJsonToJava(categoryJsonObject,
+							Category.class);
+					mTempCategoryList.add(category);
+				}
+				Message message = new Message();
+				message.what = CATEGROY_TOP_LIST_GET_SUC;
+				message.obj = mTempCategoryList;
+				handler.sendMessage(message);
+
+			} else {
+				handler.sendEmptyMessage(CATEGROY_TOP_LIST_GET_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(CATEGROY_TOP_LIST_GET_EXCEPTION);
+		}
+	}
+	
+	public static void getSubCategory(final Context context,
+			final Handler handler,final String topCategoryName) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.goods.querySubCategory;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("categoryName", URLEncoder.encode(topCategoryName, "UTF-8"));
+
+			BaseApplication.getInstanceRequestQueue().add(
+					new JsonObjectRequest(Method.POST, url, requestJson,
+							new Listener<JSONObject>() {
+								@Override
+								public void onResponse(JSONObject response) {
+									if (null != response) {
+										Log.e("xxx_getSubCategory",
+												response.toString());
+										parseSubCategoryData(response, handler);
+									}
+
+								}
+							}, null));
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void parseSubCategoryData(JSONObject response, Handler handler) {
+
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+
+				JSONArray jsonArray = response
+						.getJSONArray(MsgResult.RESULT_DATA_TAG);
+
+				ArrayList<Category> mTempCategoryList = new ArrayList<Category>();
+				int size = jsonArray.length();
+				for (int i = 0; i < size; i++) {
+					JSONObject categoryJsonObject = jsonArray.getJSONObject(i);
+					Category category = (Category) JsonUtils.fromJsonToJava(categoryJsonObject,
+							Category.class);
+					mTempCategoryList.add(category);
+				}
+				Message message = new Message();
+				message.what = CATEGROY_SUB_LIST_GET_SUC;
+				message.obj = mTempCategoryList;
+				handler.sendMessage(message);
+
+			} else {
+				handler.sendEmptyMessage(CATEGROY_SUB_LIST_GET_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(CATEGROY_SUB_LIST_GET_EXCEPTION);
 		}
 	}
 
