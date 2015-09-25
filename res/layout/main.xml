@@ -458,7 +458,7 @@
                     android:layout_marginLeft="5dip"
                     android:layout_marginRight="5dip"
                     android:layout_toLeftOf="@+id/main_msg_iv"
-                    android:background="@drawable/corners_bg_gray_trans"
+                    android:background="@drawable/corners_bg_gray"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:orientation="horizontal" >
