@@ -529,7 +529,7 @@
                     android:background="@drawable/main_header_meun_bg"
                     android:contentDescription="@string/app_name"
                     android:scaleType="centerInside"
-                    android:src="@drawable/common_scan_selected" />
+                    android:src="@drawable/main_header_menu_search" />
 
                 <ImageView
                     android:id="@+id/main_title_simple_msg_iv"
@@ -541,7 +541,7 @@
                     android:background="@drawable/main_header_meun_bg"
                     android:contentDescription="@string/app_name"
                     android:scaleType="centerInside"
-                    android:src="@drawable/common_scan_selected" />
+                    android:src="@drawable/main_header_menu_msg" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
