@@ -166,14 +166,14 @@
                     </RelativeLayout>
                 </FrameLayout>
 
-                <com.plmt.boommall.ui.view.CustomGridView
+                <com.plmt.boommall.ui.view.gridview.CustomGridView
                     android:id="@+id/main_category_gv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:horizontalSpacing="10dp"
                     android:numColumns="4"
                     android:verticalSpacing="10dp" >
-                </com.plmt.boommall.ui.view.CustomGridView>
+                </com.plmt.boommall.ui.view.gridview.CustomGridView>
 
                 <LinearLayout
                     android:id="@+id/main_hot_brand_ll"

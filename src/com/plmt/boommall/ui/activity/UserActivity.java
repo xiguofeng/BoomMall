@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.MenuItem;
 import com.plmt.boommall.ui.adapter.UserGvCommonAdapter;
-import com.plmt.boommall.ui.view.CustomGridView;
+import com.plmt.boommall.ui.view.gridview.CustomGridView;
 import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog;
 import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.OnSheetItemClickListener;
 import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.SheetItemColor;

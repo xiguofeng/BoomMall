@@ -220,7 +220,7 @@
                     android:background="@drawable/h_line" >
                 </LinearLayout>
 
-                <com.plmt.boommall.ui.view.CustomGridView
+                <com.plmt.boommall.ui.view.gridview.CustomGridView
                     android:id="@+id/user_order_gv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -229,7 +229,7 @@
                     android:listSelector="@android:color/transparent"
                     android:numColumns="4"
                     android:verticalSpacing="1dip" >
-                </com.plmt.boommall.ui.view.CustomGridView>
+                </com.plmt.boommall.ui.view.gridview.CustomGridView>
             </LinearLayout>
 
             <View
@@ -286,7 +286,7 @@
                     android:background="@drawable/h_line" >
                 </LinearLayout>
 
-                <com.plmt.boommall.ui.view.CustomGridView
+                <com.plmt.boommall.ui.view.gridview.CustomGridView
                     android:id="@+id/user_property_gv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -295,7 +295,7 @@
                     android:listSelector="@android:color/transparent"
                     android:numColumns="4"
                     android:verticalSpacing="1dip" >
-                </com.plmt.boommall.ui.view.CustomGridView>
+                </com.plmt.boommall.ui.view.gridview.CustomGridView>
             </LinearLayout>
 
             <View

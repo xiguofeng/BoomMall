@@ -1,4 +1,4 @@
-package com.plmt.boommall.ui.view;
+package com.plmt.boommall.ui.view.gridview;
 
 import android.content.Context;
 import android.util.AttributeSet;
