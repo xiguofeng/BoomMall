@@ -10,7 +10,7 @@
         android:layout_gravity="center_vertical|center_horizontal"
         android:contentDescription="@string/app_name"
         android:scaleType="fitXY"
-        android:src="@drawable/banner1" >
+        android:src="@drawable/menu_viewpager_1" >
     </ImageView>
 
 </LinearLayout>

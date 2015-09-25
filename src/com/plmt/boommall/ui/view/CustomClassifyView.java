@@ -11,10 +11,11 @@ import android.widget.TextView;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.ui.adapter.GoodsGvAdapter;
 import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
+import com.plmt.boommall.ui.adapter.MainGoodsGvAdapter;
+import com.plmt.boommall.ui.view.gridview.CustomGridView;
 import com.plmt.boommall.ui.view.listview.HorizontalListView;
-
-
 
 public class CustomClassifyView extends LinearLayout {
 
@@ -27,6 +28,9 @@ public class CustomClassifyView extends LinearLayout {
 	private HorizontalListView mGoodsLv;
 	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
 	private MainGoodsAdapter mGoodsAdapter;
+
+	private CustomGridView mGoodsGv;
+	private MainGoodsGvAdapter mGoodsGvAdapter;
 
 	public CustomClassifyView(Context context,
 			HashMap<String, Object> classifyGoods) {
@@ -48,19 +52,24 @@ public class CustomClassifyView extends LinearLayout {
 		mSecondNameTv = (TextView) layout
 				.findViewById(R.id.custom_classify_second_name_tv);
 
-		mGoodsLv = (HorizontalListView) layout
-				.findViewById(R.id.custom_classify_goods_lv);
+		// mGoodsLv = (HorizontalListView) layout
+		// .findViewById(R.id.custom_classify_goods_lv);
+		//
+		//
+		// mGoodsAdapter = new MainGoodsAdapter(context, mGoodsList);
+		// mGoodsLv.setAdapter(mGoodsAdapter);
+		// mGoodsAdapter.notifyDataSetChanged();
 
-		for (int i = 0; i < 6; i++) {
+		mGoodsGv = (CustomGridView) layout.findViewById(R.id.custom_classify_goods_gv);
+		for (int i = 0; i < 4; i++) {
 			Goods goods = new Goods();
 			goods.setName("商品" + i);
-			goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
+			goods.setImage("http://image.rayliimg.cn/2014/0803/2014832242370.jpg");
 			mGoodsList.add(goods);
 		}
-
-		mGoodsAdapter = new MainGoodsAdapter(context, mGoodsList);
-		mGoodsLv.setAdapter(mGoodsAdapter);
-		mGoodsAdapter.notifyDataSetChanged();
+		mGoodsGvAdapter = new MainGoodsGvAdapter(context, mGoodsList);
+		mGoodsGv.setAdapter(mGoodsGvAdapter);
+		//mGoodsGvAdapter.notifyDataSetChanged();
 
 		mFirstNameTv.setText("分类名称");
 		mSecondNameTv.setText("分类别名");

@@ -27,7 +27,8 @@ public class BannerAdapter extends BaseAdapter {
 	public BannerAdapter(Context context, ArrayList<Ads> datas) {
 		mContext = context;
 		this.mDatas = datas;
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -54,7 +55,8 @@ public class BannerAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.banner_item, null);
 
 			holder = new ViewHolder();
-			holder.mBannerIcon = (ImageView) convertView.findViewById(R.id.banner_iv);
+			holder.mBannerIcon = (ImageView) convertView
+					.findViewById(R.id.banner_iv);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -62,15 +64,19 @@ public class BannerAdapter extends BaseAdapter {
 
 		int tempPosition = position % 3;
 		if (0 == position % 3) {
-			holder.mBannerIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.banner1));
+			holder.mBannerIcon.setImageDrawable(mContext.getResources()
+					.getDrawable(R.drawable.menu_viewpager_1));
 		} else if (1 == position % 3) {
-			holder.mBannerIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.banner1));
+			holder.mBannerIcon.setImageDrawable(mContext.getResources()
+					.getDrawable(R.drawable.menu_viewpager_1));
 		} else {
-			holder.mBannerIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.banner1));
+			holder.mBannerIcon.setImageDrawable(mContext.getResources()
+					.getDrawable(R.drawable.menu_viewpager_1));
 		}
 
 		if (!TextUtils.isEmpty(mDatas.get(tempPosition).getImgUrl())) {
-			ImageLoader.getInstance().displayImage(mDatas.get(tempPosition).getImgUrl(), holder.mBannerIcon);
+			ImageLoader.getInstance().displayImage(
+					mDatas.get(tempPosition).getImgUrl(), holder.mBannerIcon);
 		}
 		// ImageLoader.getInstance().displayImage(
 		// mDatas.get(position % 3).getIconUrl(), holder.mBannerIcon);
@@ -78,7 +84,8 @@ public class BannerAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				int index = position % 3;
-				if (null != mDatas.get(index).getId() && !"".equals(mDatas.get(index).getId())) {
+				if (null != mDatas.get(index).getId()
+						&& !"".equals(mDatas.get(index).getId())) {
 
 					// 在这里可以设置跳转界面
 					// Intent intent = new Intent(mContext,
