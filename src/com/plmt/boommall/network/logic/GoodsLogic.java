@@ -59,7 +59,7 @@ public class GoodsLogic {
 	public static final int CATEGROY_SUB_LIST_GET_EXCEPTION = CATEGROY_SUB_LIST_GET_FAIL + 1;
 
 	public static void getGoodsListByCategory(final Context context,
-			final Handler handler, String category, final int pageNum,
+			final Handler handler, String categoryName, final int pageNum,
 			final int pageSize) {
 
 		String url = RequestUrl.HOST_URL
@@ -67,7 +67,8 @@ public class GoodsLogic {
 		Log.e("xxx_url", url);
 		JSONObject requestJson = new JSONObject();
 		try {
-			requestJson.put("category", URLEncoder.encode("防晒", "UTF-8"));
+			requestJson.put("category",
+					URLEncoder.encode(categoryName, "UTF-8"));
 			requestJson.put("c", Integer.parseInt("0"));
 			requestJson.put("s", Integer.parseInt("10"));
 

@@ -18,17 +18,30 @@
         android:orientation="horizontal"
         android:padding="5dip" >
 
-        <ImageView
-            android:id="@+id/category_msg_iv"
-            android:layout_width="25dip"
-            android:layout_height="25dip"
+        <LinearLayout
+            android:id="@+id/category_msg_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="8dip"
-            android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop"
-            android:src="@drawable/android_search_button_icon" />
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dip" >
+
+            <ImageView
+                android:id="@+id/category_msg_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/main_header_menu_msg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/msg"
+                android:textColor="@color/white"
+                android:textSize="@dimen/micro_small_text_size" />
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/category_search_rl"
@@ -36,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="10dip"
-            android:layout_toLeftOf="@+id/category_msg_iv"
+            android:layout_toLeftOf="@+id/category_msg_ll"
             android:background="@drawable/corners_search_bg_red"
             android:focusable="true"
             android:focusableInTouchMode="true"

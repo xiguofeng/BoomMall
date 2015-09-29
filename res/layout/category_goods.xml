@@ -17,29 +17,40 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/red_transparent_bg"
+            android:background="@color/red_title_bg"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="5dip" >
+            android:padding="3dip" >
 
             <ImageView
-                android:layout_width="30dip"
-                android:layout_height="30dip"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dip"
-                android:contentDescription="@string/app_name"
+                android:id="@+id/category_goods_show_mode_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/android_search_button_icon" />
+                android:src="@drawable/ic_list_selector" />
+
+            <ImageView
+                android:id="@+id/category_goods_back_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/back_selector" />
 
             <RelativeLayout
                 android:id="@+id/category_goods_search_rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="13dip"
+                android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
+                android:layout_toLeftOf="@+id/category_goods_msg_iv"
+                android:layout_toRightOf="@+id/category_goods_back_iv"
                 android:background="@drawable/corners_search_bg_red"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -91,7 +102,7 @@
                     android:src="@drawable/search"
                     android:visibility="gone" />
             </RelativeLayout>
-        </LinearLayout>
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_horizontal"

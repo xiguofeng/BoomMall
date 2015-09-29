@@ -62,12 +62,11 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	private PagingGridView mGoodsGv;
 	private GoodsGvPagingAdaper mGoodsGvAdapter;
 
-	private float y;
-	private HashMap<String, Object> mAllMsgMap = new HashMap<String, Object>();
-	private HashMap<String, Object> mSearchMsgMap = new HashMap<String, Object>();
-	private HashMap<String, Object> mShowMsgMap = new HashMap<String, Object>();
+	private ImageView mViewModeIv;
+	private ImageView mBackIv;
 
-	private long exitTime = 0;
+	private String mCatgoryName;
+
 	private int mCurrentPage = 1;
 	private int mCurrentViewMode = 0;
 
@@ -177,6 +176,10 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 			}
 		});
+		mViewModeIv = (ImageView) findViewById(R.id.goods_list_show_mode_iv);
+		mViewModeIv.setOnClickListener(this);
+		mBackIv = (ImageView) findViewById(R.id.goods_list_back_iv);
+		mBackIv.setOnClickListener(this);
 
 		initListView();
 		initGridView();
@@ -184,6 +187,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	}
 
 	private void initData() {
+		mCatgoryName = getIntent().getStringExtra("categoryName");
 		refreshGoods();
 	}
 
@@ -260,7 +264,8 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	}
 
 	private void refreshGoods() {
-		GoodsLogic.getGoodsListByCategory(mContext, mHandler, "1", 1, 1);
+		GoodsLogic.getGoodsListByCategory(mContext, mHandler, mCatgoryName, 1,
+				1);
 	}
 
 	private void search(String key) {
@@ -302,6 +307,21 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 			}
 			break;
 		}
+		case R.id.goods_list_show_mode_iv: {
+			if (mCurrentViewMode == VIEW_MODE_GRID) {
+				showViewMode(VIEW_MODE_LIST);
+			} else {
+				showViewMode(VIEW_MODE_GRID);
+			}
+			break;
+		}
+		case R.id.goods_list_back_iv: {
+			finish();
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
+			break;
+		}
+
 		default:
 			break;
 		}
