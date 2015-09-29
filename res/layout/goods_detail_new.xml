@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.plmt.boommall.ui.view.MultiStateView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res/com.plmt.boommall"
+    android:id="@+id/goods_detail_multiStateView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:msv_emptyView="@layout/empty_view"
+    app:msv_errorView="@layout/error_view"
+    app:msv_loadingView="@layout/loading_view"
+    app:msv_viewState="content" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/goods_detail_bottom_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/goods_detail_add_cart_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/yello_bottom_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10dip" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_cart"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/middle_text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/goods_detail_now_buy_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/red_title_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10dip" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/now_buy"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/middle_text_size" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.plmt.boommall.ui.view.srollview.slidingmenu.SlidingMenu
+            android:id="@+id/expanded_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <com.plmt.boommall.ui.view.srollview.slidingmenu.YsnowScrollViewPageOne
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/gray_bg"
+                    android:scrollbars="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/gray_bg"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1400dp" />
+                    </LinearLayout>
+                </com.plmt.boommall.ui.view.srollview.slidingmenu.YsnowScrollViewPageOne>
+
+                <com.plmt.boommall.ui.view.srollview.slidingmenu.YsnowWebView
+                    android:id="@+id/ysnowswebview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                </com.plmt.boommall.ui.view.srollview.slidingmenu.YsnowWebView>
+            </LinearLayout>
+        </com.plmt.boommall.ui.view.srollview.slidingmenu.SlidingMenu>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true" >
+
+            <ImageView
+                android:id="@+id/goods_detail_back_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="13dip"
+                android:layout_marginTop="15dip"
+                android:src="@drawable/detail_back" />
+
+            <ImageView
+                android:id="@+id/goods_detail_cart_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingRight="13dip"
+                android:paddingTop="15dip"
+                android:src="@drawable/cart" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</com.plmt.boommall.ui.view.MultiStateView>

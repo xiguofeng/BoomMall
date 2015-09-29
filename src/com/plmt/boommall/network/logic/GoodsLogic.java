@@ -136,7 +136,7 @@ public class GoodsLogic {
 		Log.e("xxx_getGoodsById_url", url);
 		JSONObject requestJson = new JSONObject();
 		try {
-			requestJson.put("id", URLEncoder.encode(id, "UTF-8"));
+			requestJson.put("id", URLEncoder.encode("20997", "UTF-8"));
 
 			BaseApplication.getInstanceRequestQueue().add(
 					new JsonObjectRequest(Method.POST, url, requestJson,
