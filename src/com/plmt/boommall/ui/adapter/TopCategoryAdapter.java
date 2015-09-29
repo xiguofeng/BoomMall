@@ -3,6 +3,7 @@ package com.plmt.boommall.ui.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,12 +72,22 @@ public class TopCategoryAdapter extends BaseAdapter {
 				R.color.white));
 		holder.mName.setTextColor(mContext.getResources().getColor(
 				R.color.black_character));
-		if (mCurrentSelect.equals(mDatas.get(position).getId())) {
-			holder.mSelectIv.setVisibility(View.VISIBLE);
-			holder.mBg.setBackgroundColor(mContext.getResources().getColor(
-					R.color.gray_select_bg));
-			holder.mName.setTextColor(mContext.getResources().getColor(
-					R.color.black_character));
+		if (!TextUtils.isEmpty(mCurrentSelect)) {
+			if (mCurrentSelect.equals(mDatas.get(position).getName())) {
+				holder.mSelectIv.setVisibility(View.VISIBLE);
+				holder.mBg.setBackgroundColor(mContext.getResources().getColor(
+						R.color.gray_select_bg));
+				holder.mName.setTextColor(mContext.getResources().getColor(
+						R.color.black_character));
+			}
+		} else {
+			if (0 == position) {
+				holder.mSelectIv.setVisibility(View.VISIBLE);
+				holder.mBg.setBackgroundColor(mContext.getResources().getColor(
+						R.color.gray_select_bg));
+				holder.mName.setTextColor(mContext.getResources().getColor(
+						R.color.black_character));
+			}
 		}
 		holder.mName.setText(mDatas.get(position).getName());
 		return convertView;

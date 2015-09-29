@@ -58,11 +58,8 @@ public class CategoryGvAdapter extends BaseAdapter {
 
 		holderView.iconIv.setImageResource(data.get(position).getLocalImage());
 		holderView.nameTv.setText(data.get(position).getName());
-		ImageLoader
-				.getInstance()
-				.displayImage(
-						"http://i2.cqnews.net/fashion/attachement/jpg/site82/20130609/002522274bb0131e71bc43.jpg",
-						holderView.iconIv);
+		ImageLoader.getInstance().displayImage(
+				data.get(position).getSubimageurl(), holderView.iconIv);
 		return currentView;
 	}
 

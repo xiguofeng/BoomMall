@@ -3,6 +3,7 @@ package com.plmt.boommall.network.logic;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +51,7 @@ public class GoodsLogic {
 	public static final int CATEGROY_TOP_LIST_GET_FAIL = CATEGROY_TOP_LIST_GET_SUC + 1;
 
 	public static final int CATEGROY_TOP_LIST_GET_EXCEPTION = CATEGROY_TOP_LIST_GET_FAIL + 1;
-	
+
 	public static final int CATEGROY_SUB_LIST_GET_SUC = CATEGROY_TOP_LIST_GET_EXCEPTION + 1;
 
 	public static final int CATEGROY_SUB_LIST_GET_FAIL = CATEGROY_SUB_LIST_GET_SUC + 1;
@@ -182,14 +183,15 @@ public class GoodsLogic {
 			handler.sendEmptyMessage(GOODS_GET_EXCEPTION);
 		}
 	}
-	
+
 	public static void getTopCategory(final Context context,
 			final Handler handler) {
 
 		String url = RequestUrl.HOST_URL + RequestUrl.goods.queryTopCategory;
 		JSONObject requestJson = new JSONObject();
 		try {
-			requestJson.put("action", URLEncoder.encode("getcategory", "UTF-8"));
+			requestJson
+					.put("action", URLEncoder.encode("getcategory", "UTF-8"));
 
 			BaseApplication.getInstanceRequestQueue().add(
 					new JsonObjectRequest(Method.POST, url, requestJson,
@@ -199,7 +201,7 @@ public class GoodsLogic {
 									if (null != response) {
 										Log.e("xxx_getTopCategory",
 												response.toString());
-										parseSubCategoryData(response, handler);
+										parseTopCategoryData(response, handler);
 									}
 
 								}
@@ -212,8 +214,9 @@ public class GoodsLogic {
 			e.printStackTrace();
 		}
 	}
-	
-	private static void parseTopCategoryData(JSONObject response, Handler handler) {
+
+	private static void parseTopCategoryData(JSONObject response,
+			Handler handler) {
 
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
@@ -226,8 +229,8 @@ public class GoodsLogic {
 				int size = jsonArray.length();
 				for (int i = 0; i < size; i++) {
 					JSONObject categoryJsonObject = jsonArray.getJSONObject(i);
-					Category category = (Category) JsonUtils.fromJsonToJava(categoryJsonObject,
-							Category.class);
+					Category category = (Category) JsonUtils.fromJsonToJava(
+							categoryJsonObject, Category.class);
 					mTempCategoryList.add(category);
 				}
 				Message message = new Message();
@@ -242,14 +245,15 @@ public class GoodsLogic {
 			handler.sendEmptyMessage(CATEGROY_TOP_LIST_GET_EXCEPTION);
 		}
 	}
-	
+
 	public static void getSubCategory(final Context context,
-			final Handler handler,final String topCategoryName) {
+			final Handler handler, final String topCategoryName) {
 
 		String url = RequestUrl.HOST_URL + RequestUrl.goods.querySubCategory;
 		JSONObject requestJson = new JSONObject();
 		try {
-			requestJson.put("categoryName", URLEncoder.encode(topCategoryName, "UTF-8"));
+			requestJson.put("categoryName",
+					URLEncoder.encode(topCategoryName, "UTF-8"));
 
 			BaseApplication.getInstanceRequestQueue().add(
 					new JsonObjectRequest(Method.POST, url, requestJson,
@@ -272,24 +276,30 @@ public class GoodsLogic {
 			e.printStackTrace();
 		}
 	}
-	
-	private static void parseSubCategoryData(JSONObject response, Handler handler) {
+
+	private static void parseSubCategoryData(JSONObject response,
+			Handler handler) {
 
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 
-				JSONArray jsonArray = response
-						.getJSONArray(MsgResult.RESULT_DATA_TAG);
+				JSONObject dataJsonObject = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				JSONArray jsonArray = dataJsonObject
+						.getJSONArray("subcategory");
+				String parentImageurl = dataJsonObject.getString("image");
 
 				ArrayList<Category> mTempCategoryList = new ArrayList<Category>();
 				int size = jsonArray.length();
 				for (int i = 0; i < size; i++) {
 					JSONObject categoryJsonObject = jsonArray.getJSONObject(i);
-					Category category = (Category) JsonUtils.fromJsonToJava(categoryJsonObject,
-							Category.class);
+					Category category = (Category) JsonUtils.fromJsonToJava(
+							categoryJsonObject, Category.class);
+					category.setParentImageurl(parentImageurl);
 					mTempCategoryList.add(category);
 				}
+
 				Message message = new Message();
 				message.what = CATEGROY_SUB_LIST_GET_SUC;
 				message.obj = mTempCategoryList;
@@ -302,5 +312,4 @@ public class GoodsLogic {
 			handler.sendEmptyMessage(CATEGROY_SUB_LIST_GET_EXCEPTION);
 		}
 	}
-
 }

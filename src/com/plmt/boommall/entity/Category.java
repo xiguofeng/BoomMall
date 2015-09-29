@@ -9,10 +9,12 @@ public class Category implements Serializable {
 	private String id;
 
 	private String name;
-	
+
 	private String subimageurl;
-	
+
 	private int localImage;
+
+	private String parentImageurl;
 
 	public String getId() {
 		return id;
@@ -46,7 +48,12 @@ public class Category implements Serializable {
 		this.localImage = localImage;
 	}
 
-	
-	
+	public String getParentImageurl() {
+		return parentImageurl;
+	}
+
+	public void setParentImageurl(String parentImageurl) {
+		this.parentImageurl = parentImageurl;
+	}
 
 }

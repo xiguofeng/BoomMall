@@ -23,11 +23,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.ui.adapter.CategoryGvAdapter;
 import com.plmt.boommall.ui.adapter.TopCategoryAdapter;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.gridview.GridViewWithHeaderAndFooter;
 
 public class CategoryActivity extends Activity implements OnClickListener {
@@ -37,17 +39,18 @@ public class CategoryActivity extends Activity implements OnClickListener {
 	private EditText mSearchEt;
 	private ImageView mSearchIv;
 
+	private View mCategoryHeadView;
+	private ImageView mCategoryHeadIv;
+
 	private ListView mTopLevelLv;
 	private TopCategoryAdapter mTopCategoryAdapter;
 	private ArrayList<Category> mTopCategoryList = new ArrayList<Category>();
-	private int[] mTopPicPath = { R.drawable.personal_order_wait_for_payment,
-			R.drawable.personal_order_wait_for_payment,
-			R.drawable.personal_order_wait_for_payment,
-			R.drawable.personal_order_wait_for_payment };
 
 	private GridViewWithHeaderAndFooter mSecondLevelGv;
 	private CategoryGvAdapter mSecondCategoryAdapter;
 	private ArrayList<Category> mSecondCategoryList = new ArrayList<Category>();
+
+	private CustomProgressDialog mProgressDialog;
 
 	Handler mHandler = new Handler() {
 
@@ -63,6 +66,10 @@ public class CategoryActivity extends Activity implements OnClickListener {
 							.addAll((Collection<? extends Category>) msg.obj);
 					mTopCategoryAdapter.notifyDataSetChanged();
 
+					if (mTopCategoryList.size() > 0) {
+						GoodsLogic.getSubCategory(mContext, mHandler,
+								mTopCategoryList.get(0).getName());
+					}
 				}
 				break;
 			}
@@ -73,10 +80,37 @@ public class CategoryActivity extends Activity implements OnClickListener {
 				break;
 			}
 
+			case GoodsLogic.CATEGROY_SUB_LIST_GET_SUC: {
+				if (null != msg.obj) {
+					mSecondCategoryList.clear();
+					mSecondCategoryList
+							.addAll((Collection<? extends Category>) msg.obj);
+					mSecondCategoryAdapter.notifyDataSetChanged();
+
+					ImageLoader.getInstance().displayImage(
+							mSecondCategoryList.get(0).getParentImageurl(),
+							mCategoryHeadIv);
+
+				}
+				break;
+			}
+			case GoodsLogic.CATEGROY_SUB_LIST_GET_FAIL: {
+				break;
+			}
+			case GoodsLogic.CATEGROY_SUB_LIST_GET_EXCEPTION: {
+				break;
+			}
+			case GoodsLogic.NET_ERROR: {
+				break;
+			}
+
 			default:
 				break;
 			}
 
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
 		}
 
 	};
@@ -86,6 +120,8 @@ public class CategoryActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.category);
 		mContext = CategoryActivity.this;
+		mProgressDialog = new CustomProgressDialog(mContext);
+		mProgressDialog.show();
 		initView();
 		initData();
 	}
@@ -128,40 +164,30 @@ public class CategoryActivity extends Activity implements OnClickListener {
 
 	private void initCategoryView() {
 		mTopLevelLv = (ListView) findViewById(R.id.category_top_lv);
-		// int size = mTopPicPath.length;
-		for (int i = 0; i < 10; i++) {
-			Category category = new Category();
-			category.setId("" + i);
-			// category.setLocalImage(mTopPicPath[i]);
-			category.setName("一级分类" + i);
-			mTopCategoryList.add(category);
-		}
-
 		mTopCategoryAdapter = new TopCategoryAdapter(mContext, mTopCategoryList);
 		mTopLevelLv.setAdapter(mTopCategoryAdapter);
-		mTopCategoryAdapter.setmCurrentSelect("0");
+		mTopCategoryAdapter.setmCurrentSelect("");
 		mTopLevelLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				mTopCategoryAdapter.setmCurrentSelect(mTopCategoryList.get(
-						position).getId());
+						position).getName());
 				mTopCategoryAdapter.notifyDataSetChanged();
+				mProgressDialog.show();
+				GoodsLogic.getSubCategory(mContext, mHandler, mTopCategoryList
+						.get(position).getName());
 			}
 		});
 
 		mSecondLevelGv = (GridViewWithHeaderAndFooter) findViewById(R.id.category_second_gv);
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
-		View headerView = layoutInflater.inflate(R.layout.view_gv_header, null);
-		mSecondLevelGv.addHeaderView(headerView);
-		for (int i = 0; i < 10; i++) {
-			Category category = new Category();
-			category.setId("" + i);
-			category.setLocalImage(mTopPicPath[0]);
-			category.setName("二级分类" + i);
-			mSecondCategoryList.add(category);
-		}
+		mCategoryHeadView = layoutInflater.inflate(R.layout.view_gv_header,
+				null);
+		mCategoryHeadIv = (ImageView) mCategoryHeadView
+				.findViewById(R.id.view_gv_header_iv);
+		mSecondLevelGv.addHeaderView(mCategoryHeadView);
 		mSecondCategoryAdapter = new CategoryGvAdapter(mContext,
 				mSecondCategoryList);
 		mSecondLevelGv.setAdapter(mSecondCategoryAdapter);
@@ -182,7 +208,6 @@ public class CategoryActivity extends Activity implements OnClickListener {
 
 	private void initData() {
 		GoodsLogic.getTopCategory(mContext, mHandler);
-		GoodsLogic.getSubCategory(mContext, mHandler, "美妆个护");
 	}
 
 	@Override

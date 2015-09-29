@@ -8,6 +8,7 @@
     <color name="white_tab_bg">#fafafa</color>
     <color name="blue_title_bg">#1d2b46</color>
     <color name="blue_text">#1d2b46</color>
+    <color name="blue_loding">#5588FF</color>
     <color name="common_bg">#f4f4f5</color>
     <color name="white_common_bg">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
@@ -37,6 +38,7 @@
     <color name="dark_red">#40000c</color>
     <color name="window_background">#FFF5F5F5</color>
     <color name="zero_all">#00000000</color>
+    <color name="transparent">#00000000</color>
 
     <!-- line -->
     <color name="white_divide_line">#e8e8e8</color>
