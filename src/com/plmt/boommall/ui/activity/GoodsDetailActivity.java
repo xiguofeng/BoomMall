@@ -47,7 +47,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	public static final String ORIGIN_FROM_ADS_ACTION = "ADS";
 
-	public static final String ORIGIN_FROM_goods_detail_ACTION = "MAINS";
+	public static final String ORIGIN_FROM_MAIN_ACTION = "MAINS";
 
 	public static final String ORIGIN_FROM_CATE_ACTION = "CATE";
 
@@ -101,7 +101,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private String mGoodsId;
 
-	private String mNowAction = ORIGIN_FROM_goods_detail_ACTION;
+	private String mNowAction = ORIGIN_FROM_MAIN_ACTION;
 
 	private ImageView mCartIv;// 购物车
 

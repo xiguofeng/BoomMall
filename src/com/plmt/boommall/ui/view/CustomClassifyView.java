@@ -4,13 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.ui.activity.GoodsDetailActivity;
+import com.plmt.boommall.ui.activity.GoodsListActivity;
 import com.plmt.boommall.ui.adapter.GoodsGvAdapter;
 import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
 import com.plmt.boommall.ui.adapter.MainGoodsGvAdapter;
@@ -60,7 +67,8 @@ public class CustomClassifyView extends LinearLayout {
 		// mGoodsLv.setAdapter(mGoodsAdapter);
 		// mGoodsAdapter.notifyDataSetChanged();
 
-		mGoodsGv = (CustomGridView) layout.findViewById(R.id.custom_classify_goods_gv);
+		mGoodsGv = (CustomGridView) layout
+				.findViewById(R.id.custom_classify_goods_gv);
 		for (int i = 0; i < 4; i++) {
 			Goods goods = new Goods();
 			goods.setName("商品" + i);
@@ -69,7 +77,21 @@ public class CustomClassifyView extends LinearLayout {
 		}
 		mGoodsGvAdapter = new MainGoodsGvAdapter(context, mGoodsList);
 		mGoodsGv.setAdapter(mGoodsGvAdapter);
-		//mGoodsGvAdapter.notifyDataSetChanged();
+		mGoodsGv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(context, GoodsDetailActivity.class);
+				intent.setAction(GoodsDetailActivity.ORIGIN_FROM_MAIN_ACTION);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
+						"13278");
+				intent.putExtras(bundle);
+				context.startActivity(intent);
+			}
+		});
+		// mGoodsGvAdapter.notifyDataSetChanged();
 
 		mFirstNameTv.setText("分类名称");
 		mSecondNameTv.setText("分类别名");
