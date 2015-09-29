@@ -198,23 +198,12 @@ public class CategoryActivity extends Activity implements OnClickListener {
 					int position, long id) {
 
 				Intent intent = new Intent(CategoryActivity.this,
-						GoodsDetailActivity.class);
-				intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
-				Bundle bundle = new Bundle();
-				bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
-						"20997");
-				intent.putExtras(bundle);
+						GoodsListActivity.class);
+				intent.putExtra("categoryName",
+						mSecondCategoryList.get(position).getName());
 				startActivity(intent);
 				overridePendingTransition(R.anim.push_left_in,
 						R.anim.push_left_out);
-
-				// Intent intent = new Intent(CategoryActivity.this,
-				// GoodsListActivity.class);
-				// intent.putExtra("categoryName",
-				// mSecondCategoryList.get(position).getName());
-				// startActivity(intent);
-				// overridePendingTransition(R.anim.push_left_in,
-				// R.anim.push_left_out);
 			}
 		});
 

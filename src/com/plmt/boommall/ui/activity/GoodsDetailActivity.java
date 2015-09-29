@@ -1,5 +1,7 @@
 package com.plmt.boommall.ui.activity;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,11 +28,15 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Ads;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.CartLogic;
 import com.plmt.boommall.network.logic.GoodsLogic;
+import com.plmt.boommall.ui.adapter.BannerAdapter;
 import com.plmt.boommall.ui.view.BadgeView;
 import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
+import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 import com.plmt.boommall.utils.ActivitiyInfoManager;
 import com.plmt.boommall.utils.CartManager;
 import com.plmt.boommall.utils.SystemUtils;
@@ -40,13 +47,19 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	public static final String ORIGIN_FROM_ADS_ACTION = "ADS";
 
-	public static final String ORIGIN_FROM_MAIN_ACTION = "MAINS";
+	public static final String ORIGIN_FROM_goods_detail_ACTION = "MAINS";
 
 	public static final String ORIGIN_FROM_CATE_ACTION = "CATE";
 
 	private Context mContext;
 
 	private MultiStateView mMultiStateView;
+
+	private ViewFlow mViewFlow;
+	private CircleFlowIndicator mIndic;
+	private ArrayList<Ads> mBannerActivityList = new ArrayList<Ads>();
+	private BannerAdapter mBannerAdapter;
+	private FrameLayout mBannerFl;
 
 	private TextView mGoodsNameTv;
 
@@ -70,8 +83,6 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private TextView mGoodsBriefTv;
 
-	private ImageView mGoodsIconIv;
-
 	private ImageView mBackIv;
 
 	private LinearLayout mAddCartLl;
@@ -90,7 +101,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private String mGoodsId;
 
-	private String mNowAction = ORIGIN_FROM_MAIN_ACTION;
+	private String mNowAction = ORIGIN_FROM_goods_detail_ACTION;
 
 	private ImageView mCartIv;// 购物车
 
@@ -228,63 +239,95 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				});
 		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
 		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+		initCircleimage();
 
-//		mGoodsIconIv = (ImageView) findViewById(R.id.goods_detail_iv);
-//
-//		mGoodsNameTv = (TextView) findViewById(R.id.goods_detail_name_tv);
-//		mGoodsPriceTv = (TextView) findViewById(R.id.goods_detail_price_tv);
-//		mGoodsOrgPriceTv = (TextView) findViewById(R.id.goods_detail_original_prices_tv);
-//
-//		mGoodsProductAreaTv = (TextView) findViewById(R.id.goods_detail_area_tv);
-//		mGoodsFactoryTv = (TextView) findViewById(R.id.goods_detail_factory_tv);
-//		mGoodsBrandTv = (TextView) findViewById(R.id.goods_detail_brand_type_tv);
-//		mGoodsJHLTv = (TextView) findViewById(R.id.goods_detail_jhl_tv);
-//		mGoodsDegreeTv = (TextView) findViewById(R.id.goods_detail_degree_tv);
-//		mGoodsScentTv = (TextView) findViewById(R.id.goods_detail_scent_tv);
-//		mGoodsMaterialTv = (TextView) findViewById(R.id.goods_detail_material_tv);
-//		mGoodsBriefTv = (TextView) findViewById(R.id.goods_detail_brief_tv);
-//
-//		mBackIv = (ImageView) findViewById(R.id.goods_detail_back_iv);
-//		mBackIv.setOnClickListener(this);
-//		mCartIv = (ImageView) findViewById(R.id.goods_detail_cart_iv);
-//		mCartIv.setOnClickListener(this);
-//
-//		// mBuyNumView = new BadgeView(mContext, mCartIv);
-//		mBuyNumView = new BadgeView(this, mCartIv);
-//		// mBuyNumView.setText(String.valueOf(CartManager.getAllCartNum()));
-//		mBuyNumView.show();
-//
-//		mBriefLl = (LinearLayout) findViewById(R.id.goods_detail_content);
-//		mAddCartLl = (LinearLayout) findViewById(R.id.goods_detail_add_cart_ll);
-//		mAddCartLl.setOnClickListener(this);
-//		mNowBuyLl = (LinearLayout) findViewById(R.id.goods_detail_now_buy_ll);
-//		mNowBuyLl.setOnClickListener(this);
-//
-//		mNum = (EditText) findViewById(R.id.goods_detail_count_et);
-//		mAddIb = (ImageButton) findViewById(R.id.goods_detail_add_ib);
-//		mReduceIb = (ImageButton) findViewById(R.id.goods_detail_reduce_ib);
-//
-//		mAddIb.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				// mGoods.setNum(String.valueOf(Integer.parseInt(mGoods.getNum())
-//				// + 1));
-//				mNum.setText(String.valueOf(Integer.parseInt(mNum.getText()
-//						.toString().trim()) + 1));
-//			}
-//		});
-//		mReduceIb.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (Integer.parseInt(mNum.getText().toString().trim()) > 1) {
-//					// mGoods.setNum(String.valueOf(Integer.parseInt(mGoods
-//					// .getNum()) - 1));
-//					mNum.setText(String.valueOf(Integer.parseInt(mNum.getText()
-//							.toString().trim()) - 1));
-//				}
-//
-//			}
-//		});
+		mGoodsNameTv = (TextView) findViewById(R.id.goods_detail_name_tv);
+		mGoodsPriceTv = (TextView) findViewById(R.id.goods_detail_price_tv);
+		// mGoodsOrgPriceTv = (TextView)
+		// findViewById(R.id.goods_detail_original_prices_tv);
+		//
+		// mGoodsProductAreaTv = (TextView)
+		// findViewById(R.id.goods_detail_area_tv);
+		// mGoodsFactoryTv = (TextView)
+		// findViewById(R.id.goods_detail_factory_tv);
+		// mGoodsBrandTv = (TextView)
+		// findViewById(R.id.goods_detail_brand_type_tv);
+		// mGoodsJHLTv = (TextView) findViewById(R.id.goods_detail_jhl_tv);
+		// mGoodsDegreeTv = (TextView)
+		// findViewById(R.id.goods_detail_degree_tv);
+		// mGoodsScentTv = (TextView) findViewById(R.id.goods_detail_scent_tv);
+		// mGoodsMaterialTv = (TextView)
+		// findViewById(R.id.goods_detail_material_tv);
+		// mGoodsBriefTv = (TextView) findViewById(R.id.goods_detail_brief_tv);
+		//
+		// mBackIv = (ImageView) findViewById(R.id.goods_detail_back_iv);
+		// mBackIv.setOnClickListener(this);
+		// mCartIv = (ImageView) findViewById(R.id.goods_detail_cart_iv);
+		// mCartIv.setOnClickListener(this);
+		//
+		// // mBuyNumView = new BadgeView(mContext, mCartIv);
+		// mBuyNumView = new BadgeView(this, mCartIv);
+		// // mBuyNumView.setText(String.valueOf(CartManager.getAllCartNum()));
+		// mBuyNumView.show();
+		//
+		// mBriefLl = (LinearLayout) findViewById(R.id.goods_detail_content);
+		// mAddCartLl = (LinearLayout)
+		// findViewById(R.id.goods_detail_add_cart_ll);
+		// mAddCartLl.setOnClickListener(this);
+		// mNowBuyLl = (LinearLayout)
+		// findViewById(R.id.goods_detail_now_buy_ll);
+		// mNowBuyLl.setOnClickListener(this);
+		//
+		// mNum = (EditText) findViewById(R.id.goods_detail_count_et);
+		// mAddIb = (ImageButton) findViewById(R.id.goods_detail_add_ib);
+		// mReduceIb = (ImageButton) findViewById(R.id.goods_detail_reduce_ib);
+		//
+		// mAddIb.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// // mGoods.setNum(String.valueOf(Integer.parseInt(mGoods.getNum())
+		// // + 1));
+		// mNum.setText(String.valueOf(Integer.parseInt(mNum.getText()
+		// .toString().trim()) + 1));
+		// }
+		// });
+		// mReduceIb.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// if (Integer.parseInt(mNum.getText().toString().trim()) > 1) {
+		// // mGoods.setNum(String.valueOf(Integer.parseInt(mGoods
+		// // .getNum()) - 1));
+		// mNum.setText(String.valueOf(Integer.parseInt(mNum.getText()
+		// .toString().trim()) - 1));
+		// }
+		//
+		// }
+		// });
+	}
+
+	private void initCircleimage() {
+		mBannerFl = (FrameLayout) findViewById(R.id.goods_detail_framelayout);
+		mBannerFl.setVisibility(View.VISIBLE);
+		mViewFlow = (ViewFlow) findViewById(R.id.goods_detail_viewflow);
+		mIndic = (CircleFlowIndicator) findViewById(R.id.goods_detail_viewflowindic);
+		for (int i = 0; i < 3; i++) {
+			Ads promotion = new Ads();
+			promotion.setImgUrl("");
+			mBannerActivityList.add(promotion);
+		}
+
+		showcircleimage();
+	}
+
+	private void showcircleimage() {
+		mBannerAdapter = new BannerAdapter(mContext, mBannerActivityList);
+		mViewFlow.setAdapter(mBannerAdapter);
+		mViewFlow.setmSideBuffer(3); // 实际图片张数
+		mViewFlow.setFlowIndicator(mIndic);
+		mViewFlow.setTimeSpan(2000);
+		mViewFlow.setSelection(3 * 1000); // 设置初始位置
+		mViewFlow.startAutoFlowTimer(); // 启动自动播放
+		mViewFlow.requestFocus();
 	}
 
 	private void initData() {
@@ -302,15 +345,18 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void fillUpGoodsData() {
-//		ImageLoader.getInstance().displayImage(mGoods.getImage(), mGoodsIconIv);
-//
-//		mNum.setText(mGoods.getNum());
-//		mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods
-//				.getName() : "");
-//		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥"
-//				+ mGoods.getFinalPrice() : "¥");
-//		mGoodsOrgPriceTv.setText(!TextUtils.isEmpty(mGoods.getPrice()) ? "原价:¥"
-//				+ mGoods.getPrice() : "原价:¥");
+		// ImageLoader.getInstance().displayImage(mGoods.getImage(),
+		// mGoodsIconIv);
+		//
+		// mNum.setText(mGoods.getNum());
+		// mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods
+		// .getName() : "");
+		// mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ?
+		// "¥"
+		// + mGoods.getFinalPrice() : "¥");
+		// mGoodsOrgPriceTv.setText(!TextUtils.isEmpty(mGoods.getPrice()) ?
+		// "原价:¥"
+		// + mGoods.getPrice() : "原价:¥");
 		// mGoodsProductAreaTv
 		// .setText(!TextUtils.isEmpty(mGoods.getArea()) ? "商品产地："
 		// + mGoods.getArea() : "商品产地：");
@@ -349,7 +395,6 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		// }
 
 	}
-
 
 	@Override
 	public void onClick(View v) {
@@ -395,7 +440,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				// .finishActivity("com.xgf.winecome.ui.activity.SpecialEventsActivity");
 			}
 			finish();
-	
+
 			break;
 		}
 		case R.id.goods_detail_back_iv: {

@@ -72,6 +72,11 @@
     <string name="pay_fail">支付失败</string>
     <string name="pay_way_hint">请选择支付方式</string>
     <string name="buy">购买</string>
+    
+    <!-- goods detail -->
+    <string name="goods_parameters">商品参数</string>
+    <string name="goods_detail">商品详情</string>
+    <string name="good_comment">好评</string>
 
     <!-- cart -->
     <string name="shopping_cart">购物车</string>

@@ -101,11 +101,12 @@ public class GoodsLogic {
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-
-				JSONArray jsonArray = response
-						.getJSONArray(MsgResult.RESULT_DATA_TAG);
+				JSONObject dataJB = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				
+				JSONArray jsonArray = dataJB
+						.getJSONArray("productItems");
 				ArrayList<Goods> mTempGoodsList = new ArrayList<Goods>();
-
 				int size = jsonArray.length();
 				for (int j = 0; j < size; j++) {
 					JSONObject categoryJsonObject = jsonArray.getJSONObject(j);
