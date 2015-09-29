@@ -213,6 +213,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
                                     android:layout_marginRight="10dp"
                                     android:src="@drawable/arrow" />
                             </RelativeLayout>
@@ -303,6 +304,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
                                     android:layout_marginRight="10dp"
                                     android:src="@drawable/arrow" />
                             </RelativeLayout>
@@ -352,6 +354,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_toLeftOf="@+id/goods_detail_comment_detial_time_tv"
                                         android:text="大买家"
+                                        android:layout_marginRight="10dip"
                                         android:textColor="@color/gray_character"
                                         android:textSize="@dimen/small_text_size" />
                                 </RelativeLayout>
