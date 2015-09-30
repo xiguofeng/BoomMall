@@ -206,7 +206,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.goods_detail_new);
+		setContentView(R.layout.goods_detail);
 		mContext = GoodsDetailActivity.this;
 		if (!ActivitiyInfoManager.activitityMap
 				.containsKey(ActivitiyInfoManager
