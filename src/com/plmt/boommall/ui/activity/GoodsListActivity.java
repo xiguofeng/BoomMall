@@ -61,6 +61,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 	private PagingGridView mGoodsGv;
 	private GoodsGvPagingAdaper mGoodsGvAdapter;
+	private ArrayList<Goods> mGoodsGvList = new ArrayList<Goods>();
 
 	private ImageView mViewModeIv;
 	private ImageView mBackIv;
@@ -91,6 +92,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 						}
 						ArrayList<Goods> goodsList = new ArrayList<Goods>();
 						goodsList.addAll(mGoodsList);
+						mGoodsGvList.addAll(goodsList);
 						mGoodsGv.onFinishLoading(true, goodsList);
 					}
 
@@ -250,6 +252,21 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 				}
 			}
 		});
+		mGoodsGv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(GoodsListActivity.this,
+						GoodsDetailActivity.class);
+				intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
+						mGoodsGvList.get(position).getId());
+				intent.putExtras(bundle);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@SuppressLint("NewApi")
@@ -271,6 +288,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 			}
 			ArrayList<Goods> goodsList = new ArrayList<Goods>();
 			goodsList.addAll(mGoodsList);
+			mGoodsGvList.addAll(goodsList);
 			mGoodsGv.onFinishLoading(true, goodsList);
 		}
 	}
