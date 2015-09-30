@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/gv_category_common_iv"
         android:layout_width="match_parent"
-        android:layout_height="100dip"
+        android:layout_height="160dip"
         android:scaleType="centerCrop" />
 
     <TextView

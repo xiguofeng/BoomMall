@@ -252,13 +252,18 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		});
 	}
 
+	@SuppressLint("NewApi")
 	private void showViewMode(int mode) {
 		mCurrentViewMode = mode;
 		if (mode == VIEW_MODE_LIST) {
+			mViewModeIv.setImageDrawable(getResources().getDrawable(
+					R.drawable.ic_list_selector));
 			mGoodsGv.setVisibility(View.GONE);
 			mGoodsLv.setVisibility(View.VISIBLE);
 			mGoodsAdapter.notifyDataSetChanged();
 		} else {
+			mViewModeIv.setImageDrawable(getResources().getDrawable(
+					R.drawable.ic_grid_selector));
 			mGoodsLv.setVisibility(View.GONE);
 			mGoodsGv.setVisibility(View.VISIBLE);
 			if (mGoodsGv.getAdapter() == null) {

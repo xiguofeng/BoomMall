@@ -4,12 +4,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/item_common_selector"
     android:gravity="center"
+    android:layout_marginTop="10dip"
     android:orientation="vertical" >
 
     <ImageView
         android:id="@+id/view_gv_header_iv"
         android:layout_width="match_parent"
-        android:layout_height="80dip"
+        android:layout_height="120dip"
         android:scaleType="centerCrop"
         android:src="@drawable/menu_viewpager_1" />
 
