@@ -43,6 +43,8 @@ public class GoodsGvPagingAdaper extends PagingBaseAdapter<Goods> {
 					.findViewById(R.id.gv_goods_common_iv);
 			holderView.nameTv = (TextView) convertView
 					.findViewById(R.id.gv_goods_common_name_tv);
+			holderView.priceTv = (TextView) convertView
+					.findViewById(R.id.gv_goods_common_price_tv);
 
 			convertView.setTag(holderView);
 		} else {
@@ -51,6 +53,7 @@ public class GoodsGvPagingAdaper extends PagingBaseAdapter<Goods> {
 
 		Goods goods = getItem(position);
 		holderView.nameTv.setText(goods.getName());
+		holderView.priceTv.setText("￥" + goods.getFinalPrice());
 		ImageLoader.getInstance().displayImage(goods.getImage(),
 				holderView.iconIv);
 		return convertView;
@@ -61,6 +64,8 @@ public class GoodsGvPagingAdaper extends PagingBaseAdapter<Goods> {
 		private ImageView iconIv;
 
 		private TextView nameTv;
+
+		private TextView priceTv;
 
 	}
 }

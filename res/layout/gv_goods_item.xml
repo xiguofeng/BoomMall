@@ -1,24 +1,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dip"
+    android:layout_height="wrap_content"
     android:background="@drawable/gv_item_common_selector"
     android:gravity="center"
-    android:padding="5dip"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="5dip" >
 
     <ImageView
         android:id="@+id/gv_goods_common_iv"
         android:layout_width="match_parent"
-        android:layout_height="100dip"
+        android:layout_height="160dip"
+        android:padding="10dip"
         android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/gv_goods_common_name_tv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dip"
         android:layout_marginTop="5dip"
+        android:gravity="center"
+        android:maxLines="2"
         android:textColor="@color/black_character"
+        android:textSize="@dimen/micro_text_size" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:background="@drawable/h_line" >
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/gv_goods_common_price_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="5dip"
+        android:singleLine="true"
+        android:text="￥1080"
+        android:textColor="@color/red"
         android:textSize="@dimen/micro_text_size" />
 
 </LinearLayout>

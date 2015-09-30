@@ -261,6 +261,9 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		} else {
 			mGoodsLv.setVisibility(View.GONE);
 			mGoodsGv.setVisibility(View.VISIBLE);
+			if (mGoodsGv.getAdapter() == null) {
+				mGoodsGv.setAdapter(mGoodsGvAdapter);
+			}
 			ArrayList<Goods> goodsList = new ArrayList<Goods>();
 			goodsList.addAll(mGoodsList);
 			mGoodsGv.onFinishLoading(true, goodsList);
