@@ -243,66 +243,6 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 		mGoodsNameTv = (TextView) findViewById(R.id.goods_detail_name_tv);
 		mGoodsPriceTv = (TextView) findViewById(R.id.goods_detail_price_tv);
-		// mGoodsOrgPriceTv = (TextView)
-		// findViewById(R.id.goods_detail_original_prices_tv);
-		//
-		// mGoodsProductAreaTv = (TextView)
-		// findViewById(R.id.goods_detail_area_tv);
-		// mGoodsFactoryTv = (TextView)
-		// findViewById(R.id.goods_detail_factory_tv);
-		// mGoodsBrandTv = (TextView)
-		// findViewById(R.id.goods_detail_brand_type_tv);
-		// mGoodsJHLTv = (TextView) findViewById(R.id.goods_detail_jhl_tv);
-		// mGoodsDegreeTv = (TextView)
-		// findViewById(R.id.goods_detail_degree_tv);
-		// mGoodsScentTv = (TextView) findViewById(R.id.goods_detail_scent_tv);
-		// mGoodsMaterialTv = (TextView)
-		// findViewById(R.id.goods_detail_material_tv);
-		// mGoodsBriefTv = (TextView) findViewById(R.id.goods_detail_brief_tv);
-		//
-		// mBackIv = (ImageView) findViewById(R.id.goods_detail_back_iv);
-		// mBackIv.setOnClickListener(this);
-		// mCartIv = (ImageView) findViewById(R.id.goods_detail_cart_iv);
-		// mCartIv.setOnClickListener(this);
-		//
-		// // mBuyNumView = new BadgeView(mContext, mCartIv);
-		// mBuyNumView = new BadgeView(this, mCartIv);
-		// // mBuyNumView.setText(String.valueOf(CartManager.getAllCartNum()));
-		// mBuyNumView.show();
-		//
-		// mBriefLl = (LinearLayout) findViewById(R.id.goods_detail_content);
-		// mAddCartLl = (LinearLayout)
-		// findViewById(R.id.goods_detail_add_cart_ll);
-		// mAddCartLl.setOnClickListener(this);
-		// mNowBuyLl = (LinearLayout)
-		// findViewById(R.id.goods_detail_now_buy_ll);
-		// mNowBuyLl.setOnClickListener(this);
-		//
-		// mNum = (EditText) findViewById(R.id.goods_detail_count_et);
-		// mAddIb = (ImageButton) findViewById(R.id.goods_detail_add_ib);
-		// mReduceIb = (ImageButton) findViewById(R.id.goods_detail_reduce_ib);
-		//
-		// mAddIb.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// // mGoods.setNum(String.valueOf(Integer.parseInt(mGoods.getNum())
-		// // + 1));
-		// mNum.setText(String.valueOf(Integer.parseInt(mNum.getText()
-		// .toString().trim()) + 1));
-		// }
-		// });
-		// mReduceIb.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// if (Integer.parseInt(mNum.getText().toString().trim()) > 1) {
-		// // mGoods.setNum(String.valueOf(Integer.parseInt(mGoods
-		// // .getNum()) - 1));
-		// mNum.setText(String.valueOf(Integer.parseInt(mNum.getText()
-		// .toString().trim()) - 1));
-		// }
-		//
-		// }
-		// });
 	}
 
 	private void initCircleimage() {
@@ -345,54 +285,11 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void fillUpGoodsData() {
-		// ImageLoader.getInstance().displayImage(mGoods.getImage(),
-		// mGoodsIconIv);
-		//
-		// mNum.setText(mGoods.getNum());
-		// mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods
-		// .getName() : "");
-		// mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ?
-		// "¥"
-		// + mGoods.getFinalPrice() : "¥");
-		// mGoodsOrgPriceTv.setText(!TextUtils.isEmpty(mGoods.getPrice()) ?
-		// "原价:¥"
-		// + mGoods.getPrice() : "原价:¥");
-		// mGoodsProductAreaTv
-		// .setText(!TextUtils.isEmpty(mGoods.getArea()) ? "商品产地："
-		// + mGoods.getArea() : "商品产地：");
-		// mGoodsFactoryTv.setText(!TextUtils.isEmpty(mGoods.getFactory()) ?
-		// "酒厂："
-		// + mGoods.getFactory() : "酒厂：");
-		// mGoodsBrandTv.setText(!TextUtils.isEmpty(mGoods.getLevel()) ? "产品品牌："
-		// + mGoods.getLevel() : "产品品牌：");
-		// mGoodsJHLTv.setText(!TextUtils.isEmpty(mGoods.getContent()) ? "净含量："
-		// + mGoods.getContent() : "净含量：");
-		// mGoodsDegreeTv.setText(!TextUtils.isEmpty(mGoods.getDegree()) ?
-		// "酒精度："
-		// + mGoods.getDegree() : "酒精度：");
-		// mGoodsScentTv.setText(!TextUtils.isEmpty(mGoods.getModel()) ? "香型："
-		// + mGoods.getModel() : "香型：");
-		// mGoodsMaterialTv
-		// .setText(!TextUtils.isEmpty(mGoods.getMetrial()) ? "原料："
-		// + mGoods.getMetrial() : "原料：");
-		// mGoodsBriefTv.setText(mGoods.getDesc());
 
-		// String string = mGoods.getImagesUrl();
-		// if (!TextUtils.isEmpty(string)) {
-		// String[] strings = string.split(";");
-		// for (int i = 0; i < strings.length; i++) {
-		// CustomImageView customImageView = new CustomImageView(mContext,
-		// strings[i]);
-		// // ImageView imageView = new ImageView(this);
-		// // imageView.setLayoutParams(new LayoutParams(
-		// // LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		// // imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-		// // // imageView.setImageResource(R.drawable.ic_launcher);
-		// // ImageLoader.getInstance().displayImage(strings[i],
-		// // imageView);
-		// mBriefLl.addView(customImageView);
-		// }
-		// }
+		mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods
+				.getName() : "");
+		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥"
+				+ mGoods.getFinalPrice() : "¥");
 
 	}
 
@@ -406,7 +303,6 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				// .finishActivity("com.xgf.winecome.ui.activity.SpecialEventsActivity");
 			}
 			finish();
-			// HomeActivity.setTab(HomeActivity.TAB_CART);
 			break;
 		}
 		case R.id.goods_detail_add_cart_ll: {
