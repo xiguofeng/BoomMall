@@ -26,7 +26,7 @@
         <RadioGroup
             android:id="@+id/home_radio_button_group"
             android:layout_width="match_parent"
-            android:layout_height="55dip"
+            android:layout_height="50dip"
             android:layout_gravity="bottom"
             android:background="@color/white_tab_bg"
             android:gravity="center_vertical"
@@ -41,26 +41,26 @@
                 android:drawableTop="@drawable/home_tab_main_selector" />
 
             <RadioButton
-                android:id="@+id/home_tab_logistics_rb"
+                android:id="@+id/home_tab_category_rb"
                 style="@style/home_tab_bottom"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/home_tab_bg_selector"
-                android:drawableTop="@drawable/home_tab_logistics_selector" />
+                android:drawableTop="@drawable/home_tab_category_selector" />
 
             <RadioButton
-                android:id="@+id/home_tab_rob_rb"
+                android:id="@+id/home_tab_cart_rb"
                 style="@style/home_tab_bottom"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/home_tab_bg_selector"
-                android:drawableTop="@drawable/home_tab_rob_selector" />
+                android:drawableTop="@drawable/home_tab_cart_selector" />
             
             
             <RadioButton
-                android:id="@+id/home_tab_accout_rb"
+                android:id="@+id/home_tab_person_rb"
                 style="@style/home_tab_bottom"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/home_tab_bg_selector"
-                android:drawableTop="@drawable/home_tab_psw_selector" />
+                android:drawableTop="@drawable/home_tab_person_selector" />
         </RadioGroup>
     </LinearLayout>
 

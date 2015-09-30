@@ -17,17 +17,17 @@ public class HomeActivity extends TabActivity implements
 	public static final String TAG = HomeActivity.class.getSimpleName();
 
 	public static final String TAB_MAIN = "MAIN";
-	public static final String TAB_HISTORY = "HISTORY";
-	public static final String TAB_LOGI_CONFIRM = "LOGI_CONFIRM";
-	public static final String TAB_PSW = "PSW";
+	public static final String TAB_CATEGORY = "CATEGORY";
+	public static final String TAB_CART = "CART";
+	public static final String TAB_PERSON = "PERSON";
 
 	private RadioGroup mTabButtonGroup;
 
 	private static TabHost mTabHost;
 	private static RadioButton mMainRb;
-	private static RadioButton mLogiConfirmRb;
-	private static RadioButton mHistoryRb;
-	private static RadioButton mPwdRb;
+	private static RadioButton mCategoryRb;
+	private static RadioButton mShopCartRb;
+	private static RadioButton mPersonRb;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +41,9 @@ public class HomeActivity extends TabActivity implements
 	private void findViewById() {
 		mTabButtonGroup = (RadioGroup) findViewById(R.id.home_radio_button_group);
 		mMainRb = (RadioButton) findViewById(R.id.home_tab_main_rb);
-		mLogiConfirmRb = (RadioButton) findViewById(R.id.home_tab_logistics_rb);
-		mHistoryRb = (RadioButton) findViewById(R.id.home_tab_rob_rb);
-		mPwdRb = (RadioButton) findViewById(R.id.home_tab_accout_rb);
+		mCategoryRb = (RadioButton) findViewById(R.id.home_tab_category_rb);
+		mShopCartRb = (RadioButton) findViewById(R.id.home_tab_cart_rb);
+		mPersonRb = (RadioButton) findViewById(R.id.home_tab_person_rb);
 	}
 
 	private void initView() {
@@ -56,12 +56,12 @@ public class HomeActivity extends TabActivity implements
 
 		mTabHost.addTab(mTabHost.newTabSpec(TAB_MAIN).setIndicator(TAB_MAIN)
 				.setContent(i_home));
-		mTabHost.addTab(mTabHost.newTabSpec(TAB_LOGI_CONFIRM)
-				.setIndicator(TAB_LOGI_CONFIRM).setContent(i_logi_confirm));
-		mTabHost.addTab(mTabHost.newTabSpec(TAB_HISTORY)
-				.setIndicator(TAB_HISTORY).setContent(i_history));
-		mTabHost.addTab(mTabHost.newTabSpec(TAB_PSW).setIndicator(TAB_PSW)
-				.setContent(i_psw));
+		mTabHost.addTab(mTabHost.newTabSpec(TAB_CART).setIndicator(TAB_CART)
+				.setContent(i_logi_confirm));
+		mTabHost.addTab(mTabHost.newTabSpec(TAB_CATEGORY)
+				.setIndicator(TAB_CATEGORY).setContent(i_history));
+		mTabHost.addTab(mTabHost.newTabSpec(TAB_PERSON)
+				.setIndicator(TAB_PERSON).setContent(i_psw));
 
 		mTabHost.setCurrentTabByTag(TAB_MAIN);
 
@@ -73,18 +73,18 @@ public class HomeActivity extends TabActivity implements
 							mTabHost.setCurrentTabByTag(TAB_MAIN);
 							break;
 
-						case R.id.home_tab_logistics_rb:
-							mTabHost.setCurrentTabByTag(TAB_LOGI_CONFIRM);
+						case R.id.home_tab_category_rb:
+							mTabHost.setCurrentTabByTag(TAB_CART);
 
 							break;
 
-						case R.id.home_tab_rob_rb:
-							mTabHost.setCurrentTabByTag(TAB_HISTORY);
+						case R.id.home_tab_cart_rb:
+							mTabHost.setCurrentTabByTag(TAB_CATEGORY);
 
 							break;
 
-						case R.id.home_tab_accout_rb:
-							mTabHost.setCurrentTabByTag(TAB_PSW);
+						case R.id.home_tab_person_rb:
+							mTabHost.setCurrentTabByTag(TAB_PERSON);
 
 							break;
 						default:
@@ -103,12 +103,12 @@ public class HomeActivity extends TabActivity implements
 		mTabHost.setCurrentTabByTag(tab);
 		if (TAB_MAIN.equals(tab)) {
 			mMainRb.setChecked(true);
-		} else if (TAB_LOGI_CONFIRM.equals(tab)) {
-			mLogiConfirmRb.setChecked(true);
-		} else if (TAB_HISTORY.equals(tab)) {
-			mHistoryRb.setChecked(true);
-		} else if (TAB_PSW.equals(tab)) {
-			mPwdRb.setChecked(true);
+		} else if (TAB_CART.equals(tab)) {
+			mCategoryRb.setChecked(true);
+		} else if (TAB_CATEGORY.equals(tab)) {
+			mShopCartRb.setChecked(true);
+		} else if (TAB_PERSON.equals(tab)) {
+			mPersonRb.setChecked(true);
 		}
 	}
 
