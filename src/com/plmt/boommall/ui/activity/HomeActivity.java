@@ -31,7 +31,7 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.home_new);
+		setContentView(R.layout.home);
 		initView();
 		initData();
 	}
