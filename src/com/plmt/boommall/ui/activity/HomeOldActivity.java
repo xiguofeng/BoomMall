@@ -32,7 +32,7 @@ public class HomeOldActivity extends TabActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.home);
+		setContentView(R.layout.home_old);
 		findViewById();
 		initView();
 		initData();

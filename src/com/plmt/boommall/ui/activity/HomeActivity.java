@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-public class HomeTabActivity extends TabActivity implements OnClickListener {
+public class HomeActivity extends TabActivity implements OnClickListener {
 
 	public static final String TAB_MAIN = "MAIN";
 	public static final String TAB_CATEGORY = "CATEGORY";
@@ -33,7 +33,7 @@ public class HomeTabActivity extends TabActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_new);
 		initView();
-
+		initData();
 	}
 
 	private void initView() {
@@ -41,16 +41,14 @@ public class HomeTabActivity extends TabActivity implements OnClickListener {
 		mTabHost = getTabHost();
 
 		Intent i_home = new Intent(this, MainActivity.class);
-		Intent i_logi_confirm = new Intent(this, CategoryActivity.class);
-		Intent i_history = new Intent(this, ShopCartActivity.class);
-		Intent i_psw = new Intent(this, UserActivity.class);
+		Intent i_category = new Intent(this, CategoryActivity.class);
+		Intent i_cart = new Intent(this, ShopCartActivity.class);
+		Intent i_person = new Intent(this, UserActivity.class);
 
 		mTabHost.addTab(mTabHost.newTabSpec(TAB_MAIN).setIndicator(TAB_MAIN).setContent(i_home));
-		mTabHost.addTab(mTabHost.newTabSpec(TAB_CART).setIndicator(TAB_CART).setContent(i_logi_confirm));
-		mTabHost.addTab(mTabHost.newTabSpec(TAB_CATEGORY).setIndicator(TAB_CATEGORY).setContent(i_history));
-		mTabHost.addTab(mTabHost.newTabSpec(TAB_PERSON).setIndicator(TAB_PERSON).setContent(i_psw));
-
-		mTabHost.setCurrentTabByTag(TAB_MAIN);
+		mTabHost.addTab(mTabHost.newTabSpec(TAB_CART).setIndicator(TAB_CART).setContent(i_cart));
+		mTabHost.addTab(mTabHost.newTabSpec(TAB_CATEGORY).setIndicator(TAB_CATEGORY).setContent(i_category));
+		mTabHost.addTab(mTabHost.newTabSpec(TAB_PERSON).setIndicator(TAB_PERSON).setContent(i_person));
 
 		mMainFl = (FrameLayout) findViewById(R.id.home_main_fl);
 		mCategoryFl = (FrameLayout) findViewById(R.id.home_category_fl);
@@ -66,6 +64,12 @@ public class HomeTabActivity extends TabActivity implements OnClickListener {
 		mCategoryIv = (ImageView) findViewById(R.id.home_category_iv);
 		mCartIv = (ImageView) findViewById(R.id.home_cart_iv);
 		mPersonIv = (ImageView) findViewById(R.id.home_person_iv);
+		
+	}
+	
+	private void initData(){
+		mTabHost.setCurrentTabByTag(TAB_MAIN);
+		mMainIv.setImageResource(R.drawable.tab_main_pressed);
 	}
 
 	private static void reset() {
@@ -74,7 +78,6 @@ public class HomeTabActivity extends TabActivity implements OnClickListener {
 		mCartIv.setImageResource(R.drawable.tab_cart_normal);
 		mPersonIv.setImageResource(R.drawable.tab_person_normal);
 	}
-	
 
 	public static void showMainByOnkey() {
 		mTabHost.setCurrentTabByTag(TAB_MAIN);
@@ -92,19 +95,19 @@ public class HomeTabActivity extends TabActivity implements OnClickListener {
 			break;
 		}
 		case R.id.home_category_fl: {
-			mTabHost.setCurrentTabByTag(TAB_MAIN);
+			mTabHost.setCurrentTabByTag(TAB_CATEGORY);
 			reset();
 			mCategoryIv.setImageResource(R.drawable.tab_category_pressed);
 			break;
 		}
 		case R.id.home_cart_fl: {
-			mTabHost.setCurrentTabByTag(TAB_MAIN);
+			mTabHost.setCurrentTabByTag(TAB_CART);
 			reset();
 			mCartIv.setImageResource(R.drawable.tab_cart_pressed);
 			break;
 		}
 		case R.id.home_person_fl: {
-			mTabHost.setCurrentTabByTag(TAB_MAIN);
+			mTabHost.setCurrentTabByTag(TAB_PERSON);
 			reset();
 			mPersonIv.setImageResource(R.drawable.tab_person_pressed);
 			break;
