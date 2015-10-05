@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.User;
@@ -43,7 +44,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	private CheckBox mRemberpswCb;
 	// private LinearLayout layoutProcess;
 	private Button mLoginBtn;
-
+	
+	private LinearLayout mWechatLogin;
+    private LinearLayout mWeiboLogin;
+    private LinearLayout mQQLogin;
+    
 	private String mAccount;
 	private String mPassWord;
 
@@ -123,6 +128,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	}
 
 	protected void initView() {
+		mWechatLogin = (LinearLayout) findViewById(R.id.login_wechat_login_ll);
+		mWeiboLogin = (LinearLayout) findViewById(R.id.login_weibo_login_ll);
+		mQQLogin = (LinearLayout) findViewById(R.id.login_qq_login_ll);
+		mWechatLogin.setOnClickListener(this);
+		mWeiboLogin.setOnClickListener(this);
+		mQQLogin.setOnClickListener(this);
+		
 		mAccountEt = (EditText) findViewById(R.id.login_username);
 		mPassWordEt = (EditText) findViewById(R.id.login_password);
 		mAccountEt.addTextChangedListener(this);
@@ -232,6 +244,18 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.login_btn: {
+			login();
+			break;
+		}
+		case R.id.login_wechat_login_ll: {
+			login();
+			break;
+		}
+		case R.id.login_weibo_login_ll: {
+			login();
+			break;
+		}
+		case R.id.login_qq_login_ll: {
 			login();
 			break;
 		}
