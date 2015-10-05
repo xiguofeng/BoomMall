@@ -16,7 +16,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ff6347"
+                android:background="#F03C55"
                 android:orientation="vertical" >
 
                 <RelativeLayout
@@ -73,16 +73,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@color/orange_bg"
-                    android:orientation="horizontal"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp" >
+                    android:background="#FC6D5E"
+                    android:orientation="horizontal" >
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical" >
+                        android:orientation="vertical"
+                        android:paddingBottom="5dip"
+                        android:paddingTop="5dip" >
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -105,15 +105,15 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="7dp"
-                        android:layout_marginTop="7dp"
-                        android:background="@color/white" />
+                        android:background="@color/red_divide_line" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical" >
+                        android:orientation="vertical"
+                        android:paddingBottom="5dip"
+                        android:paddingTop="5dip" >
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -136,15 +136,15 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="7dp"
-                        android:layout_marginTop="7dp"
-                        android:background="@color/white" />
+                        android:background="@color/red_divide_line" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical" >
+                        android:orientation="vertical"
+                        android:paddingBottom="5dip"
+                        android:paddingTop="5dip" >
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -335,5 +335,60 @@
                 android:background="@color/gray_bg" />
         </LinearLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" 
+        android:paddingTop="10dip">
+
+        <LinearLayout
+            android:id="@+id/user_setting_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/msg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="@string/setting"
+                android:textColor="@color/white"
+                android:textSize="@dimen/micro_text_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/user_msg_ll"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/msg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="@string/msg"
+                android:textColor="@color/white"
+                android:textSize="@dimen/micro_text_size" />
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

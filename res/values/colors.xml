@@ -41,6 +41,7 @@
     <color name="transparent">#00000000</color>
 
     <!-- line -->
+    <color name="red_divide_line">#F5624F</color>
     <color name="white_divide_line">#e8e8e8</color>
     <color name="gray_divide_line">#9f9e9e</color>
     <color name="province_line_border">#C7C7C7</color>
