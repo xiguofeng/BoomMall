@@ -67,8 +67,8 @@
                         android:textSize="@dimen/middle_text_size" />
 
                     <ImageView
-                        android:layout_width="20dip"
-                        android:layout_height="20dip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignBaseline="@id/login_username"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dip"
@@ -110,8 +110,8 @@
                         android:textSize="@dimen/middle_text_size" />
 
                     <ImageView
-                        android:layout_width="20dip"
-                        android:layout_height="20dip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignBaseline="@id/login_password"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dip"
