@@ -11,10 +11,10 @@ import android.widget.TabHost;
 
 import com.plmt.boommall.R;
 
-public class HomeActivity extends TabActivity implements
+public class HomeOldActivity extends TabActivity implements
 		android.view.View.OnClickListener {
 
-	public static final String TAG = HomeActivity.class.getSimpleName();
+	public static final String TAG = HomeOldActivity.class.getSimpleName();
 
 	public static final String TAB_MAIN = "MAIN";
 	public static final String TAB_CATEGORY = "CATEGORY";
