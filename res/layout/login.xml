@@ -24,13 +24,14 @@
             android:orientation="vertical" >
 
             <ImageView
+                android:background="@color/gray_bg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:paddingBottom="20dip"
                 android:paddingTop="40dip"
                 android:scaleType="centerInside"
-                android:src="@drawable/icon_user" />
+                android:src="@drawable/logo_login" />
 
             <LinearLayout
                 android:id="@+id/input"
@@ -72,7 +73,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dip"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/account" />
+                        android:src="@drawable/user_login" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -115,7 +116,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dip"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/account" />
+                        android:src="@drawable/pwd_login" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -235,6 +236,83 @@
                     android:background="@drawable/h_line" >
                 </LinearLayout>
             </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="15dip"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/login_wechat_login_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/wechat"
+                        android:scaleType="centerCrop" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dip"
+                        android:text="@string/wechat_login"
+                        android:textSize="@dimen/micro_text_size" 
+                        android:textColor="@color/black_character"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/login_weibo_login_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/weibo"
+                        android:scaleType="centerCrop" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dip"
+                        android:text="@string/weibo_login"
+                        android:textSize="@dimen/micro_text_size" 
+                        android:textColor="@color/black_character"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/login_qq_login_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/qq"
+                        android:scaleType="centerCrop" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dip"
+                        android:text="@string/qq_login"
+                        android:textSize="@dimen/micro_text_size" 
+                        android:textColor="@color/black_character"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
