@@ -239,7 +239,7 @@ public class CategoryActivity extends Activity implements OnClickListener {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-
+			HomeActivity.showMainByOnkey();
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
