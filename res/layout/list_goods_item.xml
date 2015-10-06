@@ -53,7 +53,7 @@
                     android:id="@+id/goods_price_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:text="399"
                     android:textColor="@color/orange_text"
                     android:textSize="@dimen/small_text_size" />
@@ -61,7 +61,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip" >
+                    android:layout_marginLeft="10dip" >
 
                     <ImageView
                         android:layout_width="80dip"
@@ -84,8 +84,8 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
                 android:gravity="center_vertical" >
 
                 <TextView

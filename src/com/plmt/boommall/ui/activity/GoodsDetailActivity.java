@@ -287,9 +287,9 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	private void fillUpGoodsData() {
 
 		mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods
-				.getName() : "");
+				.getName().trim() : "");
 		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥"
-				+ mGoods.getFinalPrice() : "¥");
+				+ mGoods.getFinalPrice().trim() : "¥");
 
 	}
 

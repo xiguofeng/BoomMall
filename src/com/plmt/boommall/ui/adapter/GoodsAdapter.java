@@ -68,7 +68,7 @@ public class GoodsAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.mName.setText(mDatas.get(position).getName());
+		holder.mName.setText(mDatas.get(position).getName().trim());
 		holder.mPrice.setText("￥" + mDatas.get(position).getFinalPrice());
 		holder.mOriginalPrice.setText("原价￥" + mDatas.get(position).getPrice());
 

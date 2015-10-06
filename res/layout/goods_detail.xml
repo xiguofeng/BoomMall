@@ -144,21 +144,20 @@
                                 android:id="@+id/goods_detail_name_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_marginLeft="10dip"
                                 android:layout_marginTop="15dip"
-                                android:gravity="center"
                                 android:text="SK-II"
-                                android:textColor="@color/gray_character_title"
+                                android:maxLines="2"
+                                android:textColor="@color/black_character"
                                 android:textSize="@dimen/middle_text_size" />
 
                             <TextView
                                 android:id="@+id/goods_detail_price_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
                                 android:layout_marginBottom="10dip"
-                                android:layout_marginLeft="10dip"
+                                android:layout_marginLeft="15dip"
+                                android:layout_marginTop="10dip"
                                 android:text="￥3999"
                                 android:textColor="@color/red_character"
                                 android:textSize="@dimen/middle_text_size" />
