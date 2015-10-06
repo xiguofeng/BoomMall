@@ -35,7 +35,8 @@
             android:layout_marginBottom="@dimen/tab_inner_height"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:visibility="gone" >
+            android:background="@color/white_transparent"
+            android:visibility="visible" >
 
             <LinearLayout
                 android:id="@+id/home_cart_pay_select_ll"
@@ -45,7 +46,7 @@
                 android:background="@color/white_transparent"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="5dip" >
+                android:padding="7dip" >
 
                 <CheckBox
                     android:id="@+id/home_cart_pay_ib"
