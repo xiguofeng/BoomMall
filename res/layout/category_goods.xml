@@ -23,7 +23,7 @@
             android:background="@color/red_title_bg"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="3dip" >
+            android:padding="5dip" >
 
             <ImageView
                 android:id="@+id/category_goods_show_mode_iv"
