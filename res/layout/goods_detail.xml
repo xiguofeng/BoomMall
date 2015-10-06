@@ -17,56 +17,6 @@
         android:background="@color/white"
         android:orientation="vertical" >
 
-        <LinearLayout
-            android:id="@+id/goods_detail_bottom_ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <LinearLayout
-                    android:id="@+id/goods_detail_add_cart_ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/yello_bottom_bg"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="10dip" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/add_cart"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/middle_text_size" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/goods_detail_now_buy_ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/red_title_bg"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="10dip" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/now_buy"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/middle_text_size" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
         <com.plmt.boommall.ui.view.srollview.slidingmenu.SlidingMenu
             android:id="@+id/expanded_menu"
             android:layout_width="match_parent"
@@ -146,8 +96,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dip"
                                 android:layout_marginTop="15dip"
-                                android:text="SK-II"
                                 android:maxLines="2"
+                                android:text="SK-II"
                                 android:textColor="@color/black_character"
                                 android:textSize="@dimen/middle_text_size" />
 
@@ -409,16 +359,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/white"
-            android:padding="10dip" >
+            android:background="@color/white" >
 
-            <ImageView
-                android:id="@+id/goods_detail_collection_iv"
+            <LinearLayout
+                android:id="@+id/goods_detail_collection_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dip"
-                android:src="@drawable/detail_back" />
+                android:layout_marginLeft="20dip"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/goods_detail_collection_iv"
+                    android:layout_width="45dip"
+                    android:layout_height="30dip"
+                    android:paddingTop="5dip"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/collect" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
+                    android:text="@string/collection"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/micro_small_text_size" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/goods_detail_add_cart_btn"
@@ -426,21 +395,41 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:background="@drawable/corners_bg_red_all"
-                android:paddingBottom="5dip"
-                android:paddingLeft="15dip"
-                android:paddingRight="15dip"
-                android:paddingTop="5dip"
+                android:paddingBottom="10dip"
+                android:paddingLeft="40dip"
+                android:paddingRight="40dip"
+                android:paddingTop="10dip"
                 android:text="@string/add_cart"
                 android:textColor="@color/white"
-                android:textSize="@dimen/middle_text_size" />
+                android:textSize="@dimen/small_text_size" />
 
-            <ImageView
-                android:id="@+id/goods_detail_cart_iv"
+            <LinearLayout
+                android:id="@+id/goods_detail_cart_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:paddingRight="10dip"
-                android:src="@drawable/cart" />
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingRight="5dip" >
+
+                <ImageView
+                    android:id="@+id/goods_detail_cart_iv"
+                    android:layout_width="45dip"
+                    android:layout_height="30dip"
+                    android:scaleType="centerCrop"
+                    android:paddingTop="5dip"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:src="@drawable/cart" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
+                    android:text="@string/cart"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/micro_small_text_size" />
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
 

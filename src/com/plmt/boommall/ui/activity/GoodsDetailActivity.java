@@ -2,31 +2,6 @@ package com.plmt.boommall.ui.activity;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationSet;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Ads;
 import com.plmt.boommall.entity.Goods;
@@ -39,7 +14,25 @@ import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
 import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 import com.plmt.boommall.utils.ActivitiyInfoManager;
 import com.plmt.boommall.utils.CartManager;
-import com.plmt.boommall.utils.SystemUtils;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class GoodsDetailActivity extends Activity implements OnClickListener {
 
@@ -83,11 +76,11 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private TextView mGoodsBriefTv;
 
-	private ImageView mBackIv;
+	public EditText mNum;
 
-	private LinearLayout mAddCartLl;
+	private LinearLayout mCollectionLl;
 
-	private LinearLayout mNowBuyLl;
+	private LinearLayout mCartLl;
 
 	private LinearLayout mBriefLl;
 
@@ -95,13 +88,11 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	public ImageButton mReduceIb;
 
-	public EditText mNum;
+	private Button mAddCartBtn;
 
-	private Goods mGoods;
+	private ImageView mBackIv;
 
-	private String mGoodsId;
-
-	private String mNowAction = ORIGIN_FROM_MAIN_ACTION;
+	private ImageView mCollectionIv;
 
 	private ImageView mCartIv;// 购物车
 
@@ -110,6 +101,12 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	private ImageView mBall;// 小圆点
 
 	private BadgeView mBuyNumView;// 购物车上的数量标签
+
+	private Goods mGoods;
+
+	private String mGoodsId;
+
+	private String mNowAction = ORIGIN_FROM_MAIN_ACTION;
 
 	private Handler mHandler = new Handler() {
 
@@ -184,8 +181,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				break;
 			}
 			case CartLogic.CART_ADD_FAIL: {
-				Toast.makeText(mContext, R.string.login_fail,
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, R.string.login_fail, Toast.LENGTH_SHORT).show();
 				break;
 			}
 			case CartLogic.CART_ADD_EXCEPTION: {
@@ -208,12 +204,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.goods_detail);
 		mContext = GoodsDetailActivity.this;
-		if (!ActivitiyInfoManager.activitityMap
-				.containsKey(ActivitiyInfoManager
-						.getCurrentActivityName(mContext))) {
-			ActivitiyInfoManager.activitityMap
-					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
-							this);
+		if (!ActivitiyInfoManager.activitityMap.containsKey(ActivitiyInfoManager.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap.put(ActivitiyInfoManager.getCurrentActivityName(mContext), this);
 		}
 		initView();
 		initData();
@@ -226,20 +218,34 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private void initView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.goods_detail_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
-				.findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView
-								.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(),
-								"Fetching Data", Toast.LENGTH_SHORT).show();
+						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(), "Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
 		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
 		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 		initCircleimage();
+
+		mCollectionLl = (LinearLayout) findViewById(R.id.goods_detail_collection_ll);
+		mCartLl = (LinearLayout) findViewById(R.id.goods_detail_cart_ll);
+		mCollectionLl.setOnClickListener(this);
+		mCartLl.setOnClickListener(this);
+
+		mBackIv = (ImageView) findViewById(R.id.goods_detail_back_iv);
+		mCartIv = (ImageView) findViewById(R.id.goods_detail_cart_iv);
+		mCollectionIv = (ImageView) findViewById(R.id.goods_detail_collection_iv);
+		mBackIv.setOnClickListener(this);
+
+		mBuyNumView = new BadgeView(this, mCartIv);
+		// mBuyNumView.setText("0");
+		// mBuyNumView.show();
+
+		mAddCartBtn = (Button) findViewById(R.id.goods_detail_add_cart_btn);
+		mAddCartBtn.setOnClickListener(this);
 
 		mGoodsNameTv = (TextView) findViewById(R.id.goods_detail_name_tv);
 		mGoodsPriceTv = (TextView) findViewById(R.id.goods_detail_price_tv);
@@ -271,8 +277,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-		mGoodsId = (String) getIntent().getSerializableExtra(
-				GoodsDetailActivity.GOODS_ID_KEY);
+		mGoodsId = (String) getIntent().getSerializableExtra(GoodsDetailActivity.GOODS_ID_KEY);
 		mNowAction = getIntent().getAction();
 
 		// if (null != mGoods) {
@@ -286,52 +291,44 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private void fillUpGoodsData() {
 
-		mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods
-				.getName().trim() : "");
-		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥"
-				+ mGoods.getFinalPrice().trim() : "¥");
+		mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods.getName().trim() : "");
+		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥" + mGoods.getFinalPrice().trim() : "¥");
 
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.goods_detail_cart_iv: {
-			if (!TextUtils.isEmpty(mNowAction)
-					&& ORIGIN_FROM_ADS_ACTION.equals(mNowAction)) {
+		case R.id.goods_detail_cart_ll: {
+			if (!TextUtils.isEmpty(mNowAction) && ORIGIN_FROM_ADS_ACTION.equals(mNowAction)) {
 				// ActivitiyInfoManager
 				// .finishActivity("com.xgf.winecome.ui.activity.SpecialEventsActivity");
 			}
 			finish();
 			break;
 		}
-		case R.id.goods_detail_add_cart_ll: {
+		case R.id.goods_detail_add_cart_btn: {
 
-			mAddCartLl.setClickable(false);
-			if (TextUtils.isEmpty(mGoods.getNum())
-					|| "null".equals(mGoods.getNum())) {
+			mAddCartBtn.setClickable(false);
+			if (TextUtils.isEmpty(mGoods.getNum()) || "null".equals(mGoods.getNum())) {
 				mGoods.setNum("0");
 			}
+			mAddCartBtn.setClickable(true);
+			mBuyNumView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+			mBuyNumView.setText("1");
+			mBuyNumView.show();
 
-			CartLogic.add(mContext, mCartHandler, mGoods.getId(), "1");
-
-			int addNum = 1;
-			boolean isSuc = CartManager.cartModifyByDetail(mGoods, addNum);
-			if (isSuc) {
-				mAddCartLl.setClickable(true);
-				mBuyNumView
-						.setText(String.valueOf(CartManager.getAllCartNum()));
-				mBuyNumView.show();
-
-			}
+			// CartLogic.add(mContext, mCartHandler, mGoods.getId(), "1");
+			//
+			// int addNum = 1;
+			// boolean isSuc = CartManager.cartModifyByDetail(mGoods, addNum);
 			break;
 		}
-		case R.id.goods_detail_now_buy_ll: {
+		case R.id.goods_detail_collection_ll: {
 			int addNum = Integer.parseInt(mNum.getText().toString().trim());
 			boolean isSuc = CartManager.cartModifyByDetail(mGoods, addNum);
 
-			if (!TextUtils.isEmpty(mNowAction)
-					&& ORIGIN_FROM_ADS_ACTION.equals(mNowAction)) {
+			if (!TextUtils.isEmpty(mNowAction) && ORIGIN_FROM_ADS_ACTION.equals(mNowAction)) {
 				// ActivitiyInfoManager
 				// .finishActivity("com.xgf.winecome.ui.activity.SpecialEventsActivity");
 			}
@@ -341,8 +338,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		}
 		case R.id.goods_detail_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			break;
 		}
 		default:

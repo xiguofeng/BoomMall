@@ -52,12 +52,14 @@
     <string name="wechat_login">微信登陆</string>
 
     <!-- user info -->
+    <string name="collection">收藏</string>
     <string name="collection_goods">收藏的商品</string>
     <string name="attention_brand">关注的品牌</string>
     <string name="browsing_history">浏览记录</string>
     <string name="my_property">我的资产</string>
     <string name="view_all_property">查看全部资产</string>
     <string name="modify_head_portrait">修改头像</string>
+    <string name="cart">购物车</string>
 
     <!-- pay -->
     <string name="add_cart">加入购物车</string>
