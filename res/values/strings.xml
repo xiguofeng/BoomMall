@@ -3,6 +3,7 @@
 
     <string name="app_name">旺铺商城</string>
     <string name="exit">再按一次退出程序</string>
+    <string name="exit_str">确定要退出吗？</string>
     <string name="company">南京壹前零后科技有限公司</string>
     <string name="copyright">版权所有</string>
     <string name="agreement_title">服务协议</string>

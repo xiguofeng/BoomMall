@@ -3,6 +3,29 @@ package com.plmt.boommall.ui.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Ads;
+import com.plmt.boommall.entity.Category;
+import com.plmt.boommall.entity.DemoItem;
+import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.network.logic.GoodsLogic;
+import com.plmt.boommall.network.logic.OrderLogic;
+import com.plmt.boommall.ui.adapter.BannerAdapter;
+import com.plmt.boommall.ui.adapter.DemoAdapter;
+import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
+import com.plmt.boommall.ui.adapter.MainGvCategoryAdapter;
+import com.plmt.boommall.ui.view.CustomClassifyView;
+import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView;
+import com.plmt.boommall.ui.view.gridview.CustomGridView;
+import com.plmt.boommall.ui.view.iosdialog.AlertDialog;
+import com.plmt.boommall.ui.view.listview.HorizontalListView;
+import com.plmt.boommall.ui.view.srollview.BorderScrollView;
+import com.plmt.boommall.ui.view.srollview.BorderScrollView.OnBorderListener;
+import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
+import com.plmt.boommall.ui.view.viewflow.ViewFlow;
+import com.plmt.boommall.utils.OrderManager;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -19,27 +42,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Ads;
-import com.plmt.boommall.entity.Category;
-import com.plmt.boommall.entity.DemoItem;
-import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.network.logic.GoodsLogic;
-import com.plmt.boommall.ui.adapter.BannerAdapter;
-import com.plmt.boommall.ui.adapter.DemoAdapter;
-import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
-import com.plmt.boommall.ui.adapter.MainGvCategoryAdapter;
-import com.plmt.boommall.ui.view.CustomClassifyView;
-import com.plmt.boommall.ui.view.MultiStateView;
-import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView;
-import com.plmt.boommall.ui.view.gridview.CustomGridView;
-import com.plmt.boommall.ui.view.listview.HorizontalListView;
-import com.plmt.boommall.ui.view.srollview.BorderScrollView;
-import com.plmt.boommall.ui.view.srollview.BorderScrollView.OnBorderListener;
-import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
-import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -67,10 +69,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	private CustomGridView mCategoryGv;
 	private ArrayList<Category> mCategoryList = new ArrayList<Category>();
 	private MainGvCategoryAdapter mCategoryAdapter;
-	private int[] pic_path_classify = { R.drawable.menu_guide_1,
-			R.drawable.menu_guide_2, R.drawable.menu_guide_3,
-			R.drawable.menu_guide_4, R.drawable.menu_guide_5,
-			R.drawable.menu_guide_6, R.drawable.menu_guide_7,
+	private int[] pic_path_classify = { R.drawable.menu_guide_1, R.drawable.menu_guide_2, R.drawable.menu_guide_3,
+			R.drawable.menu_guide_4, R.drawable.menu_guide_5, R.drawable.menu_guide_6, R.drawable.menu_guide_7,
 			R.drawable.menu_guide_8 };
 
 	private LinearLayout mCategoryAndGoodsListLl;
@@ -208,22 +208,21 @@ public class MainActivity extends Activity implements OnClickListener {
 		mSearchIv.setOnClickListener(this);
 
 		mSearchEt = (EditText) findViewById(R.id.main_search_et);
-		mSearchEt
-				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
-					@Override
-					public void onFocusChange(View v, boolean hasFocus) {
-						if (hasFocus) {
-							// 此处为得到焦点时的处理内容
-							mSearchLl.setVisibility(View.GONE);
-							mSearchIv.setVisibility(View.VISIBLE);
-						} else {
-							// 此处为失去焦点时的处理内容
-							mSearchEt.setText("");
-							mSearchLl.setVisibility(View.VISIBLE);
-							mSearchIv.setVisibility(View.GONE);
-						}
-					}
-				});
+		mSearchEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					// 此处为得到焦点时的处理内容
+					mSearchLl.setVisibility(View.GONE);
+					mSearchIv.setVisibility(View.VISIBLE);
+				} else {
+					// 此处为失去焦点时的处理内容
+					mSearchEt.setText("");
+					mSearchLl.setVisibility(View.VISIBLE);
+					mSearchIv.setVisibility(View.GONE);
+				}
+			}
+		});
 	}
 
 	private void initCircleimage() {
@@ -265,8 +264,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		mCategoryGv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// Intent intent = new Intent(MainActivity.this,
 				// LoginActivity.class);
 				// startActivity(intent);
@@ -412,15 +410,29 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-			if ((System.currentTimeMillis() - exitTime) > 2000) {
-				Toast.makeText(getApplicationContext(), R.string.exit,
-						Toast.LENGTH_SHORT).show();
-				exitTime = System.currentTimeMillis();
-			} else {
-				finish();
-			}
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+
+			new AlertDialog(MainActivity.this).builder().setTitle(getString(R.string.prompt))
+					.setMsg(getString(R.string.exit_str))
+					.setPositiveButton(getString(R.string.confirm), new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							finish();
+						}
+					}).setNegativeButton(getString(R.string.cancal), new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+
+						}
+					}).show();
+
+			// if ((System.currentTimeMillis() - exitTime) > 2000) {
+			// Toast.makeText(getApplicationContext(), R.string.exit,
+			// Toast.LENGTH_SHORT).show();
+			// exitTime = System.currentTimeMillis();
+			// } else {
+			// finish();
+			// }
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
