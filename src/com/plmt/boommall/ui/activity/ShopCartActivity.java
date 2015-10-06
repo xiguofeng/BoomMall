@@ -33,8 +33,7 @@ import com.plmt.boommall.ui.view.listview.SwipeMenuListView;
 import com.plmt.boommall.utils.CartManager;
 import com.plmt.boommall.utils.UserInfoManager;
 
-public class ShopCartActivity extends Activity implements OnClickListener,
-		ListItemClickHelp {
+public class ShopCartActivity extends Activity implements OnClickListener, ListItemClickHelp {
 
 	private Context mContext;
 
@@ -109,8 +108,7 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 				break;
 			}
 			case CartLogic.CART_ADD_FAIL: {
-				Toast.makeText(mContext, R.string.login_fail,
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, R.string.login_fail, Toast.LENGTH_SHORT).show();
 				break;
 			}
 			case CartLogic.CART_ADD_EXCEPTION: {
@@ -150,15 +148,12 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 
 	private void initMultiStateView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.shop_cart_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
-				.findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView
-								.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(),
-								"Fetching Data", Toast.LENGTH_SHORT).show();
+						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(), "Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
 		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
@@ -180,11 +175,9 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 			public void create(SwipeMenu menu) {
 
 				// create "delete" item
-				SwipeMenuItem deleteItem = new SwipeMenuItem(
-						getApplicationContext());
+				SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
 				// set item background
-				deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-						0x3F, 0x25)));
+				deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
 				// set item width
 				deleteItem.setWidth(dp2px(60));
 				// set a icon
@@ -199,12 +192,10 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 		// step 2. listener item click event
 		mGoodsLv.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
 			@Override
-			public boolean onMenuItemClick(int position, SwipeMenu menu,
-					int index) {
+			public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
 				switch (index) {
 				case 0:
-					CartLogic.del(mContext, mHandler, mGoodsList.get(position)
-							.getScid());
+					CartLogic.del(mContext, mHandler, mGoodsList.get(position).getScid());
 					// mGoodsList.remove(position);
 					// CartManager.cartRemove(position);
 					// // del
@@ -238,8 +229,7 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 		mGoodsLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// Intent intent = new Intent(ShopCartActivity.this,
 				// GoodsDetailActivity.class);
 				// Bundle bundle = new Bundle();
@@ -254,6 +244,7 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 	private void initData() {
 		mGoodsList.clear();
 		getCartList();
+		HomeActivity.setCartMenuShow(true);
 	}
 
 	private void refresh() {
@@ -278,8 +269,7 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 		if (UserInfoManager.getLoginIn(mContext)) {
 			CartLogic.getList(mContext, mHandler);
 		} else {
-			Intent intent = new Intent(ShopCartActivity.this,
-					LoginActivity.class);
+			Intent intent = new Intent(ShopCartActivity.this, LoginActivity.class);
 			intent.setAction(LoginActivity.ORIGIN_FROM_CART_KEY);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -287,8 +277,7 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 	}
 
 	private int dp2px(int dp) {
-		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-				getResources().getDisplayMetrics());
+		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
 	}
 
 	@Override
@@ -307,8 +296,7 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 		case R.id.cart_goods_reduce_ib: {
 			Goods goods = mGoodsList.get(position);
 			if (Integer.parseInt(goods.getNum()) > 1) {
-				String num = String
-						.valueOf(Integer.parseInt(goods.getNum()) - 1);
+				String num = String.valueOf(Integer.parseInt(goods.getNum()) - 1);
 				CartLogic.update(mContext, mHandler, goods.getScid(), "", num);
 			}
 			break;
@@ -320,8 +308,7 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 			HomeActivity.showMainByOnkey();
 			return true;
 		}

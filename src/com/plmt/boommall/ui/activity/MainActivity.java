@@ -127,6 +127,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onResume() {
 		super.onResume();
 		initData();
+		HomeActivity.setCartMenuShow(false);
 	}
 
 	private void initView() {

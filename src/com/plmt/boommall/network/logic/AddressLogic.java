@@ -1,5 +1,8 @@
 package com.plmt.boommall.network.logic;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,11 +12,14 @@ import android.os.Message;
 import android.util.Log;
 
 import com.plmt.boommall.BaseApplication;
+import com.plmt.boommall.entity.Address;
+import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
+import com.plmt.boommall.utils.JsonUtils;
 import com.plmt.boommall.utils.UserInfoManager;
 
 public class AddressLogic {
@@ -44,15 +50,13 @@ public class AddressLogic {
 
 	public static final int ANDRESS_DEL_EXCEPTION = ANDRESS_DEL_FAIL + 1;
 
-	public static void getList(final Context context, final Handler handler,
-			final String sessionid, final String id) {
+	public static void getList(final Context context, final Handler handler) {
 
 		String url = RequestUrl.HOST_URL + RequestUrl.address.list;
 		JSONObject requestJson = new JSONObject();
 		try {
 			requestJson.put("sessionid",
 					"frontend=" + UserInfoManager.getSession(context));
-			requestJson.put("id", "26");
 
 			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
 					requestJson, new Listener<JSONObject>() {
@@ -61,7 +65,7 @@ public class AddressLogic {
 							if (null != response) {
 								Log.e("xxx_address_getList",
 										response.toString());
-								// parseListData(response, handler);
+								parseListData(response, handler);
 							}
 
 						}
@@ -85,12 +89,20 @@ public class AddressLogic {
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				JSONObject jsonObject = response
 						.getJSONObject(MsgResult.RESULT_DATA_TAG);
-
-				String session = jsonObject.getString("session");
+				
+				JSONArray addressArray = jsonObject.getJSONArray("addresses");
+				int size = addressArray.length();
+				ArrayList<Address> addresslist = new ArrayList<>();
+				for (int i = 0; i < size; i++) {
+					JSONObject addressJsonObject = addressArray.getJSONObject(i);
+					Address address = (Address) JsonUtils.fromJsonToJava(
+							addressJsonObject, Address.class);
+					addresslist.add(address);
+				}
 
 				Message message = new Message();
 				message.what = ANDRESS_LIST_GET_SUC;
-				message.obj = session;
+				message.obj = addresslist;
 				handler.sendMessage(message);
 			} else {
 				handler.sendEmptyMessage(ANDRESS_LIST_GET_FAIL);

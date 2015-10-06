@@ -2,7 +2,8 @@
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="@color/transparent" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -26,11 +27,101 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/tab"
-            android:layout_alignParentBottom="true"
+        <LinearLayout
+            android:id="@+id/home_cart_pay_menu_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/tab_inner_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:id="@+id/home_cart_pay_select_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white_transparent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="5dip" >
+
+                <CheckBox
+                    android:id="@+id/home_cart_pay_ib"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:button="@drawable/check_selector"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:padding="3dip" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:text="@string/select_all"
+                    android:textColor="@color/orange_text"
+                    android:textSize="@dimen/middle_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@color/white_transparent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total_price"
+                    android:textColor="@color/gray_character"
+                    android:textSize="@dimen/middle_text_size" />
+
+                <TextView
+                    android:id="@+id/home_cart_total_pay_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/orange_text"
+                    android:textSize="@dimen/middle_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/home_cart_buy_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/red_title_bg"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settlement"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/middle_text_size" />
+
+                <TextView
+                    android:id="@+id/home_cart_total_num_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/middle_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <include
+            android:id="@+id/tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             layout="@layout/custom_tab" />
     </RelativeLayout>
 

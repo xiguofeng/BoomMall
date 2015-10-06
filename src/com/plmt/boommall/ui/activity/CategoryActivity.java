@@ -216,6 +216,7 @@ public class CategoryActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		HomeActivity.setCartMenuShow(false);
 	}
 
 	@Override

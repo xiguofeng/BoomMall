@@ -58,7 +58,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
-         <activity
+        <activity
             android:name="com.plmt.boommall.ui.activity.CategoryActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
@@ -70,7 +70,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
-          <activity
+        <activity
             android:name="com.plmt.boommall.ui.activity.GoodsListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
@@ -78,6 +78,18 @@
         </activity>
         <activity
             android:name="com.plmt.boommall.ui.activity.GoodsDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.plmt.boommall.ui.activity.CreateOrderActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.plmt.boommall.ui.activity.AddressListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >

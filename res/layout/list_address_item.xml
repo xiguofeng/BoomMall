@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center_horizontal" >
+
+    <RelativeLayout
+        android:id="@+id/top_relative"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="5dip"
+        android:paddingTop="5dip" >
+
+        <ImageView
+            android:id="@+id/address_update_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:scaleType="centerCrop"
+            android:background="@color/gray_bg"
+            android:src="@drawable/ic_delete" />
+
+        <LinearLayout
+            android:id="@+id/left_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dip"
+            android:layout_marginLeft="10dip"
+            android:layout_toLeftOf="@+id/address_update_iv"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dip"
+                android:paddingBottom="5dip" >
+
+                <TextView
+                    android:id="@+id/address_user_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:singleLine="true"
+                    android:text="1"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/small_text_size" />
+
+                <TextView
+                    android:id="@+id/address_phone_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:singleLine="true"
+                    android:text="1"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/small_text_size" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/address_detail_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dip"
+                android:singleLine="true"
+                android:text="1"
+                android:textColor="@color/gray_character"
+                android:textSize="@dimen/small_text_size" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -28,6 +29,9 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 	private static ImageView mCartIv;
 	private static ImageView mPersonIv;
 	private TextView tab_home_text_click, tab_home_text, tab_bang_text, tab_bang_text_click;
+
+	private static LinearLayout mCartMenuLl;
+	private static LinearLayout mCartBuyLl;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,10 +68,13 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 		mCategoryIv = (ImageView) findViewById(R.id.home_category_iv);
 		mCartIv = (ImageView) findViewById(R.id.home_cart_iv);
 		mPersonIv = (ImageView) findViewById(R.id.home_person_iv);
-		
+
+		mCartMenuLl = (LinearLayout) findViewById(R.id.home_cart_pay_menu_ll);
+		mCartBuyLl = (LinearLayout) findViewById(R.id.home_cart_buy_ll);
+		mCartBuyLl.setOnClickListener(this);
 	}
-	
-	private void initData(){
+
+	private void initData() {
 		mTabHost.setCurrentTabByTag(TAB_MAIN);
 		mMainIv.setImageResource(R.drawable.tab_main_pressed);
 	}
@@ -83,6 +90,14 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 		mTabHost.setCurrentTabByTag(TAB_MAIN);
 		reset();
 		mMainIv.setImageResource(R.drawable.tab_main_pressed);
+	}
+
+	public static void setCartMenuShow(boolean isShow) {
+		if (isShow) {
+			mCartMenuLl.setVisibility(View.VISIBLE);
+		} else {
+			mCartMenuLl.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -112,6 +127,14 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 			mPersonIv.setImageResource(R.drawable.tab_person_pressed);
 			break;
 		}
+		case R.id.home_cart_buy_ll: {
+			Intent intent = new Intent(HomeActivity.this,
+					CreateOrderActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in,
+					R.anim.push_left_out);
+			break;
+		}		
 		default:
 			break;
 		}
