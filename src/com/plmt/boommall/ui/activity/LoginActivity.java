@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.User;
 import com.plmt.boommall.network.logic.UserLogic;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.utils.UserInfoManager;
 
@@ -56,6 +57,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	private User mUser = new User();
 
 	private MultiStateView mMultiStateView;
+	
+	private CustomProgressDialog mProgressDialog;
 
 	private String mNowAction = ORIGIN_FROM_NULL;
 
@@ -112,6 +115,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 			default:
 				break;
+			}
+			
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
 			}
 
 		}
@@ -181,6 +188,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 					mContext.getString(R.string.login_emptyname_or_emptypwd),
 					Toast.LENGTH_SHORT).show();
 		} else {
+			mProgressDialog = new CustomProgressDialog(mContext);
+			mProgressDialog.show();
+			
 			mPassWord = "admin123";
 			User user = new User();
 			user.setUsername("13813003736");
