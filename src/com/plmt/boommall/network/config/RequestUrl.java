@@ -122,7 +122,20 @@ public class RequestUrl {
 
 		public String queryOrderList = "/account_order/list";
 		
+		/**
+		 * 提交订单
+		 */
 		public String submitOrder = "/checkout/submitOrder/";
+		
+		/**
+		 * 订单信息
+		 */
+		public String cartDetail = "/checkout/cartDetail";
+		
+		/**
+		 * 设置订单地址
+		 */
+		public String setShippingAddress = "/checkout/setShippingAddress";
 	}
 
 }

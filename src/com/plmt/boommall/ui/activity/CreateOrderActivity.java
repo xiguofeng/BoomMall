@@ -5,8 +5,7 @@ import java.util.Collection;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Address;
-import com.plmt.boommall.entity.Order;
-import com.plmt.boommall.network.config.RequestUrl.address;
+import com.plmt.boommall.entity.PreOrder;
 import com.plmt.boommall.network.logic.AddressLogic;
 import com.plmt.boommall.network.logic.OrderLogic;
 import com.plmt.boommall.ui.view.MultiStateView;
@@ -20,6 +19,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,13 +32,18 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private ImageView mBackIv;
 
 	private LinearLayout mAddressLl;
-	private TextView mAddressUsername;
-	private TextView mAddressPhone;
-	private TextView mAddressDetail;
+	private TextView mAddressUsernameTv;
+	private TextView mAddressPhoneTv;
+	private TextView mAddressDetailTv;
+    private TextView mRealPayAmountTv;
 
 	private Button mConfirmBtn;
 
 	private Address mAddress;
+
+	private PreOrder mPreOrder;
+	
+	
 
 	private Handler mAddressHandler = new Handler() {
 
@@ -59,6 +64,38 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 				break;
 			}
 			case AddressLogic.ANDRESS_LIST_GET_EXCEPTION: {
+
+				break;
+			}
+			case AddressLogic.NET_ERROR: {
+
+				break;
+			}
+			default:
+				break;
+			}
+			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+		}
+
+	};
+
+	private Handler mOrderPreHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case OrderLogic.ORDER_PRE_INFO_GET_SUC: {
+				if (null != msg.obj) {
+					mPreOrder = (PreOrder) msg.obj;
+					fillUpData(mPreOrder);
+				}
+				break;
+			}
+			case OrderLogic.ORDER_PRE_INFO_GET_FAIL: {
+
+				break;
+			}
+			case OrderLogic.ORDER_PRE_INFO_GET_EXCEPTION: {
 
 				break;
 			}
@@ -103,13 +140,16 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 		mAddressLl = (LinearLayout) findViewById(R.id.create_order_address_ll);
 		mAddressLl.setOnClickListener(this);
-		mAddressUsername = (TextView) findViewById(R.id.create_order_address_username_tv);
-		mAddressPhone = (TextView) findViewById(R.id.create_order_address_phone_tv);
-		mAddressDetail = (TextView) findViewById(R.id.create_order_address_detail_tv);
+		mAddressUsernameTv = (TextView) findViewById(R.id.create_order_address_username_tv);
+		mAddressPhoneTv = (TextView) findViewById(R.id.create_order_address_phone_tv);
+		mAddressDetailTv = (TextView) findViewById(R.id.create_order_address_detail_tv);
+		
+		mRealPayAmountTv= (TextView) findViewById(R.id.create_order_pay_amount_tv);
 	}
 
 	private void initData() {
-		fetchAddressData();
+		// fetchAddressData();
+		OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
 	}
 
 	private void fetchAddressData() {
@@ -117,9 +157,16 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	}
 
 	private void fillUpAddressData(Address address) {
-		mAddressUsername.setText(address.getUsername());
-		mAddressPhone.setText(address.getTelephone());
-		mAddressDetail.setText(address.getContent());
+		mAddressUsernameTv.setText(address.getUsername());
+		mAddressPhoneTv.setText(address.getTelephone());
+		mAddressDetailTv.setText(address.getContent());
+	}
+	
+	private void fillUpData(PreOrder preOrder) {
+		mAddress = mPreOrder.getAddress();
+		fillUpAddressData(mAddress);
+		
+		mRealPayAmountTv.setText(preOrder.getTotal());
 	}
 
 	@Override
@@ -156,7 +203,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 
 		case R.id.create_order_confirm_btn: {
-		    OrderLogic.createOrder(mContext, mAddressHandler);
+			OrderLogic.createOrder(mContext, mAddressHandler);
 			break;
 		}
 

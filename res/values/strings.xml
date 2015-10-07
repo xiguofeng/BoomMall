@@ -56,6 +56,7 @@
     
     <!-- order -->
     <string name="confirm_order">确认订单</string>
+    <string name="real_order_amount_money">实付款</string>
 
     <!-- user info -->
     <string name="collection">收藏</string>

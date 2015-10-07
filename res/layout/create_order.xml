@@ -48,6 +48,24 @@
         android:paddingRight="10dip"
         android:paddingTop="5dip" >
 
+        <TextView
+            android:id="@+id/create_order_pay_tag_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/real_order_amount_money"
+            android:textColor="@color/black_character"
+            android:textSize="@dimen/medium_text_size" />
+
+        <TextView
+            android:id="@+id/create_order_pay_amount_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/create_order_pay_tag_tv"
+            android:layout_centerVertical="true"
+            android:textColor="@color/red_character"
+            android:textSize="@dimen/medium_text_size" />
+
         <Button
             android:id="@+id/create_order_confirm_btn"
             android:layout_width="wrap_content"
@@ -83,16 +101,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:background="@color/gray_bg"
+                android:gravity="center"
                 android:orientation="vertical" >
 
                 <LinearLayout
                     android:id="@+id/create_order_address_ll"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
                     android:background="@color/white"
+                    android:gravity="center"
                     android:orientation="vertical"
                     android:padding="10dip" >
 
@@ -139,9 +157,9 @@
                     android:id="@+id/create_order_pay_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dip"
                     android:background="@drawable/item_common_selector"
                     android:gravity="center"
-                    android:layout_marginTop="15dip"
                     android:orientation="horizontal"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp" >
@@ -159,10 +177,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:visibility="gone"
                         android:text="@string/viewa_all_orders"
                         android:textColor="@color/gray_character"
-                        android:textSize="@dimen/micro_text_size" />
+                        android:textSize="@dimen/micro_text_size"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:layout_width="wrap_content"
