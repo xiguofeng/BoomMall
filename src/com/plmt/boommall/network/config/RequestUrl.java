@@ -121,7 +121,8 @@ public class RequestUrl {
 	public interface order {
 
 		public String queryOrderList = "/account_order/list";
-
+		
+		public String submitOrder = "/checkout/submitOrder/";
 	}
 
 }

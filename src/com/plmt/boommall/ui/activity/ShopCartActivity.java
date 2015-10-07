@@ -247,6 +247,19 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 		HomeActivity.setCartMenuShow(true);
 	}
 
+	public static void refreshView(boolean isChecked, boolean isCancelAll) {
+		if (null != mGoodsAdapter) {
+			if (isChecked) {
+				mGoodsAdapter.initChecked();
+			} else {
+				if (isCancelAll) {
+					mGoodsAdapter.initCheck();
+				}
+			}
+			mGoodsAdapter.notifyDataSetChanged();
+		}
+	}
+
 	private void refresh() {
 		if (mGoodsList.size() > 0) {
 			mCartNullTv.setVisibility(View.GONE);

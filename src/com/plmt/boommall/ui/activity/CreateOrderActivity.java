@@ -5,8 +5,10 @@ import java.util.Collection;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Address;
+import com.plmt.boommall.entity.Order;
 import com.plmt.boommall.network.config.RequestUrl.address;
 import com.plmt.boommall.network.logic.AddressLogic;
+import com.plmt.boommall.network.logic.OrderLogic;
 import com.plmt.boommall.ui.view.MultiStateView;
 
 import android.app.Activity;
@@ -17,6 +19,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +35,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private TextView mAddressUsername;
 	private TextView mAddressPhone;
 	private TextView mAddressDetail;
+
+	private Button mConfirmBtn;
 
 	private Address mAddress;
 
@@ -93,6 +98,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mBackIv = (ImageView) findViewById(R.id.create_order_back_iv);
 		mBackIv.setOnClickListener(this);
 
+		mConfirmBtn = (Button) findViewById(R.id.create_order_confirm_btn);
+		mConfirmBtn.setOnClickListener(this);
+
 		mAddressLl = (LinearLayout) findViewById(R.id.create_order_address_ll);
 		mAddressLl.setOnClickListener(this);
 		mAddressUsername = (TextView) findViewById(R.id.create_order_address_username_tv);
@@ -146,6 +154,12 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			startActivityForResult(intent, 500);
 			break;
 		}
+
+		case R.id.create_order_confirm_btn: {
+		    OrderLogic.createOrder(mContext, mAddressHandler);
+			break;
+		}
+
 		default:
 			break;
 		}

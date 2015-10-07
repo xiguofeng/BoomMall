@@ -1,5 +1,7 @@
 package com.plmt.boommall.network.logic;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -73,8 +75,49 @@ public class OrderLogic {
 	public static final int ORDER_PAY_UNION_TN_GET_EXCEPTION = ORDER_PAY_UNION_TN_GET_FAIL + 1;
 
 	public static void createOrder(final Context context,
-			final Handler handler, final OrderOld orderOld,
-			final String authCode, final ArrayList<Goods> goodsList) {
+			final Handler handler) {
+		JSONObject requestJson = new JSONObject();
+		try {
+			// URLEncoder.encode(UserInfoManager.getSession(context), "UTF-8")
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("cn_name", URLEncoder.encode("Lucyss", "UTF-8"));
+			requestJson.put("cn_province", URLEncoder.encode("10", "UTF-8"));
+			requestJson.put("cn_city", URLEncoder.encode("75", "UTF-8"));
+			requestJson.put("cn_district", URLEncoder.encode("799", "UTF-8"));
+			requestJson.put("street", URLEncoder.encode("北京", "UTF-8"));
+			requestJson.put("postcode", URLEncoder.encode("210000", "UTF-8"));
+			requestJson.put("telephone", URLEncoder.encode("17712888306", "UTF-8"));
+			requestJson.put("country_id", URLEncoder.encode("CN", "UTF-8"));
+			requestJson.put("shipping", URLEncoder.encode("标准快递", "UTF-8"));
+			requestJson.put("payment", URLEncoder.encode("支付宝手机", "UTF-8"));
+
+			String url = RequestUrl.HOST_URL + RequestUrl.order.submitOrder;
+
+			
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_submitOrder", response.toString());
+								//parseOrdersData(response, handler);
+							}
+
+						}
+
+					}, null);
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 
 	}
 

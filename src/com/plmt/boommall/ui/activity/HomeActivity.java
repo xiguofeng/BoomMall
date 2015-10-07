@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +34,9 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 
 	private static LinearLayout mCartMenuLl;
 	private static LinearLayout mCartBuyLl;
+
+	public static CheckBox mCheckAllIb;
+	public static boolean mIsCancelAll;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,11 +77,21 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 		mCartMenuLl = (LinearLayout) findViewById(R.id.home_cart_pay_menu_ll);
 		mCartBuyLl = (LinearLayout) findViewById(R.id.home_cart_buy_ll);
 		mCartBuyLl.setOnClickListener(this);
+
+		mCheckAllIb = (CheckBox) findViewById(R.id.home_cart_pay_ib);
 	}
 
 	private void initData() {
 		mTabHost.setCurrentTabByTag(TAB_MAIN);
 		mMainIv.setImageResource(R.drawable.tab_main_pressed);
+
+		mCheckAllIb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				ShopCartActivity.refreshView(isChecked, mIsCancelAll);
+			}
+
+		});
 	}
 
 	private static void reset() {
@@ -128,13 +143,11 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 			break;
 		}
 		case R.id.home_cart_buy_ll: {
-			Intent intent = new Intent(HomeActivity.this,
-					CreateOrderActivity.class);
+			Intent intent = new Intent(HomeActivity.this, CreateOrderActivity.class);
 			startActivity(intent);
-			overridePendingTransition(R.anim.push_left_in,
-					R.anim.push_left_out);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
-		}		
+		}
 		default:
 			break;
 		}

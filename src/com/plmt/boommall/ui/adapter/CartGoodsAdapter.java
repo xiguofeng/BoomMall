@@ -2,9 +2,16 @@ package com.plmt.boommall.ui.adapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.ui.activity.HomeActivity;
+import com.plmt.boommall.ui.utils.ListItemClickHelp;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,12 +24,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.ui.utils.ListItemClickHelp;
-import com.plmt.boommall.utils.CartManager;
 
 public class CartGoodsAdapter extends BaseAdapter {
 
@@ -37,8 +38,7 @@ public class CartGoodsAdapter extends BaseAdapter {
 	// 用来控制CheckBox的选中状况
 	private static HashMap<Integer, Boolean> mIsSelected = new HashMap<Integer, Boolean>();
 
-	public CartGoodsAdapter(Context context, ArrayList<Goods> datas,
-			ListItemClickHelp callback) {
+	public CartGoodsAdapter(Context context, ArrayList<Goods> datas, ListItemClickHelp callback) {
 		mContext = context;
 		mDatas = datas;
 		mCallback = callback;
@@ -79,29 +79,20 @@ public class CartGoodsAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
 		if (convertView == null) {
-			convertView = mInflater
-					.inflate(R.layout.list_cart_goods_item, null);
+			convertView = mInflater.inflate(R.layout.list_cart_goods_item, null);
 
 			holder = new ViewHolder();
-			holder.mName = (TextView) convertView
-					.findViewById(R.id.cart_goods_name_tv);
-			holder.mPrice = (TextView) convertView
-					.findViewById(R.id.cart_goods_price_tv);
-			holder.mOriginalPrice = (TextView) convertView
-					.findViewById(R.id.cart_goods_original_prices_tv);
+			holder.mName = (TextView) convertView.findViewById(R.id.cart_goods_name_tv);
+			holder.mPrice = (TextView) convertView.findViewById(R.id.cart_goods_price_tv);
+			holder.mOriginalPrice = (TextView) convertView.findViewById(R.id.cart_goods_original_prices_tv);
 
-			holder.mCheckIb = (CheckBox) convertView
-					.findViewById(R.id.cart_goods_select_ib);
-			holder.mAddIb = (ImageButton) convertView
-					.findViewById(R.id.cart_goods_add_ib);
-			holder.mReduceIb = (ImageButton) convertView
-					.findViewById(R.id.cart_goods_reduce_ib);
+			holder.mCheckIb = (CheckBox) convertView.findViewById(R.id.cart_goods_select_ib);
+			holder.mAddIb = (ImageButton) convertView.findViewById(R.id.cart_goods_add_ib);
+			holder.mReduceIb = (ImageButton) convertView.findViewById(R.id.cart_goods_reduce_ib);
 
-			holder.mNum = (EditText) convertView
-					.findViewById(R.id.cart_goods_count_et);
+			holder.mNum = (EditText) convertView.findViewById(R.id.cart_goods_count_et);
 
-			holder.mIcon = (ImageView) convertView
-					.findViewById(R.id.cart_goods_iv);
+			holder.mIcon = (ImageView) convertView.findViewById(R.id.cart_goods_iv);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -111,8 +102,7 @@ public class CartGoodsAdapter extends BaseAdapter {
 		holder.mPrice.setText("￥" + mDatas.get(position).getFinalPrice());
 		holder.mOriginalPrice.setText("原价￥" + mDatas.get(position).getPrice());
 		holder.mNum.setText(mDatas.get(position).getNum());
-		ImageLoader.getInstance().displayImage(mDatas.get(position).getImage(),
-				holder.mIcon);
+		ImageLoader.getInstance().displayImage(mDatas.get(position).getImage(), holder.mIcon);
 
 		final int tempPosition = position;
 		final View view = convertView;
@@ -121,23 +111,21 @@ public class CartGoodsAdapter extends BaseAdapter {
 
 		holder.vId = tempPosition;
 
-		holder.mCheckIb
-				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		holder.mCheckIb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-					@Override
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
-						getmIsSelected().put(tempPosition, isChecked);
-
-						CartManager.cartCheckDataRefresh(
-								mDatas.get(tempPosition), isChecked);
-
-						notifyDataSetChanged();
-					}
-				});
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				getmIsSelected().put(tempPosition, isChecked);
+				if (!isChecked) {
+					HomeActivity.mIsCancelAll = false;
+					HomeActivity.mCheckAllIb.setChecked(false);
+				}
+				notifyDataSetChanged();
+				HomeActivity.mIsCancelAll = true;
+			}
+		});
 
 		holder.mCheckIb.setChecked(getmIsSelected().get(position));
-		final boolean isChecked = getmIsSelected().get(position);
 		holder.mAddIb.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -206,6 +194,18 @@ public class CartGoodsAdapter extends BaseAdapter {
 
 	public static void setmIsSelected(HashMap<Integer, Boolean> mIsSelected) {
 		CartGoodsAdapter.mIsSelected = mIsSelected;
+	}
+
+	private boolean isAllSelect() {
+		boolean isAllSelect = true;
+		Set<Entry<Integer, Boolean>> entrySet = getmIsSelected().entrySet();
+
+		for (Entry<Integer, Boolean> entry : entrySet) {
+			if (!entry.getValue()) {
+				isAllSelect = false;
+			}
+		}
+		return isAllSelect;
 	}
 
 }
