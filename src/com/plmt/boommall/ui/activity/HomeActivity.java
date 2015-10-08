@@ -30,7 +30,8 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 	private static ImageView mCategoryIv;
 	private static ImageView mCartIv;
 	private static ImageView mPersonIv;
-	private TextView tab_home_text_click, tab_home_text, tab_bang_text, tab_bang_text_click;
+	private TextView tab_home_text_click, tab_home_text, tab_bang_text,
+			tab_bang_text_click;
 
 	private static LinearLayout mCartMenuLl;
 	private static LinearLayout mCartBuyLl;
@@ -54,10 +55,14 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 		Intent i_cart = new Intent(this, ShopCartActivity.class);
 		Intent i_person = new Intent(this, UserActivity.class);
 
-		mTabHost.addTab(mTabHost.newTabSpec(TAB_MAIN).setIndicator(TAB_MAIN).setContent(i_home));
-		mTabHost.addTab(mTabHost.newTabSpec(TAB_CART).setIndicator(TAB_CART).setContent(i_cart));
-		mTabHost.addTab(mTabHost.newTabSpec(TAB_CATEGORY).setIndicator(TAB_CATEGORY).setContent(i_category));
-		mTabHost.addTab(mTabHost.newTabSpec(TAB_PERSON).setIndicator(TAB_PERSON).setContent(i_person));
+		mTabHost.addTab(mTabHost.newTabSpec(TAB_MAIN).setIndicator(TAB_MAIN)
+				.setContent(i_home));
+		mTabHost.addTab(mTabHost.newTabSpec(TAB_CART).setIndicator(TAB_CART)
+				.setContent(i_cart));
+		mTabHost.addTab(mTabHost.newTabSpec(TAB_CATEGORY)
+				.setIndicator(TAB_CATEGORY).setContent(i_category));
+		mTabHost.addTab(mTabHost.newTabSpec(TAB_PERSON)
+				.setIndicator(TAB_PERSON).setContent(i_person));
 
 		mMainFl = (FrameLayout) findViewById(R.id.home_main_fl);
 		mCategoryFl = (FrameLayout) findViewById(R.id.home_category_fl);
@@ -85,13 +90,15 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 		mTabHost.setCurrentTabByTag(TAB_MAIN);
 		mMainIv.setImageResource(R.drawable.tab_main_pressed);
 
-		mCheckAllIb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				ShopCartActivity.refreshView(isChecked, mIsCancelAll);
-			}
+		mCheckAllIb
+				.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						ShopCartActivity.refreshView(isChecked, mIsCancelAll);
+					}
 
-		});
+				});
 	}
 
 	private static void reset() {
@@ -112,6 +119,27 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 			mCartMenuLl.setVisibility(View.VISIBLE);
 		} else {
 			mCartMenuLl.setVisibility(View.GONE);
+		}
+	}
+
+	public static void setTab(String tab) {
+		mTabHost.setCurrentTabByTag(tab);
+		if (TAB_MAIN.equals(tab)) {
+			mTabHost.setCurrentTabByTag(TAB_MAIN);
+			reset();
+			mMainIv.setImageResource(R.drawable.tab_main_pressed);
+		} else if (TAB_CART.equals(tab)) {
+			mTabHost.setCurrentTabByTag(TAB_CART);
+			reset();
+			mCartIv.setImageResource(R.drawable.tab_cart_pressed);
+		} else if (TAB_CATEGORY.equals(tab)) {
+			mTabHost.setCurrentTabByTag(TAB_CATEGORY);
+			reset();
+			mCategoryIv.setImageResource(R.drawable.tab_category_pressed);
+		} else if (TAB_PERSON.equals(tab)) {
+			mTabHost.setCurrentTabByTag(TAB_PERSON);
+			reset();
+			mPersonIv.setImageResource(R.drawable.tab_person_pressed);
 		}
 	}
 
@@ -143,7 +171,8 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 			break;
 		}
 		case R.id.home_cart_buy_ll: {
-			Intent intent = new Intent(HomeActivity.this, CreateOrderActivity.class);
+			Intent intent = new Intent(HomeActivity.this,
+					CreateOrderActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
