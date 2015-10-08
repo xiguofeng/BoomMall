@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.User;
 import com.plmt.boommall.network.logic.UserLogic;
@@ -46,18 +47,21 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	private CheckBox mRemberpswCb;
 	// private LinearLayout layoutProcess;
 	private Button mLoginBtn;
-	
+
 	private LinearLayout mWechatLogin;
-    private LinearLayout mWeiboLogin;
-    private LinearLayout mQQLogin;
-    
+	private LinearLayout mWeiboLogin;
+	private LinearLayout mQQLogin;
+
+	private LinearLayout mRegisterLl;
+	private LinearLayout mForgetPwdLl;
+
 	private String mAccount;
 	private String mPassWord;
 
 	private User mUser = new User();
 
 	private MultiStateView mMultiStateView;
-	
+
 	private CustomProgressDialog mProgressDialog;
 
 	private String mNowAction = ORIGIN_FROM_NULL;
@@ -116,7 +120,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			default:
 				break;
 			}
-			
+
 			if (null != mProgressDialog && mProgressDialog.isShowing()) {
 				mProgressDialog.dismiss();
 			}
@@ -142,7 +146,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		mWechatLogin.setOnClickListener(this);
 		mWeiboLogin.setOnClickListener(this);
 		mQQLogin.setOnClickListener(this);
-		
+
+		mRegisterLl = (LinearLayout) findViewById(R.id.login_reg_ll);
+		mForgetPwdLl = (LinearLayout) findViewById(R.id.login_forget_pwd_ll);
+		mRegisterLl.setOnClickListener(this);
+		mForgetPwdLl.setOnClickListener(this);
+
 		mAccountEt = (EditText) findViewById(R.id.login_username);
 		mPassWordEt = (EditText) findViewById(R.id.login_password);
 		mAccountEt.addTextChangedListener(this);
@@ -190,7 +199,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		} else {
 			mProgressDialog = new CustomProgressDialog(mContext);
 			mProgressDialog.show();
-			
+
 			mPassWord = "admin123";
 			User user = new User();
 			user.setUsername("13813003736");
@@ -271,12 +280,27 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			break;
 		}
 
+		case R.id.login_reg_ll: {
+			Intent intent = new Intent(LoginActivity.this,
+					RegisterActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+		case R.id.login_forget_pwd_ll: {
+			Intent intent = new Intent(LoginActivity.this,
+					ForgetPwdActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+
 		default:
 			break;
 		}
 
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK

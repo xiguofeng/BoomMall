@@ -46,6 +46,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
+         <activity
+            android:name="com.plmt.boommall.ui.activity.RegisterActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name="com.plmt.boommall.ui.activity.ForgetPwdActivity"
             android:configChanges="orientation|keyboardHidden"
