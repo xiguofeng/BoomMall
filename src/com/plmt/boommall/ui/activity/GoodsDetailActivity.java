@@ -2,19 +2,6 @@ package com.plmt.boommall.ui.activity;
 
 import java.util.ArrayList;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Ads;
-import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.network.logic.CartLogic;
-import com.plmt.boommall.network.logic.GoodsLogic;
-import com.plmt.boommall.ui.adapter.BannerAdapter;
-import com.plmt.boommall.ui.view.BadgeView;
-import com.plmt.boommall.ui.view.MultiStateView;
-import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
-import com.plmt.boommall.ui.view.viewflow.ViewFlow;
-import com.plmt.boommall.utils.ActivitiyInfoManager;
-import com.plmt.boommall.utils.CartManager;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -34,6 +21,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Ads;
+import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.network.logic.CartLogic;
+import com.plmt.boommall.network.logic.GoodsLogic;
+import com.plmt.boommall.ui.adapter.GoodsDetailBannerAdapter;
+import com.plmt.boommall.ui.view.BadgeView;
+import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
+import com.plmt.boommall.ui.view.viewflow.ViewFlow;
+import com.plmt.boommall.utils.ActivitiyInfoManager;
+import com.plmt.boommall.utils.CartManager;
+
 public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	public static final String GOODS_ID_KEY = "GoodsIdKey";
@@ -51,7 +51,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	private ViewFlow mViewFlow;
 	private CircleFlowIndicator mIndic;
 	private ArrayList<Ads> mBannerActivityList = new ArrayList<Ads>();
-	private BannerAdapter mBannerAdapter;
+	private GoodsDetailBannerAdapter mBannerAdapter;
 	private FrameLayout mBannerFl;
 
 	private TextView mGoodsNameTv;
@@ -266,7 +266,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void showcircleimage() {
-		mBannerAdapter = new BannerAdapter(mContext, mBannerActivityList);
+		mBannerAdapter = new GoodsDetailBannerAdapter(mContext, mBannerActivityList);
 		mViewFlow.setAdapter(mBannerAdapter);
 		mViewFlow.setmSideBuffer(3); // 实际图片张数
 		mViewFlow.setFlowIndicator(mIndic);
