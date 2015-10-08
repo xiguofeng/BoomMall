@@ -14,7 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray_bg"
+        android:background="@color/white"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -50,85 +50,83 @@
                 android:id="@+id/forget_pwd_input_input"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
                 android:orientation="vertical" >
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white" >
+                    android:background="@drawable/edittext_gray_bg" >
+
+                    <ImageView
+                        android:id="@+id/forget_pwd_input_phone_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dip"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/user_login" />
 
                     <EditText
                         android:id="@+id/forget_pwd_input_phone_et"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/forget_pwd_input_phone_iv"
                         android:background="@null"
+                        android:hint="@string/mobile_phone_hint"
                         android:maxLength="50"
                         android:paddingBottom="10dip"
-                        android:paddingLeft="100dip"
+                        android:paddingLeft="20dip"
                         android:paddingRight="50dip"
                         android:paddingTop="10dip"
                         android:singleLine="true"
                         android:textColor="@color/black_character"
-                        android:textSize="@dimen/middle_text_size" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:paddingLeft="10.0dip"
-                        android:paddingRight="10dip"
-                        android:text="@string/phone"
-                        android:textColor="@color/black_character"
-                        android:textSize="@dimen/middle_text_size" />
+                        android:textSize="@dimen/small_text_size" />
                 </RelativeLayout>
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1.0px"
-                    android:background="#ffcfd4da" />
 
                 <RelativeLayout
                     android:id="@+id/forget_pwd_input_ver_code_rl"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white" >
+                    android:layout_marginTop="10dip"
+                    android:background="@drawable/edittext_gray_bg" >
+
+                    <ImageView
+                        android:id="@+id/forget_pwd_input_ver_code_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dip"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/user_login" />
 
                     <EditText
                         android:id="@+id/forget_pwd_input_ver_code_et"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/forget_pwd_input_ver_code_iv"
                         android:background="@null"
                         android:digits="@string/num_digits"
-                        android:hint=""
+                        android:hint="@string/verification_code_hint"
                         android:imeOptions="actionDone|flagNoExtractUi"
                         android:maxLength="16"
                         android:maxLines="1"
-                        android:paddingLeft="100dip"
+                        android:paddingLeft="20dip"
                         android:paddingRight="50dip"
                         android:textColor="@color/black_character"
-                        android:textSize="@dimen/middle_text_size" />
-
-                    <TextView
-                        android:id="@+id/forget_pwd_input_ver_code_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@id/forget_pwd_input_ver_code_et"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
-                        android:paddingRight="10dip"
-                        android:text="@string/verification_code"
-                        android:textColor="@color/black_character"
-                        android:textSize="@dimen/middle_text_size" />
+                        android:textSize="@dimen/small_text_size" />
 
                     <LinearLayout
                         android:id="@+id/forget_pwd_input_ver_code_ll"
                         android:layout_width="100dip"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
-                        android:background="@color/orange_bg"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dip"
+                        android:background="@drawable/corners_bg_red_all"
                         android:gravity="center" >
 
                         <TextView
@@ -136,103 +134,49 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:paddingBottom="10dip"
+                            android:paddingBottom="5dip"
                             android:paddingLeft="10.0dip"
                             android:paddingRight="10dip"
-                            android:paddingTop="10dip"
+                            android:paddingTop="5dip"
                             android:text="@string/get_verification_code"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/middle_text_size" />
+                            android:textSize="@dimen/small_text_size" />
                     </LinearLayout>
                 </RelativeLayout>
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1.0px"
-                    android:background="#ffcfd4da" />
-
                 <RelativeLayout
-                    android:id="@+id/relativeLayout4"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dip"
-                    android:background="@color/white"
-                    android:paddingBottom="7dip"
-                    android:paddingTop="7dip" >
+                    android:background="@drawable/edittext_gray_bg" >
+
+                    <ImageView
+                        android:id="@+id/forget_pwd_input_pwd_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dip"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/user_login" />
 
                     <EditText
-                        android:id="@+id/forget_pwd_input_address_et"
+                        android:id="@+id/forget_pwd_input_pwd_et"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/forget_pwd_input_pwd_iv"
                         android:background="@null"
+                        android:hint="@string/user_psw_hint"
                         android:imeOptions="actionNext"
                         android:maxLines="1"
                         android:paddingBottom="6.0dip"
-                        android:paddingLeft="100dip"
+                        android:paddingLeft="20dip"
                         android:paddingRight="0dip"
                         android:paddingTop="6.0dip"
                         android:textColor="@color/black_character"
                         android:textSize="@dimen/small_text_size" />
-
-                    <TextView
-                        android:id="@+id/forget_pwd_input_address_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:paddingLeft="10.0dip"
-                        android:paddingRight="10dip"
-                        android:text="@string/pwd"
-                        android:textColor="@color/black_character"
-                        android:textSize="@dimen/middle_text_size" />
                 </RelativeLayout>
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1.0px"
-                    android:background="#ffcfd4da" />
-
-                <RelativeLayout
-                    android:id="@+id/relativeLayout5"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:paddingBottom="7dip"
-                    android:paddingTop="7dip" >
-
-                    <EditText
-                        android:id="@+id/forget_pwd_pwd_confirm_et"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:imeOptions="actionNext"
-                        android:maxLines="1"
-                        android:paddingBottom="6.0dip"
-                        android:paddingLeft="100dip"
-                        android:paddingRight="0dip"
-                        android:paddingTop="6.0dip"
-                        android:textColor="@color/black_character"
-                        android:textSize="@dimen/small_text_size" />
-
-                    <TextView
-                        android:id="@+id/forget_pwd_pwd_confirm_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:paddingLeft="10.0dip"
-                        android:paddingRight="10dip"
-                        android:text="@string/pwd_confirm"
-                        android:textColor="@color/black_character"
-                        android:textSize="@dimen/middle_text_size" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/forget_pwd_input_bottom_division_ll"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="5dip"
-                    android:paddingTop="5dip" >
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/forget_pwd_input_submit_ll"
@@ -241,11 +185,12 @@
                     android:layout_centerInParent="true"
                     android:layout_gravity="center"
                     android:layout_margin="15dip"
-                    android:background="@drawable/corners_bg_red"
+                    android:background="@drawable/corners_bg_red_all"
                     android:gravity="center"
-                    android:padding="10dip"
-                    android:paddingBottom="3dip"
-                    android:paddingTop="3dip" >
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="5dip"
+                    android:paddingBottom="5dip" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -257,4 +202,6 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-    </LinearLayout></com.plmt.boommall.ui.view.MultiStateView>
+    </LinearLayout>
+
+</com.plmt.boommall.ui.view.MultiStateView>

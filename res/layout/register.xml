@@ -53,7 +53,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="@string/user_name_hint"
+                    android:hint="@string/mobile_phone_hint"
                     android:imeActionLabel="下一步"
                     android:imeOptions="actionNext|flagNoExtractUi"
                     android:maxLength="50"

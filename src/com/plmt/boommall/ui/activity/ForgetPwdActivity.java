@@ -30,7 +30,7 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 
 	private EditText mPhoneEt;
 	private EditText mVerCodeEt;
-	private EditText mAddressEt;
+	private EditText mPwdEt;
 	private TextView mTimingTv;
 	private TextView mPhoneTv;
 
@@ -140,7 +140,7 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 
 		mPhoneEt = (EditText) findViewById(R.id.forget_pwd_input_phone_et);
 		mVerCodeEt = (EditText) findViewById(R.id.forget_pwd_input_ver_code_et);
-		mAddressEt = (EditText) findViewById(R.id.forget_pwd_input_address_et);
+		mPwdEt = (EditText) findViewById(R.id.forget_pwd_input_pwd_et);
 
 		mTimingTv = (TextView) findViewById(R.id.forget_pwd_input_ver_code_btn_tv);
 
@@ -203,7 +203,7 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 				// Toast.LENGTH_SHORT).show();
 			}
 			mAuthCode = mVerCodeEt.getText().toString().trim();
-			mAddress = mAddressEt.getText().toString().trim();
+			mAddress = mPwdEt.getText().toString().trim();
 			if (TextUtils.isEmpty(mAddress)) {
 				// Toast.makeText(mContext,
 				// getString(R.string.detail_info_hint),
