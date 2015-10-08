@@ -1,6 +1,7 @@
 package com.plmt.boommall.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,7 +25,6 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 
 	private LinearLayout mQueryLl;
 	private LinearLayout mAuthCodeLl;
-	private LinearLayout mReplaceLl;
 
 	private RelativeLayout mAuthRl;
 
@@ -32,7 +32,6 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 	private EditText mVerCodeEt;
 	private EditText mPwdEt;
 	private TextView mTimingTv;
-	private TextView mPhoneTv;
 
 	private Context mContext;
 
@@ -71,7 +70,6 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 					mAuthCode = (String) msg.obj;
 					UserInfoManager.setPhone(mContext, mPhone);
 					UserInfoManager.setIsMustAuth(mContext, false);
-					mReplaceLl.setVisibility(View.GONE);
 				}
 				mTimeHandler.sendEmptyMessage(TIME_UPDATE);
 				break;
@@ -146,7 +144,7 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 
 		mAuthRl = (RelativeLayout) findViewById(R.id.forget_pwd_input_ver_code_rl);
 
-		// mBackIv = (ImageView) findViewById(R.id.forget_pwd_input_back_iv);
+		mBackIv = (ImageView) findViewById(R.id.forget_pwd_input_back_iv);
 
 		mMultiStateView = (MultiStateView) findViewById(R.id.forget_multiStateView);
 		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
@@ -160,13 +158,11 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
-		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 	}
 
 	private void setUpListener() {
 		mQueryLl.setOnClickListener(this);
 		mAuthCodeLl.setOnClickListener(this);
-		mReplaceLl.setOnClickListener(this);
 
 		mBackIv.setOnClickListener(this);
 	}
@@ -177,16 +173,8 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 		if (!UserInfoManager.getIsMustAuth(mContext)
 				&& !TextUtils.isEmpty(UserInfoManager.getPhone(mContext))) {
 			mPhone = UserInfoManager.getPhone(mContext);
-			mPhoneTv.setVisibility(View.VISIBLE);
-			mPhoneTv.setText(mPhone);
-			mPhoneEt.setVisibility(View.GONE);
-			mReplaceLl.setVisibility(View.VISIBLE);
-		} else {
-			mAuthRl.setVisibility(View.VISIBLE);
-			mPhoneTv.setVisibility(View.GONE);
-			mPhoneEt.setVisibility(View.VISIBLE);
-			mReplaceLl.setVisibility(View.GONE);
-		}
+			mPhoneEt.setText(mPhone);
+		} 
 	}
 
 	@Override
@@ -237,7 +225,14 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 			}
 			break;
 		}
-
+		
+		case R.id.forget_pwd_input_back_iv: {
+			finish();
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			break;
+		}
+		
+		
 		default:
 			break;
 		}

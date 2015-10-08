@@ -22,14 +22,14 @@
             android:layout_height="wrap_content"
             android:background="@color/red_title_bg" >
 
-            <!-- <ImageView -->
-            <!-- android:id="@+id/forget_pwd_input_back_iv" -->
-            <!-- android:layout_width="wrap_content" -->
-            <!-- android:layout_height="wrap_content" -->
-            <!-- android:layout_centerVertical="true" -->
-            <!-- android:contentDescription="@null" -->
-            <!-- android:padding="8dip" -->
-            <!-- android:src="@drawable/back_selector" /> -->
+            <ImageView
+                android:id="@+id/forget_pwd_input_back_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null"
+                android:padding="8dip"
+                android:src="@drawable/back_selector" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -177,7 +177,6 @@
                         android:textSize="@dimen/small_text_size" />
                 </RelativeLayout>
 
-
                 <LinearLayout
                     android:id="@+id/forget_pwd_input_submit_ll"
                     android:layout_width="match_parent"
@@ -187,10 +186,10 @@
                     android:layout_margin="15dip"
                     android:background="@drawable/corners_bg_red_all"
                     android:gravity="center"
+                    android:paddingBottom="5dip"
                     android:paddingLeft="10dip"
                     android:paddingRight="10dip"
-                    android:paddingTop="5dip"
-                    android:paddingBottom="5dip" >
+                    android:paddingTop="5dip" >
 
                     <TextView
                         android:layout_width="wrap_content"
