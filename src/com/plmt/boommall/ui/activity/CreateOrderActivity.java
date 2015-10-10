@@ -10,10 +10,8 @@ import com.plmt.boommall.network.logic.AddressLogic;
 import com.plmt.boommall.network.logic.OrderLogic;
 import com.plmt.boommall.pay.AlipayMerchant;
 import com.plmt.boommall.pay.alipay.AlipayApi;
-import com.plmt.boommall.pay.alipay.Constants;
 import com.plmt.boommall.pay.alipay.PayResult;
 import com.plmt.boommall.ui.view.MultiStateView;
-import com.plmt.boommall.utils.OrderManager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -138,7 +136,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			case OrderLogic.ORDER_PAY_INFO_GET_SUC: {
 				if (null != msg.obj) {
 					AlipayMerchant alipayMerchant;
-					alipayMerchant =(AlipayMerchant) msg.obj;
+					alipayMerchant = (AlipayMerchant) msg.obj;
 					PayByAli(alipayMerchant);
 				}
 				break;
@@ -163,11 +161,11 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 
 	};
-	
+
 	private Handler mAlipayHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case Constants.SDK_PAY_FLAG: {
+			case com.plmt.boommall.pay.alipay.Constants.SDK_PAY_FLAG: {
 				PayResult payResult = new PayResult((String) msg.obj);
 
 				// 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
@@ -179,28 +177,26 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 				if (TextUtils.equals(resultStatus, "9000")) {
 					// TODO
 					// payResultCheck支付成功比对支付结果
-//					mCustomProgressDialog.show();
-//					OrderLogic.payResultCheck(mContext, mHandler,
-//							OrderManager.getsCurrentOrderId(), "true");
+					// mCustomProgressDialog.show();
+					// OrderLogic.payResultCheck(mContext, mHandler,
+					// OrderManager.getsCurrentOrderId(), "true");
 				} else {
 
 					// 判断resultStatus 为非“9000”则代表可能支付失败
 					// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
 					if (TextUtils.equals(resultStatus, "8000")) {
-						Toast.makeText(mContext, "支付结果确认中", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(mContext, "支付结果确认中", Toast.LENGTH_SHORT).show();
 
 					} else {
 						// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-						Toast.makeText(mContext, "支付失败", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(mContext, "支付失败", Toast.LENGTH_SHORT).show();
 
 					}
 				}
 
 				break;
 			}
-			case Constants.SDK_CHECK_FLAG: {
+			case com.plmt.boommall.pay.alipay.Constants.SDK_CHECK_FLAG: {
 				// Toast.makeText(mContext, "检查结果为：" + msg.obj,
 				// Toast.LENGTH_SHORT)
 				// .show();
@@ -224,15 +220,12 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private void initView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.create_order_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
-				.findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView
-								.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(),
-								"Fetching Data", Toast.LENGTH_SHORT).show();
+						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(), "Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
 		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
@@ -274,15 +267,23 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 		mRealPayAmountTv.setText(preOrder.getTotal());
 	}
-	
-	private void PayByAli(AlipayMerchant alipayMerchant){
+
+	private void PayByAli(AlipayMerchant alipayMerchant) {
+		AlipayApi apAlipayApi = new AlipayApi();
+		if (TextUtils.isEmpty(mOrderId)) {
+			alipayMerchant.setOrderId("id900033888499933sh");
+		}
+		apAlipayApi.pay(CreateOrderActivity.this, mAlipayHandler, alipayMerchant);
+	}
+
+	private void PayByAliInLoc(AlipayMerchant alipayMerchant) {
 		AlipayApi apAlipayApi = new AlipayApi();
 		alipayMerchant.setAmount("0.01");
 		alipayMerchant.setProductName("201");
 		alipayMerchant.setProductDescription("旺铺商城201");
 		alipayMerchant.setOrderId("id900033888499933sh");
-		alipayMerchant.setPartnerId(Constants.PARTNER);
-		alipayMerchant.setSellerAccount(Constants.SELLER);
+		alipayMerchant.setPartnerId(com.plmt.boommall.pay.alipay.Constants.PARTNER);
+		alipayMerchant.setSellerAccount(com.plmt.boommall.pay.alipay.Constants.SELLER);
 		apAlipayApi.pay(CreateOrderActivity.this, mAlipayHandler, alipayMerchant);
 	}
 
@@ -314,16 +315,15 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			break;
 		}
 		case R.id.create_order_address_ll: {
-			Intent intent = new Intent(CreateOrderActivity.this,
-					AddressListActivity.class);
+			Intent intent = new Intent(CreateOrderActivity.this, AddressListActivity.class);
 			startActivityForResult(intent, 500);
 			break;
 		}
 
 		case R.id.create_order_confirm_btn: {
-			//OrderLogic.getOrderPayInfo(mContext, mOrderInfoHandler, mOrderId);
-			AlipayMerchant alipayMerchant=new AlipayMerchant();
-			PayByAli(alipayMerchant);
+			OrderLogic.getOrderPayInfo(mContext, mOrderInfoHandler, mOrderId);
+			// AlipayMerchant alipayMerchant=new AlipayMerchant();
+			// PayByAli(alipayMerchant);
 			break;
 		}
 
