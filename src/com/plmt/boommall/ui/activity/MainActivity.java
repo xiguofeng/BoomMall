@@ -244,6 +244,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		mViewFlow.setAdapter(mBannerAdapter);
 		mViewFlow.setmSideBuffer(3); // 实际图片张数
 		mViewFlow.setFlowIndicator(mIndic);
+		mViewFlow.setViewGroup(mBannerFl);
 		mViewFlow.setTimeSpan(2000);
 		mViewFlow.setSelection(3 * 1000); // 设置初始位置
 		mViewFlow.startAutoFlowTimer(); // 启动自动播放

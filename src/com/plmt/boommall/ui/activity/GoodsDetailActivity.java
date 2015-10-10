@@ -280,6 +280,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		mBannerAdapter = new GoodsDetailBannerAdapter(mContext,
 				mBannerActivityList);
 		mViewFlow.setAdapter(mBannerAdapter);
+		mViewFlow.setViewGroup(mBannerFl);
 		mViewFlow.setmSideBuffer(3); // 实际图片张数
 		mViewFlow.setFlowIndicator(mIndic);
 		mViewFlow.setTimeSpan(2000);
