@@ -1,15 +1,11 @@
 package com.plmt.boommall.ui.activity;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,57 +15,47 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AbsListView;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.ui.adapter.GoodsAdapter;
-import com.plmt.boommall.ui.adapter.GoodsGvPagingAdaper;
-import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
-import com.plmt.boommall.ui.adapter.RVGoodsAdapter;
-import com.plmt.boommall.ui.utils.MyItemClickListener;
-import com.plmt.boommall.ui.view.MultiStateView;
-import com.plmt.boommall.ui.view.gridview.paging.PagingGridView;
-import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
+import com.plmt.boommall.ui.adapter.MySimpleAdapter;
+import com.plmt.boommall.ui.view.AutoClearEditText;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
+import com.plmt.boommall.utils.CacheManager;
 
-public class SearchActivity extends Activity implements OnClickListener,
-		MyItemClickListener, XListView.IXListViewListener {
-	public static final int VIEW_MODE_LIST = 0;
-	public static final int VIEW_MODE_GRID = 1;
+public class SearchActivity extends Activity implements OnClickListener {
 
-	private Context mContext;
-	private MultiStateView mMultiStateView;
-	private LinearLayout mSearchLl;
-	private EditText mSearchEt;
-	private ImageView mSearchIv;
+	private AutoClearEditText mSearchGoodsEt;
 
-	private ArrayList<Category> mCategoryList = new ArrayList<Category>();
-	private RVCategoryAdapter mCategoryAdapter;
-	private RVGoodsAdapter mRVGoodsAdapter;
+	private TextView mSearchTagTv;
+	private TextView mSearchTv;
+	private ListView mSellersLv;
 
-	private XListView mGoodsLv;
-	private GoodsAdapter mGoodsAdapter;
+	private ListView mSearchHistroyLv;
+	private MySimpleAdapter mSimpleAdapter;
+
+	// 弹出对话框中的控件
+
+	private CustomProgressDialog mCustomProgressDialog;
+
+	private String mSearchKey;
+
 	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
 
-	private PagingGridView mGoodsGv;
-	private GoodsGvPagingAdaper mGoodsGvAdapter;
-	private ArrayList<Goods> mGoodsGvList = new ArrayList<Goods>();
+	private ArrayList<String> mSearchHistoryList = new ArrayList<String>();
+	private GoodsAdapter mGoodsAdapter;
 
-	private ImageView mViewModeIv;
-	private ImageView mBackIv;
+	private final Context mContext = SearchActivity.this;
 
-	private String mCatgoryName;
-
-	private int mCurrentPage = 1;
-	private int mCurrentViewMode = 0;
+	// private long mExitTime = 0;
 
 	Handler mHandler = new Handler() {
 
@@ -77,41 +63,44 @@ public class SearchActivity extends Activity implements OnClickListener,
 		public void handleMessage(Message msg) {
 			int what = msg.what;
 			switch (what) {
-
 			case GoodsLogic.GOODS_LIST_BY_KEY_GET_SUC: {
-				if (null != msg.obj) {
-					mGoodsList.clear();
-					mGoodsList.addAll((Collection<? extends Goods>) msg.obj);
-
-					if (mCurrentViewMode == VIEW_MODE_LIST) {
-						mGoodsAdapter.notifyDataSetChanged();
-						onLoadComplete();
-					} else {
-						if (mGoodsGv.getAdapter() == null) {
-							mGoodsGv.setAdapter(mGoodsGvAdapter);
-						}
-						ArrayList<Goods> goodsList = new ArrayList<Goods>();
-						goodsList.addAll(mGoodsList);
-						mGoodsGvList.addAll(goodsList);
-						mGoodsGv.onFinishLoading(true, goodsList);
-					}
-
+				mGoodsList.clear();
+				mGoodsList.addAll((ArrayList<Goods>) msg.obj);
+				if (mGoodsList.size() > 0) {
+					mGoodsAdapter.notifyDataSetChanged();
+					mSearchHistroyLv.setVisibility(View.GONE);
+					mSellersLv.setVisibility(View.VISIBLE);
+					mSearchTagTv.setText(getString(R.string.find_goods));
+				} else {
+					alertInfo();
+					// Intent intent = new Intent(SearchActivity.this,
+					// SpecialGoodsActivity.class);
+					// intent.putExtra("goodsName", mSearchKey);
+					// startActivity(intent);
+					// overridePendingTransition(R.anim.push_left_in,
+					// R.anim.push_left_out);
+					// Toast.makeText(mContext, "没有查询到相关商品", Toast.LENGTH_SHORT)
+					// .show();
 				}
 				break;
 			}
 			case GoodsLogic.GOODS_LIST_BY_KEY_GET_FAIL: {
+
 				break;
 			}
 			case GoodsLogic.GOODS_LIST_BY_KEY_GET_EXCEPTION: {
 				break;
 			}
-
+			case GoodsLogic.NET_ERROR: {
+				break;
+			}
 			default:
 				break;
 			}
 
-			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-			onLoadComplete();
+			if (null != mCustomProgressDialog) {
+				mCustomProgressDialog.dismiss();
+			}
 		}
 
 	};
@@ -119,260 +108,163 @@ public class SearchActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.goods_list);
-		mContext = SearchActivity.this;
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.search);
 		initView();
 		initData();
+
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// refreshGoods();
+		mSearchHistoryList.clear();
+		mSearchHistoryList.addAll(CacheManager.sSearchHistroyList);
+		Log.e("xxx_searchHistory", "" + mSearchHistoryList.size());
+		mSimpleAdapter.notifyDataSetChanged();
 	}
 
 	private void initView() {
-		mMultiStateView = (MultiStateView) findViewById(R.id.goods_list_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
-				.findViewById(R.id.retry)
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						mMultiStateView
-								.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(),
-								"Fetching Data", Toast.LENGTH_SHORT).show();
-					}
-				});
-
-		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-
-		mSearchLl = (LinearLayout) findViewById(R.id.goods_list_search_ll);
-
-		mSearchIv = (ImageView) findViewById(R.id.goods_list_search_iv);
-		mSearchIv.setOnClickListener(this);
-
-		mSearchEt = (EditText) findViewById(R.id.goods_list_search_et);
-		mSearchEt
-				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
-					@Override
-					public void onFocusChange(View v, boolean hasFocus) {
-						if (hasFocus) {
-							// 此处为得到焦点时的处理内容
-							mSearchLl.setVisibility(View.GONE);
-							mSearchIv.setVisibility(View.VISIBLE);
-						} else {
-							// 此处为失去焦点时的处理内容
-							mSearchEt.setText("");
-							mSearchLl.setVisibility(View.VISIBLE);
-							mSearchIv.setVisibility(View.GONE);
-						}
-					}
-				});
-
-		mSearchLl.setOnClickListener(new OnClickListener() {
-
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
-		mViewModeIv = (ImageView) findViewById(R.id.goods_list_show_mode_iv);
-		mViewModeIv.setOnClickListener(this);
-		mBackIv = (ImageView) findViewById(R.id.goods_list_back_iv);
-		mBackIv.setOnClickListener(this);
-
-		initListView();
-		initGridView();
-		showViewMode(VIEW_MODE_LIST);
+		// 初始化控件
+		mSearchGoodsEt = (AutoClearEditText) findViewById(R.id.search_et);
+		mSearchTv = (TextView) findViewById(R.id.search_tv);
+		mSearchTagTv = (TextView) findViewById(R.id.search_tag_tv);
+		mSellersLv = (ListView) findViewById(R.id.sellers_lv);
+		mSearchHistroyLv = (ListView) findViewById(R.id.search_history_lv);
 	}
 
 	private void initData() {
-		mCatgoryName = getIntent().getStringExtra("categoryName");
-		refreshGoods();
-	}
-
-	private void initListView() {
-		mGoodsLv = (XListView) findViewById(R.id.goods_list_goods_xlv);
-		mGoodsLv.setPullRefreshEnable(false);
-		mGoodsLv.setPullLoadEnable(true);
-		mGoodsLv.setAutoLoadEnable(true);
-		mGoodsLv.setXListViewListener(this);
-		mGoodsLv.setRefreshTime(getTime());
-
+		mSearchTv.setOnClickListener(this);
 		mGoodsAdapter = new GoodsAdapter(mContext, mGoodsList);
-		mGoodsLv.setAdapter(mGoodsAdapter);
-
-		mGoodsLv.setOnScrollListener(new AbsListView.OnScrollListener() {
-			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				// Log.i(TAG, "滚动状态变化");
-			}
+		mSellersLv.setAdapter(mGoodsAdapter);
+		mSellersLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
-				// Log.i(TAG, "正在滚动");
-			}
-		});
-		mGoodsLv.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				if (position > 0) {
-					Intent intent = new Intent(SearchActivity.this,
-							GoodsDetailActivity.class);
-					intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
-					Bundle bundle = new Bundle();
-					bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
-							mGoodsList.get(position - 1).getId());
-					intent.putExtras(bundle);
-					startActivity(intent);
-				}
-
-			}
-		});
-
-	}
-
-	private void initGridView() {
-		mGoodsGv = (PagingGridView) findViewById(R.id.goods_list_goods_pgv);
-		mGoodsGvAdapter = new GoodsGvPagingAdaper();
-		// mGoodsGv.setAdapter(mGoodsGvAdapter);
-		mGoodsGv.setHasMoreItems(true);
-		mGoodsGv.setPagingableListener(new PagingGridView.Pagingable() {
-			@Override
-			public void onLoadMoreItems() {
-				if (mCurrentPage < 3) {
-					refreshGoods();
-				} else {
-					mGoodsGv.onFinishLoading(false, null);
-				}
-			}
-		});
-		mGoodsGv.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Intent intent = new Intent(SearchActivity.this,
-						GoodsDetailActivity.class);
-				intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
+			public void onItemClick(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				Intent intent = new Intent(mContext, GoodsDetailActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
-						mGoodsGvList.get(position).getId());
+				Goods goods = mGoodsList.get(position);
 				intent.putExtras(bundle);
 				startActivity(intent);
+				overridePendingTransition(R.anim.push_left_in,
+						R.anim.push_left_out);
+
 			}
 		});
-	}
 
-	@SuppressLint("NewApi")
-	private void showViewMode(int mode) {
-		mCurrentViewMode = mode;
-		if (mode == VIEW_MODE_LIST) {
-			mViewModeIv.setImageDrawable(getResources().getDrawable(
-					R.drawable.ic_list_selector));
-			mGoodsGv.setVisibility(View.GONE);
-			mGoodsLv.setVisibility(View.VISIBLE);
-			mGoodsAdapter.notifyDataSetChanged();
-		} else {
-			mViewModeIv.setImageDrawable(getResources().getDrawable(
-					R.drawable.ic_grid_selector));
-			mGoodsLv.setVisibility(View.GONE);
-			mGoodsGv.setVisibility(View.VISIBLE);
-			if (mGoodsGv.getAdapter() == null) {
-				mGoodsGv.setAdapter(mGoodsGvAdapter);
+		mSimpleAdapter = new MySimpleAdapter(SearchActivity.this,
+				mSearchHistoryList);
+		mSearchHistroyLv.setAdapter(mSimpleAdapter);
+		mSearchHistroyLv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				if (!TextUtils.isEmpty(mSearchHistoryList.get(position))) {
+					mSearchKey = mSearchHistoryList.get(position);
+					mSearchGoodsEt.setText(mSearchKey);
+					getGoodsData(mSearchKey);
+				}
 			}
-			ArrayList<Goods> goodsList = new ArrayList<Goods>();
-			goodsList.addAll(mGoodsList);
-			mGoodsGvList.addAll(goodsList);
-			mGoodsGv.onFinishLoading(true, goodsList);
+		});
+		mSearchHistoryList.clear();
+		mSearchHistoryList.addAll(CacheManager.sSearchHistroyList);
+		mSimpleAdapter.notifyDataSetChanged();
+
+		if (null != getIntent().getExtras()) {
+			mSearchKey = getIntent().getExtras().getString("searchKey");
+			if (!TextUtils.isEmpty(mSearchKey)) {
+				mSearchGoodsEt.setText(mSearchKey);
+				getGoodsData(mSearchKey);
+			}
 		}
 	}
 
-	private void refreshGoods() {
-		GoodsLogic.getGoodsListByCategory(mContext, mHandler, mCatgoryName, 1,
-				1);
+	private void getGoodsData(String keyword) {
+		mCustomProgressDialog = new CustomProgressDialog(mContext);
+		mCustomProgressDialog.show();
+		CacheManager.addSearchHistroy(getApplicationContext(), mSearchKey);
+		// GoodsLogic.getGoodsByKey(mContext, mHandler, keyword,
+		// MsgRequest.GOODS_PAGE_SIZE);
+
+		// mGoodsList.clear();
+		// for (int i = 0; i < 10; i++) {
+		// Goods goods = new Goods();
+		// goods.setName("可乐" + i);
+		// goods.setPrice("" + i);
+		// goods.setBrief("可口可乐出品" + i);
+		// mGoodsList.add(goods);
+		// }
+		// mGoodsAdapter.notifyDataSetChanged();
 	}
 
-	private void search(String key) {
+	protected void alertInfo() {
+		showAlertDialog("查找信息", " 没有找到相关商品,继续查找！", "继续",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						overridePendingTransition(R.anim.push_left_in,
+								R.anim.push_left_out);
+					}
+				}, "取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
 	}
 
-	private void onLoadComplete() {
-		mGoodsLv.stopRefresh();
-		mGoodsLv.stopLoadMore();
-		mGoodsLv.setRefreshTime(getTime());
-	}
-
-	private String getTime() {
-		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)
-				.format(new Date());
-	}
-
-	@Override
-	public void onRefresh() {
-		Log.e("xxx_onRefresh()", "");
-		refreshGoods();
-
-	}
-
-	@Override
-	public void onLoadMore() {
-		Log.e("xxx_onLoadMore", "");
-		refreshGoods();
+	protected void showAlertDialog(String title, String message,
+			String positiveText,
+			DialogInterface.OnClickListener onPositiveClickListener,
+			String negativeText,
+			DialogInterface.OnClickListener onNegativeClickListener) {
+		new AlertDialog.Builder(this).setTitle(title).setMessage(message)
+				.setPositiveButton(positiveText, onPositiveClickListener)
+				.setNegativeButton(negativeText, onNegativeClickListener)
+				.show();
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.goods_list_search_iv: {
-			if (!TextUtils.isEmpty(mSearchEt.getText().toString().trim())) {
-				search(mSearchEt.getText().toString().trim());
-			} else {
-				Toast.makeText(mContext, getString(R.string.search_hint),
+		case R.id.search_tv: {
+			mSearchKey = mSearchGoodsEt.getText().toString().trim();
+			if ("".equals(mSearchKey)) {
+				Toast.makeText(
+						mContext,
+						mContext.getResources()
+								.getString(R.string.search_thing),
 						Toast.LENGTH_SHORT).show();
-			}
-			break;
-		}
-		case R.id.goods_list_show_mode_iv: {
-			if (mCurrentViewMode == VIEW_MODE_GRID) {
-				showViewMode(VIEW_MODE_LIST);
 			} else {
-				showViewMode(VIEW_MODE_GRID);
+				getGoodsData(mSearchKey);
 			}
 			break;
 		}
-		case R.id.goods_list_back_iv: {
-			finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
-			break;
-		}
-
 		default:
 			break;
 		}
 	}
 
 	@Override
-	public void onItemClick(View view, int postion) {
-		Toast.makeText(mContext, "onItemClick:" + postion, Toast.LENGTH_SHORT)
-				.show();
-
-	}
-
-	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-			SearchActivity.this.finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			// if ((System.currentTimeMillis() - mExitTime) > 2000) {
+			// Toast.makeText(getApplicationContext(), R.string.exit,
+			// Toast.LENGTH_SHORT).show();
+			// mExitTime = System.currentTimeMillis();
+			// } else {
+			// finish();
+			// }
+			finish();
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
 }

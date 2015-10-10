@@ -7,9 +7,6 @@
     <string name="company">南京壹前零后科技有限公司</string>
     <string name="copyright">版权所有</string>
     <string name="agreement_title">服务协议</string>
-    <string name="search">搜索 </string>
-    <string name="search_hint"> 请输入商品名称</string>
-    <string name="search_thing">请输入您想要的物品名称</string>
     <string name="query">查询</string>
     <string name="msg">消息</string>
     <string name="setting">设置</string>
@@ -53,7 +50,7 @@
     <string name="wechat_login">微信登陆</string>
     <string name="add_address">新建地址</string>
     <string name="delivery_address">收货地址</string>
-    
+
     <!-- order -->
     <string name="confirm_order">确认订单</string>
     <string name="real_order_amount_money">实付款</string>
@@ -86,7 +83,7 @@
     <string name="pay_fail">支付失败</string>
     <string name="pay_way_hint">请选择支付方式</string>
     <string name="buy">购买</string>
-    
+
     <!-- goods detail -->
     <string name="goods_parameters">商品参数</string>
     <string name="goods_detail">商品详情</string>
@@ -99,7 +96,6 @@
     <string name="settlement">结算</string>
     <string name="total_price">总金额：</string>
     <string name="to_settlement">去结算</string>
-
 
     <!-- 头像 -->
     <string name="set_head">上传图片</string>
@@ -145,5 +141,12 @@
     <string name="order_cancel_fail">订单取消失败</string>
     <string name="order_cancel_confirm">确定取消订单？</string>
     <string name="order_cancel_no">订单已经配送，不能取消！</string>
+
+    <!-- search -->
+    <string name="search">搜索 </string>
+    <string name="search_hint"> 请输入商品名称</string>
+    <string name="search_thing">请输入您想要的物品名称</string>
+    <string name="search_history"> 搜索历史</string>
+    <string name="find_goods">为您找到以下商品</string>
 
 </resources>
