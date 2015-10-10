@@ -43,6 +43,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private PreOrder mPreOrder;
 
+	private String mOrderId;
+
 	private Handler mAddressHandler = new Handler() {
 
 		@Override
@@ -116,6 +118,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			switch (msg.what) {
 			case OrderLogic.ORDER_CREATE_SUC: {
 				if (null != msg.obj) {
+					mOrderId = (String) msg.obj;
 				}
 				break;
 			}
@@ -194,8 +197,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private void initData() {
 		// fetchAddressData();
-		OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
 		OrderLogic.createOrder(mContext, mOrderInfoHandler);
+		OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
 	}
 
 	private void fetchAddressData() {
@@ -250,7 +253,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 
 		case R.id.create_order_confirm_btn: {
-			OrderLogic.getOrderPayInfo(mContext, mOrderInfoHandler);
+			OrderLogic.getOrderPayInfo(mContext, mOrderInfoHandler, mOrderId);
 			break;
 		}
 

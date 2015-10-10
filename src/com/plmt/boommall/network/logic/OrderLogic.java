@@ -150,7 +150,9 @@ public class OrderLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 
-				String orderID = response.getString("orderId").trim();
+				JSONObject dataJsonObject = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				String orderID = dataJsonObject.getString("order_id").trim();
 				if (!TextUtils.isEmpty(orderID)) {
 					OrderManager.setsCurrentOrderId(orderID);
 					OrderManager.setsCurrentCommentOrderId(orderID);
@@ -171,11 +173,11 @@ public class OrderLogic {
 	}
 
 	public static void getOrderPayInfo(final Context context,
-			final Handler handler) {
+			final Handler handler,final String orderId) {
 		JSONObject requestJson = new JSONObject();
 		try {
 			requestJson
-					.put("order_id", URLEncoder.encode("100000158", "UTF-8"));
+					.put("order_id", URLEncoder.encode(orderId, "UTF-8"));
 
 			String url = RequestUrl.HOST_URL + RequestUrl.order.getOrderPayInfo;
 
@@ -319,7 +321,6 @@ public class OrderLogic {
 				Message message = new Message();
 				message.what = ORDER_PRE_INFO_GET_SUC;
 				message.obj = preOrder;
-				Log.e("xxx_cartdetail", "suc");
 				handler.sendMessage(message);
 			} else {
 				handler.sendEmptyMessage(ORDER_PRE_INFO_GET_FAIL);
