@@ -22,6 +22,7 @@ import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
+import com.plmt.boommall.pay.AlipayMerchant;
 import com.plmt.boommall.utils.JsonUtils;
 import com.plmt.boommall.utils.OrderManager;
 import com.plmt.boommall.utils.UserInfoManager;
@@ -90,6 +91,12 @@ public class OrderLogic {
 
 	public static final int ORDER_PAY_UNION_TN_GET_EXCEPTION = ORDER_PAY_UNION_TN_GET_FAIL + 1;
 
+	public static final int ORDER_PAY_INFO_GET_SUC = ORDER_PAY_UNION_TN_GET_EXCEPTION + 1;
+
+	public static final int ORDER_PAY_INFO_GET_FAIL = ORDER_PAY_INFO_GET_SUC + 1;
+
+	public static final int ORDER_PAY_INFO_GET_EXCEPTION = ORDER_PAY_INFO_GET_FAIL + 1;
+
 	public static void createOrder(final Context context, final Handler handler) {
 		JSONObject requestJson = new JSONObject();
 		try {
@@ -116,7 +123,7 @@ public class OrderLogic {
 						public void onResponse(JSONObject response) {
 							if (null != response) {
 								Log.e("xxx_submitOrder", response.toString());
-								// parseOrdersData(response, handler);
+								parseCreateOrderData(response, handler);
 							}
 
 						}
@@ -152,7 +159,7 @@ public class OrderLogic {
 					message.obj = orderID;
 					handler.sendMessage(message);
 				} else {
-					handler.sendEmptyMessage(ORDER_CREATE_FAIL);
+					handler.sendEmptyMessage(ORDER_CREATE_SUC);
 				}
 
 			} else {
@@ -160,6 +167,64 @@ public class OrderLogic {
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(ORDER_CREATE_EXCEPTION);
+		}
+	}
+
+	public static void getOrderPayInfo(final Context context,
+			final Handler handler) {
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson
+					.put("order_id", URLEncoder.encode("100000158", "UTF-8"));
+
+			String url = RequestUrl.HOST_URL + RequestUrl.order.getOrderPayInfo;
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_getOrderPayInfo",
+										response.toString());
+								parseOrderPayInfoData(response, handler);
+							}
+
+						}
+
+					}, null);
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void parseOrderPayInfoData(JSONObject response,
+			Handler handler) {
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+
+				JSONObject dataJsonObject = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				AlipayMerchant alipayMerchant = (AlipayMerchant) JsonUtils
+						.fromJsonToJava(dataJsonObject, AlipayMerchant.class);
+				Message message = new Message();
+				message.what = ORDER_PAY_INFO_GET_SUC;
+				message.obj = alipayMerchant;
+				handler.sendMessage(message);
+			} else {
+				handler.sendEmptyMessage(ORDER_PAY_INFO_GET_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(ORDER_PAY_INFO_GET_EXCEPTION);
 		}
 	}
 

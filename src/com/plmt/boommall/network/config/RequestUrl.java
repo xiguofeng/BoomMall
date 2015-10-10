@@ -128,6 +128,11 @@ public class RequestUrl {
 		public String submitOrder = "/checkout/submitOrder/";
 		
 		/**
+		 * 获取订单支付信息
+		 */
+		public String getOrderPayInfo = "/payment/getOrder";
+		
+		/**
 		 * 订单信息
 		 */
 		public String cartDetail = "/checkout/cartDetail";

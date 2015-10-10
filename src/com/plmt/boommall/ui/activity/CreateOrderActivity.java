@@ -109,6 +109,50 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	};
 
+	private Handler mOrderInfoHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case OrderLogic.ORDER_CREATE_SUC: {
+				if (null != msg.obj) {
+				}
+				break;
+			}
+			case OrderLogic.ORDER_CREATE_FAIL: {
+
+				break;
+			}
+			case OrderLogic.ORDER_CREATE_EXCEPTION: {
+
+				break;
+			}
+			case OrderLogic.ORDER_PAY_INFO_GET_SUC: {
+				if (null != msg.obj) {
+				}
+				break;
+			}
+			case OrderLogic.ORDER_PAY_INFO_GET_FAIL: {
+
+				break;
+			}
+			case OrderLogic.ORDER_PAY_INFO_GET_EXCEPTION: {
+
+				break;
+			}
+			case OrderLogic.NET_ERROR: {
+
+				break;
+			}
+
+			default:
+				break;
+			}
+			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+		}
+
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -151,6 +195,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private void initData() {
 		// fetchAddressData();
 		OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
+		OrderLogic.createOrder(mContext, mOrderInfoHandler);
 	}
 
 	private void fetchAddressData() {
@@ -205,7 +250,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 
 		case R.id.create_order_confirm_btn: {
-			OrderLogic.createOrder(mContext, mAddressHandler);
+			OrderLogic.getOrderPayInfo(mContext, mOrderInfoHandler);
 			break;
 		}
 
