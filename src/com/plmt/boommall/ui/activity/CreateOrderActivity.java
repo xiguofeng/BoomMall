@@ -11,6 +11,7 @@ import com.plmt.boommall.network.logic.OrderLogic;
 import com.plmt.boommall.pay.AlipayMerchant;
 import com.plmt.boommall.pay.alipay.AlipayApi;
 import com.plmt.boommall.pay.alipay.PayResult;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.MultiStateView;
 
 import android.app.Activity;
@@ -47,6 +48,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private PreOrder mPreOrder;
 
 	private String mOrderId;
+	
+	private CustomProgressDialog mProgressDialog;
 
 	private Handler mAddressHandler = new Handler() {
 
@@ -122,7 +125,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			case OrderLogic.ORDER_CREATE_SUC: {
 				if (null != msg.obj) {
 					mOrderId = (String) msg.obj;
-					OrderLogic.getOrderPayInfo(mContext, mOrderInfoHandler, mOrderId);
+					mProgressDialog = new CustomProgressDialog(mContext);
+					mProgressDialog.show();
+					OrderLogic.getOrderPayInfo(mContext, mOrderPayInfoHandler, mOrderId);
 				}
 				break;
 			}
@@ -134,6 +139,26 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 				break;
 			}
+			case OrderLogic.NET_ERROR: {
+
+				break;
+			}
+
+			default:
+				break;
+			}
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+		}
+
+	};
+	
+	private Handler mOrderPayInfoHandler = new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
 			case OrderLogic.ORDER_PAY_INFO_GET_SUC: {
 				if (null != msg.obj) {
 					AlipayMerchant alipayMerchant;
@@ -158,10 +183,13 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			default:
 				break;
 			}
-			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
 		}
 
 	};
+	
 
 	private Handler mAlipayHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -270,6 +298,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private void PayByAli(AlipayMerchant alipayMerchant) {
 		AlipayApi apAlipayApi = new AlipayApi();
+		alipayMerchant.setAmount("0.01");
 		if (TextUtils.isEmpty(mOrderId)) {
 			alipayMerchant.setOrderId("id900033888499933sh");
 		}
@@ -321,6 +350,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 
 		case R.id.create_order_confirm_btn: {
+			mProgressDialog = new CustomProgressDialog(mContext);
+			mProgressDialog.show();
 			OrderLogic.createOrder(mContext, mOrderInfoHandler);
 			// AlipayMerchant alipayMerchant=new AlipayMerchant();
 			// PayByAli(alipayMerchant);
