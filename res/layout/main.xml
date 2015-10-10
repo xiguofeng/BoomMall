@@ -483,7 +483,7 @@
                     <LinearLayout
                         android:id="@+id/main_search_ll"
                         android:layout_width="match_parent"
-                        android:layout_height="30dip"
+                        android:layout_height="35dip"
                         android:layout_centerInParent="true"
                         android:gravity="center"
                         android:orientation="horizontal" >
@@ -512,6 +512,7 @@
                         android:paddingLeft="5dip"
                         android:paddingRight="5dip"
                         android:singleLine="true"
+                        android:visibility="gone"
                         android:textColor="@color/gray_character" />
 
                     <ImageView

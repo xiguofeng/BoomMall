@@ -28,6 +28,7 @@ import com.plmt.boommall.utils.OrderManager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -52,13 +53,17 @@ public class MainActivity extends Activity implements OnClickListener {
 	private boolean isSvInTop = true;
 	private boolean hasMeasured = false;
 
-	private RelativeLayout mSearchRl;
+	private RelativeLayout mTitleRl;
+	private RelativeLayout mSearchBgRl;
 	private RelativeLayout mSearchStandardRl;
 	private RelativeLayout mSearchSimpleRl;
 	private ImageView mSearchSimpleIv;
 	private LinearLayout mSearchLl;
 	private EditText mSearchEt;
 	private ImageView mSearchIv;
+	private ImageView mSimpleSearchIv;
+	private LinearLayout mStandardMsgLl;
+	private ImageView mSimpleMsgIv;
 
 	private ViewFlow mViewFlow;
 	private CircleFlowIndicator mIndic;
@@ -69,8 +74,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	private CustomGridView mCategoryGv;
 	private ArrayList<Category> mCategoryList = new ArrayList<Category>();
 	private MainGvCategoryAdapter mCategoryAdapter;
-	private int[] pic_path_classify = { R.drawable.menu_guide_1, R.drawable.menu_guide_2, R.drawable.menu_guide_3,
-			R.drawable.menu_guide_4, R.drawable.menu_guide_5, R.drawable.menu_guide_6, R.drawable.menu_guide_7,
+	private int[] pic_path_classify = { R.drawable.menu_guide_1,
+			R.drawable.menu_guide_2, R.drawable.menu_guide_3,
+			R.drawable.menu_guide_4, R.drawable.menu_guide_5,
+			R.drawable.menu_guide_6, R.drawable.menu_guide_7,
 			R.drawable.menu_guide_8 };
 
 	private LinearLayout mCategoryAndGoodsListLl;
@@ -132,20 +139,20 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void initView() {
 		mCustomSv = (BorderScrollView) findViewById(R.id.main_sv);
-		mSearchRl = (RelativeLayout) findViewById(R.id.main_title_ll);
-		ViewTreeObserver vto = mSearchRl.getViewTreeObserver();
+		mTitleRl = (RelativeLayout) findViewById(R.id.main_title_ll);
+		ViewTreeObserver vto = mTitleRl.getViewTreeObserver();
 
 		vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 			public boolean onPreDraw() {
 				if (!hasMeasured) {
-					int height = mSearchRl.getMeasuredHeight();
+					int height = mTitleRl.getMeasuredHeight();
 					mCustomSv.setHeadHeight(height);
 					hasMeasured = true;
 				}
 				return true;
 			}
 		});
-		int height = mSearchRl.getMeasuredHeight();
+		int height = mTitleRl.getMeasuredHeight();
 
 		// mCustomSv.setTopViewHeight(height);
 		mCustomSv.setOnBorderListener(new OnBorderListener() {
@@ -191,14 +198,20 @@ public class MainActivity extends Activity implements OnClickListener {
 		// // mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
 		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
-		initSearchView();
+		initSearchAndMsgView();
 		initCircleimage();
 		initCategoryView();
 		initGoodsShow();
 		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
 	}
 
-	private void initSearchView() {
+	private void initSearchAndMsgView() {
+		mSearchBgRl = (RelativeLayout) findViewById(R.id.main_search_rl);
+		mSearchBgRl.setOnClickListener(this);
+
+		mSimpleSearchIv = (ImageView) findViewById(R.id.main_title_simple_search_iv);
+		mSimpleSearchIv.setOnClickListener(this);
+
 		mSearchStandardRl = (RelativeLayout) findViewById(R.id.main_title_standard_ll);
 		mSearchSimpleRl = (RelativeLayout) findViewById(R.id.main_title_simple_ll);
 
@@ -208,21 +221,27 @@ public class MainActivity extends Activity implements OnClickListener {
 		mSearchIv.setOnClickListener(this);
 
 		mSearchEt = (EditText) findViewById(R.id.main_search_et);
-		mSearchEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					// 此处为得到焦点时的处理内容
-					mSearchLl.setVisibility(View.GONE);
-					mSearchIv.setVisibility(View.VISIBLE);
-				} else {
-					// 此处为失去焦点时的处理内容
-					mSearchEt.setText("");
-					mSearchLl.setVisibility(View.VISIBLE);
-					mSearchIv.setVisibility(View.GONE);
-				}
-			}
-		});
+		mSearchEt
+				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							// 此处为得到焦点时的处理内容
+							mSearchLl.setVisibility(View.GONE);
+							mSearchIv.setVisibility(View.VISIBLE);
+						} else {
+							// 此处为失去焦点时的处理内容
+							mSearchEt.setText("");
+							mSearchLl.setVisibility(View.VISIBLE);
+							mSearchIv.setVisibility(View.GONE);
+						}
+					}
+				});
+
+		mStandardMsgLl = (LinearLayout) findViewById(R.id.main_msg_ll);
+		mStandardMsgLl.setOnClickListener(this);
+		mSimpleMsgIv = (ImageView) findViewById(R.id.main_title_simple_msg_iv);
+		mSimpleMsgIv.setOnClickListener(this);
 	}
 
 	private void initCircleimage() {
@@ -265,7 +284,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		mCategoryGv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				// Intent intent = new Intent(MainActivity.this,
 				// LoginActivity.class);
 				// startActivity(intent);
@@ -407,25 +427,56 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.main_search_rl: {
+			Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+
+		case R.id.main_title_simple_search_iv: {
+			Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+
+		case R.id.main_title_simple_msg_iv: {
+			Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 
-			new AlertDialog(MainActivity.this).builder().setTitle(getString(R.string.prompt))
+			new AlertDialog(MainActivity.this)
+					.builder()
+					.setTitle(getString(R.string.prompt))
 					.setMsg(getString(R.string.exit_str))
-					.setPositiveButton(getString(R.string.confirm), new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							finish();
-						}
-					}).setNegativeButton(getString(R.string.cancal), new OnClickListener() {
-						@Override
-						public void onClick(View v) {
+					.setPositiveButton(getString(R.string.confirm),
+							new OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									finish();
+								}
+							})
+					.setNegativeButton(getString(R.string.cancal),
+							new OnClickListener() {
+								@Override
+								public void onClick(View v) {
 
-						}
-					}).show();
+								}
+							}).show();
 
 			// if ((System.currentTimeMillis() - exitTime) > 2000) {
 			// Toast.makeText(getApplicationContext(), R.string.exit,
