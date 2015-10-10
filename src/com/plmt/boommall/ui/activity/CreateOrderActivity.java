@@ -122,6 +122,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			case OrderLogic.ORDER_CREATE_SUC: {
 				if (null != msg.obj) {
 					mOrderId = (String) msg.obj;
+					OrderLogic.getOrderPayInfo(mContext, mOrderInfoHandler, mOrderId);
 				}
 				break;
 			}
@@ -247,7 +248,6 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private void initData() {
 		// fetchAddressData();
-		OrderLogic.createOrder(mContext, mOrderInfoHandler);
 		OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
 	}
 
@@ -321,7 +321,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 
 		case R.id.create_order_confirm_btn: {
-			OrderLogic.getOrderPayInfo(mContext, mOrderInfoHandler, mOrderId);
+			OrderLogic.createOrder(mContext, mOrderInfoHandler);
 			// AlipayMerchant alipayMerchant=new AlipayMerchant();
 			// PayByAli(alipayMerchant);
 			break;
