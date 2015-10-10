@@ -5,45 +5,58 @@ import java.io.Serializable;
 public class AlipayMerchant implements Serializable {
 
 	private static final long serialVersionUID = 8912365559481657349L;
-
+	
+	/**
+	 * 订单号
+	 */
+	private String orderId;
+	
+	/**
+	 * 私钥
+	 */
+	private String privateKey;
+	
+	/**
+	 * 商户ID
+	 */
+	private String partnerId;
+	
+	/**
+	 * 签约卖家支付宝账号
+	 */
+	private String sellerAccount;
+	
+	 /**
+     * 服务器异步通知页面路径
+     */
+	private String notifyUrl;
+	
+	/**
+	 *  商户网站唯一订单号
+	 */
+	private String outTradeNo;
+	
+	/**
+	 * 商品金额
+	 */
 	private String amount;
 
-	private String inputCharset;
-
-	private String privateKey;
-
+	/**
+	 * 商品详情
+	 */
 	private String productDescription;
-
-	private String tradeNo;
-
-	private String paymentType;
-
-	private String service;
-
-	private String partnerId;
-
-	private String notifyUrl;
-
+   
+	/**
+	 * 商品名称
+	 */
 	private String productName;
 
-	private String sellerAccount;
-
-	private String itBPay;
-
-	public String getAmount() {
-		return amount;
+	public String getOrderId() {
+		return orderId;
 	}
 
-	public void setAmount(String amount) {
-		this.amount = amount;
-	}
-
-	public String getInputCharset() {
-		return inputCharset;
-	}
-
-	public void setInputCharset(String inputCharset) {
-		this.inputCharset = inputCharset;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 
 	public String getPrivateKey() {
@@ -54,60 +67,12 @@ public class AlipayMerchant implements Serializable {
 		this.privateKey = privateKey;
 	}
 
-	public String getProductDescription() {
-		return productDescription;
-	}
-
-	public void setProductDescription(String productDescription) {
-		this.productDescription = productDescription;
-	}
-
-	public String getTradeNo() {
-		return tradeNo;
-	}
-
-	public void setTradeNo(String tradeNo) {
-		this.tradeNo = tradeNo;
-	}
-
-	public String getPaymentType() {
-		return paymentType;
-	}
-
-	public void setPaymentType(String paymentType) {
-		this.paymentType = paymentType;
-	}
-
-	public String getService() {
-		return service;
-	}
-
-	public void setService(String service) {
-		this.service = service;
-	}
-
 	public String getPartnerId() {
 		return partnerId;
 	}
 
 	public void setPartnerId(String partnerId) {
 		this.partnerId = partnerId;
-	}
-
-	public String getNotifyUrl() {
-		return notifyUrl;
-	}
-
-	public void setNotifyUrl(String notifyUrl) {
-		this.notifyUrl = notifyUrl;
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
 	}
 
 	public String getSellerAccount() {
@@ -118,13 +83,45 @@ public class AlipayMerchant implements Serializable {
 		this.sellerAccount = sellerAccount;
 	}
 
-	public String getItBPay() {
-		return itBPay;
+	public String getNotifyUrl() {
+		return notifyUrl;
 	}
 
-	public void setItBPay(String itBPay) {
-		this.itBPay = itBPay;
+	public void setNotifyUrl(String notifyUrl) {
+		this.notifyUrl = notifyUrl;
 	}
 
+	public String getOutTradeNo() {
+		return outTradeNo;
+	}
 
+	public void setOutTradeNo(String outTradeNo) {
+		this.outTradeNo = outTradeNo;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+	public String getProductDescription() {
+		return productDescription;
+	}
+
+	public void setProductDescription(String productDescription) {
+		this.productDescription = productDescription;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	
 }

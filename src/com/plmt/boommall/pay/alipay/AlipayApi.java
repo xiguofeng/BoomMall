@@ -17,6 +17,8 @@ import com.plmt.boommall.utils.OrderManager;
 
 public class AlipayApi {
 
+	
+	String privatekey="MIICXQIBAAKBgQDQe2tFWVVTEuiIqdVfORzf/LemaZYkdxCfXgGz5c2yxgQck9caYsLP6sTkDyRaNfRC7FXCxH1zCgvoM/aHMDugB5vwqEBT9xAG12XzO7c/fnL+Uk59je0YIH2lHfGma/pguuKc6NjEMPkrbJNdMqt2wv3ys2DzrD4JlOCxc/54qwIDAQABAoGBAJd8VmG5m6oVXymOXiAm27hVZQxiRFqSuV1TbWFOZby07V/mfLILeQqiyBX+eqeh9K58E4TGSXFBp4091LA+d9Nr3KUgm3qYdHyFGRECaoxhLtxHpwuamK0rEiC6lYpcWYb/iekjwj+mTs7xTzsxU4o1xf0wsmdkw7Z7KEE6PZ9hAkEA9Vr0KSx+2amYaQQ4EyL9wRwFpMT2KhU8iggQ+ZUoZ//kaqVziFr1CMhJl2zQlevfba0l8RwpBseweL6Gs6g8lQJBANmG7p6vOLhAlHDjn3F1BMHGB4t6rISR82/Bs9AenxPvSSaU5H30YhD/M8K12KrcjxcgUJq0TwFaEy+1YNzFUD8CQHaky8qZPKHuc8fchW0jj4dxEH2TzOGesU6iBetaqFZaFE9JwGtgaHsdtxBlSxwkGj/D6cQE9QXVTE2m/CYmJV0CQHhEG+XsJsXoHqoTj3HhKtIftMgu+PcK4rblN49Xfsg8wgrswy/IT/fpwSpj8/jznMFCgo4mJpAuxvDXrUgiZ20CQQC7iqe5TbQzGZhyWgfS2eUZ/DT8GnUaOOq+dbL+a7yWd4D3cGbR7ARErHYAJ+QRKmq1zb0Mdhm+8OS/LPcqjGLq";
 	private Activity mActivity;
 
 	private Handler mHandler;
@@ -37,13 +39,12 @@ public class AlipayApi {
 			final AlipayMerchant alipayMerchant) {
 		// 订单
 		String orderInfo = getOrderInfo(alipayMerchant.getPartnerId(),
-				alipayMerchant.getSellerAccount(), OrderManager
-						.getsCurrentOrder().getId(), alipayMerchant.getProductName(),alipayMerchant.getProductDescription(),
-				OrderManager.getsCurrentOrder().getAmount(),
-				alipayMerchant.getNotifyUrl(), alipayMerchant.getTradeNo());
+				alipayMerchant.getSellerAccount(), alipayMerchant.getOrderId(), alipayMerchant.getProductName(),alipayMerchant.getProductDescription(),
+				alipayMerchant.getAmount(),
+				alipayMerchant.getNotifyUrl(), getOutTradeNo());
 
 		// 对订单做RSA 签名
-		String sign = sign(orderInfo, alipayMerchant.getPrivateKey());
+		String sign = sign(orderInfo, Constants.RSA_PRIVATE);
 		try {
 			// 仅需对sign 做URL编码
 			sign = URLEncoder.encode(sign, "UTF-8");

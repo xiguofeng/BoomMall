@@ -154,14 +154,12 @@ public class OrderLogic {
 						.getJSONObject(MsgResult.RESULT_DATA_TAG);
 				String orderID = dataJsonObject.getString("order_id").trim();
 				if (!TextUtils.isEmpty(orderID)) {
-					OrderManager.setsCurrentOrderId(orderID);
-					OrderManager.setsCurrentCommentOrderId(orderID);
 					Message message = new Message();
 					message.what = ORDER_CREATE_SUC;
 					message.obj = orderID;
 					handler.sendMessage(message);
 				} else {
-					handler.sendEmptyMessage(ORDER_CREATE_SUC);
+					handler.sendEmptyMessage(ORDER_CREATE_FAIL);
 				}
 
 			} else {
@@ -176,11 +174,14 @@ public class OrderLogic {
 			final Handler handler,final String orderId) {
 		JSONObject requestJson = new JSONObject();
 		try {
+			Log.e("xxx_getOrderPayInfo", "start");
 			requestJson
 					.put("order_id", URLEncoder.encode(orderId, "UTF-8"));
 
-			String url = RequestUrl.HOST_URL + RequestUrl.order.getOrderPayInfo;
+			String url = RequestUrl.HOST_PAY_URL + RequestUrl.order.getOrderPayInfo;
 
+			Log.e("xxx_getOrderPayInfo", url);
+			Log.e("xxx_getOrderPayInfo_orderId", orderId);
 			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
 					requestJson, new Listener<JSONObject>() {
 						@Override

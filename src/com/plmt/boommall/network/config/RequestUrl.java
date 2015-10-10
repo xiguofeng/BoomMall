@@ -9,6 +9,8 @@ public class RequestUrl {
 
 	// http://120.55.116.206:8080/mapi
 	public static final String HOST_URL = "http://120.55.116.206:8060/mapi";
+	
+	public static final String HOST_PAY_URL="http://120.55.116.206:8060";
 
 	public interface connect {
 		/**
@@ -130,7 +132,7 @@ public class RequestUrl {
 		/**
 		 * 获取订单支付信息
 		 */
-		public String getOrderPayInfo = "/payment/getOrder";
+		public String getOrderPayInfo = "/appaliapy/payment/getOrder";
 		
 		/**
 		 * 订单信息
