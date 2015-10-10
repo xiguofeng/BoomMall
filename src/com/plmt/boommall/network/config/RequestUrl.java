@@ -5,10 +5,10 @@ package com.plmt.boommall.network.config;
  */
 public class RequestUrl {
 
-	public static final String NAMESPACE = "http://139.196.15.154";
+	public static final String NAMESPACE = "http://120.55.116.206";
 
 	// http://120.55.116.206:8080/mapi
-	public static final String HOST_URL = "http://120.55.116.206:8080/mapi";
+	public static final String HOST_URL = "http://120.55.116.206:8060/mapi";
 
 	public interface connect {
 		/**

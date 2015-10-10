@@ -19,9 +19,9 @@ public class PreOrder implements Serializable {
 
 	private Address address;
 
-	private ArrayList<PayMoney> payMoneyList;
+	private ArrayList<PayMoney> payMoneyList = new ArrayList<PayMoney>();
 
-	private ArrayList<Goods> goodsList;
+	private ArrayList<Goods> goodsList = new ArrayList<Goods>();
 
 	public String getId() {
 		return id;
@@ -86,6 +86,5 @@ public class PreOrder implements Serializable {
 	public void setGoodsList(ArrayList<Goods> goodsList) {
 		this.goodsList = goodsList;
 	}
-
 
 }

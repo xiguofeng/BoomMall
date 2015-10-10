@@ -35,15 +35,13 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private TextView mAddressUsernameTv;
 	private TextView mAddressPhoneTv;
 	private TextView mAddressDetailTv;
-    private TextView mRealPayAmountTv;
+	private TextView mRealPayAmountTv;
 
 	private Button mConfirmBtn;
 
 	private Address mAddress;
 
 	private PreOrder mPreOrder;
-	
-	
 
 	private Handler mAddressHandler = new Handler() {
 
@@ -122,12 +120,15 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private void initView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.create_order_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
+				.findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(), "Fetching Data", Toast.LENGTH_SHORT).show();
+						mMultiStateView
+								.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(),
+								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
 		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
@@ -143,8 +144,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mAddressUsernameTv = (TextView) findViewById(R.id.create_order_address_username_tv);
 		mAddressPhoneTv = (TextView) findViewById(R.id.create_order_address_phone_tv);
 		mAddressDetailTv = (TextView) findViewById(R.id.create_order_address_detail_tv);
-		
-		mRealPayAmountTv= (TextView) findViewById(R.id.create_order_pay_amount_tv);
+
+		mRealPayAmountTv = (TextView) findViewById(R.id.create_order_pay_amount_tv);
 	}
 
 	private void initData() {
@@ -161,11 +162,11 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mAddressPhoneTv.setText(address.getTelephone());
 		mAddressDetailTv.setText(address.getContent());
 	}
-	
+
 	private void fillUpData(PreOrder preOrder) {
 		mAddress = mPreOrder.getAddress();
 		fillUpAddressData(mAddress);
-		
+
 		mRealPayAmountTv.setText(preOrder.getTotal());
 	}
 
@@ -197,7 +198,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			break;
 		}
 		case R.id.create_order_address_ll: {
-			Intent intent = new Intent(CreateOrderActivity.this, AddressListActivity.class);
+			Intent intent = new Intent(CreateOrderActivity.this,
+					AddressListActivity.class);
 			startActivityForResult(intent, 500);
 			break;
 		}
