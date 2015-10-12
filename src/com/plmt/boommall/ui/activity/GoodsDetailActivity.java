@@ -35,6 +35,7 @@ import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
 import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 import com.plmt.boommall.utils.ActivitiyInfoManager;
 import com.plmt.boommall.utils.CartManager;
+import com.plmt.boommall.utils.UserInfoManager;
 
 public class GoodsDetailActivity extends Activity implements OnClickListener {
 
@@ -328,7 +329,14 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.goods_detail_cart_ll: {
-			if (!TextUtils.isEmpty(mNowAction)
+			if (!UserInfoManager.getLoginIn(mContext)) {
+				Intent intent = new Intent(GoodsDetailActivity.this,
+						LoginActivity.class);
+				intent.setAction(LoginActivity.ORIGIN_FROM_CART_KEY);
+				startActivity(intent);
+				overridePendingTransition(R.anim.push_left_in,
+						R.anim.push_left_out);
+			} else if (!TextUtils.isEmpty(mNowAction)
 					&& ORIGIN_FROM_CATE_ACTION.equals(mNowAction)) {
 				mProgressDialog = new CustomProgressDialog(mContext);
 				mProgressDialog.show();

@@ -36,6 +36,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 	public static final String ORIGIN_FROM_CART_KEY = "com.cart";
 
+	public static final String ORIGIN_FROM_GOODS_DETAIL_KEY = "com.goods.detail";
+
 	public static final String ORIGIN_FROM_ORDER_KEY = "com.order";
 
 	public static final String ORIGIN_FROM_USER_KEY = "com.user";
@@ -218,6 +220,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			// R.anim.push_left_out);
 		} else if (mNowAction.equals(ORIGIN_FROM_REG_KEY)) {
 
+		} else if (mNowAction.equals(ORIGIN_FROM_GOODS_DETAIL_KEY)) {
+			LoginActivity.this.finish();
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 		} else if (mNowAction.equals(ORIGIN_FROM_CART_KEY)) {
 			LoginActivity.this.finish();
 			overridePendingTransition(R.anim.push_right_in,

@@ -268,11 +268,16 @@ public class OrderLogic {
 			Handler handler) {
 
 		try {
-			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
-			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-				JSONObject dataJsonObject = response
-						.getJSONObject(MsgResult.RESULT_DATA_TAG);
+			JSONObject jsonObject = new JSONObject(JsonUtils.removeBOM(response
+					.toString()));
 
+			String sucResult = jsonObject.getString(MsgResult.RESULT_TAG)
+					.trim();
+			jsonObject.toString();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				JSONObject dataJsonObject = jsonObject
+						.getJSONObject(MsgResult.RESULT_TAG);
+				Log.e("xxx_parseOrderPreInfo_suc_0", "");
 				PreOrder preOrder = new PreOrder();
 
 				JSONObject addressJsonObject = dataJsonObject
@@ -329,6 +334,7 @@ public class OrderLogic {
 				handler.sendEmptyMessage(ORDER_PRE_INFO_GET_FAIL);
 			}
 		} catch (JSONException e) {
+			Log.e("xxx_parseOrderPreInfo_suc_EXCEPTION", e.getMessage());
 			handler.sendEmptyMessage(ORDER_PRE_INFO_GET_EXCEPTION);
 		}
 	}
