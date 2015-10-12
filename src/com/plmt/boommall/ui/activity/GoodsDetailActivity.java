@@ -29,6 +29,7 @@ import com.plmt.boommall.network.logic.CartLogic;
 import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.ui.adapter.GoodsDetailBannerAdapter;
 import com.plmt.boommall.ui.view.BadgeView;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
 import com.plmt.boommall.ui.view.viewflow.ViewFlow;
@@ -111,6 +112,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private String mNowAction = ORIGIN_FROM_MAIN_ACTION;
 
+	private CustomProgressDialog mProgressDialog;
+
 	private Handler mHandler = new Handler() {
 
 		@Override
@@ -177,15 +180,21 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				break;
 			}
 			case CartLogic.CART_ADD_SUC: {
-				if (null != msg.obj) {
+				ActivitiyInfoManager
+						.finishActivity("com.plmt.boommall.ui.activity.CategoryActivity");
+				ActivitiyInfoManager
+						.finishActivity("com.plmt.boommall.ui.activity.GoodsListActivity");
 
-				}
-
+				finish();
+				HomeActivity.setTab(HomeActivity.TAB_CART);
 				break;
 			}
 			case CartLogic.CART_ADD_FAIL: {
-				Toast.makeText(mContext, R.string.login_fail,
-						Toast.LENGTH_SHORT).show();
+				if (null != msg.obj) {
+					Toast.makeText(mContext, R.string.cart_add_fail,
+							Toast.LENGTH_SHORT).show();
+				}
+
 				break;
 			}
 			case CartLogic.CART_ADD_EXCEPTION: {
@@ -198,7 +207,10 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			default:
 				break;
 			}
-			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
 		}
 
 	};
@@ -318,9 +330,10 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		case R.id.goods_detail_cart_ll: {
 			if (!TextUtils.isEmpty(mNowAction)
 					&& ORIGIN_FROM_CATE_ACTION.equals(mNowAction)) {
-				CartLogic.add(mContext, mCartHandler, mGoods.getId(), String.valueOf(mCartNum));
-				finish();
-				HomeActivity.setTab(HomeActivity.TAB_CART);
+				mProgressDialog = new CustomProgressDialog(mContext);
+				mProgressDialog.show();
+				CartLogic.add(mContext, mCartHandler, mGoods.getId(),
+						String.valueOf(mCartNum));
 			}
 			break;
 		}

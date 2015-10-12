@@ -3,7 +3,6 @@ package com.plmt.boommall.network.logic;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +15,6 @@ import android.util.Log;
 
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.entity.Order;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;
@@ -134,7 +132,7 @@ public class CartLogic {
 						public void onResponse(JSONObject response) {
 							if (null != response) {
 								Log.e("xxx_cart_add", response.toString());
-								// parseListData(response, handler);
+								parseAddData(response, handler);
 							}
 
 						}
@@ -150,6 +148,24 @@ public class CartLogic {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private static void parseAddData(JSONObject response, Handler handler) {
+
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				handler.sendEmptyMessage(CART_ADD_SUC);
+			} else {
+				String msgStr = response.getString("msg").trim();
+				Message message = new Message();
+				message.what = CART_ADD_FAIL;
+				message.obj = msgStr;
+				handler.sendMessage(message);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(CART_ADD_EXCEPTION);
 		}
 	}
 

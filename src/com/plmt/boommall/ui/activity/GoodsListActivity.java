@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
@@ -39,6 +38,7 @@ import com.plmt.boommall.ui.utils.MyItemClickListener;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.gridview.paging.PagingGridView;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
+import com.plmt.boommall.utils.ActivitiyInfoManager;
 
 public class GoodsListActivity extends Activity implements OnClickListener,
 		MyItemClickListener, XListView.IXListViewListener {
@@ -121,6 +121,13 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.goods_list);
 		mContext = GoodsListActivity.this;
+		if (!ActivitiyInfoManager.activitityMap
+				.containsKey(ActivitiyInfoManager
+						.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap
+					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
+							this);
+		}
 		initView();
 		initData();
 	}

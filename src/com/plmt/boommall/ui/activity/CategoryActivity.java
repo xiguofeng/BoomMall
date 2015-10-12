@@ -31,6 +31,7 @@ import com.plmt.boommall.ui.adapter.CategoryGvAdapter;
 import com.plmt.boommall.ui.adapter.TopCategoryAdapter;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.gridview.GridViewWithHeaderAndFooter;
+import com.plmt.boommall.utils.ActivitiyInfoManager;
 
 public class CategoryActivity extends Activity implements OnClickListener {
 
@@ -122,6 +123,15 @@ public class CategoryActivity extends Activity implements OnClickListener {
 		mContext = CategoryActivity.this;
 		mProgressDialog = new CustomProgressDialog(mContext);
 		mProgressDialog.show();
+
+		if (!ActivitiyInfoManager.activitityMap
+				.containsKey(ActivitiyInfoManager
+						.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap
+					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
+							this);
+		}
+		
 		initView();
 		initData();
 	}

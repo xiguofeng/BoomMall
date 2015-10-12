@@ -48,42 +48,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private PreOrder mPreOrder;
 
 	private String mOrderId;
-	
+
 	private CustomProgressDialog mProgressDialog;
-
-	private Handler mAddressHandler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case AddressLogic.ANDRESS_LIST_GET_SUC: {
-				if (null != msg.obj) {
-					ArrayList<Address> addresslist = new ArrayList<>();
-					addresslist.addAll((Collection<? extends Address>) msg.obj);
-					mAddress = addresslist.get(0);
-					fillUpAddressData(mAddress);
-				}
-				break;
-			}
-			case AddressLogic.ANDRESS_LIST_GET_FAIL: {
-
-				break;
-			}
-			case AddressLogic.ANDRESS_LIST_GET_EXCEPTION: {
-
-				break;
-			}
-			case AddressLogic.NET_ERROR: {
-
-				break;
-			}
-			default:
-				break;
-			}
-			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-		}
-
-	};
 
 	private Handler mOrderPreHandler = new Handler() {
 
@@ -127,7 +93,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					mOrderId = (String) msg.obj;
 					mProgressDialog = new CustomProgressDialog(mContext);
 					mProgressDialog.show();
-					OrderLogic.getOrderPayInfo(mContext, mOrderPayInfoHandler, mOrderId);
+					OrderLogic.getOrderPayInfo(mContext, mOrderPayInfoHandler,
+							mOrderId);
 				}
 				break;
 			}
@@ -153,8 +120,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 
 	};
-	
-	private Handler mOrderPayInfoHandler = new Handler(){
+
+	private Handler mOrderPayInfoHandler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
@@ -189,7 +156,6 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 
 	};
-	
 
 	private Handler mAlipayHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -214,11 +180,13 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					// 判断resultStatus 为非“9000”则代表可能支付失败
 					// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
 					if (TextUtils.equals(resultStatus, "8000")) {
-						Toast.makeText(mContext, "支付结果确认中", Toast.LENGTH_SHORT).show();
+						Toast.makeText(mContext, "支付结果确认中", Toast.LENGTH_SHORT)
+								.show();
 
 					} else {
 						// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-						Toast.makeText(mContext, "支付失败", Toast.LENGTH_SHORT).show();
+						Toast.makeText(mContext, "支付失败", Toast.LENGTH_SHORT)
+								.show();
 
 					}
 				}
@@ -249,12 +217,15 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private void initView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.create_order_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
+				.findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(), "Fetching Data", Toast.LENGTH_SHORT).show();
+						mMultiStateView
+								.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(),
+								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
 		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
@@ -275,12 +246,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-		// fetchAddressData();
 		OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
-	}
-
-	private void fetchAddressData() {
-		AddressLogic.getList(mContext, mAddressHandler);
 	}
 
 	private void fillUpAddressData(Address address) {
@@ -302,7 +268,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		if (TextUtils.isEmpty(mOrderId)) {
 			alipayMerchant.setOrderId("id900033888499933sh");
 		}
-		apAlipayApi.pay(CreateOrderActivity.this, mAlipayHandler, alipayMerchant);
+		apAlipayApi.pay(CreateOrderActivity.this, mAlipayHandler,
+				alipayMerchant);
 	}
 
 	private void PayByAliInLoc(AlipayMerchant alipayMerchant) {
@@ -311,9 +278,12 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		alipayMerchant.setProductName("201");
 		alipayMerchant.setProductDescription("旺铺商城201");
 		alipayMerchant.setOrderId("id900033888499933sh");
-		alipayMerchant.setPartnerId(com.plmt.boommall.pay.alipay.Constants.PARTNER);
-		alipayMerchant.setSellerAccount(com.plmt.boommall.pay.alipay.Constants.SELLER);
-		apAlipayApi.pay(CreateOrderActivity.this, mAlipayHandler, alipayMerchant);
+		alipayMerchant
+				.setPartnerId(com.plmt.boommall.pay.alipay.Constants.PARTNER);
+		alipayMerchant
+				.setSellerAccount(com.plmt.boommall.pay.alipay.Constants.SELLER);
+		apAlipayApi.pay(CreateOrderActivity.this, mAlipayHandler,
+				alipayMerchant);
 	}
 
 	@Override
@@ -344,7 +314,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			break;
 		}
 		case R.id.create_order_address_ll: {
-			Intent intent = new Intent(CreateOrderActivity.this, AddressListActivity.class);
+			Intent intent = new Intent(CreateOrderActivity.this,
+					AddressListActivity.class);
 			startActivityForResult(intent, 500);
 			break;
 		}

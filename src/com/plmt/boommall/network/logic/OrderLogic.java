@@ -171,14 +171,14 @@ public class OrderLogic {
 	}
 
 	public static void getOrderPayInfo(final Context context,
-			final Handler handler,final String orderId) {
+			final Handler handler, final String orderId) {
 		JSONObject requestJson = new JSONObject();
 		try {
 			Log.e("xxx_getOrderPayInfo", "start");
-			requestJson
-					.put("order_id", URLEncoder.encode(orderId, "UTF-8"));
+			requestJson.put("order_id", URLEncoder.encode(orderId, "UTF-8"));
 
-			String url = RequestUrl.HOST_PAY_URL + RequestUrl.order.getOrderPayInfo;
+			String url = RequestUrl.HOST_PAY_URL
+					+ RequestUrl.order.getOrderPayInfo;
 
 			Log.e("xxx_getOrderPayInfo", url);
 			Log.e("xxx_getOrderPayInfo_orderId", orderId);
@@ -318,6 +318,8 @@ public class OrderLogic {
 				preOrder.setTotal(dataJsonObject.getString("total"));
 				preOrder.getGoodsList().addAll(goodsArrayList);
 				preOrder.getPayMoneyList().addAll(payMoneyArrayList);
+
+				Log.e("xxx_parseOrderPreInfo_suc", "");
 
 				Message message = new Message();
 				message.what = ORDER_PRE_INFO_GET_SUC;
