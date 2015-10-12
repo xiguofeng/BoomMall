@@ -13,6 +13,7 @@ import com.plmt.boommall.pay.AlipayMerchant;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 public class AlipayApi {
 
@@ -32,9 +33,11 @@ public class AlipayApi {
 			final AlipayMerchant alipayMerchant) {
 		// 订单
 		String orderInfo = getOrderInfo(alipayMerchant.getPartnerId(),
-				alipayMerchant.getSellerAccount(), alipayMerchant.getOrderId(), alipayMerchant.getProductName(),alipayMerchant.getProductDescription(),
-				alipayMerchant.getAmount(),
-				alipayMerchant.getNotifyUrl(), getOutTradeNo());
+				alipayMerchant.getSellerAccount(), alipayMerchant.getOrderId(),
+				alipayMerchant.getProductName(),
+				alipayMerchant.getProductDescription(),
+				alipayMerchant.getAmount(), alipayMerchant.getNotifyUrl(),
+				alipayMerchant.getOutTradeNo());
 
 		// 对订单做RSA 签名
 		String sign = sign(orderInfo, alipayMerchant.getPrivateKey());
@@ -110,8 +113,9 @@ public class AlipayApi {
 	 * create the order info. 创建订单信息
 	 * 
 	 */
-	public String getOrderInfo(String partner, String sellerId, String orderId,String subject,
-			String body, String price, String notifyUrl, String tradeNo) {
+	public String getOrderInfo(String partner, String sellerId, String orderId,
+			String subject, String body, String price, String notifyUrl,
+			String tradeNo) {
 		// 签约合作者身份ID
 		String orderInfo = "partner=" + "\"" + partner + "\"";
 
