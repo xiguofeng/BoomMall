@@ -99,6 +99,8 @@
     <string name="to_settlement">去结算</string>
     <string name="cart_add_suc">加入购物车成功！</string>
     <string name="cart_add_fail">加入购物车失败！</string>
+    <string name="editor">编辑</string>
+    <string name="complete">完成</string>
 
     <!-- 头像 -->
     <string name="set_head">上传图片</string>

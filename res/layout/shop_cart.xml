@@ -35,15 +35,15 @@
                 android:textSize="@dimen/large_text_size" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/topic_back_iv"
+        <TextView
+            android:id="@+id/shop_cart_modify_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:contentDescription="@null"
-            android:padding="8dip"
-            android:src="@drawable/back_selector"
-            android:visibility="gone" />
+            android:textColor="@color/white"
+            android:layout_alignParentRight="true"
+            android:text="@string/editor"
+            android:padding="3dip"
+            android:textSize="@dimen/middle_text_size" />
     </RelativeLayout>
 
     <com.plmt.boommall.ui.view.MultiStateView
@@ -65,9 +65,21 @@
             android:textColor="@color/gray_character"
             android:textSize="@dimen/middle_text_size"
             android:visibility="gone" />
+        
+         <ListView
+            android:id="@+id/shop_cart_order_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:cacheColorHint="#00000000"
+            android:divider="@null"
+            android:dividerHeight="1dip"
+            android:fastScrollEnabled="false"
+            android:focusable="true"
+            android:scrollbars="none" />
 
         <com.plmt.boommall.ui.view.listview.SwipeMenuListView
-            android:id="@+id/shop_cart_order_lv"
+            android:id="@+id/shop_cart_order_slv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"

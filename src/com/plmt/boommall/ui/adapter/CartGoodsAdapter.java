@@ -9,6 +9,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.ui.activity.HomeActivity;
+import com.plmt.boommall.ui.activity.ShopCartActivity;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
 
 import android.content.Context;
@@ -28,6 +29,8 @@ import android.widget.TextView;
 public class CartGoodsAdapter extends BaseAdapter {
 
 	private Context mContext;
+	
+	private String mNowMode;
 
 	private ArrayList<Goods> mDatas;
 
@@ -96,6 +99,12 @@ public class CartGoodsAdapter extends BaseAdapter {
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
+		}
+		
+		if(mNowMode.equals(ShopCartActivity.EDITOR_MODE)){
+			
+		}else{
+			
 		}
 
 		holder.mName.setText(mDatas.get(position).getName());
@@ -188,6 +197,14 @@ public class CartGoodsAdapter extends BaseAdapter {
 		public ImageView mIcon;
 	}
 
+	public String getmNowMode() {
+		return mNowMode;
+	}
+
+	public void setmNowMode(String mNowMode) {
+		this.mNowMode = mNowMode;
+	}
+	
 	public static HashMap<Integer, Boolean> getmIsSelected() {
 		return mIsSelected;
 	}
