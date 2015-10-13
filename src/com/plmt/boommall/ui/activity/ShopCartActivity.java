@@ -184,6 +184,7 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 
 		mSMGoodsLv = (SwipeMenuListView) findViewById(R.id.shop_cart_order_slv);
 		mGoodsAdapter = new CartGoodsAdapter(mContext, mGoodsList, this);
+		mGoodsAdapter.setmNowMode(COMPLETE_MODE);
 		mSMGoodsLv.setAdapter(mGoodsAdapter);
 
 		// step 1. create a MenuCreator

@@ -24,6 +24,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CartGoodsAdapter extends BaseAdapter {
@@ -82,19 +83,21 @@ public class CartGoodsAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.list_cart_goods_item, null);
+			convertView = mInflater.inflate(R.layout.list_shop_cart_goods_item,null);
 
 			holder = new ViewHolder();
 			holder.mName = (TextView) convertView.findViewById(R.id.cart_goods_name_tv);
 			holder.mPrice = (TextView) convertView.findViewById(R.id.cart_goods_price_tv);
 			holder.mOriginalPrice = (TextView) convertView.findViewById(R.id.cart_goods_original_prices_tv);
 
-			holder.mCheckIb = (CheckBox) convertView.findViewById(R.id.cart_goods_select_ib);
+			//holder.mCheckIb = (CheckBox) convertView.findViewById(R.id.cart_goods_select_ib);
 			holder.mAddIb = (ImageButton) convertView.findViewById(R.id.cart_goods_add_ib);
 			holder.mReduceIb = (ImageButton) convertView.findViewById(R.id.cart_goods_reduce_ib);
+			
+			holder.mCollectionLl = (LinearLayout) convertView.findViewById(R.id.cart_goods_collect_ll);
+			holder.mDelLl = (LinearLayout) convertView.findViewById(R.id.cart_goods_del_ll);
 
 			holder.mNum = (EditText) convertView.findViewById(R.id.cart_goods_count_et);
-
 			holder.mIcon = (ImageView) convertView.findViewById(R.id.cart_goods_iv);
 			convertView.setTag(holder);
 		} else {
@@ -117,24 +120,26 @@ public class CartGoodsAdapter extends BaseAdapter {
 		final View view = convertView;
 		final int whichAdd = holder.mAddIb.getId();
 		final int whichReduce = holder.mReduceIb.getId();
+		final int whichCollection = holder.mCollectionLl.getId();
+		final int whichDel = holder.mDelLl.getId();
 
 		holder.vId = tempPosition;
 
-		holder.mCheckIb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				getmIsSelected().put(tempPosition, isChecked);
-				if (!isChecked) {
-					HomeActivity.mIsCancelAll = false;
-					HomeActivity.mCheckAllIb.setChecked(false);
-				}
-				notifyDataSetChanged();
-				HomeActivity.mIsCancelAll = true;
-			}
-		});
-
-		holder.mCheckIb.setChecked(getmIsSelected().get(position));
+//		holder.mCheckIb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//
+//			@Override
+//			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//				getmIsSelected().put(tempPosition, isChecked);
+//				if (!isChecked) {
+//					HomeActivity.mIsCancelAll = false;
+//					HomeActivity.mCheckAllIb.setChecked(false);
+//				}
+//				notifyDataSetChanged();
+//				HomeActivity.mIsCancelAll = true;
+//			}
+//		});
+//
+//		holder.mCheckIb.setChecked(getmIsSelected().get(position));
 		holder.mAddIb.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -173,6 +178,20 @@ public class CartGoodsAdapter extends BaseAdapter {
 				// }
 			}
 		});
+		holder.mCollectionLl.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				mCallback.onClick(view, v, tempPosition, whichCollection);
+			}
+		});
+		holder.mDelLl.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				mCallback.onClick(view, v, tempPosition, whichDel);
+			}
+		});
 		return convertView;
 	}
 
@@ -186,7 +205,7 @@ public class CartGoodsAdapter extends BaseAdapter {
 
 		public TextView mOriginalPrice;
 
-		public CheckBox mCheckIb;
+		//public CheckBox mCheckIb;
 
 		public ImageButton mAddIb;
 
@@ -195,6 +214,10 @@ public class CartGoodsAdapter extends BaseAdapter {
 		public EditText mNum;
 
 		public ImageView mIcon;
+		
+		public LinearLayout mCollectionLl;
+
+		public LinearLayout mDelLl;
 	}
 
 	public String getmNowMode() {
