@@ -119,18 +119,30 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.plmt.boommall.ui.activity.TouchImageViewActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.plmt.boommall.utils.cropimage.CropImage"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.plmt.boommall.ui.activity.TouchImageViewActivity"
+            android:name="com.plmt.boommall.ui.activity.HtmlSourceActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
-        
+        <activity
+            android:name="com.plmt.boommall.ui.activity.Html5Activity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+
         <!-- alipay sdk begin -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Ads;
+import com.plmt.boommall.ui.activity.Html5Activity;
+import com.plmt.boommall.ui.activity.HtmlSourceActivity;
 
 public class BannerAdapter extends BaseAdapter {
 
@@ -84,17 +88,17 @@ public class BannerAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				int index = position % 3;
+
+				// 在这里可以设置跳转界面
+				Intent intent = new Intent(mContext, Html5Activity.class);
+				// Bundle bundle = new Bundle();
+				// bundle.putString("jumpToUrl",
+				// mDatas.get(index).getJumpToUrl());
+				// intent.putExtras(bundle);
+				mContext.startActivity(intent);
+
 				if (null != mDatas.get(index).getId()
 						&& !"".equals(mDatas.get(index).getId())) {
-
-					// 在这里可以设置跳转界面
-					// Intent intent = new Intent(mContext,
-					// SpecialEventsActivity.class);
-					// Bundle bundle = new Bundle();
-					// bundle.putString("jumpToUrl",
-					// mDatas.get(index).getJumpToUrl());
-					// intent.putExtras(bundle);
-					// mContext.startActivity(intent);
 				}
 			}
 		});
