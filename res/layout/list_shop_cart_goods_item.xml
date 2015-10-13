@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/white"
-    android:descendantFocusability="blocksDescendants"
-    android:paddingBottom="5dip"
-    android:paddingTop="5dip" >
+    android:descendantFocusability="blocksDescendants" >
 
     <RelativeLayout
         android:id="@+id/top_relative"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center" >
 
         <ImageView
@@ -26,7 +24,8 @@
         <LinearLayout
             android:id="@+id/cart_goods_collect_del_ll"
             android:layout_width="wrap_content"
-            android:layout_height="81dip"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:orientation="horizontal" >
 
@@ -72,6 +71,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="5dip"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/cart_goods_collect_del_ll"
             android:layout_toRightOf="@+id/cart_goods_iv"
             android:orientation="vertical" >

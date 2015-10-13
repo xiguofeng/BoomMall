@@ -260,6 +260,8 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 
 	private void initData() {
 		mGoodsList.clear();
+		mGoodsAdapter.setmNowMode(COMPLETE_MODE);
+		mGoodsAdapter.notifyDataSetChanged();
 		getCartList();
 		HomeActivity.setCartMenuShow(true);
 	}
