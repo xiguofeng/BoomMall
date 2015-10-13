@@ -5,61 +5,92 @@
     android:background="@color/gray_bg"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/search_top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:background="@color/gray_search_bg"
         android:gravity="center_vertical"
+        android:paddingTop="5dip"
+        android:paddingBottom="5dip"
         android:orientation="horizontal" >
 
-        <com.plmt.boommall.ui.view.AutoClearEditText
-            android:id="@+id/search_et"
-            android:layout_width="0dp"
+        <ImageView
+            android:id="@+id/search_back_iv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginLeft="10dip"
-            android:layout_marginTop="5dip"
-            android:layout_weight="1"
-            android:background="@drawable/corners_bg_gray"
-            android:focusable="true"
-            android:hint="@string/search_hint"
-            android:padding="10dip"
-            android:singleLine="true"
-            android:textColor="@color/gray_divide_line"
-            android:textSize="@dimen/small_text_size" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/back_selector" />
 
         <TextView
             android:id="@+id/search_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:paddingBottom="5dip"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="5dip"
             android:text="@string/search"
-            android:textColor="@color/gray_character"
-            android:textSize="@dimen/medium_text_size" />
-    </LinearLayout>
+            android:textColor="@color/black"
+            android:textSize="@dimen/middle_text_size" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/search_tv"
+            android:layout_toRightOf="@id/search_back_iv"
+            android:background="@drawable/corners_bg_gray" >
+
+            <ImageView
+                android:id="@+id/search_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dip"
+                android:scaleType="centerCrop"
+                android:src="@drawable/search" />
+
+            <com.plmt.boommall.ui.view.AutoClearEditText
+                android:id="@+id/search_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@null"
+                android:focusable="true"
+                android:hint="@string/search_hint"
+                android:padding="10dip"
+                android:singleLine="true"
+                android:textColor="@color/gray_divide_line"
+                android:textSize="@dimen/small_text_size" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/search_tag_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dip"
+        android:layout_marginTop="15dip"
         android:paddingBottom="5dip"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="5dip"
         android:text="@string/search_history"
-        android:textColor="@color/gray_character"
+        android:textColor="@color/black"
         android:textSize="@dimen/middle_text_size" />
 
     <ListView
         android:id="@+id/sellers_lv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:visibility="gone" >
     </ListView>
 
     <ListView
@@ -67,7 +98,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:cacheColorHint="#00000000"
         android:dividerHeight="0.5dip"
         android:fastScrollEnabled="false"
         android:focusable="true"

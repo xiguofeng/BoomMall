@@ -118,9 +118,9 @@ public class SearchActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		CacheManager.setSearchHistroy(mContext);
 		mSearchHistoryList.clear();
 		mSearchHistoryList.addAll(CacheManager.sSearchHistroyList);
-		Log.e("xxx_searchHistory", "" + mSearchHistoryList.size());
 		mSimpleAdapter.notifyDataSetChanged();
 	}
 
@@ -234,6 +234,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.search_tv: {
 			mSearchKey = mSearchGoodsEt.getText().toString().trim();
+			CacheManager.addSearchHistroy(getApplicationContext(), mSearchKey);
 			if ("".equals(mSearchKey)) {
 				Toast.makeText(
 						mContext,
@@ -241,7 +242,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 								.getString(R.string.search_thing),
 						Toast.LENGTH_SHORT).show();
 			} else {
-				getGoodsData(mSearchKey);
+				//getGoodsData(mSearchKey);
 			}
 			break;
 		}
