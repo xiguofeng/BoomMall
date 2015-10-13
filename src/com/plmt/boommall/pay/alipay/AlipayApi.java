@@ -39,6 +39,8 @@ public class AlipayApi {
 				alipayMerchant.getAmount(), alipayMerchant.getNotifyUrl(),
 				alipayMerchant.getOutTradeNo());
 
+		Log.e("xxx_alipay", orderInfo);
+
 		// 对订单做RSA 签名
 		String sign = sign(orderInfo, alipayMerchant.getPrivateKey());
 		try {

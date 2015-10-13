@@ -265,6 +265,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private void PayByAli(AlipayMerchant alipayMerchant) {
 		AlipayApi apAlipayApi = new AlipayApi();
 		alipayMerchant.setAmount("0.01");
+		alipayMerchant.setOrderId(mOrderId);
 		if (TextUtils.isEmpty(mOrderId)) {
 			alipayMerchant.setOrderId("id900033888499933sh");
 		}
