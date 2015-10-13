@@ -35,8 +35,8 @@
                 android:layout_width="40dip"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:gravity="center"
                 android:background="@color/orange_bg"
+                android:gravity="center"
                 android:orientation="horizontal" >
 
                 <ImageView
@@ -121,6 +121,17 @@
                         android:textSize="@dimen/small_text_size" />
                 </RelativeLayout>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/cart_goods_count_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:maxLines="1"
+                android:text="299"
+                android:layout_marginTop="6dip"
+                android:textColor="@color/gray_character"
+                android:textSize="@dimen/small_text_size" />
 
             <LinearLayout
                 android:id="@+id/right_bottom_rl"

@@ -89,6 +89,8 @@ public class CartGoodsAdapter extends BaseAdapter {
 			holder.mName = (TextView) convertView.findViewById(R.id.cart_goods_name_tv);
 			holder.mPrice = (TextView) convertView.findViewById(R.id.cart_goods_price_tv);
 			holder.mOriginalPrice = (TextView) convertView.findViewById(R.id.cart_goods_original_prices_tv);
+			
+			holder.mCount = (TextView) convertView.findViewById(R.id.cart_goods_count_tv);
 
 			//holder.mCheckIb = (CheckBox) convertView.findViewById(R.id.cart_goods_select_ib);
 			holder.mAddIb = (ImageButton) convertView.findViewById(R.id.cart_goods_add_ib);
@@ -96,6 +98,8 @@ public class CartGoodsAdapter extends BaseAdapter {
 			
 			holder.mCollectionLl = (LinearLayout) convertView.findViewById(R.id.cart_goods_collect_ll);
 			holder.mDelLl = (LinearLayout) convertView.findViewById(R.id.cart_goods_del_ll);
+			holder.mCollectionAndDelLl= (LinearLayout) convertView.findViewById(R.id.cart_goods_collect_del_ll);
+			holder.mUpdateCountLl= (LinearLayout) convertView.findViewById(R.id.right_bottom_rl);
 
 			holder.mNum = (EditText) convertView.findViewById(R.id.cart_goods_count_et);
 			holder.mIcon = (ImageView) convertView.findViewById(R.id.cart_goods_iv);
@@ -104,16 +108,22 @@ public class CartGoodsAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
+		holder.mCollectionAndDelLl.setVisibility(View.GONE);
+		holder.mUpdateCountLl.setVisibility(View.GONE);
+		holder.mCount.setVisibility(View.GONE);
 		if(mNowMode.equals(ShopCartActivity.EDITOR_MODE)){
-			
+			holder.mCollectionAndDelLl.setVisibility(View.VISIBLE);
+			holder.mUpdateCountLl.setVisibility(View.VISIBLE);
 		}else{
-			
+			holder.mCount.setVisibility(View.VISIBLE);
 		}
 
 		holder.mName.setText(mDatas.get(position).getName());
 		holder.mPrice.setText("￥" + mDatas.get(position).getFinalPrice());
 		holder.mOriginalPrice.setText("原价￥" + mDatas.get(position).getPrice());
 		holder.mNum.setText(mDatas.get(position).getNum());
+		holder.mCount.setText("数量："+mDatas.get(position).getNum());
+		
 		ImageLoader.getInstance().displayImage(mDatas.get(position).getImage(), holder.mIcon);
 
 		final int tempPosition = position;
@@ -204,6 +214,8 @@ public class CartGoodsAdapter extends BaseAdapter {
 		public TextView mPrice;
 
 		public TextView mOriginalPrice;
+		
+		public TextView mCount;
 
 		//public CheckBox mCheckIb;
 
@@ -215,9 +227,13 @@ public class CartGoodsAdapter extends BaseAdapter {
 
 		public ImageView mIcon;
 		
+		public LinearLayout mCollectionAndDelLl;
+		
 		public LinearLayout mCollectionLl;
 
 		public LinearLayout mDelLl;
+		
+		public LinearLayout mUpdateCountLl;
 	}
 
 	public String getmNowMode() {
