@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
+import com.plmt.boommall.config.Constants;
 import com.plmt.boommall.entity.Ads;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.CartLogic;
@@ -61,24 +62,6 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private TextView mGoodsPriceTv;
 
-	private TextView mGoodsOrgPriceTv;
-
-	private TextView mGoodsProductAreaTv;
-
-	private TextView mGoodsFactoryTv;
-
-	private TextView mGoodsBrandTv;
-
-	private TextView mGoodsJHLTv;
-
-	private TextView mGoodsDegreeTv;
-
-	private TextView mGoodsScentTv;
-
-	private TextView mGoodsMaterialTv;
-
-	private TextView mGoodsBriefTv;
-
 	public EditText mNum;
 
 	private LinearLayout mCollectionLl;
@@ -94,6 +77,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	private Button mAddCartBtn;
 
 	private ImageView mBackIv;
+
+	private ImageView mShareIv;
 
 	private ImageView mCollectionIv;
 
@@ -252,6 +237,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				});
 		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
 		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+
 		initCircleimage();
 
 		mCollectionLl = (LinearLayout) findViewById(R.id.goods_detail_collection_ll);
@@ -259,8 +245,10 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		mCollectionLl.setOnClickListener(this);
 		mCartLl.setOnClickListener(this);
 
+		mShareIv = (ImageView) findViewById(R.id.goods_detail_share_iv);
 		mBackIv = (ImageView) findViewById(R.id.goods_detail_back_iv);
 		mCartIv = (ImageView) findViewById(R.id.goods_detail_cart_iv);
+		mShareIv.setOnClickListener(this);
 		mCollectionIv = (ImageView) findViewById(R.id.goods_detail_collection_iv);
 		mBackIv.setOnClickListener(this);
 
@@ -379,6 +367,20 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 					R.anim.push_right_out);
 			break;
 		}
+		case R.id.goods_detail_share_iv: {
+			String title = "旺铺商城分享";
+			if (null != mGoods) {
+				title = mGoods.getName();
+			}
+			startActivity(Intent.createChooser(
+					new Intent(Intent.ACTION_SEND)
+							.putExtra(Intent.EXTRA_SUBJECT, title)
+							.putExtra(Intent.EXTRA_TEXT, title)
+							.setType(Constants.MIMETYPE_TEXT_PLAIN),
+					getString(R.string.menu_share)));
+			break;
+		}
+
 		default:
 			break;
 		}

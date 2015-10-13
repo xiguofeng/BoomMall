@@ -11,6 +11,7 @@
     <string name="msg">消息</string>
     <string name="setting">设置</string>
     <string name="my">我的</string>
+    <string name="menu_share">分享</string>
 
     <!-- loading -->
     <string name="loading">加载&#8230;</string>
