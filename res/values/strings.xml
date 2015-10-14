@@ -101,6 +101,7 @@
     <string name="cart_add_fail">加入购物车失败！</string>
     <string name="editor">编辑</string>
     <string name="complete">完成</string>
+    <string name="see_after_login">登陆后查看</string>
 
     <!-- 头像 -->
     <string name="set_head">上传图片</string>

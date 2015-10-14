@@ -39,10 +39,10 @@
             android:id="@+id/shop_cart_modify_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:layout_alignParentRight="true"
-            android:text="@string/editor"
             android:padding="3dip"
+            android:text="@string/editor"
+            android:textColor="@color/white"
             android:textSize="@dimen/middle_text_size" />
     </RelativeLayout>
 
@@ -55,18 +55,61 @@
         app:msv_loadingView="@layout/loading_view"
         app:msv_viewState="content" >
 
-        <TextView
-            android:id="@+id/shop_cart_null_tv"
+        <LinearLayout
+            android:id="@+id/shop_cart_null_and_not_login_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="100dip"
-            android:text="@string/cart_no_hint"
-            android:textColor="@color/gray_character"
-            android:textSize="@dimen/middle_text_size"
-            android:visibility="gone" />
-        
-         <ListView
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/shop_cart_null_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/cart_no_hint"
+                android:textColor="@color/black_character"
+                android:textSize="@dimen/middle_text_size"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/shop_cart_not_login_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/shop_cart_login_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/see_after_login"
+                    android:textColor="@color/gray_character"
+                    android:textSize="@dimen/small_text_size" />
+
+                <Button
+                    android:id="@+id/shop_cart_login_btn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:background="@drawable/corners_bg_red_all"
+                    android:gravity="center"
+                    android:paddingBottom="5dip"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="5dip"
+                    android:text="@string/login"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/micro_small_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ListView
             android:id="@+id/shop_cart_order_lv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -88,8 +131,8 @@
             android:dividerHeight="15dip"
             android:fastScrollEnabled="false"
             android:focusable="true"
-            android:visibility="gone"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            android:visibility="gone" />
     </com.plmt.boommall.ui.view.MultiStateView>
 
 </LinearLayout>

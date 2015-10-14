@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.CartLogic;
 import com.plmt.boommall.ui.adapter.CartGoodsAdapter;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.listview.SwipeMenu;
 import com.plmt.boommall.ui.view.listview.SwipeMenuCreator;
@@ -35,7 +38,8 @@ import com.plmt.boommall.ui.view.listview.SwipeMenuListView;
 import com.plmt.boommall.utils.CartManager;
 import com.plmt.boommall.utils.UserInfoManager;
 
-public class ShopCartActivity extends Activity implements OnClickListener, ListItemClickHelp {
+public class ShopCartActivity extends Activity implements OnClickListener,
+		ListItemClickHelp {
 
 	private Context mContext;
 
@@ -49,7 +53,10 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 
 	private TextView mTotalNumTv;
 
+	public static LinearLayout mCartNullLl;
+	public static LinearLayout mCartNotLoginLl;
 	public static TextView mCartNullTv;
+	public static Button mCartLoginBtn;
 
 	private TextView mEditorTv;
 
@@ -59,6 +66,11 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 	private ListView mGoodsLv;
 	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
 	private static CartGoodsAdapter mGoodsAdapter;
+
+	private ArrayList<Goods> mGoodsDelList = new ArrayList<Goods>();
+	private ArrayList<Goods> mGoodsUpdateList = new ArrayList<Goods>();
+
+	private CustomProgressDialog mProgressDialog;
 
 	Handler mHandler = new Handler() {
 
@@ -70,8 +82,6 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 				if (null != msg.obj) {
 					mGoodsList.clear();
 					mGoodsList.addAll((Collection<? extends Goods>) msg.obj);
-					mGoodsAdapter.initChecked();
-					mGoodsAdapter.notifyDataSetChanged();
 					refresh();
 				}
 
@@ -119,7 +129,8 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 				break;
 			}
 			case CartLogic.CART_ADD_FAIL: {
-				Toast.makeText(mContext, R.string.login_fail, Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, R.string.login_fail,
+						Toast.LENGTH_SHORT).show();
 				break;
 			}
 			case CartLogic.CART_ADD_EXCEPTION: {
@@ -132,7 +143,10 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 			default:
 				break;
 			}
-			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+			// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
 		}
 
 	};
@@ -152,6 +166,16 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 	}
 
 	private void initView() {
+		mTotalNumTv = (TextView) findViewById(R.id.shop_cart_total_num_tv);
+		mCartNullTv = (TextView) findViewById(R.id.shop_cart_null_tv);
+		mEditorTv = (TextView) findViewById(R.id.shop_cart_modify_tv);
+		mEditorTv.setOnClickListener(this);
+
+		mCartNullLl = (LinearLayout) findViewById(R.id.shop_cart_null_and_not_login_ll);
+		mCartNotLoginLl = (LinearLayout) findViewById(R.id.shop_cart_not_login_ll);
+		mCartLoginBtn = (Button) findViewById(R.id.shop_cart_login_btn);
+		mCartLoginBtn.setOnClickListener(this);
+
 		initMultiStateView();
 		initListView();
 		mCartNullTv.setVisibility(View.VISIBLE);
@@ -159,23 +183,22 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 
 	private void initMultiStateView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.shop_cart_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
+				.findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(), "Fetching Data", Toast.LENGTH_SHORT).show();
+						mMultiStateView
+								.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(),
+								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
-		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
-		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+
 	}
 
 	private void initListView() {
-		mTotalNumTv = (TextView) findViewById(R.id.shop_cart_total_num_tv);
-		mCartNullTv = (TextView) findViewById(R.id.shop_cart_null_tv);
-		mEditorTv = (TextView) findViewById(R.id.shop_cart_modify_tv);
-		mEditorTv.setOnClickListener(this);
 
 		mSMGoodsLv = (SwipeMenuListView) findViewById(R.id.shop_cart_order_slv);
 		mGoodsAdapter = new CartGoodsAdapter(mContext, mGoodsList, this);
@@ -189,9 +212,11 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 			public void create(SwipeMenu menu) {
 
 				// create "delete" item
-				SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
+				SwipeMenuItem deleteItem = new SwipeMenuItem(
+						getApplicationContext());
 				// set item background
-				deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+				deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+						0x3F, 0x25)));
 				// set item width
 				deleteItem.setWidth(dp2px(60));
 				// set a icon
@@ -204,46 +229,50 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 		mSMGoodsLv.setMenuCreator(creator);
 
 		// step 2. listener item click event
-		mSMGoodsLv.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-			@Override
-			public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-				switch (index) {
-				case 0:
-					CartLogic.del(mContext, mHandler, mGoodsList.get(position).getScid());
-					// mGoodsList.remove(position);
-					// CartManager.cartRemove(position);
-					// // del
-					// for (int i = 0; i < mGoodsList.size(); i++) {
-					// if (i < position) {
-					// mGoodsAdapter.getmIsSelected().put(i,
-					// mGoodsAdapter.getmIsSelected().get(i));
-					//
-					// } else {
-					// mGoodsAdapter.getmIsSelected().put(i,
-					// mGoodsAdapter.getmIsSelected().get(i + 1));
-					// }
-					//
-					// }
-					// mGoodsAdapter.getmIsSelected()
-					// .remove(mGoodsList.size() + 1);
-					// mGoodsAdapter.notifyDataSetChanged();
-					//
-					// mCartNullTv.setVisibility(View.VISIBLE);
-					// if (CartManager.getsCartList().size() > 0) {
-					// mCartNullTv.setVisibility(View.GONE);
-					// }
+		mSMGoodsLv
+				.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+					@Override
+					public boolean onMenuItemClick(int position,
+							SwipeMenu menu, int index) {
+						switch (index) {
+						case 0:
+							CartLogic.del(mContext, mHandler,
+									mGoodsList.get(position).getScid());
+							// mGoodsList.remove(position);
+							// CartManager.cartRemove(position);
+							// // del
+							// for (int i = 0; i < mGoodsList.size(); i++) {
+							// if (i < position) {
+							// mGoodsAdapter.getmIsSelected().put(i,
+							// mGoodsAdapter.getmIsSelected().get(i));
+							//
+							// } else {
+							// mGoodsAdapter.getmIsSelected().put(i,
+							// mGoodsAdapter.getmIsSelected().get(i + 1));
+							// }
+							//
+							// }
+							// mGoodsAdapter.getmIsSelected()
+							// .remove(mGoodsList.size() + 1);
+							// mGoodsAdapter.notifyDataSetChanged();
+							//
+							// mCartNullTv.setVisibility(View.VISIBLE);
+							// if (CartManager.getsCartList().size() > 0) {
+							// mCartNullTv.setVisibility(View.GONE);
+							// }
 
-					break;
+							break;
 
-				}
-				return false;
-			}
-		});
+						}
+						return false;
+					}
+				});
 
 		mSMGoodsLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				// Intent intent = new Intent(ShopCartActivity.this,
 				// GoodsDetailActivity.class);
 				// Bundle bundle = new Bundle();
@@ -259,7 +288,6 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 	}
 
 	private void initData() {
-		mGoodsList.clear();
 		mGoodsAdapter.setmNowMode(COMPLETE_MODE);
 		mGoodsAdapter.notifyDataSetChanged();
 		getCartList();
@@ -280,7 +308,10 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 	}
 
 	private void refresh() {
+		mCartNotLoginLl.setVisibility(View.GONE);
+
 		if (mGoodsList.size() > 0) {
+			mCartNullLl.setVisibility(View.VISIBLE);
 			mCartNullTv.setVisibility(View.GONE);
 		}
 
@@ -294,22 +325,28 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 		} else {
 			// HomeActivity.mCheckAllIb.setChecked(false);
 		}
+
+		mGoodsAdapter.notifyDataSetChanged();
 		// CartManager.setCartTotalMoney();
 	}
 
 	private void getCartList() {
 		if (UserInfoManager.getLoginIn(mContext)) {
+			mCartNullLl.setVisibility(View.VISIBLE);
+			mCartNullTv.setVisibility(View.VISIBLE);
+			mCartNotLoginLl.setVisibility(View.GONE);
+			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 			CartLogic.getList(mContext, mHandler);
 		} else {
-			Intent intent = new Intent(ShopCartActivity.this, LoginActivity.class);
-			intent.setAction(LoginActivity.ORIGIN_FROM_CART_KEY);
-			startActivity(intent);
-			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			mCartNullLl.setVisibility(View.VISIBLE);
+			mCartNullTv.setVisibility(View.VISIBLE);
+			mCartNotLoginLl.setVisibility(View.VISIBLE);
 		}
 	}
 
 	private int dp2px(int dp) {
-		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+				getResources().getDisplayMetrics());
 	}
 
 	private void setCartMode() {
@@ -319,9 +356,45 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 		} else {
 			mNowMode = COMPLETE_MODE;
 			mEditorTv.setText(getString(R.string.editor));
+			modifyCart();
 		}
 		mGoodsAdapter.setmNowMode(mNowMode);
 		mGoodsAdapter.notifyDataSetChanged();
+	}
+
+	private void modifyCart() {
+		delCart();
+		updateCart();
+	}
+
+	private void updateCart() {
+		for (Goods goods : mGoodsUpdateList) {
+			mProgressDialog = new CustomProgressDialog(mContext);
+			mProgressDialog.show();
+			CartLogic.update(mContext, mHandler, goods.getScid(), "",
+					goods.getNum());
+		}
+	}
+
+	private void delCart() {
+		for (Goods goods : mGoodsDelList) {
+			mProgressDialog = new CustomProgressDialog(mContext);
+			mProgressDialog.show();
+			CartLogic.del(mContext, mHandler, goods.getScid());
+		}
+	}
+
+	private void addUpdate(Goods goods) {
+		boolean isHasGoods = false;
+		for (int i = 0; i < mGoodsUpdateList.size(); i++) {
+			if (mGoodsUpdateList.get(i).getScid().equals(goods.getScid())) {
+				mGoodsUpdateList.set(i, goods);
+				isHasGoods = true;
+			}
+		}
+		if (!isHasGoods) {
+			mGoodsUpdateList.add(goods);
+		}
 	}
 
 	@Override
@@ -329,6 +402,14 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 		switch (v.getId()) {
 		case R.id.shop_cart_modify_tv: {
 			setCartMode();
+			break;
+		}
+		case R.id.shop_cart_login_btn: {
+			Intent intent = new Intent(ShopCartActivity.this,
+					LoginActivity.class);
+			intent.setAction(LoginActivity.ORIGIN_FROM_CART_KEY);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		}
 		default:
@@ -342,15 +423,19 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 		case R.id.cart_goods_add_ib: {
 			Goods goods = mGoodsList.get(position);
 			String num = String.valueOf(Integer.parseInt(goods.getNum()) + 1);
-			CartLogic.update(mContext, mHandler, goods.getScid(), "", num);
+			goods.setNum(num);
+			addUpdate(goods);
 			break;
 		}
 		case R.id.cart_goods_reduce_ib: {
 			Goods goods = mGoodsList.get(position);
 			if (Integer.parseInt(goods.getNum()) > 1) {
-				String num = String.valueOf(Integer.parseInt(goods.getNum()) - 1);
-				CartLogic.update(mContext, mHandler, goods.getScid(), "", num);
+				String num = String
+						.valueOf(Integer.parseInt(goods.getNum()) - 1);
+				goods.setNum(num);
+				addUpdate(goods);
 			}
+
 			break;
 		}
 		case R.id.cart_goods_collect_ll: {
@@ -358,7 +443,15 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 			break;
 		}
 		case R.id.cart_goods_del_ll: {
-			//CartLogic.update(mContext, mHandler, goods.getScid(), "", num);
+			mGoodsDelList.add(mGoodsList.get(position));
+			mGoodsList.remove(position);
+			ArrayList<Goods> arrayList = new ArrayList<Goods>();
+			for (Goods goods : mGoodsList) {
+				arrayList.add(goods);
+			}
+			mGoodsList.clear();
+			mGoodsList.addAll(arrayList);
+			mGoodsAdapter.notifyDataSetChanged();
 			break;
 		}
 		default:
@@ -368,7 +461,8 @@ public class ShopCartActivity extends Activity implements OnClickListener, ListI
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 			HomeActivity.showMainByOnkey();
 			return true;
 		}
