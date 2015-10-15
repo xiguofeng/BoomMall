@@ -89,6 +89,7 @@ public class UserActivity extends Activity implements OnClickListener {
 		mMyAccountLl = (LinearLayout) findViewById(R.id.user_my_account_ll);
 		mMyAccountLl.setOnClickListener(this);
 		mUserNameTv = (TextView) findViewById(R.id.user_name_tv);
+		mUserNameTv.setOnClickListener(this);
 	}
 
 	private void intCropImage() {
@@ -232,8 +233,8 @@ public class UserActivity extends Activity implements OnClickListener {
 			break;
 		}
 		case R.id.user_my_account_ll: {
-			Intent intent = new Intent(UserActivity.this, LoginActivity.class);
-			intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
+			Intent intent = new Intent(UserActivity.this, AccountActivity.class);
+			// intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
@@ -259,6 +260,13 @@ public class UserActivity extends Activity implements OnClickListener {
 			//
 			// }
 			// }).show();
+			break;
+		}
+		case R.id.user_name_tv: {
+			Intent intent = new Intent(UserActivity.this, LoginActivity.class);
+			intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		}
 		default:

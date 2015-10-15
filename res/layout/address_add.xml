@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red_title_bg" >
+
+        <ImageView
+            android:id="@+id/address_add_input_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"
+            android:padding="8dip"
+            android:src="@drawable/back_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/address_add"
+            android:textColor="@color/white"
+            android:textSize="@dimen/large_text_size" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/address_add_input_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/address_add_input_input"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/address_add_input_consignee_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="7dip"
+                android:paddingTop="7dip" >
+
+                <TextView
+                    android:id="@+id/address_add_input_consignee_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:text="@string/consignee"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/middle_text_size" />
+
+                <EditText
+                    android:id="@+id/address_add_input_consignee_et"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/address_add_input_consignee_tv"
+                    android:background="@null"
+                    android:hint="11"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:paddingBottom="6.0dip"
+                    android:paddingTop="6.0dip"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/small_text_size" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0px"
+                android:background="#ffcfd4da" />
+
+            <RelativeLayout
+                android:id="@+id/address_add_input_contact_way_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="7dip"
+                android:paddingTop="7dip" >
+
+                <TextView
+                    android:id="@+id/address_add_input_contact_way_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:text="@string/contact_way"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/middle_text_size" />
+
+                <EditText
+                    android:id="@+id/address_add_input_contact_way_et"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/address_add_input_contact_way_tv"
+                    android:background="@null"
+                    android:hint="11"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:paddingBottom="6.0dip"
+                    android:paddingTop="6.0dip"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/small_text_size" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0px"
+                android:background="#ffcfd4da" />
+
+            <RelativeLayout
+                android:id="@+id/address_add_input_area_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="7dip"
+                android:paddingTop="7dip" >
+
+                <TextView
+                    android:id="@+id/address_add_input_area_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:text="@string/area"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/middle_text_size" />
+
+                <TextView
+                    android:id="@+id/address_add_input_area_content_tv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/address_add_input_area_tv"
+                    android:background="@null"
+                    android:hint="11"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:paddingBottom="6.0dip"
+                    android:paddingTop="6.0dip"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/small_text_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/arrow" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0px"
+                android:background="#ffcfd4da" />
+
+            <RelativeLayout
+                android:id="@+id/address_add_input_address_detail_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="7dip"
+                android:paddingTop="7dip" >
+
+                <TextView
+                    android:id="@+id/address_add_input_address_detail_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:text="@string/address_detail"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/middle_text_size" />
+
+                <TextView
+                    android:id="@+id/address_add_input_address_detail_et"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/address_add_input_address_detail_tv"
+                    android:background="@null"
+                    android:hint="11"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:paddingBottom="6.0dip"
+                    android:paddingTop="6.0dip"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/small_text_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/arrow" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/address_add_input_bottom_division_ll"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dip"
+                android:paddingTop="5dip" >
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/address_add_confirm_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="20dip"
+                android:background="@drawable/corners_bg_red_all"
+                android:gravity="center"
+                android:paddingBottom="8dip"
+                android:paddingTop="8dip"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                android:textSize="@dimen/medium_text_size" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

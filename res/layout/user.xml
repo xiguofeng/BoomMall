@@ -43,7 +43,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/user_icon_iv"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="20dip"
+                        android:layout_marginTop="30dip"
+                        android:padding="10dip"
                         android:text="登陆/注册"
                         android:textColor="@color/white" />
 

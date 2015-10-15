@@ -107,6 +107,25 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.plmt.boommall.ui.activity.AddressAddActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.plmt.boommall.ui.activity.AddressBaseActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.plmt.boommall.ui.activity.AddressAddSelectActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialogTheme" >
+        </activity>
+        <activity
             android:name="com.plmt.boommall.ui.activity.OrderListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
@@ -114,6 +133,12 @@
         </activity>
         <activity
             android:name="com.plmt.boommall.ui.activity.UserActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+         <activity
+            android:name="com.plmt.boommall.ui.activity.AccountActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
