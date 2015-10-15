@@ -8,7 +8,7 @@ public class MsgRequest {
 	/**
 	 * 列表Size
 	 */
-	public static final int PAGE_SIZE = 25;
+	public static final int PAGE_SIZE = 15;
 	
 	/**
 	 * 商品Size

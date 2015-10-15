@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.network.config.MsgRequest;
 import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.ui.adapter.GoodsAdapter;
 import com.plmt.boommall.ui.adapter.GoodsGvPagingAdaper;
@@ -69,6 +70,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	private String mCatgoryName;
 
 	private int mCurrentPage = 1;
+	private int mCurrentPageNum = 1;
 	private int mCurrentViewMode = 0;
 
 	Handler mHandler = new Handler() {
@@ -80,7 +82,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 			case GoodsLogic.GOODS_LIST_BY_KEY_GET_SUC: {
 				if (null != msg.obj) {
-					mGoodsList.clear();
+					mCurrentPageNum++;
 					mGoodsList.addAll((Collection<? extends Goods>) msg.obj);
 
 					if (mCurrentViewMode == VIEW_MODE_LIST) {
@@ -278,16 +280,17 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 	@SuppressLint("NewApi")
 	private void showViewMode(int mode) {
+		mCurrentPageNum = 1;
 		mCurrentViewMode = mode;
 		if (mode == VIEW_MODE_LIST) {
 			mViewModeIv.setImageDrawable(getResources().getDrawable(
-					R.drawable.ic_list_selector));
+					R.drawable.ic_grid_selector));
 			mGoodsGv.setVisibility(View.GONE);
 			mGoodsLv.setVisibility(View.VISIBLE);
 			mGoodsAdapter.notifyDataSetChanged();
 		} else {
 			mViewModeIv.setImageDrawable(getResources().getDrawable(
-					R.drawable.ic_grid_selector));
+					R.drawable.ic_list_selector));
 			mGoodsLv.setVisibility(View.GONE);
 			mGoodsGv.setVisibility(View.VISIBLE);
 			if (mGoodsGv.getAdapter() == null) {
@@ -301,8 +304,8 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	}
 
 	private void refreshGoods() {
-		GoodsLogic.getGoodsListByCategory(mContext, mHandler, mCatgoryName, 1,
-				1);
+		GoodsLogic.getGoodsListByCategory(mContext, mHandler, mCatgoryName,
+				mCurrentPageNum, MsgRequest.PAGE_SIZE);
 	}
 
 	private void search(String key) {

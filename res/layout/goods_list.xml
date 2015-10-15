@@ -23,7 +23,7 @@
             android:layout_centerVertical="true"
             android:padding="5dip"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_list_selector" />
+            android:src="@drawable/ic_grid_selector" />
 
         <ImageView
             android:id="@+id/goods_list_back_iv"
