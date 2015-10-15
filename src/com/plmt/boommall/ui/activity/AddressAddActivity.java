@@ -40,7 +40,7 @@ public class AddressAddActivity extends Activity implements OnClickListener {
 		mAddressDetailEt = (EditText) findViewById(R.id.address_add_input_address_detail_et);
 		mContactWayEt = (EditText) findViewById(R.id.address_add_input_contact_way_et);
 
-		mAreaTv = (EditText) findViewById(R.id.address_add_input_area_content_tv);
+		mAreaTv = (TextView) findViewById(R.id.address_add_input_area_content_tv);
 		mAreaRl = (RelativeLayout) findViewById(R.id.address_add_input_area_rl);
 		mSaveBtn = (Button) findViewById(R.id.address_add_confirm_btn);
 		mAreaRl.setOnClickListener(this);

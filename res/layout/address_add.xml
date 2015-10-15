@@ -65,13 +65,13 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/address_add_input_consignee_tv"
                     android:background="@null"
-                    android:hint="11"
+                    android:hint="@string/consignee_hint"
                     android:imeOptions="actionNext"
                     android:maxLines="1"
                     android:paddingBottom="6.0dip"
                     android:paddingTop="6.0dip"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/small_text_size" />
+                    android:textSize="@dimen/middle_text_size" />
             </RelativeLayout>
 
             <View
@@ -105,13 +105,13 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/address_add_input_contact_way_tv"
                     android:background="@null"
-                    android:hint="11"
+                    android:hint="@string/contact_way_hint"
                     android:imeOptions="actionNext"
                     android:maxLines="1"
                     android:paddingBottom="6.0dip"
                     android:paddingTop="6.0dip"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/small_text_size" />
+                    android:textSize="@dimen/middle_text_size" />
             </RelativeLayout>
 
             <View
@@ -145,13 +145,13 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/address_add_input_area_tv"
                     android:background="@null"
-                    android:hint="11"
+                    android:hint="@string/area_hint"
                     android:imeOptions="actionNext"
                     android:maxLines="1"
                     android:paddingBottom="6.0dip"
                     android:paddingTop="6.0dip"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/small_text_size" />
+                    android:textSize="@dimen/middle_text_size" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -187,27 +187,19 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/middle_text_size" />
 
-                <TextView
+                <EditText
                     android:id="@+id/address_add_input_address_detail_et"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/address_add_input_address_detail_tv"
                     android:background="@null"
-                    android:hint="11"
+                    android:hint="@string/address_detail_hint"
                     android:imeOptions="actionNext"
                     android:maxLines="1"
                     android:paddingBottom="6.0dip"
                     android:paddingTop="6.0dip"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/small_text_size" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/arrow" />
+                    android:textSize="@dimen/middle_text_size" />
             </RelativeLayout>
 
             <LinearLayout
