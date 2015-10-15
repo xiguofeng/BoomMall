@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
@@ -178,7 +179,6 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 
 		initMultiStateView();
 		initListView();
-		mCartNullTv.setVisibility(View.VISIBLE);
 	}
 
 	private void initMultiStateView() {
@@ -335,7 +335,8 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 			mCartNullLl.setVisibility(View.VISIBLE);
 			mCartNullTv.setVisibility(View.VISIBLE);
 			mCartNotLoginLl.setVisibility(View.GONE);
-			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+			mProgressDialog = new CustomProgressDialog(mContext);
+			mProgressDialog.show();
 			CartLogic.getList(mContext, mHandler);
 		} else {
 			mCartNullLl.setVisibility(View.VISIBLE);
@@ -400,6 +401,7 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		
 		case R.id.shop_cart_modify_tv: {
 			setCartMode();
 			break;
@@ -415,6 +417,8 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 		default:
 			break;
 		}
+		
+		Log.e("xxx_id", ""+v.getId());
 	}
 
 	@Override
