@@ -120,19 +120,6 @@
             android:fastScrollEnabled="false"
             android:focusable="true"
             android:scrollbars="none" />
-
-        <com.plmt.boommall.ui.view.listview.SwipeMenuListView
-            android:id="@+id/shop_cart_order_slv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:cacheColorHint="@color/gray_bg"
-            android:divider="@color/gray_bg"
-            android:dividerHeight="15dip"
-            android:fastScrollEnabled="false"
-            android:focusable="true"
-            android:scrollbars="none"
-            android:visibility="gone" />
     </com.plmt.boommall.ui.view.MultiStateView>
 
 </LinearLayout>

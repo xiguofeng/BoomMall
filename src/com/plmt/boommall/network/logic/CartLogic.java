@@ -39,13 +39,13 @@ public class CartLogic {
 
 	public static final int CART_LIST_GET_EXCEPTION = CART_LIST_GET_FAIL + 1;
 
-	public static final int CART_MODIFY_SUC = CART_LIST_GET_EXCEPTION + 1;
+	public static final int CART_UPDATE_SUC = CART_LIST_GET_EXCEPTION + 1;
 
-	public static final int CART_MODIFY_FAIL = CART_MODIFY_SUC + 1;
+	public static final int CART_UPDATE_FAIL = CART_UPDATE_SUC + 1;
 
-	public static final int CART_MODIFY_EXCEPTION = CART_MODIFY_FAIL + 1;
+	public static final int CART_UPDATE_EXCEPTION = CART_UPDATE_FAIL + 1;
 
-	public static final int CART_DEL_SUC = CART_MODIFY_EXCEPTION + 1;
+	public static final int CART_DEL_SUC = CART_UPDATE_EXCEPTION + 1;
 
 	public static final int CART_DEL_FAIL = CART_DEL_SUC + 1;
 
@@ -192,7 +192,7 @@ public class CartLogic {
 							if (null != response) {
 								Log.e("xxx_cart_update_response",
 										response.toString());
-								// parseListData(response, handler);
+								parseUpdateData(response, handler);
 							}
 
 						}
@@ -208,6 +208,20 @@ public class CartLogic {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private static void parseUpdateData(JSONObject response, Handler handler) {
+
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				handler.sendEmptyMessage(CART_UPDATE_SUC);
+			} else {
+				handler.sendEmptyMessage(CART_UPDATE_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(CART_UPDATE_EXCEPTION);
 		}
 	}
 

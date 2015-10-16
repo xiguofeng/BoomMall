@@ -139,17 +139,15 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			int what = msg.what;
 			switch (what) {
-			case CartLogic.CART_MODIFY_SUC: {
-				if (null != msg.obj) {
-				}
+			case CartLogic.CART_UPDATE_SUC: {
 
 				break;
 
 			}
-			case CartLogic.CART_MODIFY_FAIL: {
+			case CartLogic.CART_UPDATE_FAIL: {
 				break;
 			}
-			case CartLogic.CART_MODIFY_EXCEPTION: {
+			case CartLogic.CART_UPDATE_EXCEPTION: {
 				break;
 			}
 			case CartLogic.CART_DEL_SUC: {
