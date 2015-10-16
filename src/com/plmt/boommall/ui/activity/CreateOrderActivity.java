@@ -1,18 +1,6 @@
 package com.plmt.boommall.ui.activity;
 
 import java.util.ArrayList;
-import java.util.Collection;
-
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Address;
-import com.plmt.boommall.entity.PreOrder;
-import com.plmt.boommall.network.logic.AddressLogic;
-import com.plmt.boommall.network.logic.OrderLogic;
-import com.plmt.boommall.pay.AlipayMerchant;
-import com.plmt.boommall.pay.alipay.AlipayApi;
-import com.plmt.boommall.pay.alipay.PayResult;
-import com.plmt.boommall.ui.view.CustomProgressDialog;
-import com.plmt.boommall.ui.view.MultiStateView;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,14 +8,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Address;
+import com.plmt.boommall.entity.PayMoney;
+import com.plmt.boommall.entity.PreOrder;
+import com.plmt.boommall.network.logic.AddressLogic;
+import com.plmt.boommall.network.logic.OrderLogic;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
+import com.plmt.boommall.ui.view.MultiStateView;
 
 public class CreateOrderActivity extends Activity implements OnClickListener {
 	private Context mContext;
@@ -41,10 +40,17 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private TextView mAddressDetailTv;
 	private TextView mRealPayAmountTv;
 
+	private TextView mDeliveryWayTv;
+	private TextView mBmCardRemainingTv;
+
+	private EditText mInvoiceTitleEt;
+	private EditText mRemarkEt;
+
+	private CheckBox mCheckBmCardIb;
+
 	private Button mConfirmBtn;
 
 	private Address mAddress;
-
 	private PreOrder mPreOrder;
 
 	private String mOrderId;
@@ -162,11 +168,37 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mAddressPhoneTv = (TextView) findViewById(R.id.create_order_address_phone_tv);
 		mAddressDetailTv = (TextView) findViewById(R.id.create_order_address_detail_tv);
 
+		mDeliveryWayTv = (TextView) findViewById(R.id.create_order_delivery_way_tv);
+		mBmCardRemainingTv = (TextView) findViewById(R.id.create_order_bmcard_remaining_tv);
+
 		mRealPayAmountTv = (TextView) findViewById(R.id.create_order_pay_amount_tv);
+
+		mInvoiceTitleEt = (EditText) findViewById(R.id.create_order_bmcard_pwd_et);
+		mRemarkEt = (EditText) findViewById(R.id.create_order_remark_et);
+
+		mCheckBmCardIb = (CheckBox) findViewById(R.id.create_order_bmcard_remaining_ib);
+		mCheckBmCardIb
+				.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+					}
+
+				});
+
 	}
 
 	private void initData() {
 		OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
+	}
+
+	private void fillUpData(PreOrder preOrder) {
+		mAddress = mPreOrder.getAddress();
+		fillUpAddressData(mAddress);
+		fillUpPayData();
+		fillUpDeliveryData();
+
+		mRealPayAmountTv.setText(preOrder.getTotal());
 	}
 
 	private void fillUpAddressData(Address address) {
@@ -175,11 +207,22 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mAddressDetailTv.setText(address.getContent());
 	}
 
-	private void fillUpData(PreOrder preOrder) {
-		mAddress = mPreOrder.getAddress();
-		fillUpAddressData(mAddress);
+	private void fillUpDeliveryData() {
+		mDeliveryWayTv.setText("标准快递");
+	}
 
-		mRealPayAmountTv.setText(preOrder.getTotal());
+	private void fillUpPayData() {
+		ArrayList<PayMoney> arrayList = mPreOrder.getPayMoneyList();
+		PayMoney payMoney = null;
+		for (int i = 0; i < arrayList.size(); i++) {
+			PayMoney tempPayMoney = arrayList.get(i);
+			if ("旺卡".equals(tempPayMoney.getTitle())) {
+				payMoney = tempPayMoney;
+			}
+		}
+		if (null != payMoney) {
+			mBmCardRemainingTv.setText(payMoney.getValue());
+		}
 	}
 
 	@Override

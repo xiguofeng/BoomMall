@@ -86,6 +86,13 @@
     <string name="pay_fail">支付失败</string>
     <string name="pay_way_hint">请选择支付方式</string>
     <string name="buy">购买</string>
+    <string name="bmcard">旺卡</string>
+    <string name="bmcard_hint">请输入旺卡密码</string>
+    <string name="remaining_money">余额</string>
+    <string name="remaining_money_can_use">可用余额</string>
+    <string name="remark">备注</string>
+    <string name="remark_hint">请输入订单备注</string>
+    
 
     <!-- goods detail -->
     <string name="goods_parameters">商品参数</string>
@@ -168,5 +175,15 @@
     <string name="contact_way_hint">请输入收货人手机号</string>
     <string name="area_hint">请点击选择省市区</string>
     <string name="address_detail_hint">请输入详细地址</string>
+    <string name="delivery_way">配送方式</string>
+    <string name="delivery_stand">标准快递</string>
+    
+    <!-- invoice -->
+    <string name="invoice">发票信息</string>
+    <string name="invoice_not">无需发票</string>
+    <string name="invoice_person">个人</string>
+    <string name="invoice_company">公司</string>
+    <string name="invoice_hint">请输入发票抬头</string>
+    
 
 </resources>
