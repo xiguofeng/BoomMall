@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/pay_type"
+            android:text="@string/checkstand"
             android:textColor="@color/white"
             android:textSize="@dimen/large_text_size" />
     </RelativeLayout>
@@ -194,8 +194,8 @@
         android:layout_marginTop="20dip"
         android:background="@drawable/corners_bg_red_all"
         android:gravity="center"
-        android:paddingBottom="5dip"
-        android:paddingTop="5dip"
+        android:paddingBottom="8dip"
+        android:paddingTop="8dip"
         android:text="@string/pay_confirm"
         android:textColor="@color/white"
         android:textSize="@dimen/medium_text_size" />

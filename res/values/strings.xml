@@ -71,6 +71,7 @@
     <string name="add_cart">加入购物车</string>
     <string name="now_buy">立即购买</string>
     <string name="pay_type">支付方式</string>
+    <string name="checkstand">收银台</string>
     <string name="pay_on_delivery">货到付款</string>
     <string name="pay_on_delivery_brief">送货上门后付款，支持现金、刷卡</string>
     <string name="pay_online">在线支付</string>
