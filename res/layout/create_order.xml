@@ -41,7 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/gray_search_bg"
+        android:background="@color/white_transparent"
+        android:padding="5dip"
         android:orientation="horizontal" >
 
         <TextView
@@ -68,11 +69,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@color/red_btn_bg"
-            android:paddingBottom="10dip"
-            android:paddingLeft="40dip"
-            android:paddingRight="40dip"
-            android:paddingTop="10dip"
+            android:background="@drawable/corners_bg_red_all"
+            android:paddingBottom="8dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="8dip"
             android:text="@string/confirm_order"
             android:textColor="@color/white"
             android:textSize="@dimen/middle_text_size" />
