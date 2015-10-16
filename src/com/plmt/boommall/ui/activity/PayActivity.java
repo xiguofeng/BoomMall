@@ -407,6 +407,7 @@ public class PayActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
+		mOrderId = getIntent().getExtras().getString("orderId");
 	}
 
 	@Override
