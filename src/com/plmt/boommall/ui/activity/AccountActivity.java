@@ -20,7 +20,6 @@ public class AccountActivity extends Activity implements OnClickListener {
 
 	private RelativeLayout mAreaRl;
 	private ImageView mBackIv;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class AccountActivity extends Activity implements OnClickListener {
 	private void initView() {
 		mAreaRl = (RelativeLayout) findViewById(R.id.account_address_rl);
 		mAreaRl.setOnClickListener(this);
-		
+
 		mBackIv = (ImageView) findViewById(R.id.account_back_iv);
 		mBackIv.setOnClickListener(this);
 	}
@@ -50,13 +49,15 @@ public class AccountActivity extends Activity implements OnClickListener {
 		case R.id.account_address_rl: {
 			Intent intent = new Intent(AccountActivity.this,
 					AddressListActivity.class);
+			intent.setAction(AddressListActivity.ORIGIN_FROM_ACCOUNT_KEY);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		}
 		case R.id.account_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			break;
 		}
 		default:

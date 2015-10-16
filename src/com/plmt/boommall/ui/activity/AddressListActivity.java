@@ -27,6 +27,13 @@ import android.widget.Toast;
 
 public class AddressListActivity extends Activity implements OnClickListener,
 		ListItemClickHelp {
+
+	public static final String ORIGIN_FROM_ORDER_KEY = "com.order";
+
+	public static final String ORIGIN_FROM_ACCOUNT_KEY = "com.account";
+
+	private String mNowAction = ORIGIN_FROM_ACCOUNT_KEY;
+
 	private Context mContext;
 
 	private MultiStateView mMultiStateView;
@@ -110,18 +117,21 @@ public class AddressListActivity extends Activity implements OnClickListener,
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				mAddress = mAddresslist.get(position);
-				Intent intent = new Intent();
-				intent.putExtra("username", mAddress.getUsername());
-				intent.putExtra("telephone", mAddress.getTelephone());
-				intent.putExtra("content", mAddress.getContent());
-				setResult(RESULT_OK, intent);
-				finish();
+				if (ORIGIN_FROM_ORDER_KEY.equals(mNowAction)) {
+					mAddress = mAddresslist.get(position);
+					Intent intent = new Intent();
+					intent.putExtra("username", mAddress.getUsername());
+					intent.putExtra("telephone", mAddress.getTelephone());
+					intent.putExtra("content", mAddress.getContent());
+					setResult(RESULT_OK, intent);
+					finish();
+				}
 			}
 		});
 	}
 
 	private void initData() {
+		mNowAction = getIntent().getAction();
 		AddressLogic.getList(mContext, mHandler);
 	}
 

@@ -318,7 +318,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			if (!UserInfoManager.getLoginIn(mContext)) {
 				Intent intent = new Intent(GoodsDetailActivity.this,
 						LoginActivity.class);
-				intent.setAction(LoginActivity.ORIGIN_FROM_CART_KEY);
+				intent.setAction(LoginActivity.ORIGIN_FROM_GOODS_DETAIL_KEY);
 				startActivity(intent);
 				overridePendingTransition(R.anim.push_left_in,
 						R.anim.push_left_out);

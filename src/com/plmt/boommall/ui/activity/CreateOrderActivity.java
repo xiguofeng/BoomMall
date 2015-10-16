@@ -317,6 +317,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		case R.id.create_order_address_ll: {
 			Intent intent = new Intent(CreateOrderActivity.this,
 					AddressListActivity.class);
+			intent.setAction(AddressListActivity.ORIGIN_FROM_ORDER_KEY);
 			startActivityForResult(intent, 500);
 			break;
 		}
