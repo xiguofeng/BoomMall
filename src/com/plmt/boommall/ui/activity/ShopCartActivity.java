@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -96,7 +97,6 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 			}
 			case CartLogic.CART_DEL_SUC: {
 				getCartList();
-
 				break;
 
 			}
@@ -189,6 +189,7 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 	}
 
 	private void initData() {
+		mGoodsLv.setVisibility(View.GONE);
 		mGoodsAdapter.setmNowMode(COMPLETE_MODE);
 		mGoodsAdapter.notifyDataSetChanged();
 		getCartList();
@@ -210,6 +211,9 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 
 	private void refresh() {
 		mGoodsLv.setVisibility(View.VISIBLE);
+		if (null != mProgressDialog && mProgressDialog.isShowing()) {
+			mProgressDialog.dismiss();
+		}
 		mCartNotLoginLl.setVisibility(View.GONE);
 
 		if (mGoodsList.size() > 0) {
@@ -237,7 +241,6 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 			mCartNullLl.setVisibility(View.VISIBLE);
 			mCartNullTv.setVisibility(View.VISIBLE);
 			mCartNotLoginLl.setVisibility(View.GONE);
-			mGoodsLv.setVisibility(View.VISIBLE);
 			mProgressDialog = new CustomProgressDialog(mContext);
 			mProgressDialog.show();
 			CartLogic.getList(mContext, mHandler);
