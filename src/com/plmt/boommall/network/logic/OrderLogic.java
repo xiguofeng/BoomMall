@@ -100,6 +100,7 @@ public class OrderLogic {
 	public static void createOrder(final Context context, final Handler handler) {
 		JSONObject requestJson = new JSONObject();
 		try {
+
 			// URLEncoder.encode(UserInfoManager.getSession(context), "UTF-8")
 			requestJson.put("sessionid",
 					"frontend=" + UserInfoManager.getSession(context));
@@ -116,6 +117,7 @@ public class OrderLogic {
 			requestJson.put("payment", URLEncoder.encode("支付宝手机", "UTF-8"));
 
 			String url = RequestUrl.HOST_URL + RequestUrl.order.submitOrder;
+			Log.e("xxx_submitOrder", url);
 
 			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
 					requestJson, new Listener<JSONObject>() {

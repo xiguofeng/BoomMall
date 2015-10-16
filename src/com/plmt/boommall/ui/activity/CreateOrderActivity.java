@@ -93,8 +93,13 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					mOrderId = (String) msg.obj;
 					mProgressDialog = new CustomProgressDialog(mContext);
 					mProgressDialog.show();
-					OrderLogic.getOrderPayInfo(mContext, mOrderPayInfoHandler,
-							mOrderId);
+					Intent intent = new Intent(CreateOrderActivity.this,
+							PayActivity.class);
+					intent.putExtra("orderId", mOrderId);
+					startActivity(intent);
+					finish();
+					overridePendingTransition(R.anim.push_left_in,
+							R.anim.push_left_out);
 				}
 				break;
 			}
@@ -119,91 +124,6 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			}
 		}
 
-	};
-
-	private Handler mOrderPayInfoHandler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case OrderLogic.ORDER_PAY_INFO_GET_SUC: {
-				if (null != msg.obj) {
-					AlipayMerchant alipayMerchant;
-					alipayMerchant = (AlipayMerchant) msg.obj;
-					PayByAli(alipayMerchant);
-				}
-				break;
-			}
-			case OrderLogic.ORDER_PAY_INFO_GET_FAIL: {
-
-				break;
-			}
-			case OrderLogic.ORDER_PAY_INFO_GET_EXCEPTION: {
-
-				break;
-			}
-			case OrderLogic.NET_ERROR: {
-
-				break;
-			}
-
-			default:
-				break;
-			}
-			if (null != mProgressDialog && mProgressDialog.isShowing()) {
-				mProgressDialog.dismiss();
-			}
-		}
-
-	};
-
-	private Handler mAlipayHandler = new Handler() {
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case com.plmt.boommall.pay.alipay.Constants.SDK_PAY_FLAG: {
-				PayResult payResult = new PayResult((String) msg.obj);
-
-				// 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
-				String resultInfo = payResult.getResult();
-
-				String resultStatus = payResult.getResultStatus();
-
-				// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
-				if (TextUtils.equals(resultStatus, "9000")) {
-					// TODO
-					// payResultCheck支付成功比对支付结果
-					// mCustomProgressDialog.show();
-					// OrderLogic.payResultCheck(mContext, mHandler,
-					// OrderManager.getsCurrentOrderId(), "true");
-				} else {
-
-					// 判断resultStatus 为非“9000”则代表可能支付失败
-					// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
-					if (TextUtils.equals(resultStatus, "8000")) {
-						Toast.makeText(mContext, "支付结果确认中", Toast.LENGTH_SHORT)
-								.show();
-
-					} else {
-						// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-						Toast.makeText(mContext, "支付失败", Toast.LENGTH_SHORT)
-								.show();
-
-					}
-				}
-
-				break;
-			}
-			case com.plmt.boommall.pay.alipay.Constants.SDK_CHECK_FLAG: {
-				// Toast.makeText(mContext, "检查结果为：" + msg.obj,
-				// Toast.LENGTH_SHORT)
-				// .show();
-				break;
-			}
-			default:
-				break;
-
-			}
-		};
 	};
 
 	@Override
@@ -262,31 +182,6 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mRealPayAmountTv.setText(preOrder.getTotal());
 	}
 
-	private void PayByAli(AlipayMerchant alipayMerchant) {
-		AlipayApi apAlipayApi = new AlipayApi();
-		alipayMerchant.setAmount("0.01");
-		alipayMerchant.setOrderId(mOrderId);
-		if (TextUtils.isEmpty(mOrderId)) {
-			alipayMerchant.setOrderId("id900033888499933sh");
-		}
-		apAlipayApi.pay(CreateOrderActivity.this, mAlipayHandler,
-				alipayMerchant);
-	}
-
-	private void PayByAliInLoc(AlipayMerchant alipayMerchant) {
-		AlipayApi apAlipayApi = new AlipayApi();
-		alipayMerchant.setAmount("0.01");
-		alipayMerchant.setProductName("201");
-		alipayMerchant.setProductDescription("旺铺商城201");
-		alipayMerchant.setOrderId("id900033888499933sh");
-		alipayMerchant
-				.setPartnerId(com.plmt.boommall.pay.alipay.Constants.PARTNER);
-		alipayMerchant
-				.setSellerAccount(com.plmt.boommall.pay.alipay.Constants.SELLER);
-		apAlipayApi.pay(CreateOrderActivity.this, mAlipayHandler,
-				alipayMerchant);
-	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
@@ -326,8 +221,6 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			mProgressDialog = new CustomProgressDialog(mContext);
 			mProgressDialog.show();
 			OrderLogic.createOrder(mContext, mOrderInfoHandler);
-			// AlipayMerchant alipayMerchant=new AlipayMerchant();
-			// PayByAli(alipayMerchant);
 			break;
 		}
 
