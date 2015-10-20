@@ -21,7 +21,7 @@ import com.plmt.boommall.ui.view.webview.jsbridge.DefaultHandler;
 
 public class Html5Activity extends Activity implements OnClickListener {
 
-	private final String TAG = "MainActivity";
+	private final String TAG = "xxx_Html5Activity";
 
 	BridgeWebView webView;
 
@@ -72,7 +72,7 @@ public class Html5Activity extends Activity implements OnClickListener {
 			}
 		});
 
-		webView.loadUrl("file:///android_asset/demo.html");
+		webView.loadUrl("http://120.55.116.206:8060/demo.html");
 
 		webView.registerHandler("submitFromWeb", new BridgeHandler() {
 
@@ -127,7 +127,7 @@ public class Html5Activity extends Activity implements OnClickListener {
 				@Override
 				public void onCallBack(String data) {
 					// TODO Auto-generated method stub
-					Log.i(TAG, "reponse data from js " + data);
+					Log.e(TAG, "reponse data from js " + data);
 				}
 
 			});
