@@ -10,11 +10,15 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Address;
@@ -33,9 +37,20 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 	private RelativeLayout mAddRl;
 	private ImageView mBackIv;
 
-	private ImageView mIdcardIv;
+	private ImageView mIdcardFrontIv;
+	private ImageView mIdcardBackIv;
 	private CropHelper mCropHelper;
 	private ChooseDialog mDialog;
+
+	private EditText mRealNameEt;
+	private EditText mIDCardEt;
+
+	private Bitmap mFrontBit;
+	private Bitmap mBackBit;
+
+	private Button mSubmitBtn;
+
+	private int mNowSelectIvFlag = 0;
 
 	private Handler mHandler = new Handler() {
 
@@ -58,18 +73,23 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 	}
 
 	private void initView() {
-		mAddRl = (RelativeLayout) findViewById(R.id.real_name_auth_rl);
-		mAddRl.setOnClickListener(this);
+		mRealNameEt = (EditText) findViewById(R.id.real_name_auth_id_card_et);
+		mIDCardEt = (EditText) findViewById(R.id.real_name_auth_real_name_et);
 
-		mIdcardIv = (ImageView) findViewById(R.id.real_name_auth_idcard_iv);
+		mIdcardFrontIv = (ImageView) findViewById(R.id.real_name_auth_idcard_front_iv);
+		mIdcardBackIv = (ImageView) findViewById(R.id.real_name_auth_idcard_back_iv);
+		mIdcardFrontIv.setOnClickListener(this);
+		mIdcardBackIv.setOnClickListener(this);
+
+		mSubmitBtn = (Button) findViewById(R.id.real_name_auth_btn);
+		mSubmitBtn.setOnClickListener(this);
 
 		mBackIv = (ImageView) findViewById(R.id.real_name_auth_back_iv);
 		mBackIv.setOnClickListener(this);
 	}
 
 	private void initData() {
-		mCropHelper = new CropHelper(this, OSUtils.getSdCardDirectory()
-				+ "/head.png");
+		mCropHelper = new CropHelper(this, OSUtils.getSdCardDirectory() + "/head.png");
 		mDialog = new ChooseDialog(this, mCropHelper);
 	}
 
@@ -90,18 +110,15 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 				break;
 			case CropHelper.HEAD_SAVE_PHOTO:
 				if (data != null && data.getParcelableExtra("data") != null) {
-					mIdcardIv.setImageBitmap((Bitmap) data
-							.getParcelableExtra("data"));
-					mCropHelper.savePhoto(data, OSUtils.getSdCardDirectory()
-							+ "/myHead.png");
-
-					try {
-						TestLogic.test(mContext, mHandler, ImageUtils
-								.Bitmap2StrByBase64((Bitmap) data
-										.getParcelableExtra("data")));
-					} catch (UnsupportedEncodingException e) {
-						e.printStackTrace();
+					if (mNowSelectIvFlag == 0) {
+						mIdcardFrontIv.setImageBitmap((Bitmap) data.getParcelableExtra("data"));
+						mFrontBit = (Bitmap) data.getParcelableExtra("data");
+					} else {
+						mIdcardBackIv.setImageBitmap((Bitmap) data.getParcelableExtra("data"));
+						mBackBit = (Bitmap) data.getParcelableExtra("data");
 					}
+
+					mCropHelper.savePhoto(data, OSUtils.getSdCardDirectory() + "/myHead.png");
 				}
 				break;
 			default:
@@ -113,14 +130,37 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.real_name_auth_rl: {
-			mDialog.popSelectDialog();
-			break;
-		}
 		case R.id.real_name_auth_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			break;
+		}
+		case R.id.real_name_auth_idcard_front_iv: {
+			mDialog.popSelectDialog();
+			mNowSelectIvFlag = 0;
+			break;
+		}
+		case R.id.real_name_auth_idcard_back_iv: {
+			mDialog.popSelectDialog();
+			mNowSelectIvFlag = 1;
+			break;
+		}
+		case R.id.real_name_auth_btn: {
+			if (TextUtils.isEmpty(mRealNameEt.getText().toString())
+					|| TextUtils.isEmpty(mIDCardEt.getText().toString())) {
+				Toast.makeText(mContext, getString(R.string.real_name_id_card_hint), Toast.LENGTH_SHORT).show();
+				return;
+			}
+			if (null == mFrontBit || null == mBackBit) {
+				Toast.makeText(mContext, getString(R.string.upload_id_card), Toast.LENGTH_SHORT).show();
+				return;
+			}
+			try {
+				TestLogic.test(mContext, mHandler, mRealNameEt.getText().toString(), mRealNameEt.getText().toString(),
+						ImageUtils.Bitmap2StrByBase64(mFrontBit), ImageUtils.Bitmap2StrByBase64(mBackBit));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 			break;
 		}
 		default:
