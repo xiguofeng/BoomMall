@@ -19,6 +19,7 @@ public class AccountActivity extends Activity implements OnClickListener {
 	private Context mContext;
 
 	private RelativeLayout mAreaRl;
+	private RelativeLayout mRealNameAuthRl;
 	private ImageView mBackIv;
 
 	@Override
@@ -35,6 +36,9 @@ public class AccountActivity extends Activity implements OnClickListener {
 		mAreaRl = (RelativeLayout) findViewById(R.id.account_address_rl);
 		mAreaRl.setOnClickListener(this);
 
+		mRealNameAuthRl = (RelativeLayout) findViewById(R.id.account_real_name_auth_rl);
+		mRealNameAuthRl.setOnClickListener(this);
+
 		mBackIv = (ImageView) findViewById(R.id.account_back_iv);
 		mBackIv.setOnClickListener(this);
 	}
@@ -50,6 +54,13 @@ public class AccountActivity extends Activity implements OnClickListener {
 			Intent intent = new Intent(AccountActivity.this,
 					AddressListActivity.class);
 			intent.setAction(AddressListActivity.ORIGIN_FROM_ACCOUNT_KEY);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+		case R.id.account_real_name_auth_rl: {
+			Intent intent = new Intent(AccountActivity.this,
+					RealNameAuthActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;

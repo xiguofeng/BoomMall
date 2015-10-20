@@ -143,8 +143,14 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
-         <activity
+        <activity
             android:name="com.plmt.boommall.ui.activity.AccountActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.plmt.boommall.ui.activity.RealNameAuthActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >

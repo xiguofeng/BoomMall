@@ -11,7 +11,7 @@
         android:background="@color/red_title_bg" >
 
         <ImageView
-            android:id="@+id/account_back_iv"
+            android:id="@+id/real_name_auth_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -23,13 +23,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/my_account"
+            android:text="@string/real_name_auth"
             android:textColor="@color/white"
             android:textSize="@dimen/large_text_size" />
     </RelativeLayout>
 
     <ScrollView
-        android:id="@+id/account_sv"
+        android:id="@+id/real_name_auth_sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -37,15 +37,21 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-            
+
+            <ImageView
+                android:id="@+id/real_name_auth_idcard_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dip"
+                android:scaleType="centerCrop" />
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1.0px"
-                android:layout_marginTop="15dip"
                 android:background="#ffcfd4da" />
 
             <RelativeLayout
-                android:id="@+id/account_real_name_auth_rl"
+                android:id="@+id/real_name_auth_rl"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -53,7 +59,7 @@
                 android:paddingTop="10dip" >
 
                 <TextView
-                    android:id="@+id/account_real_name_auth_tag_tv"
+                    android:id="@+id/real_name_auth_address_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -65,10 +71,10 @@
                     android:textSize="@dimen/middle_text_size" />
 
                 <TextView
-                    android:id="@+id/account_real_name_auth_tv"
+                    android:id="@+id/real_name_auth_address_content_tv"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/account_real_name_auth_tag_tv"
+                    android:layout_toRightOf="@+id/real_name_auth_address_tv"
                     android:background="@null"
                     android:imeOptions="actionNext"
                     android:paddingBottom="6.0dip"
@@ -88,53 +94,10 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1.0px"
-                android:layout_marginTop="15dip"
                 android:background="#ffcfd4da" />
 
-            <RelativeLayout
-                android:id="@+id/account_address_rl"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:paddingBottom="10dip"
-                android:paddingTop="10dip" >
-
-                <TextView
-                    android:id="@+id/account_address_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:paddingLeft="10dip"
-                    android:paddingRight="10dip"
-                    android:text="@string/address_manage"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/middle_text_size" />
-
-                <TextView
-                    android:id="@+id/account_address_content_tv"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/account_address_tv"
-                    android:background="@null"
-                    android:imeOptions="actionNext"
-                    android:paddingBottom="6.0dip"
-                    android:paddingTop="6.0dip"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/small_text_size" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/arrow" />
-            </RelativeLayout>
-
-
             <LinearLayout
-                android:id="@+id/account_bottom_division_ll"
+                android:id="@+id/real_name_auth_bottom_division_ll"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
