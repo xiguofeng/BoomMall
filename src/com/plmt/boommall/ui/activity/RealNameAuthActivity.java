@@ -73,8 +73,8 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 	}
 
 	private void initView() {
-		mRealNameEt = (EditText) findViewById(R.id.real_name_auth_id_card_et);
-		mIDCardEt = (EditText) findViewById(R.id.real_name_auth_real_name_et);
+		mRealNameEt = (EditText) findViewById(R.id.real_name_auth_real_name_et);
+		mIDCardEt = (EditText) findViewById(R.id.real_name_auth_id_card_et);
 
 		mIdcardFrontIv = (ImageView) findViewById(R.id.real_name_auth_idcard_front_iv);
 		mIdcardBackIv = (ImageView) findViewById(R.id.real_name_auth_idcard_back_iv);
@@ -156,7 +156,7 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 				return;
 			}
 			try {
-				TestLogic.test(mContext, mHandler, mRealNameEt.getText().toString(), mRealNameEt.getText().toString(),
+				TestLogic.test(mContext, mHandler, mRealNameEt.getText().toString(), mIDCardEt.getText().toString(),
 						ImageUtils.Bitmap2StrByBase64(mFrontBit), ImageUtils.Bitmap2StrByBase64(mBackBit));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
