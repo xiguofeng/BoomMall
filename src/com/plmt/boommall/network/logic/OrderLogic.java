@@ -386,7 +386,6 @@ public class OrderLogic {
 				handler.sendEmptyMessage(ORDERLIST_GET_FAIL);
 			}
 		} catch (JSONException e) {
-			Log.e("xxx_getorder_JSONException", e.getMessage());
 			handler.sendEmptyMessage(ORDERLIST_GET_EXCEPTION);
 		}
 	}
