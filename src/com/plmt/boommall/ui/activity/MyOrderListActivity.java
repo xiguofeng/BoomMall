@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.plmt.boommall.R;
@@ -39,6 +40,8 @@ public class MyOrderListActivity extends Activity
 	private HashMap<String, Object> mMsgMap = new HashMap<String, Object>();
 
 	private TextView mTitleTv;
+
+	private ImageView mBackIv;
 
 	private int mIndex = 0;
 
@@ -99,11 +102,13 @@ public class MyOrderListActivity extends Activity
 		mListView.setAdapter(mOrderAdapter);
 
 		mTitleTv = (TextView) findViewById(R.id.my_orders_title_tv);
+		mBackIv=(ImageView) findViewById(R.id.my_orders_back_iv);
+		mBackIv.setOnClickListener(this);
 
 	}
 
 	private void initData() {
-		OrderLogic.getOrders(mContext, mHandler, "1", "15","pending");
+		OrderLogic.getOrders(mContext, mHandler, "1", "15", "pending");
 	}
 
 	private void onLoad() {
@@ -144,7 +149,7 @@ public class MyOrderListActivity extends Activity
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.order_list_back_iv: {
+		case R.id.my_orders_back_iv: {
 			finish();
 			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			break;
