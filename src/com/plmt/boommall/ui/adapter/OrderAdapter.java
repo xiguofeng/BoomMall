@@ -29,8 +29,7 @@ public class OrderAdapter extends BaseAdapter {
 
 	private ListItemClickHelp mCallback;
 
-	public OrderAdapter(Context context, HashMap<String, Object> datas,
-			ListItemClickHelp callback) {
+	public OrderAdapter(Context context, HashMap<String, Object> datas, ListItemClickHelp callback) {
 		this.mContext = context;
 		this.mMap = datas;
 		this.mCallback = callback;
@@ -63,23 +62,17 @@ public class OrderAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.list_order_item, null);
 
 			holder = new ViewHolder();
-			holder.mId = (TextView) convertView
-					.findViewById(R.id.list_order_group_id_tv);
-			holder.mTime = (TextView) convertView
-					.findViewById(R.id.list_order_group_time_tv);
-			holder.mState = (TextView) convertView
-					.findViewById(R.id.list_order_group_state_tv);
-			holder.mTotalMoney = (TextView) convertView
-					.findViewById(R.id.list_order_group_total_money_tv);
+			holder.mId = (TextView) convertView.findViewById(R.id.list_order_group_id_tv);
+			holder.mTime = (TextView) convertView.findViewById(R.id.list_order_group_time_tv);
+			holder.mState = (TextView) convertView.findViewById(R.id.list_order_group_state_tv);
+			holder.mTotalMoneyTv = (TextView) convertView.findViewById(R.id.list_order_group_total_money_tv);
+			holder.mFreightMoneyTv = (TextView) convertView.findViewById(R.id.list_order_group_total_freight_tv);
+			holder.mNumTv = (TextView) convertView.findViewById(R.id.list_order_group_total_num_tv);
 
-			holder.mCancelOrCommentBtn = (Button) convertView
-					.findViewById(R.id.list_order_group_comment_or_cancel_btn);
-			holder.mViewBtn = (Button) convertView
-					.findViewById(R.id.list_order_group_see_btn);
-			holder.mPayBtn = (Button) convertView
-					.findViewById(R.id.list_order_group_continue_pay_btn);
-			holder.mWineLl = (LinearLayout) convertView
-					.findViewById(R.id.list_order_group_wine_ll);
+			holder.mCancelOrCommentBtn = (Button) convertView.findViewById(R.id.list_order_group_comment_or_cancel_btn);
+			holder.mViewBtn = (Button) convertView.findViewById(R.id.list_order_group_see_btn);
+			holder.mPayBtn = (Button) convertView.findViewById(R.id.list_order_group_continue_pay_btn);
+			holder.mWineLl = (LinearLayout) convertView.findViewById(R.id.list_order_group_wine_ll);
 
 			convertView.setTag(holder);
 		} else {
@@ -88,19 +81,11 @@ public class OrderAdapter extends BaseAdapter {
 
 		if (((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).size() > position) {
 
-			holder.mId.setText(((ArrayList<Order>) mMap
-					.get(MsgResult.ORDER_TAG)).get(position).getIncrement_id());
-			holder.mTime.setText(((ArrayList<Order>) mMap
-					.get(MsgResult.ORDER_TAG)).get(position).getCreated_time());
+			holder.mId.setText("订单号："+((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).get(position).getIncrement_id());
+			// holder.mTime.setText(((ArrayList<Order>) mMap
+			// .get(MsgResult.ORDER_TAG)).get(position).getCreated_time());
 
-//			int orderStateCode = Integer.parseInt(((ArrayList<Order>) mMap
-//					.get(MsgResult.ORDER_TAG)).get(position).getOrderStatus());
-//			if (orderStateCode <= OrderState.state.length) {
-//				holder.mState.setText(OrderState.state[orderStateCode - 1]);
-//			}
-			
-			holder.mTotalMoney.setText("合计：￥"+((ArrayList<Order>) mMap
-					.get(MsgResult.ORDER_TAG)).get(position).getTotal());
+			holder.mState.setText(((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).get(position).getStatusLabel());
 
 			// String orderStateCodeStr = String.valueOf(orderStateCode);
 			// String orderPayStateCodeStr = String
@@ -178,8 +163,7 @@ public class OrderAdapter extends BaseAdapter {
 			holder.mWineLl.removeAllViews();
 
 			ArrayList<Goods> goodsList = new ArrayList<Goods>();
-			goodsList.addAll(((ArrayList<Order>) mMap
-					.get(MsgResult.ORDER_TAG)).get(position).getGoodsList());
+			goodsList.addAll(((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).get(position).getGoodsList());
 			// goodsList.addAll(((ArrayList<Goods>) mMap
 			// .get(((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG))
 			// .get(position).getIncrement_id())));
@@ -189,6 +173,10 @@ public class OrderAdapter extends BaseAdapter {
 				OrderGoodsView orderGoodsView = new OrderGoodsView(mContext, goods);
 				holder.mWineLl.addView(orderGoodsView);
 			}
+
+			holder.mTotalMoneyTv.setText("￥" +((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).get(position).getTotal());
+			holder.mFreightMoneyTv.setText("()");
+			holder.mNumTv.setText("共" + goodsList.size() + "件商品," + "合计：");
 		}
 		return convertView;
 	}
@@ -200,8 +188,12 @@ public class OrderAdapter extends BaseAdapter {
 		public TextView mTime;
 
 		public TextView mId;
-		
-		public TextView mTotalMoney;
+
+		public TextView mTotalMoneyTv;
+
+		public TextView mFreightMoneyTv;
+
+		public TextView mNumTv;
 
 		public Button mCancelOrCommentBtn;
 

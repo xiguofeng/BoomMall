@@ -17,6 +17,7 @@ public class OrderGoodsView extends LinearLayout {
 	private TextView mNameTv;
 	private TextView mNumTv;
 	private TextView mPriceTv;
+	private TextView mWeightTv;
 
 	public OrderGoodsView(Context context, Goods goods) {
 		super(context);
@@ -27,12 +28,12 @@ public class OrderGoodsView extends LinearLayout {
 	private void initView(final Context context, Goods goods) {
 
 		LayoutInflater inflater = LayoutInflater.from(context);
-		LinearLayout layout = (LinearLayout) inflater.inflate(
-				R.layout.order_goods, null);
+		LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.order_goods, null);
 		mIv = (ImageView) layout.findViewById(R.id.order_goods_iv);
 		mNameTv = (TextView) layout.findViewById(R.id.order_goods_name_tv);
 		mPriceTv = (TextView) layout.findViewById(R.id.order_goods_price_tv);
 		mNumTv = (TextView) layout.findViewById(R.id.order_goods_num_tv);
+		mWeightTv = (TextView) layout.findViewById(R.id.order_goods_weight_tv);
 
 		this.addView(layout);
 	}
@@ -40,9 +41,10 @@ public class OrderGoodsView extends LinearLayout {
 	public void fillData(Context context, Goods goods) {
 
 		ImageLoader.getInstance().displayImage(goods.getImage(), mIv);
-		mNameTv.setText(goods.getId());
-		// mPriceTv.setText("￥" + goods.getFinalPrice());
-		// mNumTv.setText(goods.getNum() + "瓶");
+		mNameTv.setText(goods.getName());
+		mPriceTv.setText("￥" + goods.getPrice());
+		mNumTv.setText("×" + goods.getQty());
+		mWeightTv.setText("含净重" + goods.getWeight() + "ml");
 	}
 
 }

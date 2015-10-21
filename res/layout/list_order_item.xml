@@ -5,6 +5,12 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dip"
+        android:background="@color/red_title_bg" >
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +26,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dip"
             android:textColor="@color/gray_character"
-            android:textSize="@dimen/micro_text_size" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/list_order_group_time_tv"
@@ -37,8 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dip"
-            android:textColor="@color/orange_bg"
-            android:textSize="@dimen/micro_text_size" />
+            android:textColor="@color/red_character"
+            android:textSize="@dimen/small_text_size" />
     </RelativeLayout>
 
     <LinearLayout
@@ -58,16 +64,38 @@
         android:orientation="vertical" >
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/list_order_group_total_money_tv"
+    <LinearLayout
+        android:id="@+id/list_order_group_total_money_ll"
         android:layout_width="wrap_content"
-        android:layout_marginTop="5dip"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dip"
         android:layout_gravity="right"
-        android:gravity="right"
-        android:textColor="@color/black_character"
-        android:textSize="@dimen/small_text_size" />
+        android:layout_marginRight="10dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/list_order_group_total_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/micro_text_size" />
+
+        <TextView
+            android:id="@+id/list_order_group_total_money_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/red_character"
+            android:textSize="@dimen/middle_text_size" />
+        
+         <TextView
+            android:id="@+id/list_order_group_total_freight_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/micro_text_size" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

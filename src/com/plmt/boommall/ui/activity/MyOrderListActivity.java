@@ -24,6 +24,7 @@ import com.plmt.boommall.entity.Order;
 import com.plmt.boommall.network.logic.OrderLogic;
 import com.plmt.boommall.ui.adapter.OrderAdapter;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 
 public class MyOrderListActivity extends Activity
@@ -46,6 +47,8 @@ public class MyOrderListActivity extends Activity
 	private int mIndex = 0;
 
 	private int mRefreshIndex = 0;
+	
+	private CustomProgressDialog mProgressDialog;
 
 	Handler mHandler = new Handler() {
 
@@ -74,7 +77,9 @@ public class MyOrderListActivity extends Activity
 			default:
 				break;
 			}
-
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
 		}
 
 	};
@@ -108,6 +113,8 @@ public class MyOrderListActivity extends Activity
 	}
 
 	private void initData() {
+		mProgressDialog = new CustomProgressDialog(mContext);
+		mProgressDialog.show();
 		OrderLogic.getOrders(mContext, mHandler, "1", "15", "pending");
 	}
 
