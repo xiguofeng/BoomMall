@@ -5,15 +5,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Order;
@@ -22,8 +25,8 @@ import com.plmt.boommall.ui.adapter.OrderAdapter;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 
-public class MyOrderListActivity extends Activity implements OnClickListener,
-		XListView.IXListViewListener, ListItemClickHelp {
+public class MyOrderListActivity extends Activity
+		implements OnClickListener, XListView.IXListViewListener, ListItemClickHelp {
 
 	private Context mContext;
 
@@ -34,6 +37,8 @@ public class MyOrderListActivity extends Activity implements OnClickListener,
 	private ArrayList<Order> mOrderList = new ArrayList<Order>();
 
 	private HashMap<String, Object> mMsgMap = new HashMap<String, Object>();
+
+	private TextView mTitleTv;
 
 	private int mIndex = 0;
 
@@ -47,8 +52,10 @@ public class MyOrderListActivity extends Activity implements OnClickListener,
 			switch (what) {
 			case OrderLogic.ORDERLIST_GET_SUC: {
 				if (null != msg.obj) {
+					mMsgMap.clear();
+					mMsgMap.putAll((Map<? extends String, ? extends Object>) msg.obj);
+					mOrderAdapter.notifyDataSetChanged();
 				}
-
 				break;
 			}
 			case OrderLogic.ORDERLIST_GET_FAIL: {
@@ -79,8 +86,8 @@ public class MyOrderListActivity extends Activity implements OnClickListener,
 
 	private void initView() {
 
-		mListView = (XListView) findViewById(R.id.orders_lv);
-		mListView.setPullRefreshEnable(true);
+		mListView = (XListView) findViewById(R.id.my_orders_lv);
+		mListView.setPullRefreshEnable(false);
 		mListView.setPullLoadEnable(true);
 		mListView.setAutoLoadEnable(true);
 		mListView.setXListViewListener(this);
@@ -91,10 +98,12 @@ public class MyOrderListActivity extends Activity implements OnClickListener,
 		mOrderAdapter = new OrderAdapter(mContext, mMsgMap, this);
 		mListView.setAdapter(mOrderAdapter);
 
+		mTitleTv = (TextView) findViewById(R.id.my_orders_title_tv);
+
 	}
 
 	private void initData() {
-		OrderLogic.getOrders(mContext, mHandler, "", "", "");
+		OrderLogic.getOrders(mContext, mHandler, "1", "15","pending");
 	}
 
 	private void onLoad() {
@@ -104,8 +113,7 @@ public class MyOrderListActivity extends Activity implements OnClickListener,
 	}
 
 	private String getTime() {
-		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)
-				.format(new Date());
+		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA).format(new Date());
 	}
 
 	@Override
@@ -138,8 +146,7 @@ public class MyOrderListActivity extends Activity implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.order_list_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			break;
 		}
 		default:
@@ -149,12 +156,10 @@ public class MyOrderListActivity extends Activity implements OnClickListener,
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 
 			finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

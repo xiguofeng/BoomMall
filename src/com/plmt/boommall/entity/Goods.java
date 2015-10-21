@@ -42,6 +42,10 @@ public class Goods implements Serializable {
 	 * 对应购物车的id
 	 */
 	private String scid;
+	
+	private String weight;
+	
+	private String type;
 
 	public String getId() {
 		return id;
@@ -170,6 +174,24 @@ public class Goods implements Serializable {
 	public void setScid(String scid) {
 		this.scid = scid;
 	}
+
+	public String getWeight() {
+		return weight;
+	}
+
+	public void setWeight(String weight) {
+		this.weight = weight;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	
 
 	
 }

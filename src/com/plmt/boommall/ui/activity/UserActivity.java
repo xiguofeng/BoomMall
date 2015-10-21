@@ -120,9 +120,9 @@ public class UserActivity extends Activity implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				if (!TextUtils.isEmpty(UserInfoManager.userInfo.getUsername())) {
+				if (UserInfoManager.getLoginIn(mContext)) {
 					Intent intent = new Intent(UserActivity.this,
-							OrderListActivity.class);
+							MyOrderListActivity.class);
 					startActivity(intent);
 					overridePendingTransition(R.anim.push_left_in,
 							R.anim.push_left_out);
@@ -158,9 +158,9 @@ public class UserActivity extends Activity implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				if (!TextUtils.isEmpty(UserInfoManager.userInfo.getUsername())) {
+				if (UserInfoManager.getLoginIn(mContext)) {
 					Intent intent = new Intent(UserActivity.this,
-							OrderListActivity.class);
+							MyOrderListActivity.class);
 					startActivity(intent);
 					overridePendingTransition(R.anim.push_left_in,
 							R.anim.push_left_out);

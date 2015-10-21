@@ -99,7 +99,7 @@ public class OrdersAllFragment extends Fragment implements
 		mOrderAdapter = new OrderAdapter(getActivity(), mMsgMap, this);
 		mListView.setAdapter(mOrderAdapter);
 
-		OrderLogic.getOrders(getActivity(), mHandler, "", "", "");
+		OrderLogic.getOrders(getActivity(), mHandler,  "1", "15","pending");
 	}
 
 	@Override
