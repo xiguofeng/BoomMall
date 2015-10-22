@@ -37,32 +37,35 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-            
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginTop="15dip"
-                android:background="#ffcfd4da" />
 
             <RelativeLayout
                 android:id="@+id/account_real_name_auth_rl"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
                 android:background="@color/white"
-                android:paddingBottom="10dip"
-                android:paddingTop="10dip" >
+                android:padding="5dip" >
+
+                <ImageView
+                    android:id="@+id/account_real_name_auth_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:src="@drawable/real_name" />
 
                 <TextView
                     android:id="@+id/account_real_name_auth_tag_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/account_real_name_auth_iv"
                     android:paddingLeft="10dip"
                     android:paddingRight="10dip"
                     android:text="@string/real_name_auth"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/middle_text_size" />
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/small_text_size" />
 
                 <TextView
                     android:id="@+id/account_real_name_auth_tv"
@@ -85,31 +88,34 @@
                     android:src="@drawable/arrow" />
             </RelativeLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginTop="15dip"
-                android:background="#ffcfd4da" />
-
             <RelativeLayout
                 android:id="@+id/account_address_rl"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
                 android:background="@color/white"
-                android:paddingBottom="10dip"
-                android:paddingTop="10dip" >
+                android:padding="5dip" >
+
+                <ImageView
+                    android:id="@+id/account_address_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:src="@drawable/address" />
 
                 <TextView
                     android:id="@+id/account_address_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/account_address_iv"
                     android:paddingLeft="10dip"
                     android:paddingRight="10dip"
                     android:text="@string/address_manage"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/middle_text_size" />
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/small_text_size" />
 
                 <TextView
                     android:id="@+id/account_address_content_tv"
@@ -131,7 +137,6 @@
                     android:layout_marginRight="10dp"
                     android:src="@drawable/arrow" />
             </RelativeLayout>
-
 
             <LinearLayout
                 android:id="@+id/account_bottom_division_ll"
