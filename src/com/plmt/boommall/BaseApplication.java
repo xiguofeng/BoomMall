@@ -1,13 +1,14 @@
 package com.plmt.boommall;
 
-import android.app.Application;
-import android.content.Context;
-import android.content.res.Configuration;
-
 import com.plmt.boommall.config.Constants;
 import com.plmt.boommall.network.volley.RequestQueue;
 import com.plmt.boommall.network.volley.toolbox.Volley;
+import com.plmt.boommall.push.Easemob;
 import com.plmt.boommall.utils.image.ImageLoaderConfig;
+
+import android.app.Application;
+import android.content.Context;
+import android.content.res.Configuration;
 
 public class BaseApplication extends Application {
 
@@ -26,6 +27,8 @@ public class BaseApplication extends Application {
 		context = getApplicationContext();
 		sQueue = Volley.newRequestQueue(getApplicationContext());
 		ImageLoaderConfig.initImageLoader(this, Constants.BASE_IMAGE_CACHE);
+		
+		Easemob.getInstance().init(context);
 	}
 
 	@Override
