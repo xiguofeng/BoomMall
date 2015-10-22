@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
                 android:background="@color/white"
-                android:padding="5dip" >
+                android:padding="6dip" >
 
                 <ImageView
                     android:id="@+id/account_real_name_auth_iv"
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
                 android:background="@color/white"
-                android:padding="5dip" >
+                android:padding="6dip" >
 
                 <ImageView
                     android:id="@+id/account_address_iv"
