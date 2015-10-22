@@ -9,8 +9,8 @@ public class RequestUrl {
 
 	// http://120.55.116.206:8080/mapi
 	public static final String HOST_URL = "http://120.55.116.206:8060/mapi";
-	
-	public static final String HOST_PAY_URL="http://120.55.116.206:8060";
+
+	public static final String HOST_PAY_URL = "http://120.55.116.206:8060";
 
 	public interface connect {
 		/**
@@ -38,6 +38,25 @@ public class RequestUrl {
 		 * 验证码
 		 */
 		public String sendAuthCode = "sendAuthCode";
+
+	}
+
+	public interface property {
+
+		/**
+		 * 积分查询
+		 */
+		public String queryIntegral = "/user/getRewardAmount";
+
+		/**
+		 * 余额查询
+		 */
+		public String queryRemainingMoney = "/user/getBalance";
+
+		/**
+		 * 旺卡查询
+		 */
+		public String queryGiftCard = "/user/giftCart";
 
 	}
 
@@ -88,8 +107,6 @@ public class RequestUrl {
 		public String del = "/address/delete";
 
 	}
-	
-	
 
 	public interface goods {
 
@@ -123,22 +140,22 @@ public class RequestUrl {
 	public interface order {
 
 		public String queryOrderList = "/account_order/list";
-		
+
 		/**
 		 * 提交订单
 		 */
 		public String submitOrder = "/checkout/submitOrder/";
-		
+
 		/**
 		 * 获取订单支付信息
 		 */
 		public String getOrderPayInfo = "/appaliapy/payment/getOrder";
-		
+
 		/**
 		 * 订单信息
 		 */
 		public String cartDetail = "/checkout/cartDetail";
-		
+
 		/**
 		 * 设置订单地址
 		 */

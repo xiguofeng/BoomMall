@@ -27,6 +27,7 @@
     <string name="submit">提交</string>
     <string name="save">保存</string>
     <string name="confirm_submit">确认提交</string>
+    
 
     <!-- account -->
     <string name="login_emptyname_or_emptypwd">用户名或密码为空，请重新输入</string>
@@ -54,6 +55,10 @@
     <string name="add_address">新建地址</string>
     <string name="delivery_address">收货地址</string>
     <string name="real_name_auth">实名认证</string>
+    <string name="my_integral">我的积分</string>
+    <string name="account_remaining_money">账户余额</string>
+    <string name="can_use_remaining_money">可用余额</string>
+    <string name="recharge_to_bmcard_remaining_money">充值到旺卡余额</string>
 
     <!-- order -->
     <string name="confirm_order">确认订单</string>
@@ -95,6 +100,7 @@
     <string name="pay_way_hint">请选择支付方式</string>
     <string name="buy">购买</string>
     <string name="bmcard">旺卡</string>
+    <string name="bmcard_pwd">旺卡密码</string>
     <string name="bmcard_hint">请输入旺卡密码</string>
     <string name="remaining_money">余额</string>
     <string name="remaining_money_can_use">可用余额</string>

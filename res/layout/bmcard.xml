@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red_title_bg" >
+
+        <ImageView
+            android:id="@+id/bmcard_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"
+            android:padding="8dip"
+            android:src="@drawable/back_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/bmcard"
+            android:textColor="@color/white"
+            android:textSize="@dimen/large_text_size" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/bmcard_sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/bmcard_tag_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="@color/white"
+                android:padding="6dip" >
+
+                <ImageView
+                    android:id="@+id/bmcard_iv"
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:src="@drawable/password" />
+
+                <TextView
+                    android:id="@+id/bmcard_tag_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/bmcard_iv"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:text="@string/bmcard_pwd"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/small_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bmcard_content_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="6dip" >
+
+                <EditText
+                    android:id="@+id/address_add_input_address_detail_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:background="@drawable/corners_bg_gray"
+                    android:hint="@string/bmcard_hint"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:paddingBottom="6dip"
+                    android:paddingLeft="5dip"
+                    android:paddingTop="6dip"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/small_text_size" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/bmcard_recharge_btn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:layout_weight="1"
+                    android:background="@drawable/corners_bg_white_all"
+                    android:gravity="center"
+                    android:paddingBottom="5dip"
+                    android:paddingTop="5dip"
+                    android:text="@string/recharge_to_bmcard_remaining_money"
+                    android:textColor="@color/red_character"
+                    android:textSize="@dimen/small_text_size" />
+
+                <Button
+                    android:id="@+id/bmcard_search_btn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:layout_weight="1"
+                    android:background="@drawable/corners_bg_red_all"
+                    android:gravity="center"
+                    android:paddingBottom="5dip"
+                    android:paddingTop="5dip"
+                    android:text="@string/query"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
