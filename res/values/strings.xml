@@ -94,8 +94,10 @@
     <string name="pay_in_cash">现金支付</string>
     <string name="pay_in_pos">POS机刷卡</string>
     <string name="alipay">支付宝</string>
+    <string name="alipay_hint">支付宝安全支付</string>
     <string name="wechat">微信</string>
     <string name="unionpay">银联</string>
+    <string name="unionpay_hint">银联高效支付</string>
     <string name="pay_suc">支付成功</string>
     <string name="pay_fail">支付失败</string>
     <string name="pay_way_hint">请选择支付方式</string>
@@ -107,6 +109,8 @@
     <string name="remaining_money_can_use">可用余额</string>
     <string name="remark">备注</string>
     <string name="remark_hint">请输入订单备注</string>
+    <string name="please_pay">请支付</string>
+    <string name="please_select_way">请选择支付方式</string>
     
 
     <!-- goods detail -->

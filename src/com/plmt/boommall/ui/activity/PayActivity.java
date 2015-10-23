@@ -19,6 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
@@ -52,6 +53,8 @@ public class PayActivity extends Activity implements OnClickListener {
 
 	private ImageView mBackIv;
 
+	private TextView mMoneyTv;
+
 	private HashMap<String, Object> mMsgMap = new HashMap<String, Object>();
 
 	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
@@ -65,6 +68,8 @@ public class PayActivity extends Activity implements OnClickListener {
 	private WechatpayApi mWechatpayApi;
 
 	private String mOrderId;
+
+	private String mMoney;
 
 	public static String sWxRespCode = "";
 
@@ -354,6 +359,8 @@ public class PayActivity extends Activity implements OnClickListener {
 
 		mPayConfirmBtn = (Button) findViewById(R.id.pay_confirm_btn);
 		mBackIv = (ImageView) findViewById(R.id.pay_back_iv);
+		
+		mMoneyTv = (TextView) findViewById(R.id.pay_money_tv);
 
 		initListener();
 	}

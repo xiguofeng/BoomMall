@@ -28,6 +28,47 @@
             android:textSize="@dimen/large_text_size" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/pay_money_real_name_auth_rl"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:background="@color/white"
+        android:padding="8dip" >
+
+        <ImageView
+            android:id="@+id/pay_money_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:src="@drawable/pay" />
+
+        <TextView
+            android:id="@+id/pay_money_tag_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/pay_money_iv"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:text="@string/please_pay"
+            android:textColor="@color/black_character"
+            android:textSize="@dimen/middle_text_size" />
+
+        <TextView
+            android:id="@+id/pay_money_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:textColor="@color/red_character"
+            android:textSize="@dimen/middle_text_size" />
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,9 +79,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
-            android:text="@string/pay_online"
-            android:textColor="@color/gray_character"
-            android:textSize="@dimen/middle_text_size" />
+            android:text="@string/please_select_way"
+            android:textColor="@color/black_character"
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,7 +89,8 @@
             android:layout_marginLeft="10dip"
             android:text="@string/pay_online_brief"
             android:textColor="@color/gray_character"
-            android:textSize="@dimen/small_text_size" />
+            android:textSize="@dimen/small_text_size"
+            android:visibility="gone" />
     </LinearLayout>
 
     <RelativeLayout
@@ -65,18 +107,33 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
-            android:src="@drawable/alipay" />
+            android:src="@drawable/pay_alipay" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
             android:layout_toRightOf="@+id/pay_alipay_iv"
-            android:text="@string/alipay"
-            android:textColor="@color/black_character"
-            android:textSize="@dimen/middle_text_size" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alipay"
+                android:textColor="@color/black_character"
+                android:textSize="@dimen/middle_text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:text="@string/alipay_hint"
+                android:textColor="@color/black_character"
+                android:textSize="@dimen/micro_text_size" />
+        </LinearLayout>
 
         <CheckBox
             android:id="@+id/pay_alipay_cb"
@@ -96,7 +153,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dip"
         android:background="@drawable/h_line"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
     </LinearLayout>
 
     <RelativeLayout
@@ -104,26 +162,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/common_selector"
-        android:padding="8dip" >
+        android:padding="8dip"
+        android:visibility="gone" >
 
         <ImageView
             android:id="@+id/pay_wechat_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
             android:src="@drawable/wechatpay" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
             android:layout_toRightOf="@+id/pay_wechat_iv"
-            android:text="@string/wechat"
-            android:textColor="@color/black_character"
-            android:textSize="@dimen/middle_text_size" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wechat"
+                android:textColor="@color/black_character"
+                android:textSize="@dimen/middle_text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:text="@string/alipay"
+                android:textColor="@color/black_character"
+                android:textSize="@dimen/micro_text_size" />
+        </LinearLayout>
 
         <CheckBox
             android:id="@+id/pay_wechat_cb"
@@ -158,19 +231,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
-            android:src="@drawable/unionpay" />
+            android:src="@drawable/pay_union" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
             android:layout_toRightOf="@+id/pay_unionpay_iv"
-            android:text="@string/unionpay"
-            android:textColor="@color/black_character"
-            android:textSize="@dimen/middle_text_size" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/unionpay"
+                android:textColor="@color/black_character"
+                android:textSize="@dimen/middle_text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:text="@string/unionpay_hint"
+                android:textColor="@color/black_character"
+                android:textSize="@dimen/micro_text_size" />
+        </LinearLayout>
 
         <CheckBox
             android:id="@+id/pay_unionpay_cb"
