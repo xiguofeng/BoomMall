@@ -58,6 +58,7 @@
     <string name="my_integral">我的积分</string>
     <string name="account_remaining_money">账户余额</string>
     <string name="can_use_remaining_money">可用余额</string>
+    <string name="bmcard_money">旺卡金额</string>
     <string name="recharge_to_bmcard_remaining_money">充值到旺卡余额</string>
 
     <!-- order -->

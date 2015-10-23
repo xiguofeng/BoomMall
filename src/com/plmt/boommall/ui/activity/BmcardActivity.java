@@ -2,8 +2,10 @@ package com.plmt.boommall.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -11,21 +13,68 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.plmt.boommall.R;
+import com.plmt.boommall.network.logic.PropertyLogic;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 
 public class BmcardActivity extends Activity implements OnClickListener {
 
 	private Context mContext;
 
-	private RelativeLayout mAreaRl;
-	private RelativeLayout mRealNameAuthRl;
 	private ImageView mBackIv;
+
+	private EditText mGiftCardPwdEt;
+
+	private Button mRechargeBtn;
+
+	private Button mQueryBtn;
+
+	private RelativeLayout mCardMoneyRl;
+
+	private TextView mCardMoneyTv;
+
+	private CustomProgressDialog mProgressDialog;
+
+	Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			int what = msg.what;
+			switch (what) {
+			case PropertyLogic.GIFTCARD_GET_SUC: {
+				if (null != msg.obj) {
+					mCardMoneyRl.setVisibility(View.VISIBLE);
+					mCardMoneyTv.setText((String) msg.obj);
+				}
+				break;
+			}
+			case PropertyLogic.GIFTCARD_GET_FAIL: {
+				break;
+			}
+			case PropertyLogic.GIFTCARD_GET_EXCEPTION: {
+				break;
+			}
+
+			case PropertyLogic.NET_ERROR: {
+				break;
+			}
+
+			default:
+				break;
+			}
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+		}
+
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.integral);
+		setContentView(R.layout.bmcard);
 		mContext = BmcardActivity.this;
 		initView();
 		initData();
@@ -33,13 +82,18 @@ public class BmcardActivity extends Activity implements OnClickListener {
 	}
 
 	private void initView() {
-		mAreaRl = (RelativeLayout) findViewById(R.id.account_address_rl);
-		mAreaRl.setOnClickListener(this);
+		mGiftCardPwdEt = (EditText) findViewById(R.id.bmcard_content_pwd_et);
 
-		mRealNameAuthRl = (RelativeLayout) findViewById(R.id.account_real_name_auth_rl);
-		mRealNameAuthRl.setOnClickListener(this);
+		mRechargeBtn = (Button) findViewById(R.id.bmcard_recharge_btn);
+		mQueryBtn = (Button) findViewById(R.id.bmcard_query_btn);
+		mRechargeBtn.setOnClickListener(this);
+		mQueryBtn.setOnClickListener(this);
 
-		mBackIv = (ImageView) findViewById(R.id.account_back_iv);
+		mCardMoneyRl = (RelativeLayout) findViewById(R.id.bmcard_money_rl);
+		mCardMoneyTv = (TextView) findViewById(R.id.bmcard_money_tv);
+		mCardMoneyRl.setVisibility(View.GONE);
+
+		mBackIv = (ImageView) findViewById(R.id.bmcard_back_iv);
 		mBackIv.setOnClickListener(this);
 	}
 
@@ -50,22 +104,21 @@ public class BmcardActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.account_address_rl: {
-			Intent intent = new Intent(BmcardActivity.this,
-					AddressListActivity.class);
-			intent.setAction(AddressListActivity.ORIGIN_FROM_ACCOUNT_KEY);
-			startActivity(intent);
-			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+		case R.id.bmcard_recharge_btn: {
 			break;
 		}
-		case R.id.account_real_name_auth_rl: {
-			Intent intent = new Intent(BmcardActivity.this,
-					RealNameAuthActivity.class);
-			startActivity(intent);
-			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+		case R.id.bmcard_query_btn: {
+			mProgressDialog = new CustomProgressDialog(mContext);
+			mProgressDialog.show();
+			if (!TextUtils.isEmpty(mGiftCardPwdEt.getText().toString())) {
+				PropertyLogic.queryGiftCard(mContext, mHandler, mGiftCardPwdEt
+						.getText().toString());
+			} else {
+				Toast.makeText(mContext, "旺卡密码不能为空！", Toast.LENGTH_SHORT).show();
+			}
 			break;
 		}
-		case R.id.account_back_iv: {
+		case R.id.bmcard_back_iv: {
 			finish();
 			overridePendingTransition(R.anim.push_right_in,
 					R.anim.push_right_out);

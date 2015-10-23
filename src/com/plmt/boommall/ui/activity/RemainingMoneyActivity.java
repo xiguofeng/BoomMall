@@ -32,7 +32,7 @@ public class RemainingMoneyActivity extends Activity implements OnClickListener 
 			switch (what) {
 			case PropertyLogic.BALANCE_GET_SUC: {
 				if (null != msg.obj) {
-					mBalanceTv.setText((String) msg.obj);
+					mBalanceTv.setText(((String) msg.obj)+"元");
 				}
 				break;
 			}

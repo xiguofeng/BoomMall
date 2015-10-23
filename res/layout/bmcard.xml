@@ -76,7 +76,7 @@
                 android:padding="6dip" >
 
                 <EditText
-                    android:id="@+id/address_add_input_address_detail_et"
+                    android:id="@+id/bmcard_content_pwd_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
@@ -107,14 +107,14 @@
                     android:layout_weight="1"
                     android:background="@drawable/corners_bg_white_all"
                     android:gravity="center"
-                    android:paddingBottom="5dip"
-                    android:paddingTop="5dip"
+                    android:paddingBottom="8dip"
+                    android:paddingTop="8dip"
                     android:text="@string/recharge_to_bmcard_remaining_money"
                     android:textColor="@color/red_character"
                     android:textSize="@dimen/small_text_size" />
 
                 <Button
-                    android:id="@+id/bmcard_search_btn"
+                    android:id="@+id/bmcard_query_btn"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
@@ -122,12 +122,55 @@
                     android:layout_weight="1"
                     android:background="@drawable/corners_bg_red_all"
                     android:gravity="center"
-                    android:paddingBottom="5dip"
-                    android:paddingTop="5dip"
+                    android:paddingBottom="8dip"
+                    android:paddingTop="8dip"
                     android:text="@string/query"
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_text_size" />
             </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/bmcard_money_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="@color/white"
+                android:padding="6dip" >
+
+                <ImageView
+                    android:id="@+id/bmcard_money_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:src="@drawable/integral" />
+
+                <TextView
+                    android:id="@+id/bmcard_money_tag_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/bmcard_money_iv"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:text="@string/bmcard_money"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/small_text_size" />
+
+                <TextView
+                    android:id="@+id/bmcard_money_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:paddingBottom="6dip"
+                    android:paddingTop="6dip"
+                    android:textColor="@color/red_character"
+                    android:textSize="@dimen/small_text_size" />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

@@ -47,9 +47,8 @@ public class UserActivity extends Activity implements OnClickListener {
 	private int[] mOrderStatePicPath = {
 			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment,
-			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment };
-	private String[] mOrderStateStr = { "待付款", "待收货", "待评价", "退款/售后" };
+	private String[] mOrderStateStr = { "待付款", "待收货", "待评价" };
 
 	private LinearLayout mMyPropertyLl;
 	private CustomGridView mPropertyGv;
@@ -58,9 +57,8 @@ public class UserActivity extends Activity implements OnClickListener {
 	private int[] mPropertyStatePicPath = {
 			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment,
-			R.drawable.personal_order_wait_for_payment,
 			R.drawable.personal_order_wait_for_payment };
-	private String[] mPropertyStateStr = { "余额", "旺卡", "积分", "优惠券" };
+	private String[] mPropertyStateStr = { "余额", "旺卡", "积分" };
 
 	private LinearLayout mMyAccountLl;
 	private String[] mCorpImgStr = { "照相", "从相册中选择" };
@@ -159,11 +157,35 @@ public class UserActivity extends Activity implements OnClickListener {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if (UserInfoManager.getLoginIn(mContext)) {
-					Intent intent = new Intent(UserActivity.this,
-							MyOrderListActivity.class);
-					startActivity(intent);
-					overridePendingTransition(R.anim.push_left_in,
-							R.anim.push_left_out);
+					switch (position) {
+					case 0: {
+						Intent intent = new Intent(UserActivity.this,
+								RemainingMoneyActivity.class);
+						startActivity(intent);
+						overridePendingTransition(R.anim.push_left_in,
+								R.anim.push_left_out);
+						break;
+					}
+					case 1: {
+						Intent intent = new Intent(UserActivity.this,
+								BmcardActivity.class);
+						startActivity(intent);
+						overridePendingTransition(R.anim.push_left_in,
+								R.anim.push_left_out);
+						break;
+					}
+					case 2: {
+						Intent intent = new Intent(UserActivity.this,
+								IntegralActivity.class);
+						startActivity(intent);
+						overridePendingTransition(R.anim.push_left_in,
+								R.anim.push_left_out);
+						break;
+					}
+					default:
+						break;
+					}
+
 				} else {
 					Intent intent = new Intent(UserActivity.this,
 							LoginActivity.class);

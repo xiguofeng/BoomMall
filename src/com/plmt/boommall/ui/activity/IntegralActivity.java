@@ -33,7 +33,7 @@ public class IntegralActivity extends Activity implements OnClickListener {
 			switch (what) {
 			case PropertyLogic.INTEGRAL_GET_SUC: {
 				if (null != msg.obj) {
-					mIntegralTv.setText((String) msg.obj);
+					mIntegralTv.setText(((String) msg.obj)+"点");
 				}
 				break;
 			}

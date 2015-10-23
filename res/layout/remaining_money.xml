@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/remaining_money"
+            android:text="@string/account_remaining_money"
             android:textColor="@color/white"
             android:textSize="@dimen/large_text_size" />
     </RelativeLayout>

@@ -230,7 +230,7 @@
                     android:cacheColorHint="#00000000"
                     android:horizontalSpacing="1dip"
                     android:listSelector="@android:color/transparent"
-                    android:numColumns="4"
+                    android:numColumns="3"
                     android:verticalSpacing="1dip" >
                 </com.plmt.boommall.ui.view.gridview.CustomGridView>
             </LinearLayout>
@@ -272,13 +272,15 @@
                         android:layout_marginRight="5dp"
                         android:text="@string/view_all_property"
                         android:textColor="@color/gray_character"
-                        android:textSize="@dimen/micro_text_size" />
+                        android:textSize="@dimen/micro_text_size"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/arrow" />
+                        android:src="@drawable/arrow"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -296,7 +298,7 @@
                     android:cacheColorHint="#00000000"
                     android:horizontalSpacing="1dip"
                     android:listSelector="@android:color/transparent"
-                    android:numColumns="4"
+                    android:numColumns="3"
                     android:verticalSpacing="1dip" >
                 </com.plmt.boommall.ui.view.gridview.CustomGridView>
             </LinearLayout>

@@ -151,6 +151,24 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.plmt.boommall.ui.activity.IntegralActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.plmt.boommall.ui.activity.RemainingMoneyActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.plmt.boommall.ui.activity.BmcardActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.plmt.boommall.ui.activity.AccountActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
