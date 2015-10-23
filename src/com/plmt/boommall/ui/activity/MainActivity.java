@@ -3,29 +3,6 @@ package com.plmt.boommall.ui.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Ads;
-import com.plmt.boommall.entity.Category;
-import com.plmt.boommall.entity.DemoItem;
-import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.network.logic.GoodsLogic;
-import com.plmt.boommall.network.logic.OrderLogic;
-import com.plmt.boommall.ui.adapter.BannerAdapter;
-import com.plmt.boommall.ui.adapter.DemoAdapter;
-import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
-import com.plmt.boommall.ui.adapter.MainGvCategoryAdapter;
-import com.plmt.boommall.ui.view.CustomClassifyView;
-import com.plmt.boommall.ui.view.MultiStateView;
-import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView;
-import com.plmt.boommall.ui.view.gridview.CustomGridView;
-import com.plmt.boommall.ui.view.iosdialog.AlertDialog;
-import com.plmt.boommall.ui.view.listview.HorizontalListView;
-import com.plmt.boommall.ui.view.srollview.BorderScrollView;
-import com.plmt.boommall.ui.view.srollview.BorderScrollView.OnBorderListener;
-import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
-import com.plmt.boommall.ui.view.viewflow.ViewFlow;
-import com.plmt.boommall.utils.OrderManager;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -43,6 +20,27 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Ads;
+import com.plmt.boommall.entity.Category;
+import com.plmt.boommall.entity.DemoItem;
+import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.network.logic.GoodsLogic;
+import com.plmt.boommall.ui.adapter.BannerAdapter;
+import com.plmt.boommall.ui.adapter.DemoAdapter;
+import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
+import com.plmt.boommall.ui.adapter.MainGvCategoryAdapter;
+import com.plmt.boommall.ui.view.CustomClassifyView;
+import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView;
+import com.plmt.boommall.ui.view.gridview.CustomGridView;
+import com.plmt.boommall.ui.view.iosdialog.AlertDialog;
+import com.plmt.boommall.ui.view.listview.HorizontalListView;
+import com.plmt.boommall.ui.view.srollview.BorderScrollView;
+import com.plmt.boommall.ui.view.srollview.BorderScrollView.OnBorderListener;
+import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
+import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -286,9 +284,9 @@ public class MainActivity extends Activity implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				 Intent intent = new Intent(MainActivity.this,
-				 CreateOrderActivity.class);
-				 startActivity(intent);
+				Intent intent = new Intent(MainActivity.this,
+						CreateOrderActivity.class);
+				startActivity(intent);
 			}
 		});
 	}
@@ -442,8 +440,15 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		}
 
+		case R.id.main_msg_ll: {
+			Intent intent = new Intent(MainActivity.this, MsgActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+
 		case R.id.main_title_simple_msg_iv: {
-			Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+			Intent intent = new Intent(MainActivity.this, MsgActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;

@@ -62,6 +62,8 @@ public class UserActivity extends Activity implements OnClickListener {
 
 	private LinearLayout mMyAccountLl;
 	private String[] mCorpImgStr = { "照相", "从相册中选择" };
+	
+	private LinearLayout mMsgLl;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,9 @@ public class UserActivity extends Activity implements OnClickListener {
 		mMyAccountLl.setOnClickListener(this);
 		mUserNameTv = (TextView) findViewById(R.id.user_name_tv);
 		mUserNameTv.setOnClickListener(this);
+		
+		mMsgLl= (LinearLayout) findViewById(R.id.user_msg_ll);
+		mMsgLl.setOnClickListener(this);
 	}
 
 	private void intCropImage() {
@@ -287,6 +292,12 @@ public class UserActivity extends Activity implements OnClickListener {
 		case R.id.user_name_tv: {
 			Intent intent = new Intent(UserActivity.this, LoginActivity.class);
 			intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+		case R.id.user_msg_ll: {
+			Intent intent = new Intent(UserActivity.this, MsgActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
