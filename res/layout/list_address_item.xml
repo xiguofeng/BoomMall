@@ -3,11 +3,66 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
+    android:layout_marginTop="10dip"
     android:descendantFocusability="blocksDescendants"
-    android:gravity="center_horizontal" >
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/left_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip" >
+
+            <TextView
+                android:id="@+id/address_user_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:singleLine="true"
+                android:text="1"
+                android:textColor="@color/black_character"
+                android:textSize="@dimen/small_text_size" />
+
+            <TextView
+                android:id="@+id/address_phone_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:singleLine="true"
+                android:text="1"
+                android:textColor="@color/black_character"
+                android:textSize="@dimen/small_text_size" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/address_detail_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:text="1"
+            android:textColor="@color/gray_character"
+            android:textSize="@dimen/small_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/h_line" >
+    </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/top_relative"
+        android:id="@+id/list_address_item_bottom_rl"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -15,63 +70,88 @@
         android:paddingBottom="5dip"
         android:paddingTop="5dip" >
 
-        <ImageView
-            android:id="@+id/address_update_iv"
+        <CheckBox
+            android:id="@+id/list_address_item_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@null"
+            android:button="@drawable/check_selector"
+            android:focusable="false"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/list_address_item_check_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_toRightOf="@+id/list_address_item_cb"
+            android:singleLine="true"
+            android:text="@string/default_address"
+            android:textColor="@color/black_character"
+            android:textSize="@dimen/small_text_size" />
+
+        <LinearLayout
+            android:id="@+id/list_address_item_del_rl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dip"
-            android:scaleType="centerCrop"
-            android:background="@color/gray_bg"
-            android:src="@drawable/ic_delete" />
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip" >
 
-        <LinearLayout
-            android:id="@+id/left_rl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dip"
-            android:layout_marginLeft="10dip"
-            android:layout_toLeftOf="@+id/address_update_iv"
-            android:orientation="vertical" >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dip"
-                android:paddingBottom="5dip" >
-
-                <TextView
-                    android:id="@+id/address_user_name_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:singleLine="true"
-                    android:text="1"
-                    android:textColor="@color/black_character"
-                    android:textSize="@dimen/small_text_size" />
-
-                <TextView
-                    android:id="@+id/address_phone_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:singleLine="true"
-                    android:text="1"
-                    android:textColor="@color/black_character"
-                    android:textSize="@dimen/small_text_size" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/address_detail_tv"
+            <ImageView
+                android:id="@+id/list_address_item_del_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="10dip"
+                android:layout_marginRight="5dip"
+                android:src="@drawable/ic_delete" />
+
+            <TextView
+                android:id="@+id/list_address_item_del_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:singleLine="true"
-                android:text="1"
-                android:textColor="@color/gray_character"
+                android:text="@string/del"
+                android:textColor="@color/black_character"
+                android:textSize="@dimen/small_text_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/list_address_item_edit_rl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:layout_toLeftOf="@+id/list_address_item_del_rl"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip" >
+
+            <ImageView
+                android:id="@+id/list_address_item_edit_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dip"
+                android:src="@drawable/ic_edit" />
+
+            <TextView
+                android:id="@+id/list_address_item_edit_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:singleLine="true"
+                android:text="@string/editor"
+                android:textColor="@color/black_character"
                 android:textSize="@dimen/small_text_size" />
         </LinearLayout>
     </RelativeLayout>
+
 </LinearLayout>

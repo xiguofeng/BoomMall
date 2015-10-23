@@ -2,19 +2,20 @@ package com.plmt.boommall.ui.adapter;
 
 import java.util.ArrayList;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Address;
-import com.plmt.boommall.entity.Address;
-import com.plmt.boommall.ui.utils.ListItemClickHelp;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Address;
+import com.plmt.boommall.ui.utils.ListItemClickHelp;
 
 public class AddressAdapter extends BaseAdapter {
 
@@ -26,7 +27,8 @@ public class AddressAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
 
-	public AddressAdapter(Context context, ArrayList<Address> datas, ListItemClickHelp callback) {
+	public AddressAdapter(Context context, ArrayList<Address> datas,
+			ListItemClickHelp callback) {
 		this.mContext = context;
 		this.mDatas = datas;
 		this.mCallback = callback;
@@ -58,11 +60,20 @@ public class AddressAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.list_address_item, null);
 
 			holder = new ViewHolder();
-			holder.mNameTv = (TextView) convertView.findViewById(R.id.address_user_name_tv);
-			holder.mPhoneTv = (TextView) convertView.findViewById(R.id.address_phone_tv);
-			holder.mAddressDetail = (TextView) convertView.findViewById(R.id.address_detail_tv);
+			holder.mNameTv = (TextView) convertView
+					.findViewById(R.id.address_user_name_tv);
+			holder.mPhoneTv = (TextView) convertView
+					.findViewById(R.id.address_phone_tv);
+			holder.mAddressDetail = (TextView) convertView
+					.findViewById(R.id.address_detail_tv);
 
-			holder.mUpdateIv = (ImageView) convertView.findViewById(R.id.address_update_iv);
+			holder.mEditLl = (LinearLayout) convertView
+					.findViewById(R.id.list_address_item_edit_rl);
+			holder.mDelLl = (LinearLayout) convertView
+					.findViewById(R.id.list_address_item_del_rl);
+
+			holder.mDefaultCb = (CheckBox) convertView
+					.findViewById(R.id.list_address_item_cb);
 
 			convertView.setTag(holder);
 		} else {
@@ -72,12 +83,19 @@ public class AddressAdapter extends BaseAdapter {
 		holder.mNameTv.setText(mDatas.get(position).getUsername().trim());
 		holder.mPhoneTv.setText(mDatas.get(position).getTelephone());
 		holder.mAddressDetail.setText(mDatas.get(position).getContent());
-		
+
 		final int tempPosition = position;
 		final View view = convertView;
-		final int whichView = holder.mUpdateIv.getId();
+		final int whichView = holder.mDelLl.getId();
 		
-		holder.mUpdateIv.setOnClickListener(new OnClickListener() {
+		holder.mEditLl.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mCallback.onClick(view, v, tempPosition, whichView);
+			}
+		});
+		
+		holder.mDelLl.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mCallback.onClick(view, v, tempPosition, whichView);
@@ -96,6 +114,12 @@ public class AddressAdapter extends BaseAdapter {
 		public TextView mAddressDetail;
 
 		public ImageView mUpdateIv;
+
+		public LinearLayout mEditLl;
+
+		public LinearLayout mDelLl;
+
+		public CheckBox mDefaultCb;
 	}
 
 }

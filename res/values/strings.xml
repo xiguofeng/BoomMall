@@ -26,6 +26,7 @@
     <string name="num_digits">0123456789</string>
     <string name="submit">提交</string>
     <string name="save">保存</string>
+    <string name="del">删除</string>
     <string name="confirm_submit">确认提交</string>
     
 
@@ -196,6 +197,7 @@
     <string name="address_detail_hint">请输入详细地址</string>
     <string name="delivery_way">配送方式</string>
     <string name="delivery_stand">标准快递</string>
+    <string name="default_address">默认地址</string>
     
     <!-- invoice -->
     <string name="invoice">发票信息</string>

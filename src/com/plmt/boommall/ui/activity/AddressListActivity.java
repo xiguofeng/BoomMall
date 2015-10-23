@@ -138,7 +138,11 @@ public class AddressListActivity extends Activity implements OnClickListener,
 	@Override
 	public void onClick(View item, View widget, int position, int which) {
 		switch (which) {
-		case R.id.address_update_iv: {
+		case R.id.list_address_item_edit_rl: {
+
+			break;
+		}
+		case R.id.list_address_item_del_rl: {
 
 			break;
 		}
