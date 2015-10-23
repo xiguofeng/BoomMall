@@ -1,7 +1,31 @@
 package com.plmt.boommall.ui.activity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Banner;
+import com.plmt.boommall.entity.Category;
+import com.plmt.boommall.entity.DemoItem;
+import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.network.logic.GoodsLogic;
+import com.plmt.boommall.network.logic.PromotionLogic;
+import com.plmt.boommall.ui.adapter.BannerAdapter;
+import com.plmt.boommall.ui.adapter.DemoAdapter;
+import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
+import com.plmt.boommall.ui.adapter.MainGvCategoryAdapter;
+import com.plmt.boommall.ui.view.CustomClassifyView;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
+import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView;
+import com.plmt.boommall.ui.view.gridview.CustomGridView;
+import com.plmt.boommall.ui.view.iosdialog.AlertDialog;
+import com.plmt.boommall.ui.view.listview.HorizontalListView;
+import com.plmt.boommall.ui.view.srollview.BorderScrollView;
+import com.plmt.boommall.ui.view.srollview.BorderScrollView.OnBorderListener;
+import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
+import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,27 +44,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Ads;
-import com.plmt.boommall.entity.Category;
-import com.plmt.boommall.entity.DemoItem;
-import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.network.logic.GoodsLogic;
-import com.plmt.boommall.ui.adapter.BannerAdapter;
-import com.plmt.boommall.ui.adapter.DemoAdapter;
-import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
-import com.plmt.boommall.ui.adapter.MainGvCategoryAdapter;
-import com.plmt.boommall.ui.view.CustomClassifyView;
-import com.plmt.boommall.ui.view.MultiStateView;
-import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView;
-import com.plmt.boommall.ui.view.gridview.CustomGridView;
-import com.plmt.boommall.ui.view.iosdialog.AlertDialog;
-import com.plmt.boommall.ui.view.listview.HorizontalListView;
-import com.plmt.boommall.ui.view.srollview.BorderScrollView;
-import com.plmt.boommall.ui.view.srollview.BorderScrollView.OnBorderListener;
-import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
-import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -65,7 +68,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private ViewFlow mViewFlow;
 	private CircleFlowIndicator mIndic;
-	private ArrayList<Ads> mBannerActivityList = new ArrayList<Ads>();
+	private ArrayList<Banner> mBannerActivityList = new ArrayList<Banner>();
 	private BannerAdapter mBannerAdapter;
 	private FrameLayout mBannerFl;
 
@@ -107,13 +110,44 @@ public class MainActivity extends Activity implements OnClickListener {
 	private AsymmetricGridView mAsymmetricGridView;
 	private DemoAdapter mGoodsAdapter;
 	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
+	
+	private CustomProgressDialog mProgressDialog;
 
-	private long exitTime = 0;
-
-	private Handler mHandler = new Handler() {
+	private Handler mPromotionHandler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
+			int what = msg.what;
+			switch (what) {
+			case PromotionLogic.BANNER_GET_SUC: {
+				if (null != msg.obj) {
+					mBannerActivityList.clear();
+					mBannerActivityList.addAll((Collection<? extends Banner>) msg.obj);
+					initCircleimage();
+				}
+
+				break;
+
+			}
+			case PromotionLogic.BANNER_GET_FAIL: {
+				break;
+			}
+			case PromotionLogic.BANNER_GET_EXCEPTION: {
+				break;
+			}
+			
+			case PromotionLogic.NET_ERROR: {
+				break;
+			}
+
+			default:
+				break;
+			}
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+			// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+		
 		}
 
 	};
@@ -197,7 +231,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
 		initSearchAndMsgView();
-		initCircleimage();
 		initCategoryView();
 		initGoodsShow();
 		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
@@ -247,11 +280,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		mBannerFl.setVisibility(View.VISIBLE);
 		mViewFlow = (ViewFlow) findViewById(R.id.main_viewflow);
 		mIndic = (CircleFlowIndicator) findViewById(R.id.main_viewflowindic);
-		for (int i = 0; i < 3; i++) {
-			Ads promotion = new Ads();
-			promotion.setImgUrl("");
-			mBannerActivityList.add(promotion);
-		}
 
 		showcircleimage();
 	}
@@ -259,7 +287,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private void showcircleimage() {
 		mBannerAdapter = new BannerAdapter(mContext, mBannerActivityList);
 		mViewFlow.setAdapter(mBannerAdapter);
-		mViewFlow.setmSideBuffer(3); // 实际图片张数
+		mViewFlow.setmSideBuffer(mBannerActivityList.size()); // 实际图片张数
 		mViewFlow.setFlowIndicator(mIndic);
 		mViewFlow.setViewGroup(mBannerFl);
 		mViewFlow.setTimeSpan(2000);
@@ -404,7 +432,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-		GoodsLogic.getGoodsListByCategory(mContext, mHandler, "1", 1, 1);
+		mProgressDialog = new CustomProgressDialog(mContext);
+		mProgressDialog.show();
+		PromotionLogic.getBannerList(mContext, mPromotionHandler);
+		GoodsLogic.getGoodsListByCategory(mContext, mPromotionHandler, "1", 1, 1);
 	}
 
 	private List<DemoItem> getMoreItems(int qty) {

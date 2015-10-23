@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Ads;
+import com.plmt.boommall.entity.Banner;
 import com.plmt.boommall.ui.activity.Html5Activity;
 import com.plmt.boommall.ui.activity.HtmlSourceActivity;
 
@@ -26,9 +26,9 @@ public class BannerAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
 
-	private ArrayList<Ads> mDatas;
+	private ArrayList<Banner> mDatas;
 
-	public BannerAdapter(Context context, ArrayList<Ads> datas) {
+	public BannerAdapter(Context context, ArrayList<Banner> datas) {
 		mContext = context;
 		this.mDatas = datas;
 		mInflater = (LayoutInflater) context
@@ -78,9 +78,9 @@ public class BannerAdapter extends BaseAdapter {
 					.getDrawable(R.drawable.menu_viewpager_1));
 		}
 
-		if (!TextUtils.isEmpty(mDatas.get(tempPosition).getImgUrl())) {
+		if (!TextUtils.isEmpty(mDatas.get(tempPosition).getImgurl())) {
 			ImageLoader.getInstance().displayImage(
-					mDatas.get(tempPosition).getImgUrl(), holder.mBannerIcon);
+					mDatas.get(tempPosition).getImgurl(), holder.mBannerIcon);
 		}
 		// ImageLoader.getInstance().displayImage(
 		// mDatas.get(position % 3).getIconUrl(), holder.mBannerIcon);

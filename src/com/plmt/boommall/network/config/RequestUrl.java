@@ -19,6 +19,16 @@ public class RequestUrl {
 		public String connect = "/user/connect";
 
 	}
+	
+	
+	public interface promotion{
+		
+		/**
+		 * 获取首页banner
+		 */
+		public String getBanner = "/flashSale/getBanners";
+
+	}
 
 	public interface account {
 
