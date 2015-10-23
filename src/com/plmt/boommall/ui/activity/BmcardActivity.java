@@ -56,6 +56,20 @@ public class BmcardActivity extends Activity implements OnClickListener {
 			case PropertyLogic.GIFTCARD_GET_EXCEPTION: {
 				break;
 			}
+			
+			case PropertyLogic.RECHARGE_SET_SUC: {
+				Toast.makeText(mContext, "充值成功！", Toast.LENGTH_SHORT).show();
+				break;
+			}
+			case PropertyLogic.RECHARGE_SET_FAIL: {
+				if(null != msg.obj){
+					Toast.makeText(mContext, "充值失败："+(String)msg.obj, Toast.LENGTH_SHORT).show();
+				}
+				break;
+			}
+			case PropertyLogic.RECHARGE_SET_EXCEPTION: {
+				break;
+			}
 
 			case PropertyLogic.NET_ERROR: {
 				break;
@@ -105,12 +119,18 @@ public class BmcardActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bmcard_recharge_btn: {
+			if (!TextUtils.isEmpty(mGiftCardPwdEt.getText().toString())) {
+				mProgressDialog = new CustomProgressDialog(mContext);
+				mProgressDialog.show();
+				PropertyLogic.rechargeBalance(mContext, mHandler, mGiftCardPwdEt
+						.getText().toString());
+			}
 			break;
 		}
 		case R.id.bmcard_query_btn: {
-			mProgressDialog = new CustomProgressDialog(mContext);
-			mProgressDialog.show();
 			if (!TextUtils.isEmpty(mGiftCardPwdEt.getText().toString())) {
+				mProgressDialog = new CustomProgressDialog(mContext);
+				mProgressDialog.show();
 				PropertyLogic.queryGiftCard(mContext, mHandler, mGiftCardPwdEt
 						.getText().toString());
 			} else {

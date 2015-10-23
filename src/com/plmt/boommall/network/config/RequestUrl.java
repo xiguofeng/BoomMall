@@ -67,6 +67,11 @@ public class RequestUrl {
 		 * 旺卡查询
 		 */
 		public String queryGiftCard = "/user/giftCart";
+		
+		/**
+		 * 旺卡充值到余额
+		 */
+		public String rechargeBalance = "/user/redeemGift";
 
 	}
 

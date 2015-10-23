@@ -1,34 +1,20 @@
 package com.plmt.boommall.network.logic;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-
-import com.google.gson.JsonObject;
 import com.plmt.boommall.BaseApplication;
-import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.entity.User;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
-import com.plmt.boommall.utils.JsonUtils;
 import com.plmt.boommall.utils.UserInfoManager;
+
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 
 public class PropertyLogic {
 
@@ -51,6 +37,12 @@ public class PropertyLogic {
 	public static final int GIFTCARD_GET_FAIL = GIFTCARD_GET_SUC + 1;
 
 	public static final int GIFTCARD_GET_EXCEPTION = GIFTCARD_GET_FAIL + 1;
+	
+	public static final int RECHARGE_SET_SUC = GIFTCARD_GET_EXCEPTION + 1;
+
+	public static final int RECHARGE_SET_FAIL = RECHARGE_SET_SUC + 1;
+
+	public static final int RECHARGE_SET_EXCEPTION = RECHARGE_SET_FAIL + 1;
 
 	public static void queryIntegral(final Context context,
 			final Handler handler) {
@@ -148,6 +140,7 @@ public class PropertyLogic {
 						@Override
 						public void onResponse(JSONObject response) {
 							if (null != response) {
+								Log.e("xxx_giftcard", response.toString());
 								parseQueryGiftCardData(response, handler);
 							}
 
@@ -186,5 +179,55 @@ public class PropertyLogic {
 			handler.sendEmptyMessage(GIFTCARD_GET_EXCEPTION);
 		}
 	}
+	
+	public static void rechargeBalance(final Context context,
+			final Handler handler, final String giftcard) {
+		try {
+			String url = RequestUrl.HOST_URL
+					+ RequestUrl.property.rechargeBalance;
+			JSONObject requestJson = new JSONObject();
+			requestJson.put("giftcard", giftcard);
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_rechargeBalance", response.toString());
+								parseRechargeBalanceData(response, handler);
+							}
 
+						}
+
+					}, null);
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	private static void parseRechargeBalanceData(JSONObject response,
+			Handler handler) {
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				handler.sendEmptyMessage(RECHARGE_SET_SUC);
+			} else {
+				String msg = response.getString("msg");
+				Message message = new Message();
+				message.what = RECHARGE_SET_FAIL;
+				message.obj = msg;
+				handler.sendMessage(message);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(RECHARGE_SET_EXCEPTION);
+		}
+	}
+	
+	
+	
 }
