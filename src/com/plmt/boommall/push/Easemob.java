@@ -155,6 +155,7 @@ public class Easemob {
 
 			// 消息id（每条消息都会生成唯一的一个id，目前是SDK生成）
 			String msgId = intent.getStringExtra("msgid");
+			Log.e("xxx_Easemob_new_msgId", msgId);
 			// 发送方
 			String username = intent.getStringExtra("from");
 			// 收到这个广播的时候，message已经在db和内存里了，可以通过id获取mesage对象
