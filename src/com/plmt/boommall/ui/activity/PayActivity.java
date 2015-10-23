@@ -359,7 +359,7 @@ public class PayActivity extends Activity implements OnClickListener {
 
 		mPayConfirmBtn = (Button) findViewById(R.id.pay_confirm_btn);
 		mBackIv = (ImageView) findViewById(R.id.pay_back_iv);
-		
+
 		mMoneyTv = (TextView) findViewById(R.id.pay_money_tv);
 
 		initListener();
@@ -505,7 +505,8 @@ public class PayActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.pay_confirm_btn: {
-			if (!TextUtils.isEmpty(mCurrentSelectPayWay)) {
+			if (!TextUtils.isEmpty(mCurrentSelectPayWay)
+					&& PayConstants.PAY_WAY_ALIPAY.equals(mCurrentSelectPayWay)) {
 				if (null != mProgressDialog) {
 					mProgressDialog.show();
 				}
