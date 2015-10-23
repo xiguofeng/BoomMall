@@ -17,7 +17,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#F03C55"
+                android:background="@drawable/user_top_bg"
                 android:orientation="vertical" >
 
                 <RelativeLayout
@@ -77,6 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="#FC6D5E"
+                    android:visibility="gone"
                     android:orientation="horizontal" >
 
                     <LinearLayout
@@ -355,6 +356,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:gravity="center"
+            android:visibility="gone"
             android:orientation="vertical" >
 
             <ImageView
@@ -384,12 +386,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@drawable/msg" />
+                android:src="@drawable/main_header_menu_msg" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
+                android:layout_marginTop="5dip"
                 android:text="@string/msg"
                 android:textColor="@color/white"
                 android:textSize="@dimen/micro_text_size" />
