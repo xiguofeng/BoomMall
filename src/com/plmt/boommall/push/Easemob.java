@@ -35,38 +35,42 @@ public class Easemob {
 	}
 
 	public void init(Context context) {
+		mContext = context;
 		EMChat.getInstance().init(context);
 		EMChat.getInstance().setDebugMode(false);
 
 		Log.e("xxx_Easemob", "init");
-		EMChatManager.getInstance().login("wangchao6", "123456", new EMCallBack() {// 回调
-			@Override
-			public void onSuccess() {
-				Log.e("xxx_Easemob", "登陆聊天服务器成功！");
-			}
+		EMChatManager.getInstance().login("wangchao6", "123456",
+				new EMCallBack() {// 回调
+					@Override
+					public void onSuccess() {
+						Log.e("xxx_Easemob", "登陆聊天服务器成功！");
+					}
 
-			@Override
-			public void onProgress(int progress, String status) {
-				Log.e("xxx_Easemob", "登陆聊天服务器失败！");
-			}
+					@Override
+					public void onProgress(int progress, String status) {
+						Log.e("xxx_Easemob", "登陆聊天服务器失败！");
+					}
 
-			@Override
-			public void onError(int code, String message) {
-				Log.e("xxx_Easemob", "登陆聊天服务器失败！");
-			}
-		});
+					@Override
+					public void onError(int code, String message) {
+						Log.e("xxx_Easemob", "登陆聊天服务器失败！");
+					}
+				});
 
 		// 注册message receiver， 接收聊天消息
 		// 只有注册了广播才能接收到新消息，目前离线消息，在线消息都是走接收消息的广播（离线消息目前无法监听，在登录以后，接收消息广播会执行一次拿到所有的离线消息）
-//		NewMessageBroadcastReceiver msgReceiver = new NewMessageBroadcastReceiver();
-//		IntentFilter intentFilter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
-//		intentFilter.setPriority(3);
-//		mContext.registerReceiver(msgReceiver, intentFilter);
+		NewMessageBroadcastReceiver msgReceiver = new NewMessageBroadcastReceiver();
+		IntentFilter intentFilter = new IntentFilter(EMChatManager
+				.getInstance().getNewMessageBroadcastAction());
+		intentFilter.setPriority(3);
+		mContext.registerReceiver(msgReceiver, intentFilter);
 
 		// 注册消息事件监听
-		registerEventListener();
+		// registerEventListener();
 		// 注册一个监听连接状态的listener
-		EMChatManager.getInstance().addConnectionListener(new MyConnectionListener());
+		EMChatManager.getInstance().addConnectionListener(
+				new MyConnectionListener());
 	}
 
 	/**
@@ -94,14 +98,16 @@ public class Easemob {
 				case EventNewCMDMessage: {
 
 					// 获取消息body
-					CmdMessageBody cmdMsgBody = (CmdMessageBody) message.getBody();
+					CmdMessageBody cmdMsgBody = (CmdMessageBody) message
+							.getBody();
 					final String action = cmdMsgBody.action;// 获取自定义action
 
 					// 获取扩展属性 此处省略
 					// message.getStringAttribute("");
 
 					final String CMD_TOAST_BROADCAST = "easemob.demo.cmd.toast";
-					IntentFilter cmdFilter = new IntentFilter(CMD_TOAST_BROADCAST);
+					IntentFilter cmdFilter = new IntentFilter(
+							CMD_TOAST_BROADCAST);
 
 					if (broadCastReceiver == null) {
 						broadCastReceiver = new BroadcastReceiver() {
@@ -153,7 +159,8 @@ public class Easemob {
 			String username = intent.getStringExtra("from");
 			// 收到这个广播的时候，message已经在db和内存里了，可以通过id获取mesage对象
 			EMMessage message = EMChatManager.getInstance().getMessage(msgId);
-			EMConversation conversation = EMChatManager.getInstance().getConversation(username);
+
+			Log.e("xxx_Easemob_new_msg", message.getBody().toString());
 			// 如果是群聊消息，获取到group id
 			if (message.getChatType() == ChatType.GroupChat) {
 				username = message.getTo();
@@ -170,6 +177,7 @@ public class Easemob {
 		@Override
 		public void onConnected() {
 			// 已连接到服务器
+			Log.e("xxx_MyConnectionListener_suc", "MyConnectionListener_suc");
 		}
 
 		@Override
