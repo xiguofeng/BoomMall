@@ -193,6 +193,7 @@
     <string name="address_manage">地址管理</string>
     <string name="consignee_hint">请输入收货人姓名</string>
     <string name="contact_way_hint">请输入收货人手机号</string>
+    <string name="consignee_edit">编辑收货人</string>
     <string name="area_hint">请点击选择省市区</string>
     <string name="address_detail_hint">请输入详细地址</string>
     <string name="delivery_way">配送方式</string>

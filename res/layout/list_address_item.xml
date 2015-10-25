@@ -119,6 +119,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:gravity="center"
+            android:layout_marginRight="10dip"
             android:orientation="horizontal"
             android:paddingBottom="5dip"
             android:paddingTop="5dip" >
@@ -146,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dip"
+            android:layout_marginRight="15dip"
             android:layout_toLeftOf="@+id/list_address_item_del_rl"
             android:gravity="center"
             android:orientation="horizontal"

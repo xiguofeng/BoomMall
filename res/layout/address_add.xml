@@ -11,7 +11,7 @@
         android:background="@color/red_title_bg" >
 
         <ImageView
-            android:id="@+id/address_add_input_back_iv"
+            android:id="@+id/address_add_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -23,9 +23,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/address_add"
+            android:text="@string/consignee_edit"
             android:textColor="@color/white"
             android:textSize="@dimen/large_text_size" />
+
+        <ImageView
+            android:id="@+id/address_add_del_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="8dip"
+            android:layout_marginRight="10dip"
+            android:scaleType="centerCrop"
+            android:src="@drawable/del_top" />
     </RelativeLayout>
 
     <ScrollView
@@ -47,12 +58,22 @@
                 android:paddingBottom="7dip"
                 android:paddingTop="7dip" >
 
-                <TextView
-                    android:id="@+id/address_add_input_consignee_tv"
+                <ImageView
+                    android:id="@+id/address_add_input_consignee_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_user" />
+
+                <TextView
+                    android:id="@+id/address_add_input_consignee_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/address_add_input_consignee_iv"
                     android:paddingLeft="10dip"
                     android:paddingRight="10dip"
                     android:text="@string/consignee"
@@ -63,6 +84,7 @@
                     android:id="@+id/address_add_input_consignee_et"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/address_add_input_consignee_tv"
                     android:background="@null"
                     android:hint="@string/consignee_hint"
@@ -87,12 +109,22 @@
                 android:paddingBottom="7dip"
                 android:paddingTop="7dip" >
 
-                <TextView
-                    android:id="@+id/address_add_input_contact_way_tv"
+                <ImageView
+                    android:id="@+id/address_add_input_contact_way_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_phone" />
+
+                <TextView
+                    android:id="@+id/address_add_input_contact_way_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/address_add_input_contact_way_iv"
                     android:paddingLeft="10dip"
                     android:paddingRight="10dip"
                     android:text="@string/contact_way"
@@ -120,86 +152,113 @@
                 android:background="#ffcfd4da" />
 
             <RelativeLayout
-                android:id="@+id/address_add_input_area_rl"
+                android:id="@+id/address_add_input_address_rl"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:paddingBottom="7dip"
                 android:paddingTop="7dip" >
-
-                <TextView
-                    android:id="@+id/address_add_input_area_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:paddingLeft="10dip"
-                    android:paddingRight="10dip"
-                    android:text="@string/area"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/middle_text_size" />
-
-                <TextView
-                    android:id="@+id/address_add_input_area_content_tv"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/address_add_input_area_tv"
-                    android:background="@null"
-                    android:hint="@string/area_hint"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:paddingBottom="6.0dip"
-                    android:paddingTop="6.0dip"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/middle_text_size" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/arrow" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:background="#ffcfd4da" />
-
-            <RelativeLayout
-                android:id="@+id/address_add_input_address_detail_rl"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:paddingBottom="7dip"
-                android:paddingTop="7dip" >
-
-                <TextView
-                    android:id="@+id/address_add_input_address_detail_tv"
+                    android:id="@+id/address_add_input_address_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:paddingLeft="10dip"
-                    android:paddingRight="10dip"
-                    android:text="@string/address_detail"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/middle_text_size" />
+                    android:layout_marginLeft="8dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/loc_edit" />
 
-                <EditText
-                    android:id="@+id/address_add_input_address_detail_et"
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/address_add_input_address_detail_tv"
-                    android:background="@null"
-                    android:hint="@string/address_detail_hint"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:paddingBottom="6.0dip"
-                    android:paddingTop="6.0dip"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/middle_text_size" />
+                    android:layout_toRightOf="@+id/address_add_input_address_iv"
+                    android:orientation="vertical" >
+
+                    <RelativeLayout
+                        android:id="@+id/address_add_input_area_rl"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:paddingBottom="7dip"
+                        android:paddingTop="7dip" >
+
+                        <TextView
+                            android:id="@+id/address_add_input_area_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:paddingLeft="10dip"
+                            android:paddingRight="10dip"
+                            android:text="@string/area"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/middle_text_size" />
+
+                        <TextView
+                            android:id="@+id/address_add_input_area_content_tv"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/address_add_input_area_tv"
+                            android:background="@null"
+                            android:hint="@string/area_hint"
+                            android:imeOptions="actionNext"
+                            android:maxLines="1"
+                            android:paddingBottom="6.0dip"
+                            android:paddingTop="6.0dip"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/middle_text_size" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/arrow" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1.0px"
+                        android:layout_marginLeft="10dip"
+                        android:background="#ffcfd4da" />
+
+                    <RelativeLayout
+                        android:id="@+id/address_add_input_address_detail_rl"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:paddingBottom="7dip"
+                        android:paddingTop="7dip" >
+
+                        <TextView
+                            android:id="@+id/address_add_input_address_detail_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:paddingLeft="10dip"
+                            android:paddingRight="10dip"
+                            android:text="@string/address_detail"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/middle_text_size" />
+
+                        <EditText
+                            android:id="@+id/address_add_input_address_detail_et"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/address_add_input_address_detail_tv"
+                            android:background="@null"
+                            android:hint="@string/address_detail_hint"
+                            android:imeOptions="actionNext"
+                            android:maxLines="1"
+                            android:paddingBottom="6.0dip"
+                            android:paddingTop="6.0dip"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/middle_text_size" />
+                    </RelativeLayout>
+                </LinearLayout>
             </RelativeLayout>
 
             <LinearLayout

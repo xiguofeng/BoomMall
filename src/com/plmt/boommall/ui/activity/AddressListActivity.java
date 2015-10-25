@@ -151,8 +151,9 @@ public class AddressListActivity extends Activity implements OnClickListener, Li
 		switch (which) {
 		case R.id.list_address_item_edit_rl: {
 			Intent intent = new Intent(AddressListActivity.this, AddressEditActivity.class);
+			intent.setAction(AddressEditActivity.ORIGIN_FROM_EDIT_ACTION);
+			startActivityForResult(intent, 600);			
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
 			break;
 		}
 		case R.id.list_address_item_del_rl: {

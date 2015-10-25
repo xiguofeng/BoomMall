@@ -17,10 +17,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class AddressEditActivity extends Activity implements OnClickListener {
+	
+	public static final String ORIGIN_FROM_ADD_ACTION = "address.add";
+
+	public static final String ORIGIN_FROM_EDIT_ACTION = "address.edit";
 
 	private Context mContext;
 
@@ -32,6 +37,11 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 	private RelativeLayout mAreaRl;
 	private Button mSaveBtn;
 	
+	private ImageView mBackIv;
+	private ImageView mDelIv;
+	
+	private String mNowAction = ORIGIN_FROM_ADD_ACTION;
+	
 	private CustomProgressDialog mProgressDialog;
 	
 	private Handler mHandler = new Handler() {
@@ -40,7 +50,6 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case AddressLogic.ANDRESS_DEL_SUC: {
-				AddressLogic.getList(mContext, mHandler);
 				break;
 			}
 			case AddressLogic.ANDRESS_DEL_FAIL: {
@@ -86,9 +95,15 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 		mSaveBtn = (Button) findViewById(R.id.address_add_confirm_btn);
 		mAreaRl.setOnClickListener(this);
 		mSaveBtn.setOnClickListener(this);
+		
+		mBackIv = (ImageView) findViewById(R.id.address_add_back_iv);
+		mDelIv= (ImageView) findViewById(R.id.address_add_del_iv);
+		mBackIv.setOnClickListener(this);
+		mDelIv.setOnClickListener(this);
 	}
 
 	private void initData() {
+		mNowAction = getIntent().getAction();
 //		mProgressDialog = new CustomProgressDialog(mContext);
 //		mProgressDialog.show();
 	}
@@ -118,7 +133,12 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 
 			break;
 		}
-		case R.id.address_add_confirm_btn: {
+		case R.id.address_add_confirm_btn: {}
+		case R.id.address_add_back_iv: {
+			finish();
+			break;
+		}
+		case R.id.address_add_del_iv: {
 			new ActionSheetDialog(AddressEditActivity.this)
 			.builder()
 			.setTitle(getString(R.string.is_del_address_title))
