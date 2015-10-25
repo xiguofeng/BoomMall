@@ -14,8 +14,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dip"
-        android:orientation="horizontal" >
+        android:layout_marginTop="5dip" >
 
         <ImageView
             android:id="@+id/order_goods_iv"
@@ -39,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dip"
                 android:textColor="@color/gray_character"
                 android:textSize="@dimen/small_text_size" />
 
@@ -47,15 +46,14 @@
                 android:id="@+id/order_goods_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/order_goods_num_tv"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="15dip"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dip"
                 android:textColor="@color/black"
                 android:textSize="@dimen/middle_text_size" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dip"
             android:layout_toLeftOf="@+id/order_goods_right_ll"
