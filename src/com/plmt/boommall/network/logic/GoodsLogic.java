@@ -3,26 +3,26 @@ package com.plmt.boommall.network.logic;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
+import com.plmt.boommall.network.utils.JsonObjectRequestUtf;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
 import com.plmt.boommall.network.volley.toolbox.JsonObjectRequest;
 import com.plmt.boommall.utils.JsonUtils;
+
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 
 public class GoodsLogic {
 
@@ -73,7 +73,7 @@ public class GoodsLogic {
 			requestJson.put("s", pageSize);
 
 			BaseApplication.getInstanceRequestQueue().add(
-					new JsonObjectRequest(Method.POST, url, requestJson,
+					new JsonObjectRequestUtf(Method.POST, url, requestJson,
 							new Listener<JSONObject>() {
 								@Override
 								public void onResponse(JSONObject response) {

@@ -19,13 +19,12 @@ import com.plmt.boommall.network.volley.toolbox.JsonObjectRequest;
 public class CookieRequest extends JsonObjectRequest {
 	private Map mHeaders = new HashMap(1);
 
-	public CookieRequest(String url, JSONObject jsonRequest, Listener listener,
-			ErrorListener errorListener) {
+	public CookieRequest(String url, JSONObject jsonRequest, Listener listener, ErrorListener errorListener) {
 		super(url, jsonRequest, listener, errorListener);
 	}
 
-	public CookieRequest(int method, String url, JSONObject jsonRequest,
-			Listener listener, ErrorListener errorListener) {
+	public CookieRequest(int method, String url, JSONObject jsonRequest, Listener listener,
+			ErrorListener errorListener) {
 		super(method, url, jsonRequest, listener, errorListener);
 	}
 
@@ -41,16 +40,17 @@ public class CookieRequest extends JsonObjectRequest {
 	@Override
 	protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
 		try {
-			String jsonString = new String(response.data,
-					HttpHeaderParser.parseCharset(response.headers));
+			// String jsonString = new String(response.data,
+			// HttpHeaderParser.parseCharset(response.headers));
+
+			String jsonString = new String(response.data, "UTF-8");
 
 			JSONObject json = new JSONObject(jsonString);
 			Map<String, String> responseHeaders = response.headers;
 			String rawCookies = responseHeaders.get("Set-Cookie");
 			json.put("Set-Cookie", rawCookies);
 
-			return Response.success(json,
-					HttpHeaderParser.parseCacheHeaders(response));
+			return Response.success(json, HttpHeaderParser.parseCacheHeaders(response));
 		} catch (UnsupportedEncodingException e) {
 			return Response.error(new ParseError(e));
 		} catch (JSONException je) {
