@@ -46,6 +46,11 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private EditText mInvoiceTitleEt;
 	private EditText mRemarkEt;
 
+	private TextView mGoodsMoneyTv;
+	private TextView mPostTaxTv;
+	private TextView mFreightMoneyTv;
+	private TextView mRemainingMoneyTv;
+
 	private CheckBox mCheckBmCardIb;
 
 	private Button mConfirmBtn;
@@ -99,13 +104,11 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					mOrderId = (String) msg.obj;
 					mProgressDialog = new CustomProgressDialog(mContext);
 					mProgressDialog.show();
-					Intent intent = new Intent(CreateOrderActivity.this,
-							PayActivity.class);
+					Intent intent = new Intent(CreateOrderActivity.this, PayActivity.class);
 					intent.putExtra("orderId", mOrderId);
 					startActivity(intent);
 					finish();
-					overridePendingTransition(R.anim.push_left_in,
-							R.anim.push_left_out);
+					overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 				}
 				break;
 			}
@@ -143,15 +146,12 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private void initView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.create_order_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
-				.findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView
-								.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(),
-								"Fetching Data", Toast.LENGTH_SHORT).show();
+						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(), "Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
 		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
@@ -176,15 +176,18 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mInvoiceTitleEt = (EditText) findViewById(R.id.create_order_bmcard_pwd_et);
 		mRemarkEt = (EditText) findViewById(R.id.create_order_remark_et);
 
-		mCheckBmCardIb = (CheckBox) findViewById(R.id.create_order_bmcard_remaining_ib);
-		mCheckBmCardIb
-				.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
-					@Override
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
-					}
+		mGoodsMoneyTv = (TextView) findViewById(R.id.create_order_goods_money_tv);
+		mPostTaxTv = (TextView) findViewById(R.id.create_order_post_tax_tv);
+		mFreightMoneyTv = (TextView) findViewById(R.id.create_order_freight_money_tv);
+		mRemainingMoneyTv = (TextView) findViewById(R.id.create_order_bmcard_remainin_money_tv);
 
-				});
+		mCheckBmCardIb = (CheckBox) findViewById(R.id.create_order_bmcard_remaining_ib);
+		mCheckBmCardIb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			}
+
+		});
 
 	}
 
@@ -253,8 +256,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			break;
 		}
 		case R.id.create_order_address_ll: {
-			Intent intent = new Intent(CreateOrderActivity.this,
-					AddressListActivity.class);
+			Intent intent = new Intent(CreateOrderActivity.this, AddressListActivity.class);
 			intent.setAction(AddressListActivity.ORIGIN_FROM_ORDER_KEY);
 			startActivityForResult(intent, 500);
 			break;

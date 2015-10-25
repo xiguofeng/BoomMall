@@ -267,8 +267,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dip"
-                        android:visibility="gone"
-                        android:background="@drawable/h_line" >
+                        android:background="@drawable/h_line"
+                        android:visibility="gone" >
                     </LinearLayout>
 
                     <LinearLayout
@@ -276,9 +276,9 @@
                         android:layout_height="match_parent"
                         android:layout_toLeftOf="@+id/create_order_address_iv"
                         android:background="@color/white"
-                        android:visibility="gone"
                         android:orientation="vertical"
-                        android:padding="10dip" >
+                        android:padding="10dip"
+                        android:visibility="gone" >
 
                         <TextView
                             android:id="@+id/create_order_address_invoice_tag_tv"
@@ -505,6 +505,134 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/middle_text_size" />
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dip"
+                    android:orientation="vertical" >
+
+                    <RelativeLayout
+                        android:id="@+id/create_order_goods_money_rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/item_common_selector"
+                        android:gravity="center"
+                        android:paddingBottom="5dip"
+                        android:paddingTop="5dip" >
+
+                        <TextView
+                            android:id="@+id/create_order_goods_money_tag_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dip"
+                            android:text="@string/goods_money"
+                            android:textColor="@color/black_character"
+                            android:textSize="@dimen/middle_text_size" />
+                        
+                         <TextView
+                            android:id="@+id/create_order_goods_money_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dip"
+                            android:textColor="@color/red_character"
+                            android:textSize="@dimen/middle_text_size" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/create_order_post_tax_rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/item_common_selector"
+                        android:gravity="center"
+                        android:paddingBottom="5dip"
+                        android:paddingTop="5dip" >
+
+                        <TextView
+                            android:id="@+id/create_order_post_tax_tag_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dip"
+                            android:text="@string/post_tax"
+                            android:textColor="@color/black_character"
+                            android:textSize="@dimen/middle_text_size" />
+                        
+                         <TextView
+                            android:id="@+id/create_order_post_tax_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dip"
+                            android:textColor="@color/red_character"
+                            android:textSize="@dimen/middle_text_size" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/create_order_freight_money_rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/item_common_selector"
+                        android:gravity="center"
+                        android:paddingBottom="5dip"
+                        android:paddingTop="5dip" >
+
+                        <TextView
+                            android:id="@+id/create_order_freight_money_tag_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dip"
+                            android:text="@string/freight_money"
+                            android:textColor="@color/black_character"
+                            android:textSize="@dimen/middle_text_size" />
+                        
+                         <TextView
+                            android:id="@+id/create_order_freight_money_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dip"
+                            android:textColor="@color/red_character"
+                            android:textSize="@dimen/middle_text_size" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/create_order_bmcard_remaining_money_rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/item_common_selector"
+                        android:gravity="center"
+                        android:paddingBottom="5dip"
+                        android:paddingTop="5dip" >
+
+                        <TextView
+                            android:id="@+id/create_order_bmcard_remainin_money_tag_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dip"
+                            android:text="@string/remaining_money"
+                            android:textColor="@color/black_character"
+                            android:textSize="@dimen/middle_text_size" />
+                        
+                         <TextView
+                            android:id="@+id/create_order_bmcard_remainin_money_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dip"
+                            android:textColor="@color/red_character"
+                            android:textSize="@dimen/middle_text_size" />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </com.plmt.boommall.ui.view.MultiStateView>

@@ -112,8 +112,10 @@
     <string name="remark_hint">请输入订单备注</string>
     <string name="please_pay">请支付</string>
     <string name="please_select_way">请选择支付方式</string>
+    <string name="goods_money">商品金额</string>
+    <string name="freight_money">运费</string>
+    <string name="post_tax">行邮税</string>
     
-
     <!-- goods detail -->
     <string name="goods_parameters">商品参数</string>
     <string name="goods_detail">商品详情</string>
