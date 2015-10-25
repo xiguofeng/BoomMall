@@ -126,7 +126,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.plmt.boommall.ui.activity.AddressAddActivity"
+            android:name="com.plmt.boommall.ui.activity.AddressEditActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
@@ -138,7 +138,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.plmt.boommall.ui.activity.AddressAddSelectActivity"
+            android:name="com.plmt.boommall.ui.activity.AddressEditSelectActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

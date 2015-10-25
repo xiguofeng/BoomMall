@@ -198,6 +198,7 @@
     <string name="delivery_way">配送方式</string>
     <string name="delivery_stand">标准快递</string>
     <string name="default_address">默认地址</string>
+    <string name="is_del_address_title">是否确认删除该地址？</string>
     
     <!-- invoice -->
     <string name="invoice">发票信息</string>

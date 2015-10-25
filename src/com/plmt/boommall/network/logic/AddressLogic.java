@@ -111,5 +111,51 @@ public class AddressLogic {
 			handler.sendEmptyMessage(ANDRESS_LIST_GET_EXCEPTION);
 		}
 	}
+	
+	public static void del(final Context context, final Handler handler,final String id) {
 
+		String url = RequestUrl.HOST_URL + RequestUrl.address.del;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("id",id);
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_address_del",
+										response.toString());
+								parseDelData(response, handler);
+							}
+
+						}
+					}, null);
+
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//{"data":[],"result":"0","msg":"","Set-Cookie":"frontend=4ao29o9jqds2vm7gmqj9sgbll1; expires=Sun, 25-Oct-2015 07:49:35 GMT; path=\/; domain=120.55.116.206; httponly"}
+	private static void parseDelData(JSONObject response, Handler handler) {
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				handler.sendEmptyMessage(ANDRESS_DEL_SUC);
+			} else {
+				handler.sendEmptyMessage(ANDRESS_DEL_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(ANDRESS_DEL_EXCEPTION);
+		}
+	}
 }

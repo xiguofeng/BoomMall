@@ -83,7 +83,7 @@
             android:layout_gravity="center_horizontal"
             android:cacheColorHint="#00000000"
             android:divider="@null"
-            android:dividerHeight="1dip"
+            android:dividerHeight="10dip"
             android:fastScrollEnabled="false"
             android:focusable="true"
             android:scrollbars="none" />
