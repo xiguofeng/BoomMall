@@ -252,13 +252,9 @@ public class OrderLogic {
 	private static void parseOrderPreInfoData(JSONObject response, Handler handler) {
 
 		try {
-			JSONObject jsonObject = new JSONObject(JsonUtils.removeBOM(response.toString()));
-
-			String sucResult = jsonObject.getString(MsgResult.RESULT_TAG).trim();
-			jsonObject.toString();
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-				JSONObject dataJsonObject = jsonObject.getJSONObject(MsgResult.RESULT_TAG);
-				Log.e("xxx_parseOrderPreInfo_suc_0", "");
+				JSONObject dataJsonObject = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
 				PreOrder preOrder = new PreOrder();
 
 				JSONObject addressJsonObject = dataJsonObject.getJSONObject("address");
@@ -280,8 +276,8 @@ public class OrderLogic {
 
 				JSONArray payMoneyJsonArray = dataJsonObject.getJSONArray("totals");
 				ArrayList<PayMoney> payMoneyArrayList = new ArrayList<>();
-				for (int i = 0; i < payMoneyJsonArray.length(); i++) {
-					JSONObject payMoneyJsonObject = goodsJsonArray.getJSONObject(i);
+				for (int j = 0; j < payMoneyJsonArray.length(); j++) {
+					JSONObject payMoneyJsonObject = payMoneyJsonArray.getJSONObject(j);
 					PayMoney payMoney = (PayMoney) JsonUtils.fromJsonToJava(payMoneyJsonObject, PayMoney.class);
 					payMoneyArrayList.add(payMoney);
 				}
