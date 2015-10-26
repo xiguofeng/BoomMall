@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center_horizontal" >
+
+    <RelativeLayout
+        android:id="@+id/top_relative"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="5dip"
+        android:paddingTop="5dip" >
+
+        <ImageView
+            android:id="@+id/list_collection_goods_iv"
+            android:layout_width="60dip"
+            android:layout_height="81dip"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dip"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher" />
+
+        <LinearLayout
+            android:id="@+id/right_rl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dip"
+            android:layout_toRightOf="@+id/list_collection_goods_iv"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/list_collection_goods_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:textColor="@color/black_character"
+                android:textSize="@dimen/small_text_size" />
+
+            <LinearLayout
+                android:id="@+id/list_collection_goods_price_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dip"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:id="@+id/list_collection_goods_price_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="399"
+                    android:textColor="@color/orange_text"
+                    android:textSize="@dimen/small_text_size" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip" >
+
+                    <ImageView
+                        android:layout_width="80dip"
+                        android:layout_height="1dip"
+                        android:layout_centerInParent="true"
+                        android:src="@color/gray_divide_line" />
+
+                    <TextView
+                        android:id="@+id/list_collection_goods_original_prices_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:textColor="@color/gray_character"
+                        android:textSize="@dimen/micro_text_size" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:visibility="gone"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:id="@+id/list_collection_goods_comment_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:maxLines="1"
+                    android:text="好评100%"
+                    android:textColor="@color/gray_character"
+                    android:textSize="@dimen/micro_text_size" />
+
+                <TextView
+                    android:id="@+id/list_collection_goods_comment_num_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:layout_toRightOf="@+id/goods_comment_tv"
+                    android:maxLines="1"
+                    android:text="(2000人)"
+                    android:textColor="@color/gray_character"
+                    android:textSize="@dimen/micro_text_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/collect" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

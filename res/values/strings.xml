@@ -61,6 +61,7 @@
     <string name="can_use_remaining_money">可用余额</string>
     <string name="bmcard_money">旺卡金额</string>
     <string name="recharge_to_bmcard_remaining_money">充值到旺卡余额</string>
+    <string name="my_collection">我的收藏</string>
 
     <!-- order -->
     <string name="confirm_order">确认订单</string>

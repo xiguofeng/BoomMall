@@ -1,6 +1,7 @@
 package com.plmt.boommall.ui.activity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,6 +28,7 @@ import com.plmt.boommall.config.Constants;
 import com.plmt.boommall.entity.Ads;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.CartLogic;
+import com.plmt.boommall.network.logic.CollectionLogic;
 import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.ui.adapter.GoodsDetailBannerAdapter;
 import com.plmt.boommall.ui.view.BadgeView;
@@ -49,8 +51,6 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	public static final String ORIGIN_FROM_CATE_ACTION = "CATE";
 
 	private Context mContext;
-
-	private MultiStateView mMultiStateView;
 
 	private ViewFlow mViewFlow;
 	private CircleFlowIndicator mIndic;
@@ -98,6 +98,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private String mNowAction = ORIGIN_FROM_MAIN_ACTION;
 
+	private boolean isCollection = false;
+
 	private CustomProgressDialog mProgressDialog;
 
 	private Handler mHandler = new Handler() {
@@ -128,7 +130,9 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			default:
 				break;
 			}
-			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
 		}
 
 	};
@@ -199,6 +203,60 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	};
 
+	Handler mCollectionHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			int what = msg.what;
+			switch (what) {
+
+			case CollectionLogic.COLLECTION_ADD_SUC: {
+				isCollection = true;
+				Toast.makeText(mContext, "添加收藏成功！",
+						Toast.LENGTH_SHORT).show();
+				break;
+			}
+			case CollectionLogic.COLLECTION_ADD_FAIL: {
+				if (null != msg.obj) {
+					Toast.makeText(mContext, "收藏失败：" + (String) msg.obj,
+							Toast.LENGTH_SHORT).show();
+				}
+				break;
+			}
+			case CollectionLogic.COLLECTION_ADD_EXCEPTION: {
+				break;
+			}
+			case CollectionLogic.COLLECTION_DEL_SUC: {
+				isCollection = false;
+				Toast.makeText(mContext, "删除收藏成功！",
+						Toast.LENGTH_SHORT).show();
+				break;
+			}
+			case CollectionLogic.COLLECTION_DEL_FAIL: {
+				if (null != msg.obj) {
+					Toast.makeText(mContext, "删除收藏失败：" + (String) msg.obj,
+							Toast.LENGTH_SHORT).show();
+				}
+				break;
+			}
+			case CollectionLogic.COLLECTION_DEL_EXCEPTION: {
+				break;
+			}
+			case CollectionLogic.NET_ERROR: {
+				break;
+			}
+
+			default:
+				break;
+			}
+
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+		}
+
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -221,20 +279,6 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void initView() {
-		mMultiStateView = (MultiStateView) findViewById(R.id.goods_detail_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
-				.findViewById(R.id.retry)
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						mMultiStateView
-								.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(),
-								"Fetching Data", Toast.LENGTH_SHORT).show();
-					}
-				});
-		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
-		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
 		initCircleimage();
 
@@ -297,6 +341,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		// fillUpGoodsData();
 		// }
 		if (!TextUtils.isEmpty(mGoodsId)) {
+			mProgressDialog = new CustomProgressDialog(mContext);
+			mProgressDialog.show();
 			GoodsLogic.getGoodsById(mContext, mHandler, mGoodsId);
 		}
 
@@ -347,15 +393,14 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			break;
 		}
 		case R.id.goods_detail_collection_ll: {
-			int addNum = Integer.parseInt(mNum.getText().toString().trim());
-			boolean isSuc = CartManager.cartModifyByDetail(mGoods, addNum);
 
-			if (!TextUtils.isEmpty(mNowAction)
-					&& ORIGIN_FROM_ADS_ACTION.equals(mNowAction)) {
-				// ActivitiyInfoManager
-				// .finishActivity("com.xgf.winecome.ui.activity.SpecialEventsActivity");
+			mProgressDialog = new CustomProgressDialog(mContext);
+			mProgressDialog.show();
+			if (!isCollection) {
+				CollectionLogic.add(mContext, mCollectionHandler, mGoodsId);
+			} else {
+				CollectionLogic.del(mContext, mCollectionHandler, mGoodsId);
 			}
-			finish();
 
 			break;
 		}

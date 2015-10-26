@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.plmt.boommall.ui.view.MultiStateView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ptr="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res/com.plmt.boommall"
-    android:id="@+id/goods_detail_multiStateView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:msv_emptyView="@layout/empty_view"
-    app:msv_errorView="@layout/error_view"
-    app:msv_loadingView="@layout/loading_view"
-    app:msv_viewState="content" >
+    android:layout_height="match_parent" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -376,7 +371,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="20dip"
+                android:layout_marginLeft="15dip"
                 android:gravity="center"
                 android:orientation="vertical" >
 
@@ -388,7 +383,7 @@
                     android:paddingLeft="10dip"
                     android:paddingRight="10dip"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/collect" />
+                    android:src="@drawable/collection_normal_bottom" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -420,7 +415,7 @@
                 android:layout_alignParentRight="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingRight="5dip" >
+                android:layout_marginRight="15dip" >
 
                 <ImageView
                     android:id="@+id/goods_detail_cart_iv"
@@ -430,7 +425,7 @@
                     android:paddingTop="5dip"
                     android:paddingLeft="10dip"
                     android:paddingRight="10dip"
-                    android:src="@drawable/cart" />
+                    android:src="@drawable/cart_normal_bottom" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -442,5 +437,4 @@
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
-
-</com.plmt.boommall.ui.view.MultiStateView>
+  </LinearLayout>

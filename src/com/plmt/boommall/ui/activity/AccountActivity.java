@@ -20,6 +20,8 @@ public class AccountActivity extends Activity implements OnClickListener {
 
 	private RelativeLayout mAreaRl;
 	private RelativeLayout mRealNameAuthRl;
+	private RelativeLayout mCollectionRl;
+
 	private ImageView mBackIv;
 
 	@Override
@@ -38,6 +40,9 @@ public class AccountActivity extends Activity implements OnClickListener {
 
 		mRealNameAuthRl = (RelativeLayout) findViewById(R.id.account_real_name_auth_rl);
 		mRealNameAuthRl.setOnClickListener(this);
+
+		mCollectionRl = (RelativeLayout) findViewById(R.id.account_collection_rl);
+		mCollectionRl.setOnClickListener(this);
 
 		mBackIv = (ImageView) findViewById(R.id.account_back_iv);
 		mBackIv.setOnClickListener(this);
@@ -61,6 +66,13 @@ public class AccountActivity extends Activity implements OnClickListener {
 		case R.id.account_real_name_auth_rl: {
 			Intent intent = new Intent(AccountActivity.this,
 					RealNameAuthActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+		case R.id.account_collection_rl: {
+			Intent intent = new Intent(AccountActivity.this,
+					CollectionListActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;

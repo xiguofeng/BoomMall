@@ -122,6 +122,25 @@ public class RequestUrl {
 		public String del = "/address/delete";
 
 	}
+	
+	public interface collection {
+
+		/**
+		 * 收藏列表
+		 */
+		public String list = "/favorite/list";
+
+		/**
+		 * 添加收藏
+		 */
+		public String add = "/favorite/add";
+
+		/**
+		 * 删除收藏
+		 */
+		public String del = "/favorite/delete";
+
+	}
 
 	public interface goods {
 
