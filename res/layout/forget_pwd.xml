@@ -55,6 +55,7 @@
                 android:orientation="vertical" >
 
                 <RelativeLayout
+                    android:id="@+id/forget_pwd_input_phone_rl"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_gray_bg" >
@@ -90,7 +91,7 @@
                     android:id="@+id/forget_pwd_input_ver_code_rl"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dip"
+                    android:layout_marginTop="15dip"
                     android:background="@drawable/edittext_gray_bg" >
 
                     <ImageView
@@ -145,9 +146,10 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/forget_pwd_input_pwd_rl"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dip"
+                    android:layout_marginTop="15dip"
                     android:background="@drawable/edittext_gray_bg" >
 
                     <ImageView
@@ -165,6 +167,40 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/forget_pwd_input_pwd_iv"
+                        android:background="@null"
+                        android:hint="@string/user_psw_hint"
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"
+                        android:paddingBottom="6.0dip"
+                        android:paddingLeft="20dip"
+                        android:paddingRight="0dip"
+                        android:paddingTop="6.0dip"
+                        android:textColor="@color/black_character"
+                        android:textSize="@dimen/small_text_size" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/forget_pwd_input_pwd_confirm_rl"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dip"
+                    android:background="@drawable/edittext_gray_bg" >
+
+                    <ImageView
+                        android:id="@+id/forget_pwd_input_pwd_confirm_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dip"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/user_login" />
+
+                    <EditText
+                        android:id="@+id/forget_pwd_input_pwd_confirm_et"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/forget_pwd_input_pwd_confirm_iv"
                         android:background="@null"
                         android:hint="@string/user_psw_hint"
                         android:imeOptions="actionNext"

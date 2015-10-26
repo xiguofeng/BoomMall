@@ -34,17 +34,19 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 
 	private Context mContext;
 
-	private EditText mUserNameEt;
+	private EditText mPhoneEt;
 	private EditText mPassWordEt;
 	private EditText mAuthCodeEt;
+	private EditText mPwdConfirmEt;
 
 	private TextView mTimingTv;
 
 	private Button mRegisterBtn;
 
-	private RelativeLayout mUserNameRl;
+	private RelativeLayout mPhoneRl;
 	private RelativeLayout mVerCodeRl;
 	private RelativeLayout mPwdRl;
+	private RelativeLayout mPwdConfirmRl;
 
 	private LinearLayout mAuthCodeLl;
 
@@ -198,22 +200,77 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 	}
 
 	protected void initView() {
-		mUserNameRl = (RelativeLayout) findViewById(R.id.register_username_rl);
+		mPhoneRl = (RelativeLayout) findViewById(R.id.register_username_rl);
 		mVerCodeRl = (RelativeLayout) findViewById(R.id.register_ver_code_rl);
 		mPwdRl = (RelativeLayout) findViewById(R.id.register_pwd_rl);
-		mUserNameRl.setOnClickListener(this);
-		mVerCodeRl.setOnClickListener(this);
-		mPwdRl.setOnClickListener(this);
+		mPwdConfirmRl = (RelativeLayout) findViewById(R.id.register_pwd_confirm_rl);
 
 		mAuthCodeLl = (LinearLayout) findViewById(R.id.registerg_ver_code_get_ll);
 		mAuthCodeLl.setOnClickListener(this);
 
-		mUserNameEt = (EditText) findViewById(R.id.register_username_et);
+		mPhoneEt = (EditText) findViewById(R.id.register_username_et);
 		mPassWordEt = (EditText) findViewById(R.id.register_pwd_et);
 		mAuthCodeEt = (EditText) findViewById(R.id.register_ver_code_et);
-		mUserNameEt.addTextChangedListener(this);
+		mPwdConfirmEt = (EditText) findViewById(R.id.register_pwd_confirm_et);
+		mPhoneEt.addTextChangedListener(this);
 		mPassWordEt.addTextChangedListener(this);
 		mAuthCodeEt.addTextChangedListener(this);
+		
+		mPhoneEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					clearBackground();
+					mPhoneRl.setBackgroundResource(R.drawable.edittext_red_bg);
+					// 此处为得到焦点时的处理内容
+				} else {
+					// 此处为失去焦点时的处理内容
+				}
+			}
+		});
+
+		mAuthCodeEt
+				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							clearBackground();
+							mVerCodeRl
+									.setBackgroundResource(R.drawable.edittext_red_bg);
+							// 此处为得到焦点时的处理内容
+						} else {
+							// 此处为失去焦点时的处理内容
+						}
+					}
+				});
+
+		mPassWordEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					clearBackground();
+					mPwdRl.setBackgroundResource(R.drawable.edittext_red_bg);
+					// 此处为得到焦点时的处理内容
+				} else {
+					// 此处为失去焦点时的处理内容
+				}
+			}
+		});
+
+		mPwdConfirmEt
+				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							clearBackground();
+							mPwdConfirmRl
+									.setBackgroundResource(R.drawable.edittext_red_bg);
+							// 此处为得到焦点时的处理内容
+						} else {
+							// 此处为失去焦点时的处理内容
+						}
+					}
+				});
 
 		mTimingTv = (TextView) findViewById(R.id.register_input_ver_code_btn_tv);
 
@@ -222,12 +279,19 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 		mRegisterBtn.setClickable(false);
 
 	}
+	
+	private void clearBackground() {
+		mPhoneRl.setBackgroundResource(R.drawable.edittext_gray_bg);
+		mVerCodeRl.setBackgroundResource(R.drawable.edittext_gray_bg);
+		mPwdRl.setBackgroundResource(R.drawable.edittext_gray_bg);
+		mPwdConfirmRl.setBackgroundResource(R.drawable.edittext_gray_bg);
+	}
 
 	private void initData() {
 		if (UserInfoManager.getRememberPwd(mContext)) {
 			UserInfoManager.setUserInfo(mContext);
 
-			mUserNameEt.setText(UserInfoManager.userInfo.getUsername());
+			mPhoneEt.setText(UserInfoManager.userInfo.getUsername());
 			mPassWordEt.setText(UserInfoManager.userInfo.getPassword());
 		}
 
@@ -235,7 +299,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 
 	private void register() {
 		// 获取用户的登录信息，连接服务器，获取登录状态
-		mAccount = mUserNameEt.getText().toString().trim();
+		mAccount = mPhoneEt.getText().toString().trim();
 		mPassWord = mPassWordEt.getText().toString().trim();
 
 		if ("".equals(mAccount) || "".equals(mPassWord)) {
@@ -272,7 +336,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 	@SuppressLint("NewApi")
 	@Override
 	public void afterTextChanged(Editable s) {
-		mAccount = mUserNameEt.getText().toString().trim();
+		mAccount = mPhoneEt.getText().toString().trim();
 		mPassWord = mPassWordEt.getText().toString().trim();
 		mAuthCode = mAuthCodeEt.getText().toString().trim();
 

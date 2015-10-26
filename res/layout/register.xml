@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
-                android:layout_marginTop="10dip"
+                android:layout_marginTop="15dip"
                 android:background="@drawable/edittext_gray_bg" >
 
                 <RelativeLayout
@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
-                android:layout_marginTop="10dip"
+                android:layout_marginTop="15dip"
                 android:background="@drawable/edittext_gray_bg" >
 
                 <EditText
@@ -176,6 +176,43 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/user_login" />
             </RelativeLayout>
+            
+             <RelativeLayout
+                android:id="@+id/register_pwd_confirm_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="15dip"
+                android:background="@drawable/edittext_gray_bg" >
+
+                <EditText
+                    android:id="@+id/register_pwd_confirm_et"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/user_psw_hint"
+                    android:imeActionLabel="下一步"
+                    android:imeOptions="actionNext|flagNoExtractUi"
+                    android:maxLength="50"
+                    android:paddingBottom="6.0dip"
+                    android:paddingLeft="40dip"
+                    android:paddingRight="50dip"
+                    android:paddingTop="6.0dip"
+                    android:singleLine="true"
+                    android:textColor="@color/blue_text"
+                    android:textSize="@dimen/middle_text_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/register_pwd_confirm_et"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user_login" />
+            </RelativeLayout>
+            
 
             <Button
                 android:id="@+id/register_input_submit_btn"
