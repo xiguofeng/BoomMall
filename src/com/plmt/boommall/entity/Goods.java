@@ -46,6 +46,8 @@ public class Goods implements Serializable {
 	private String weight;
 	
 	private String type;
+	
+	private Comment comment;
 
 	public String getId() {
 		return id;
@@ -157,6 +159,14 @@ public class Goods implements Serializable {
 
 	public void setMaxSaleQty(String maxSaleQty) {
 		this.maxSaleQty = maxSaleQty;
+	}
+
+	public Comment getComment() {
+		return comment;
+	}
+
+	public void setComment(Comment comment) {
+		this.comment = comment;
 	}
 
 	public String getQty() {

@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Category;
+import com.plmt.boommall.entity.Comment;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
@@ -103,9 +104,8 @@ public class GoodsLogic {
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				JSONObject dataJB = response
 						.getJSONObject(MsgResult.RESULT_DATA_TAG);
-				
-				JSONArray jsonArray = dataJB
-						.getJSONArray("productItems");
+
+				JSONArray jsonArray = dataJB.getJSONArray("productItems");
 				ArrayList<Goods> mTempGoodsList = new ArrayList<Goods>();
 				int size = jsonArray.length();
 				for (int j = 0; j < size; j++) {
@@ -173,6 +173,13 @@ public class GoodsLogic {
 				Goods goods = (Goods) JsonUtils.fromJsonToJava(jsonObject,
 						Goods.class);
 				goods.setNum("0");
+
+				JSONObject commentJsonObject = jsonObject
+						.getJSONObject("first_commit");
+				Comment comment = (Comment) JsonUtils.fromJsonToJava(
+						commentJsonObject, Comment.class);
+				goods.setComment(comment);
+
 				Message message = new Message();
 				message.what = GOODS_GET_SUC;
 				message.obj = goods;

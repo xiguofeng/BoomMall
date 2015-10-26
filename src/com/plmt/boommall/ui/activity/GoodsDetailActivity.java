@@ -62,6 +62,12 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private TextView mGoodsPriceTv;
 
+	private TextView mCommentRatioTv;
+	private TextView mCommentPersonNumTv;
+	private TextView mCommentTimeTv;
+	private TextView mCommentContentTv;
+	private TextView mCommentNameTv;
+
 	public EditText mNum;
 
 	private LinearLayout mCollectionLl;
@@ -212,8 +218,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 			case CollectionLogic.COLLECTION_ADD_SUC: {
 				isCollection = true;
-				Toast.makeText(mContext, "添加收藏成功！",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, "添加收藏成功！", Toast.LENGTH_SHORT).show();
 				break;
 			}
 			case CollectionLogic.COLLECTION_ADD_FAIL: {
@@ -228,8 +233,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			}
 			case CollectionLogic.COLLECTION_DEL_SUC: {
 				isCollection = false;
-				Toast.makeText(mContext, "删除收藏成功！",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, "删除收藏成功！", Toast.LENGTH_SHORT).show();
 				break;
 			}
 			case CollectionLogic.COLLECTION_DEL_FAIL: {
@@ -281,6 +285,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	private void initView() {
 
 		initCircleimage();
+		initComment();
 
 		mCollectionLl = (LinearLayout) findViewById(R.id.goods_detail_collection_ll);
 		mCartLl = (LinearLayout) findViewById(R.id.goods_detail_cart_ll);
@@ -303,6 +308,14 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 		mGoodsNameTv = (TextView) findViewById(R.id.goods_detail_name_tv);
 		mGoodsPriceTv = (TextView) findViewById(R.id.goods_detail_price_tv);
+	}
+
+	private void initComment() {
+		mCommentRatioTv = (TextView) findViewById(R.id.goods_detail_comment_ratio_tv);
+		mCommentPersonNumTv = (TextView) findViewById(R.id.goods_detail_comment_person_num_tv);
+		mCommentTimeTv = (TextView) findViewById(R.id.goods_detail_comment_detial_time_tv);
+		mCommentContentTv = (TextView) findViewById(R.id.goods_detail_comment_detial_content_tv);
+		mCommentNameTv = (TextView) findViewById(R.id.goods_detail_comment_detial_name_tv);
 	}
 
 	private void initCircleimage() {
@@ -355,6 +368,27 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥"
 				+ mGoods.getFinalPrice().trim() : "¥");
 
+		//fillUpComment();
+	}
+
+	private void fillUpComment() {
+		mCommentRatioTv
+				.setText(!TextUtils.isEmpty(mGoods.getComment().getZl_value()) ? mGoods
+						.getComment().getZl_value().trim()
+						: "");
+		mCommentPersonNumTv.setText(!TextUtils.isEmpty(mGoods.getComment()
+				.getKd_value()) ? "¥"
+				+ mGoods.getComment().getKd_value().trim() : "¥");
+		mCommentTimeTv.setText(!TextUtils.isEmpty(mGoods.getComment()
+				.getCustomer_id()) ? mGoods.getComment().getCustomer_id()
+				.trim() : "");
+		mCommentContentTv.setText(!TextUtils.isEmpty(mGoods.getComment()
+				.getDetail()) ? "¥" + mGoods.getComment().getDetail().trim()
+				: "¥");
+		mCommentNameTv
+				.setText(!TextUtils.isEmpty(mGoods.getComment().getNickname()) ? mGoods
+						.getComment().getNickname().trim()
+						: "");
 	}
 
 	@Override
