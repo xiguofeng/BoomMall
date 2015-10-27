@@ -240,7 +240,7 @@ public class CategoryAndGoodsActivity extends Activity implements
 	}
 
 	private void refreshGoods() {
-		GoodsLogic.getGoodsListByCategory(mContext, mHandler, "1", 1, 1);
+		GoodsLogic.getGoodsListByCategory(mContext, mHandler, "1", 1, 1,"");
 	}
 
 	private void search(String key) {

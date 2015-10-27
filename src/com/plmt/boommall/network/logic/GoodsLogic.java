@@ -61,7 +61,7 @@ public class GoodsLogic {
 
 	public static void getGoodsListByCategory(final Context context,
 			final Handler handler, String categoryName, final int pageNum,
-			final int pageSize) {
+			final int pageSize,final String sort) {
 
 		String url = RequestUrl.HOST_URL
 				+ RequestUrl.goods.queryGoodsByCategoryNew;
@@ -72,6 +72,7 @@ public class GoodsLogic {
 					URLEncoder.encode(categoryName, "UTF-8"));
 			requestJson.put("c", pageNum);
 			requestJson.put("s", pageSize);
+			requestJson.put("orderitme", sort);
 
 			BaseApplication.getInstanceRequestQueue().add(
 					new JsonObjectRequestUtf(Method.POST, url, requestJson,

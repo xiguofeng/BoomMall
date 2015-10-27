@@ -24,6 +24,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
@@ -36,6 +37,7 @@ import com.plmt.boommall.ui.adapter.GoodsGvPagingAdaper;
 import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
 import com.plmt.boommall.ui.adapter.RVGoodsAdapter;
 import com.plmt.boommall.ui.utils.MyItemClickListener;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.gridview.paging.PagingGridView;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
@@ -51,6 +53,18 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	private LinearLayout mSearchLl;
 	private EditText mSearchEt;
 	private ImageView mSearchIv;
+
+	private LinearLayout mCompositeLl;
+	private TextView mCompositeTv;
+	private ImageView mCompositeIv;
+
+	private LinearLayout mPriceLl;
+	private TextView mPriceTv;
+	private ImageView mPriceIv;
+
+	private LinearLayout mSalesLl;
+	private TextView mSalesTv;
+	private ImageView mSalesIv;
 
 	private ArrayList<Category> mCategoryList = new ArrayList<Category>();
 	private RVCategoryAdapter mCategoryAdapter;
@@ -69,9 +83,13 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 	private String mCatgoryName;
 
+	private String mNowSortType;
+
 	private int mCurrentPage = 1;
 	private int mCurrentPageNum = 1;
 	private int mCurrentViewMode = 0;
+
+	private CustomProgressDialog mProgressDialog;
 
 	Handler mHandler = new Handler() {
 
@@ -82,6 +100,10 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 			case GoodsLogic.GOODS_LIST_BY_KEY_GET_SUC: {
 				if (null != msg.obj) {
+					if (1 == mCurrentPageNum) {
+						mGoodsList.clear();
+						mGoodsGvList.clear();
+					}
 					mCurrentPageNum++;
 					mGoodsList.addAll((Collection<? extends Goods>) msg.obj);
 
@@ -112,7 +134,9 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 				break;
 			}
 
-			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
 			onLoadComplete();
 		}
 
@@ -154,8 +178,6 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 					}
 				});
 
-		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-
 		mSearchLl = (LinearLayout) findViewById(R.id.goods_list_search_ll);
 
 		mSearchIv = (ImageView) findViewById(R.id.goods_list_search_iv);
@@ -192,6 +214,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		mBackIv = (ImageView) findViewById(R.id.goods_list_back_iv);
 		mBackIv.setOnClickListener(this);
 
+		initFilterView();
 		initListView();
 		initGridView();
 		showViewMode(VIEW_MODE_LIST);
@@ -199,7 +222,41 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 	private void initData() {
 		mCatgoryName = getIntent().getStringExtra("categoryName");
-		refreshGoods();
+		mProgressDialog = new CustomProgressDialog(mContext);
+		mProgressDialog.show();
+		fetchGoods(mNowSortType);
+	}
+
+	private void initFilterView() {
+		mCompositeLl = (LinearLayout) findViewById(R.id.goods_list_composite_ll);
+		mCompositeTv = (TextView) findViewById(R.id.goods_list_composite_tv);
+		mCompositeIv = (ImageView) findViewById(R.id.goods_list_composite_iv);
+
+		mPriceLl = (LinearLayout) findViewById(R.id.goods_list_price_ll);
+		mPriceTv = (TextView) findViewById(R.id.goods_list_price_tv);
+		mPriceIv = (ImageView) findViewById(R.id.goods_list_price_iv);
+
+		mSalesLl = (LinearLayout) findViewById(R.id.goods_list_sales_ll);
+		mSalesTv = (TextView) findViewById(R.id.goods_list_sales_tv);
+		mSalesIv = (ImageView) findViewById(R.id.goods_list_sales_iv);
+
+		mCompositeLl.setOnClickListener(this);
+		mPriceLl.setOnClickListener(this);
+		mSalesLl.setOnClickListener(this);
+	}
+
+	private void setFilterViewDefalut() {
+		mCompositeTv.setTextColor(getResources().getColor(
+				R.color.gray_character));
+		mPriceTv.setTextColor(getResources().getColor(R.color.gray_character));
+		mSalesTv.setTextColor(getResources().getColor(R.color.gray_character));
+
+		mCompositeIv.setImageDrawable(getResources().getDrawable(
+				R.drawable.arrow_down_top));
+		mPriceIv.setImageDrawable(getResources().getDrawable(
+				R.drawable.arrow_down_top));
+		mSalesIv.setImageDrawable(getResources().getDrawable(
+				R.drawable.arrow_down_top));
 	}
 
 	private void initListView() {
@@ -255,7 +312,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 			@Override
 			public void onLoadMoreItems() {
 				if (mCurrentPage < 3) {
-					refreshGoods();
+					fetchGoods(mNowSortType);
 				} else {
 					mGoodsGv.onFinishLoading(false, null);
 				}
@@ -303,9 +360,9 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		}
 	}
 
-	private void refreshGoods() {
+	private void fetchGoods(String sort) {
 		GoodsLogic.getGoodsListByCategory(mContext, mHandler, mCatgoryName,
-				mCurrentPageNum, MsgRequest.PAGE_SIZE);
+				mCurrentPageNum, MsgRequest.PAGE_SIZE, sort);
 	}
 
 	private void search(String key) {
@@ -325,14 +382,14 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	@Override
 	public void onRefresh() {
 		Log.e("xxx_onRefresh()", "");
-		refreshGoods();
+		fetchGoods(mNowSortType);
 
 	}
 
 	@Override
 	public void onLoadMore() {
 		Log.e("xxx_onLoadMore", "");
-		refreshGoods();
+		fetchGoods(mNowSortType);
 	}
 
 	@Override
@@ -355,6 +412,47 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 			}
 			break;
 		}
+
+		case R.id.goods_list_composite_ll: {
+			setFilterViewDefalut();
+			mCompositeTv.setTextColor(getResources().getColor(
+					R.color.red_character));
+			mCompositeIv.setImageDrawable(getResources().getDrawable(
+					R.drawable.arrow_down_top));
+			mCurrentPageNum = 1;
+			mNowSortType = "";
+			mProgressDialog = new CustomProgressDialog(mContext);
+			mProgressDialog.show();
+			fetchGoods(mNowSortType);
+			break;
+		}
+		case R.id.goods_list_price_ll: {
+			setFilterViewDefalut();
+			mPriceTv.setTextColor(getResources()
+					.getColor(R.color.red_character));
+			mPriceIv.setImageDrawable(getResources().getDrawable(
+					R.drawable.arrow_down_top));
+			mCurrentPageNum = 1;
+			mNowSortType = "price";
+			mProgressDialog = new CustomProgressDialog(mContext);
+			mProgressDialog.show();
+			fetchGoods(mNowSortType);
+			break;
+		}
+		case R.id.goods_list_sales_ll: {
+			setFilterViewDefalut();
+			mSalesTv.setTextColor(getResources()
+					.getColor(R.color.red_character));
+			mSalesIv.setImageDrawable(getResources().getDrawable(
+					R.drawable.arrow_down_top));
+			mCurrentPageNum = 1;
+			mNowSortType = "salestotal";
+			mProgressDialog = new CustomProgressDialog(mContext);
+			mProgressDialog.show();
+			fetchGoods(mNowSortType);
+			break;
+		}
+
 		case R.id.goods_list_back_iv: {
 			finish();
 			overridePendingTransition(R.anim.push_right_in,

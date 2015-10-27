@@ -95,10 +95,101 @@
         </RelativeLayout>
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/goods_list_composite_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/goods_list_composite_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:text="@string/composite"
+                android:textColor="@color/red_character"
+                android:textSize="@dimen/middle_text_size" />
+
+            <ImageView
+                android:id="@+id/goods_list_composite_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop"
+                android:src="@drawable/arrow_down_top" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/goods_list_price_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/goods_list_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:text="@string/price"
+                android:textColor="@color/gray_character"
+                android:textSize="@dimen/middle_text_size" />
+
+            <ImageView
+                android:id="@+id/goods_list_price_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop"
+                android:src="@drawable/arrow_down_top" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/goods_list_sales_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/goods_list_sales_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:text="@string/sales"
+                android:textColor="@color/gray_character"
+                android:textSize="@dimen/middle_text_size" />
+
+            <ImageView
+                android:id="@+id/goods_list_sales_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop"
+                android:src="@drawable/arrow_down_top" />
+        </LinearLayout>
+    </LinearLayout>
+
     <com.plmt.boommall.ui.view.MultiStateView
         android:id="@+id/goods_list_multiStateView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="1dip"
         app:msv_emptyView="@layout/empty_view"
         app:msv_errorView="@layout/error_view"
         app:msv_loadingView="@layout/loading_view"

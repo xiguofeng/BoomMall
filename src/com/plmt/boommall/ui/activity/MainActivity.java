@@ -435,7 +435,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		mProgressDialog = new CustomProgressDialog(mContext);
 		mProgressDialog.show();
 		PromotionLogic.getBannerList(mContext, mPromotionHandler);
-		GoodsLogic.getGoodsListByCategory(mContext, mPromotionHandler, "1", 1, 1);
 	}
 
 	private List<DemoItem> getMoreItems(int qty) {
