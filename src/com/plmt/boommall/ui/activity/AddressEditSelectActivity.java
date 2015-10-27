@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -173,7 +174,7 @@ public class AddressEditSelectActivity extends Activity implements
 		try {
 			JSONObject jsonObject = new JSONObject(data);
 			JSONArray provinceJsonArray = jsonObject
-					.getJSONArray(MsgResult.RESULT_SUCCESS);
+					.getJSONArray(MsgResult.RESULT_DATA_TAG);
 			mProvinceDatas = new AddressData[provinceJsonArray.length()];
 			for (int i = 0; i < provinceJsonArray.length(); i++) {
 				JSONObject provinceJsonObject = provinceJsonArray
@@ -187,10 +188,10 @@ public class AddressEditSelectActivity extends Activity implements
 				AddressData[] citisDatas = new AddressData[citisJsonArray
 						.length()];
 				for (int j = 0; j < citisJsonArray.length(); j++) {
-					JSONObject cityJsonObject = citisJsonArray.getJSONObject(i);
+					JSONObject cityJsonObject = citisJsonArray.getJSONObject(j);
 					AddressData cityAddressData = (AddressData) JsonUtils
 							.fromJsonToJava(cityJsonObject, AddressData.class);
-					citisDatas[i] = cityAddressData;
+					citisDatas[j] = cityAddressData;
 
 					// 解析区
 					JSONArray districtJsonArray = cityJsonObject
@@ -199,17 +200,18 @@ public class AddressEditSelectActivity extends Activity implements
 							.length()];
 					for (int k = 0; k < districtJsonArray.length(); k++) {
 						JSONObject districtJsonObject = districtJsonArray
-								.getJSONObject(i);
+								.getJSONObject(k);
 						AddressData districtAddressData = (AddressData) JsonUtils
 								.fromJsonToJava(districtJsonObject,
 										AddressData.class);
-						districtDatas[i] = districtAddressData;
+						districtDatas[k] = districtAddressData;
 					}
 					mDistrictDatasMap.put(cityAddressData, districtDatas);
 				}
 				mCitisDatasMap.put(provinceAddressData, citisDatas);
-
 			}
+			
+			Log.e("xxx_complete", "complete");
 
 		} catch (JSONException e) {
 			e.printStackTrace();
