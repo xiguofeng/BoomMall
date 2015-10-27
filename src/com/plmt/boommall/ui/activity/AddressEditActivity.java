@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class AddressEditActivity extends Activity implements OnClickListener {
-	
+
 	public static final String ORIGIN_FROM_ADD_ACTION = "address.add";
 
 	public static final String ORIGIN_FROM_EDIT_ACTION = "address.edit";
@@ -36,14 +36,14 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 	private TextView mAreaTv;
 	private RelativeLayout mAreaRl;
 	private Button mSaveBtn;
-	
+
 	private ImageView mBackIv;
 	private ImageView mDelIv;
-	
+
 	private String mNowAction = ORIGIN_FROM_ADD_ACTION;
-	
+
 	private CustomProgressDialog mProgressDialog;
-	
+
 	private Handler mHandler = new Handler() {
 
 		@Override
@@ -74,7 +74,6 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 
 	};
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -95,17 +94,19 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 		mSaveBtn = (Button) findViewById(R.id.address_add_confirm_btn);
 		mAreaRl.setOnClickListener(this);
 		mSaveBtn.setOnClickListener(this);
-		
+
 		mBackIv = (ImageView) findViewById(R.id.address_add_back_iv);
-		mDelIv= (ImageView) findViewById(R.id.address_add_del_iv);
+		mDelIv = (ImageView) findViewById(R.id.address_add_del_iv);
 		mBackIv.setOnClickListener(this);
 		mDelIv.setOnClickListener(this);
 	}
 
 	private void initData() {
 		mNowAction = getIntent().getAction();
-//		mProgressDialog = new CustomProgressDialog(mContext);
-//		mProgressDialog.show();
+		// mProgressDialog = new CustomProgressDialog(mContext);
+		// mProgressDialog.show();
+
+		AddressLogic.getAddressData(mContext, mHandler);
 	}
 
 	@Override
@@ -133,25 +134,25 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 
 			break;
 		}
-		case R.id.address_add_confirm_btn: {}
+		case R.id.address_add_confirm_btn: {
+		}
 		case R.id.address_add_back_iv: {
 			finish();
 			break;
 		}
 		case R.id.address_add_del_iv: {
 			new ActionSheetDialog(AddressEditActivity.this)
-			.builder()
-			.setTitle(getString(R.string.is_del_address_title))
-			.setCancelable(false)
-			.setCanceledOnTouchOutside(false)
-			.addSheetItem(getString(R.string.del), SheetItemColor.Blue,
-					new OnSheetItemClickListener() {
-						@Override
-						public void onClick(int which) {
-							AddressLogic.del(mContext, mHandler, "");
-						}
-					})
-			.show();
+					.builder()
+					.setTitle(getString(R.string.is_del_address_title))
+					.setCancelable(false)
+					.setCanceledOnTouchOutside(false)
+					.addSheetItem(getString(R.string.del), SheetItemColor.Blue,
+							new OnSheetItemClickListener() {
+								@Override
+								public void onClick(int which) {
+									AddressLogic.del(mContext, mHandler, "");
+								}
+							}).show();
 			break;
 		}
 		default:

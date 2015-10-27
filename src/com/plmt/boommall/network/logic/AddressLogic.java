@@ -89,12 +89,13 @@ public class AddressLogic {
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				JSONObject jsonObject = response
 						.getJSONObject(MsgResult.RESULT_DATA_TAG);
-				
+
 				JSONArray addressArray = jsonObject.getJSONArray("addresses");
 				int size = addressArray.length();
 				ArrayList<Address> addresslist = new ArrayList<>();
 				for (int i = 0; i < size; i++) {
-					JSONObject addressJsonObject = addressArray.getJSONObject(i);
+					JSONObject addressJsonObject = addressArray
+							.getJSONObject(i);
 					Address address = (Address) JsonUtils.fromJsonToJava(
 							addressJsonObject, Address.class);
 					addresslist.add(address);
@@ -111,23 +112,23 @@ public class AddressLogic {
 			handler.sendEmptyMessage(ANDRESS_LIST_GET_EXCEPTION);
 		}
 	}
-	
-	public static void del(final Context context, final Handler handler,final String id) {
+
+	public static void del(final Context context, final Handler handler,
+			final String id) {
 
 		String url = RequestUrl.HOST_URL + RequestUrl.address.del;
 		JSONObject requestJson = new JSONObject();
 		try {
 			requestJson.put("sessionid",
 					"frontend=" + UserInfoManager.getSession(context));
-			requestJson.put("id",id);
+			requestJson.put("id", id);
 
 			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
 					requestJson, new Listener<JSONObject>() {
 						@Override
 						public void onResponse(JSONObject response) {
 							if (null != response) {
-								Log.e("xxx_address_del",
-										response.toString());
+								Log.e("xxx_address_del", response.toString());
 								parseDelData(response, handler);
 							}
 
@@ -144,8 +145,10 @@ public class AddressLogic {
 			e.printStackTrace();
 		}
 	}
-	
-	//{"data":[],"result":"0","msg":"","Set-Cookie":"frontend=4ao29o9jqds2vm7gmqj9sgbll1; expires=Sun, 25-Oct-2015 07:49:35 GMT; path=\/; domain=120.55.116.206; httponly"}
+
+	// {"data":[],"result":"0","msg":"","Set-Cookie":"frontend=4ao29o9jqds2vm7gmqj9sgbll1;
+	// expires=Sun, 25-Oct-2015 07:49:35 GMT; path=\/; domain=120.55.116.206;
+	// httponly"}
 	private static void parseDelData(JSONObject response, Handler handler) {
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
@@ -156,6 +159,38 @@ public class AddressLogic {
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(ANDRESS_DEL_EXCEPTION);
+		}
+	}
+
+	public static void getAddressData(final Context context,
+			final Handler handler) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.address.data;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_address_data", response.toString());
+								parseListData(response, handler);
+							}
+
+						}
+					}, null);
+
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -100,6 +100,11 @@ public class RequestUrl {
 	}
 
 	public interface address {
+		
+		/**
+		 * 地址数据
+		 */
+		public String data = "/address/getJsonArea";
 
 		/**
 		 * 地址列表
