@@ -19,8 +19,9 @@ import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
- import  com.onzero.wc.R;
 import cn.jpush.android.api.TagAliasCallback;
+
+import com.plmt.boommall.R;
 
 
 public class PushSetActivity extends InstrumentedActivity implements OnClickListener {
@@ -36,7 +37,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
-		setContentView(R.layout.push_set_dialog);
+		setContentView(R.layout.jpush_push_set_dialog);
 		init();
 		initListener();
 	}
@@ -85,7 +86,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
 		
         // 检查 tag 的有效性
 		if (TextUtils.isEmpty(tag)) {
-			Toast.makeText(PushSetActivity.this,R.string.error_tag_empty, Toast.LENGTH_SHORT).show();
+			//Toast.makeText(PushSetActivity.this,R.string.error_tag_empty, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		
@@ -94,7 +95,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
 		Set<String> tagSet = new LinkedHashSet<String>();
 		for (String sTagItme : sArray) {
 			if (!ExampleUtil.isValidTagAndAlias(sTagItme)) {
-				Toast.makeText(PushSetActivity.this,R.string.error_tag_gs_empty, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(PushSetActivity.this,R.string.error_tag_gs_empty, Toast.LENGTH_SHORT).show();
 				return;
 			}
 			tagSet.add(sTagItme);
@@ -109,11 +110,11 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
 		EditText aliasEdit = (EditText) findViewById(R.id.et_alias);
 		String alias = aliasEdit.getText().toString().trim();
 		if (TextUtils.isEmpty(alias)) {
-			Toast.makeText(PushSetActivity.this,R.string.error_alias_empty, Toast.LENGTH_SHORT).show();
+			//Toast.makeText(PushSetActivity.this,R.string.error_alias_empty, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		if (!ExampleUtil.isValidTagAndAlias(alias)) {
-			Toast.makeText(PushSetActivity.this,R.string.error_tag_gs_empty, Toast.LENGTH_SHORT).show();
+			//Toast.makeText(PushSetActivity.this,R.string.error_tag_gs_empty, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		

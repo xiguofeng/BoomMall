@@ -29,7 +29,7 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.jpush_main);
 		initView();   
 		registerMessageReceiver();  // used for receive msg
 	}

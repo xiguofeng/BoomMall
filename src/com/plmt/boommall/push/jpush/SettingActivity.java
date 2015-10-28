@@ -17,7 +17,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
- import  com.onzero.wc.R;
+
+import com.plmt.boommall.R;
 
 public class SettingActivity extends InstrumentedActivity implements OnClickListener {
 	TimePicker startTime;
@@ -36,7 +37,7 @@ public class SettingActivity extends InstrumentedActivity implements OnClickList
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
-		setContentView(R.layout.set_push_time);
+		setContentView(R.layout.jpush_set_push_time);
 		init();
 		initListener();
 	}
@@ -146,7 +147,7 @@ public class SettingActivity extends InstrumentedActivity implements OnClickList
 		mEditor.putInt(ExampleUtil.PREFS_START_TIME, startime);
 		mEditor.putInt(ExampleUtil.PREFS_END_TIME, endtime);
 		mEditor.commit();
-		Toast.makeText(SettingActivity.this, R.string.setting_su, Toast.LENGTH_SHORT).show();
+		Toast.makeText(SettingActivity.this, "", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
