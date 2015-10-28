@@ -1,5 +1,7 @@
 package com.plmt.boommall;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.plmt.boommall.config.Constants;
 import com.plmt.boommall.network.volley.RequestQueue;
 import com.plmt.boommall.network.volley.toolbox.Volley;
@@ -27,8 +29,11 @@ public class BaseApplication extends Application {
 		context = getApplicationContext();
 		sQueue = Volley.newRequestQueue(getApplicationContext());
 		ImageLoaderConfig.initImageLoader(this, Constants.BASE_IMAGE_CACHE);
-		
+
 		Easemob.getInstance().init(context);
+
+		JPushInterface.setDebugMode(true); // 设置开启日志,发布时请关闭日志
+		JPushInterface.init(this);
 	}
 
 	@Override
