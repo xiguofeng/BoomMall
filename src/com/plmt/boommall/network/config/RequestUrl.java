@@ -189,7 +189,13 @@ public class RequestUrl {
 		 * 获取订单支付信息
 		 */
 		public String getOrderPayInfo = "/appaliapy/payment/getOrder";
-
+		
+		
+		/**
+		 * 银联测试接口
+		 */
+		public String getOrderPayByUnionInfo = "/appunionpay/payment/test";
+		
 		/**
 		 * 订单信息
 		 */

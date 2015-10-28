@@ -103,12 +103,10 @@ public class PayActivity extends Activity implements OnClickListener {
 					Toast.makeText(mContext, "支付成功", Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(mContext, AccountActivity.class);
 					intent.putExtra("order_state", "1");
-					intent.putExtra("delivery_time", OrderManager
-							.getsCurrentOrder().getDeliveryTime());
+					intent.putExtra("delivery_time", OrderManager.getsCurrentOrder().getDeliveryTime());
 					startActivity(intent);
 					PayActivity.this.finish();
-					overridePendingTransition(R.anim.push_left_in,
-							R.anim.push_left_out);
+					overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 				}
 				break;
 			}
@@ -116,24 +114,20 @@ public class PayActivity extends Activity implements OnClickListener {
 				Toast.makeText(mContext, "支付成功", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(mContext, AccountActivity.class);
 				intent.putExtra("order_state", "1");
-				intent.putExtra("delivery_time", OrderManager
-						.getsCurrentOrder().getDeliveryTime());
+				intent.putExtra("delivery_time", OrderManager.getsCurrentOrder().getDeliveryTime());
 				startActivity(intent);
 				PayActivity.this.finish();
-				overridePendingTransition(R.anim.push_left_in,
-						R.anim.push_left_out);
+				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 				break;
 			}
 			case OrderLogic.ORDER_PAY_RESULT_CHECK_EXCEPTION: {
 				Toast.makeText(mContext, "支付成功", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(mContext, AccountActivity.class);
 				intent.putExtra("order_state", "1");
-				intent.putExtra("delivery_time", OrderManager
-						.getsCurrentOrder().getDeliveryTime());
+				intent.putExtra("delivery_time", OrderManager.getsCurrentOrder().getDeliveryTime());
 				startActivity(intent);
 				PayActivity.this.finish();
-				overridePendingTransition(R.anim.push_left_in,
-						R.anim.push_left_out);
+				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 				break;
 			}
 			case OrderLogic.NET_ERROR: {
@@ -172,13 +166,11 @@ public class PayActivity extends Activity implements OnClickListener {
 					// 判断resultStatus 为非“9000”则代表可能支付失败
 					// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
 					if (TextUtils.equals(resultStatus, "8000")) {
-						Toast.makeText(mContext, "支付结果确认中", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(mContext, "支付结果确认中", Toast.LENGTH_SHORT).show();
 
 					} else {
 						// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-						Toast.makeText(mContext, "支付失败", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(mContext, "支付失败", Toast.LENGTH_SHORT).show();
 
 					}
 				}
@@ -207,8 +199,7 @@ public class PayActivity extends Activity implements OnClickListener {
 			case OrderLogic.ORDER_PAY_UNION_TN_GET_SUC: {
 				if (null != msg.obj) {
 					if (null == mUnionpayApi) {
-						mUnionpayApi = new UnionpayApi(PayActivity.this,
-								mUnionpayHandler);
+						mUnionpayApi = new UnionpayApi(PayActivity.this, mUnionpayHandler);
 					}
 					String tn = (String) msg.obj;
 					mUnionpayApi.pay(PayActivity.this, mUnionpayHandler, tn);
@@ -248,14 +239,11 @@ public class PayActivity extends Activity implements OnClickListener {
 						mWechatpayApi = new WechatpayApi();
 					}
 
-					WechatpayMerchant wxpayMerchant = (WechatpayMerchant) mMsgMap
-							.get(PayConstants.PAY_WAY_WXPAY);
+					WechatpayMerchant wxpayMerchant = (WechatpayMerchant) mMsgMap.get(PayConstants.PAY_WAY_WXPAY);
 					if (null != wxpayMerchant) {
-						mWechatpayApi.genPayReq(PayActivity.this,
-								mWechatpayHandler, result, wxpayMerchant);
+						mWechatpayApi.genPayReq(PayActivity.this, mWechatpayHandler, result, wxpayMerchant);
 					} else {
-						Toast.makeText(mContext, "支付失败,请重试！",
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(mContext, "支付失败,请重试！", Toast.LENGTH_SHORT).show();
 					}
 				}
 				break;
@@ -304,6 +292,23 @@ public class PayActivity extends Activity implements OnClickListener {
 
 				break;
 			}
+
+			case OrderLogic.ORDER_PAY_UNION_TN_GET_SUC: {
+				if (null != msg.obj) {
+					UnionpayMerchant unionPayMerchant;
+					unionPayMerchant = (UnionpayMerchant) msg.obj;
+					PayByUnion(unionPayMerchant);
+				}
+				break;
+			}
+			case OrderLogic.ORDER_PAY_UNION_TN_GET_FAIL: {
+
+				break;
+			}
+			case OrderLogic.ORDER_PAY_UNION_TN_GET_EXCEPTION: {
+
+				break;
+			}
 			case OrderLogic.NET_ERROR: {
 
 				break;
@@ -324,12 +329,8 @@ public class PayActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pay);
 		mContext = PayActivity.this;
-		if (!ActivitiyInfoManager.activitityMap
-				.containsKey(ActivitiyInfoManager
-						.getCurrentActivityName(mContext))) {
-			ActivitiyInfoManager.activitityMap
-					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
-							this);
+		if (!ActivitiyInfoManager.activitityMap.containsKey(ActivitiyInfoManager.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap.put(ActivitiyInfoManager.getCurrentActivityName(mContext), this);
 		}
 		mProgressDialog = new CustomProgressDialog(mContext);
 		initView();
@@ -339,8 +340,7 @@ public class PayActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (!TextUtils.isEmpty(mCurrentPayWay)
-				&& PayConstants.PAY_WAY_WXPAY.equals(mCurrentPayWay)
+		if (!TextUtils.isEmpty(mCurrentPayWay) && PayConstants.PAY_WAY_WXPAY.equals(mCurrentPayWay)
 				&& !TextUtils.isEmpty(sWxRespCode)) {
 			if ("0".equals(sWxRespCode)) {
 				mProgressDialog.show();
@@ -374,8 +374,7 @@ public class PayActivity extends Activity implements OnClickListener {
 		mAlipayCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					mWeChatCb.setChecked(false);
 					mUnionpayCb.setChecked(false);
@@ -386,8 +385,7 @@ public class PayActivity extends Activity implements OnClickListener {
 		mWeChatCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					mAlipayCb.setChecked(false);
 					mUnionpayCb.setChecked(false);
@@ -398,8 +396,7 @@ public class PayActivity extends Activity implements OnClickListener {
 		mUnionpayCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					mWeChatCb.setChecked(false);
 					mAlipayCb.setChecked(false);
@@ -444,8 +441,7 @@ public class PayActivity extends Activity implements OnClickListener {
 
 	private void hanlder() {
 		if (PayConstants.PAY_WAY_ALIPAY.equals(mCurrentPayWay)) {
-			AlipayMerchant alipayMerchant = (AlipayMerchant) mMsgMap
-					.get(PayConstants.PAY_WAY_ALIPAY);
+			AlipayMerchant alipayMerchant = (AlipayMerchant) mMsgMap.get(PayConstants.PAY_WAY_ALIPAY);
 			AlipayApi apAlipayApi = new AlipayApi();
 			apAlipayApi.pay(PayActivity.this, mAlipayHandler, alipayMerchant);
 
@@ -453,27 +449,21 @@ public class PayActivity extends Activity implements OnClickListener {
 			if (null == mWechatpayApi) {
 				mWechatpayApi = new WechatpayApi();
 			}
-			WechatpayMerchant wxpayMerchant = (WechatpayMerchant) mMsgMap
-					.get(PayConstants.PAY_WAY_WXPAY);
-			mWechatpayApi.getPrepayId(PayActivity.this, mWechatpayHandler,
-					wxpayMerchant, String.valueOf(Integer.parseInt(OrderManager
-							.getsCurrentOrder().getAmount()) * 100));
+			WechatpayMerchant wxpayMerchant = (WechatpayMerchant) mMsgMap.get(PayConstants.PAY_WAY_WXPAY);
+			mWechatpayApi.getPrepayId(PayActivity.this, mWechatpayHandler, wxpayMerchant,
+					String.valueOf(Integer.parseInt(OrderManager.getsCurrentOrder().getAmount()) * 100));
 
 		} else if (PayConstants.PAY_WAY_UNIONPAY.equals(mCurrentPayWay)) {
 			if (null == mUnionpayApi) {
-				mUnionpayApi = new UnionpayApi(PayActivity.this,
-						mUnionpayHandler);
+				mUnionpayApi = new UnionpayApi(PayActivity.this, mUnionpayHandler);
 			}
-			UnionpayMerchant unionpayMerchant = (UnionpayMerchant) mMsgMap
-					.get(PayConstants.PAY_WAY_UNIONPAY);
-			mUnionpayApi.pay(PayActivity.this, mUnionpayHandler,
-					unionpayMerchant.getTn());
+			UnionpayMerchant unionpayMerchant = (UnionpayMerchant) mMsgMap.get(PayConstants.PAY_WAY_UNIONPAY);
+			mUnionpayApi.pay(PayActivity.this, mUnionpayHandler, unionpayMerchant.getTn());
 
 		} else if (PayConstants.PAY_WAY_CASHPAY.equals(mCurrentPayWay)) {
 			Intent intent = new Intent(mContext, AccountActivity.class);
 			intent.putExtra("order_state", "1");
-			intent.putExtra("delivery_time", OrderManager.getsCurrentOrder()
-					.getDeliveryTime());
+			intent.putExtra("delivery_time", OrderManager.getsCurrentOrder().getDeliveryTime());
 			startActivity(intent);
 			PayActivity.this.finish();
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -482,8 +472,7 @@ public class PayActivity extends Activity implements OnClickListener {
 
 			Intent intent = new Intent(mContext, AccountActivity.class);
 			intent.putExtra("order_state", "1");
-			intent.putExtra("delivery_time", OrderManager.getsCurrentOrder()
-					.getDeliveryTime());
+			intent.putExtra("delivery_time", OrderManager.getsCurrentOrder().getDeliveryTime());
 			startActivity(intent);
 			PayActivity.this.finish();
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -501,20 +490,28 @@ public class PayActivity extends Activity implements OnClickListener {
 		apAlipayApi.pay(PayActivity.this, mAlipayHandler, alipayMerchant);
 	}
 
+	private void PayByUnion(UnionpayMerchant unionMerchant) {
+		if (null == mUnionpayApi) {
+			mUnionpayApi = new UnionpayApi(PayActivity.this, mUnionpayHandler);
+		}
+		mUnionpayApi.pay(PayActivity.this, mUnionpayHandler, unionMerchant.getTn());
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.pay_confirm_btn: {
-			if (!TextUtils.isEmpty(mCurrentSelectPayWay)
-					&& PayConstants.PAY_WAY_ALIPAY.equals(mCurrentSelectPayWay)) {
+			if (!TextUtils.isEmpty(mCurrentSelectPayWay) && PayConstants.PAY_WAY_ALIPAY.equals(mCurrentSelectPayWay)) {
 				if (null != mProgressDialog) {
 					mProgressDialog.show();
 				}
-				OrderLogic.getOrderPayInfo(mContext, mOrderPayInfoHandler,
-						mOrderId);
-			} else {
-				Toast.makeText(mContext, getString(R.string.pay_way_hint),
-						Toast.LENGTH_SHORT).show();
+				OrderLogic.getOrderPayInfo(mContext, mOrderPayInfoHandler, mOrderId);
+			} else if (!TextUtils.isEmpty(mCurrentSelectPayWay)
+					&& PayConstants.PAY_WAY_UNIONPAY.equals(mCurrentSelectPayWay)) {
+				if (null != mProgressDialog) {
+					mProgressDialog.show();
+				}
+				OrderLogic.getOrderPayInfoByUnion(mContext, mOrderPayInfoHandler, mOrderId);
 			}
 			break;
 		}

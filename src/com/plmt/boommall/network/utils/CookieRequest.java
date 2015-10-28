@@ -15,6 +15,9 @@ import com.plmt.boommall.network.volley.Response.ErrorListener;
 import com.plmt.boommall.network.volley.Response.Listener;
 import com.plmt.boommall.network.volley.toolbox.HttpHeaderParser;
 import com.plmt.boommall.network.volley.toolbox.JsonObjectRequest;
+import com.plmt.boommall.utils.StringUtils;
+
+import android.util.Log;
 
 public class CookieRequest extends JsonObjectRequest {
 	private Map mHeaders = new HashMap(1);
@@ -44,6 +47,12 @@ public class CookieRequest extends JsonObjectRequest {
 			// HttpHeaderParser.parseCharset(response.headers));
 
 			String jsonString = new String(response.data, "UTF-8");
+			//Log.e("xxx_jsonString", "b" + jsonString);
+			int index = jsonString.indexOf("{");
+			jsonString = jsonString.substring(index);
+
+			// jsonString=StringUtils.replaceBlank(jsonString);
+			//Log.e("xxx_jsonString", "a" + jsonString);
 
 			JSONObject json = new JSONObject(jsonString);
 			Map<String, String> responseHeaders = response.headers;

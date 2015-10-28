@@ -22,7 +22,7 @@ import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
-import com.plmt.boommall.pay.AlipayMerchant;
+import com.plmt.boommall.pay.UnionpayMerchant;
 import com.plmt.boommall.utils.JsonUtils;
 import com.plmt.boommall.utils.OrderManager;
 import com.plmt.boommall.utils.UserInfoManager;
@@ -206,8 +206,8 @@ public class OrderLogic {
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 
 				JSONObject dataJsonObject = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
-				AlipayMerchant alipayMerchant = (AlipayMerchant) JsonUtils.fromJsonToJava(dataJsonObject,
-						AlipayMerchant.class);
+				UnionpayMerchant alipayMerchant = (UnionpayMerchant) JsonUtils.fromJsonToJava(dataJsonObject,
+						UnionpayMerchant.class);
 				Message message = new Message();
 				message.what = ORDER_PAY_INFO_GET_SUC;
 				message.obj = alipayMerchant;
@@ -217,6 +217,57 @@ public class OrderLogic {
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(ORDER_PAY_INFO_GET_EXCEPTION);
+		}
+	}
+
+	public static void getOrderPayInfoByUnion(final Context context, final Handler handler, final String orderId) {
+		JSONObject requestJson = new JSONObject();
+		Log.e("xxx_getOrderPayInfo", "start");
+		try {
+			requestJson.put("order_id", URLEncoder.encode(orderId, "UTF-8"));
+			String url = RequestUrl.HOST_PAY_URL + RequestUrl.order.getOrderPayByUnionInfo;
+
+			Log.e("xxx_getOrderPayInfoByUnion", url);
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
+				@Override
+				public void onResponse(JSONObject response) {
+					if (null != response) {
+						Log.e("xxx_getOrderPayInfoByUnion_result", "result" + response.toString());
+						parseOrderPayInfoByUnionData(response, handler);
+					}
+
+				}
+
+			}, null);
+			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	private static void parseOrderPayInfoByUnionData(JSONObject response, Handler handler) {
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				JSONObject dataJsonObject = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				UnionpayMerchant unionpayMerchant = (UnionpayMerchant) JsonUtils.fromJsonToJava(dataJsonObject,
+						UnionpayMerchant.class);
+				Message message = new Message();
+				message.what = ORDER_PAY_UNION_TN_GET_SUC;
+				message.obj = unionpayMerchant;
+				handler.sendMessage(message);
+			} else {
+				handler.sendEmptyMessage(ORDER_PAY_UNION_TN_GET_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(ORDER_PAY_UNION_TN_GET_EXCEPTION);
 		}
 	}
 
