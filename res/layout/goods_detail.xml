@@ -13,7 +13,7 @@
         android:orientation="vertical" >
 
         <com.plmt.boommall.ui.view.srollview.slidingmenu.SlidingMenu
-            android:id="@+id/expanded_menu"
+            android:id="@+id/goods_detail_expanded_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none" >

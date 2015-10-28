@@ -1,6 +1,7 @@
 package com.plmt.boommall.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Goods implements Serializable {
 
@@ -31,23 +32,31 @@ public class Goods implements Serializable {
 	private String num;
 
 	private String minSaleQty;
-	
+
 	private String maxSaleQty;
 	/**
 	 * 对应购物车的数量
 	 */
 	private String qty;
-	
+
 	/**
 	 * 对应购物车的id
 	 */
 	private String scid;
-	
+
 	private String weight;
-	
+
 	private String type;
-	
+
+	private String description;
+
+	private String review_total;
+
+	private String rating_avg;
+
 	private Comment comment;
+
+	private ArrayList<String> litterImage;
 
 	public String getId() {
 		return id;
@@ -161,14 +170,6 @@ public class Goods implements Serializable {
 		this.maxSaleQty = maxSaleQty;
 	}
 
-	public Comment getComment() {
-		return comment;
-	}
-
-	public void setComment(Comment comment) {
-		this.comment = comment;
-	}
-
 	public String getQty() {
 		return qty;
 	}
@@ -201,7 +202,44 @@ public class Goods implements Serializable {
 		this.type = type;
 	}
 
-	
+	public String getDescription() {
+		return description;
+	}
 
-	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getReview_total() {
+		return review_total;
+	}
+
+	public void setReview_total(String review_total) {
+		this.review_total = review_total;
+	}
+
+	public String getRating_avg() {
+		return rating_avg;
+	}
+
+	public void setRating_avg(String rating_avg) {
+		this.rating_avg = rating_avg;
+	}
+
+	public Comment getComment() {
+		return comment;
+	}
+
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
+
+	public ArrayList<String> getLitterImage() {
+		return litterImage;
+	}
+
+	public void setLitterImage(ArrayList<String> litterImage) {
+		this.litterImage = litterImage;
+	}
+
 }

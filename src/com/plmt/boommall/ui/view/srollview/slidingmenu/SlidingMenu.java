@@ -29,6 +29,8 @@ public class SlidingMenu extends ScrollView {
 	private boolean isSetted = false;
 	private boolean ispageOne = true;
 
+	private String mUrl;
+
 	public SlidingMenu(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
@@ -95,7 +97,7 @@ public class SlidingMenu extends ScrollView {
 				} else {
 					// 隐藏菜单
 					this.smoothScrollTo(0, mScreenHeight);
-					wrapperContent.loadUrl("http://item.jd.com/1856581.html");
+					wrapperContent.loadUrl(mUrl);
 					this.setFocusable(false);
 					ispageOne = false;
 				}
@@ -106,8 +108,7 @@ public class SlidingMenu extends ScrollView {
 					ispageOne = true;
 				} else {
 					this.smoothScrollTo(0, mScreenHeight);
-					wrapperContent
-							.loadUrl("http://item.jd.com/1856581.html");
+					wrapperContent.loadUrl(mUrl);
 				}
 			}
 
@@ -139,6 +140,14 @@ public class SlidingMenu extends ScrollView {
 		} else {
 			closeMenu();
 		}
+	}
+
+	public String getmUrl() {
+		return mUrl;
+	}
+
+	public void setmUrl(String mUrl) {
+		this.mUrl = mUrl;
 	}
 
 }

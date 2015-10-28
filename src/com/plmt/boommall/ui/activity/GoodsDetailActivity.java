@@ -1,7 +1,6 @@
 package com.plmt.boommall.ui.activity;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,11 +32,10 @@ import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.ui.adapter.GoodsDetailBannerAdapter;
 import com.plmt.boommall.ui.view.BadgeView;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
-import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.ui.view.srollview.slidingmenu.SlidingMenu;
 import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
 import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 import com.plmt.boommall.utils.ActivitiyInfoManager;
-import com.plmt.boommall.utils.CartManager;
 import com.plmt.boommall.utils.UserInfoManager;
 
 public class GoodsDetailActivity extends Activity implements OnClickListener {
@@ -51,6 +49,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	public static final String ORIGIN_FROM_CATE_ACTION = "CATE";
 
 	private Context mContext;
+
+	private SlidingMenu mSlidingMenu;
 
 	private ViewFlow mViewFlow;
 	private CircleFlowIndicator mIndic;
@@ -283,6 +283,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void initView() {
+		mSlidingMenu = (SlidingMenu) findViewById(R.id.goods_detail_expanded_menu);
+		mSlidingMenu.setmUrl("");
 
 		initCircleimage();
 		initComment();
@@ -367,8 +369,10 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				.getName().trim() : "");
 		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥"
 				+ mGoods.getFinalPrice().trim() : "¥");
+		
+		mSlidingMenu.setmUrl(mGoods.getDescription());
 
-		//fillUpComment();
+		// fillUpComment();
 	}
 
 	private void fillUpComment() {
