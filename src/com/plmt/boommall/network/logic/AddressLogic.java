@@ -119,6 +119,63 @@ public class AddressLogic {
 		}
 	}
 
+	public static void update(final Context context, final Handler handler,
+			final String id, final String cn_name, final String cn_province,
+			final String cn_city, final String cn_district,
+			final String street, final String postcode, final String telephone,
+			final String country_id) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.address.update;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("id", id);
+			requestJson.put("cn_name", cn_name);
+			requestJson.put("cn_province", cn_province);
+			requestJson.put("cn_city", cn_city);
+			requestJson.put("cn_district", cn_district);
+			requestJson.put("street", street);
+			requestJson.put("postcode", postcode);
+			requestJson.put("telephone", telephone);
+			requestJson.put("country_id", country_id);
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_address_update", response.toString());
+								parseUpdateData(response, handler);
+							}
+
+						}
+					}, null);
+
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void parseUpdateData(JSONObject response, Handler handler) {
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				handler.sendEmptyMessage(ANDRESS_DEL_SUC);
+			} else {
+				handler.sendEmptyMessage(ANDRESS_DEL_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(ANDRESS_DEL_EXCEPTION);
+		}
+	}
+
 	public static void del(final Context context, final Handler handler,
 			final String id) {
 

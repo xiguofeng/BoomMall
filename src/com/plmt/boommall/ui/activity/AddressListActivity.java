@@ -28,7 +28,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class AddressListActivity extends Activity implements OnClickListener, ListItemClickHelp {
+public class AddressListActivity extends Activity implements OnClickListener,
+		ListItemClickHelp {
 
 	public static final String ORIGIN_FROM_ORDER_KEY = "com.order";
 
@@ -56,7 +57,8 @@ public class AddressListActivity extends Activity implements OnClickListener, Li
 			case AddressLogic.ANDRESS_LIST_GET_SUC: {
 				if (null != msg.obj) {
 					mAddresslist.clear();
-					mAddresslist.addAll((Collection<? extends Address>) msg.obj);
+					mAddresslist
+							.addAll((Collection<? extends Address>) msg.obj);
 					mAdapter.initCheck();
 					mAdapter.notifyDataSetChanged();
 				}
@@ -106,12 +108,15 @@ public class AddressListActivity extends Activity implements OnClickListener, Li
 
 	private void initView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.address_list_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
+				.findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(), "Fetching Data", Toast.LENGTH_SHORT).show();
+						mMultiStateView
+								.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(),
+								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
 		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
@@ -127,7 +132,8 @@ public class AddressListActivity extends Activity implements OnClickListener, Li
 		mAddressLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				if (ORIGIN_FROM_ORDER_KEY.equals(mNowAction)) {
 					mAddress = mAddresslist.get(position);
 					Intent intent = new Intent();
@@ -150,40 +156,53 @@ public class AddressListActivity extends Activity implements OnClickListener, Li
 	public void onClick(View item, View widget, int position, int which) {
 		switch (which) {
 		case R.id.list_address_item_edit_rl: {
-			Intent intent = new Intent(AddressListActivity.this, AddressEditActivity.class);
+			Intent intent = new Intent(AddressListActivity.this,
+					AddressEditActivity.class);
 			intent.setAction(AddressEditActivity.ORIGIN_FROM_EDIT_ACTION);
-			startActivityForResult(intent, 600);			
+			intent.putExtra("id", mAddresslist.get(position).getId());
+			intent.putExtra("consignee", mAddresslist.get(position)
+					.getUsername());
+			intent.putExtra("addressDetail", mAddresslist.get(position)
+					.getContent());
+			intent.putExtra("contactWay", mAddresslist.get(position)
+					.getTelephone());
+			startActivityForResult(intent, 600);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		}
 		case R.id.list_address_item_del_rl: {
 			final int tempPosition = position;
 			new ActionSheetDialog(AddressListActivity.this)
-			.builder()
-			.setTitle(getString(R.string.is_del_address_title))
-			.setCancelable(false)
-			.setCanceledOnTouchOutside(false)
-			.addSheetItem(getString(R.string.del), SheetItemColor.Blue,
-					new OnSheetItemClickListener() {
-						@Override
-						public void onClick(int which) {
-							AddressLogic.del(mContext, mHandler, mAddresslist.get(tempPosition).getId());
-						}
-					})
-			.show();
-//			new AlertDialog(AddressListActivity.this).builder().setTitle(getString(R.string.prompt))
-//					.setMsg(getString(R.string.exit_str))
-//					.setPositiveButton(getString(R.string.confirm), new OnClickListener() {
-//						@Override
-//						public void onClick(View v) {
-//							AddressLogic.del(mContext, mHandler, mAddresslist.get(tempPosition).getId());
-//						}
-//					}).setNegativeButton(getString(R.string.cancal), new OnClickListener() {
-//						@Override
-//						public void onClick(View v) {
-//
-//						}
-//					}).show();
+					.builder()
+					.setTitle(getString(R.string.is_del_address_title))
+					.setCancelable(false)
+					.setCanceledOnTouchOutside(false)
+					.addSheetItem(getString(R.string.del), SheetItemColor.Blue,
+							new OnSheetItemClickListener() {
+								@Override
+								public void onClick(int which) {
+									AddressLogic.del(mContext, mHandler,
+											mAddresslist.get(tempPosition)
+													.getId());
+								}
+							}).show();
+			// new
+			// AlertDialog(AddressListActivity.this).builder().setTitle(getString(R.string.prompt))
+			// .setMsg(getString(R.string.exit_str))
+			// .setPositiveButton(getString(R.string.confirm), new
+			// OnClickListener() {
+			// @Override
+			// public void onClick(View v) {
+			// AddressLogic.del(mContext, mHandler,
+			// mAddresslist.get(tempPosition).getId());
+			// }
+			// }).setNegativeButton(getString(R.string.cancal), new
+			// OnClickListener() {
+			// @Override
+			// public void onClick(View v) {
+			//
+			// }
+			// }).show();
 			break;
 		}
 
@@ -198,11 +217,15 @@ public class AddressListActivity extends Activity implements OnClickListener, Li
 		switch (v.getId()) {
 		case R.id.address_list_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			break;
 		}
 		case R.id.address_list_add_btn: {
-			Intent intent = new Intent(AddressListActivity.this, AddressEditActivity.class);
+			Intent intent = new Intent(AddressListActivity.this,
+					AddressEditActivity.class);
+			intent.setAction(AddressEditActivity.ORIGIN_FROM_EDIT_ACTION);
+			intent.putExtra("addressId", "0");
 			startActivityForResult(intent, 500);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;

@@ -1,6 +1,7 @@
 package com.plmt.boommall.ui.activity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -29,6 +30,8 @@ import com.google.gson.JsonObject;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.AddressData;
 import com.plmt.boommall.entity.AddressData;
+import com.plmt.boommall.entity.CityModel;
+import com.plmt.boommall.entity.DistrictModel;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.logic.AddressLogic;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
@@ -67,19 +70,6 @@ public class AddressEditSelectActivity extends Activity implements
 	/**
 	 * 当前省的名称
 	 */
-	protected String mCurrentProviceName;
-	/**
-	 * 当前市的名称
-	 */
-	protected String mCurrentCityName;
-	/**
-	 * 当前区的名称
-	 */
-	protected String mCurrentDistrictName = "";
-
-	/**
-	 * 当前省的名称
-	 */
 	protected AddressData mCurrentProvice;
 	/**
 	 * 当前市的名称
@@ -90,48 +80,42 @@ public class AddressEditSelectActivity extends Activity implements
 	 */
 	protected AddressData mCurrentDistrict;
 
-	private CustomProgressDialog mProgressDialog;
+	/**
+	 * 所有省
+	 */
+	protected String[] mProvinceDatasStr;
+	/**
+	 * key - 省 value - 市
+	 */
+	protected Map<String, String[]> mCitisDatasMapStr = new HashMap<String, String[]>();
+	/**
+	 * key - 市 values - 区
+	 */
+	protected Map<String, String[]> mDistrictDatasMapStr = new HashMap<String, String[]>();
 
-	private Handler mHandler = new Handler() {
+	/**
+	 * key - 区 values - 邮编
+	 */
+	protected Map<String, String> mZipcodeDatasMapStr = new HashMap<String, String>();
 
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case AddressLogic.ANDRESS_DATA_GET_SUC: {
-				if (!TextUtils.isEmpty((String) msg.obj)) {
-					parserData((String) msg.obj);
-				}
-				break;
-			}
-			case AddressLogic.ANDRESS_DATA_GET_FAIL: {
-
-				break;
-			}
-			case AddressLogic.ANDRESS_DATA_GET_EXCEPTION: {
-
-				break;
-			}
-			case AddressLogic.NET_ERROR: {
-
-				break;
-			}
-			default:
-				break;
-			}
-			if (null != mProgressDialog && mProgressDialog.isShowing()) {
-				mProgressDialog.dismiss();
-			}
-		}
-
-	};
+	/**
+	 * 当前省的名称
+	 */
+	protected String mCurrentProviceName;
+	/**
+	 * 当前市的名称
+	 */
+	protected String mCurrentCityName;
+	/**
+	 * 当前区的名称
+	 */
+	protected String mCurrentDistrictName = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.address_select);
 		mContext = AddressEditSelectActivity.this;
-		setUpViews();
-		setUpListener();
 		initData();
 	}
 
@@ -165,9 +149,10 @@ public class AddressEditSelectActivity extends Activity implements
 	}
 
 	private void initData() {
-		mProgressDialog = new CustomProgressDialog(mContext);
-		mProgressDialog.show();
-		AddressLogic.getAddressData(mContext, mHandler);
+		String addressData = getIntent().getStringExtra("addressData");
+		if (!TextUtils.isEmpty(addressData)) {
+			parserData(addressData);
+		}
 	}
 
 	private void parserData(String data) {
@@ -210,17 +195,23 @@ public class AddressEditSelectActivity extends Activity implements
 				}
 				mCitisDatasMap.put(provinceAddressData, citisDatas);
 			}
-			
-			Log.e("xxx_complete", "complete");
-
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 
+		setUpViews();
+		setUpListener();
 		setUpData();
 	}
 
 	private void setUpData() {
+
+		mCurrentProvice = mProvinceDatas[0];
+		if (mCurrentProvice != null) {
+			mCurrentCity = mCitisDatasMap.get(mCurrentProvice)[0];
+			mCurrentDistrict = mDistrictDatasMap.get(mCurrentCity)[0];
+		}
+
 		// initProvinceDatas();
 		mViewProvince.setViewAdapter(new ArrayWheelAdapter<AddressData>(
 				AddressEditSelectActivity.this, mProvinceDatas));
@@ -252,7 +243,6 @@ public class AddressEditSelectActivity extends Activity implements
 		int pCurrent = mViewCity.getCurrentItem();
 		mCurrentCity = mCitisDatasMap.get(mCurrentProvice)[pCurrent];
 		AddressData[] areas = mDistrictDatasMap.get(mCurrentCity);
-
 		if (areas == null) {
 			areas = new AddressData[] {};
 		}
@@ -282,10 +272,12 @@ public class AddressEditSelectActivity extends Activity implements
 		switch (v.getId()) {
 		case R.id.btn_confirm:
 			Intent intent = new Intent();
-			intent.putExtra("area", "" + mCurrentProvice.getName()
-					+ mCurrentProvice.getCode() + "," + mCurrentCity.getName()
-					+ mCurrentCity.getCode() + "," + mCurrentDistrict.getName()
-					+ mCurrentDistrict.getCode());
+			intent.putExtra("area", "" + mCurrentProvice.getName() + ","
+					+ mCurrentCity.getName() + "," + mCurrentDistrict.getName());
+			intent.putExtra("proviceCode", mCurrentProvice.getCode());
+			intent.putExtra("cityCode", mCurrentCity.getCode());
+			intent.putExtra("districtCode", mCurrentDistrict.getCode());
+			intent.putExtra("postCode", mCurrentDistrict.getZip_code());
 			setResult(RESULT_OK, intent);
 			finish();
 			showSelectedResult();
@@ -298,10 +290,9 @@ public class AddressEditSelectActivity extends Activity implements
 	private void showSelectedResult() {
 		Toast.makeText(
 				AddressEditSelectActivity.this,
-				"当前选中:" + mCurrentProvice.getName() + mCurrentProvice.getCode()
-						+ "," + mCurrentCity.getName() + mCurrentCity.getCode()
-						+ "," + mCurrentDistrict.getName()
-						+ mCurrentDistrict.getCode(), Toast.LENGTH_SHORT)
+				"当前选中:" + mCurrentProvice.getName() + ","
+						+ mCurrentCity.getName() + ","
+						+ mCurrentDistrict.getName(), Toast.LENGTH_SHORT)
 				.show();
 	}
 }

@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddressEditActivity extends Activity implements OnClickListener {
 
@@ -40,6 +42,18 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 	private ImageView mBackIv;
 	private ImageView mDelIv;
 
+	private String mAddressData;
+
+	private String mConsignee;
+	private String mAddressDetail;
+	private String mContactWay;
+
+	private String mProviceCode;
+	private String mCityCode;
+	private String mDistrictCode;
+	private String mPostCode;
+
+	private String mAddressId;
 	private String mNowAction = ORIGIN_FROM_ADD_ACTION;
 
 	private CustomProgressDialog mProgressDialog;
@@ -57,6 +71,20 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 				break;
 			}
 			case AddressLogic.ANDRESS_DEL_EXCEPTION: {
+
+				break;
+			}
+			case AddressLogic.ANDRESS_DATA_GET_SUC: {
+				if (!TextUtils.isEmpty((String) msg.obj)) {
+					mAddressData = ((String) msg.obj);
+				}
+				break;
+			}
+			case AddressLogic.ANDRESS_DATA_GET_FAIL: {
+
+				break;
+			}
+			case AddressLogic.ANDRESS_DATA_GET_EXCEPTION: {
 
 				break;
 			}
@@ -103,9 +131,13 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 
 	private void initData() {
 		mNowAction = getIntent().getAction();
+		if (ORIGIN_FROM_EDIT_ACTION.equals(mNowAction)) {
+			mAddressId = getIntent().getStringExtra("addressId");
+		}
 		// mProgressDialog = new CustomProgressDialog(mContext);
 		// mProgressDialog.show();
-
+		mProgressDialog = new CustomProgressDialog(mContext);
+		mProgressDialog.show();
 		AddressLogic.getAddressData(mContext, mHandler);
 	}
 
@@ -115,6 +147,10 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 			switch (requestCode) {
 			case 500: {
 				mAreaTv.setText(data.getStringExtra("area"));
+				mProviceCode = data.getStringExtra("proviceCode");
+				mCityCode = data.getStringExtra("cityCode");
+				mDistrictCode = data.getStringExtra("districtCode");
+				mPostCode = data.getStringExtra("postCode");
 				break;
 			}
 			default:
@@ -128,13 +164,46 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.address_add_input_area_rl: {
-			Intent intent = new Intent(AddressEditActivity.this,
-					AddressEditSelectActivity.class);
-			startActivityForResult(intent, 500);
-
+			if (!TextUtils.isEmpty(mAddressData)) {
+				Intent intent = new Intent(AddressEditActivity.this,
+						AddressEditSelectActivity.class);
+				intent.putExtra("addressData", mAddressData);
+				startActivityForResult(intent, 500);
+			} else {
+				// TODO
+			}
 			break;
 		}
 		case R.id.address_add_confirm_btn: {
+			mConsignee = mConsigneeEt.getText().toString().trim();
+			mAddressDetail = mAddressDetailEt.getText().toString().trim();
+			mContactWay = mContactWayEt.getText().toString().trim();
+
+			if (!TextUtils.isEmpty(mConsignee)
+					&& !TextUtils.isEmpty(mProviceCode)
+					&& !TextUtils.isEmpty(mCityCode)
+					&& !TextUtils.isEmpty(mDistrictCode)
+					&& !TextUtils.isEmpty(mPostCode)
+					&& !TextUtils.isEmpty(mAddressDetail)
+					&& !TextUtils.isEmpty(mContactWay)) {
+
+				mProgressDialog = new CustomProgressDialog(mContext);
+				mProgressDialog.show();
+				if (ORIGIN_FROM_ADD_ACTION.equals(mNowAction)) {
+					AddressLogic.update(mContext, mHandler, "0", mConsignee,
+							mProviceCode, mCityCode, mDistrictCode,
+							mAddressDetail, mPostCode, mContactWay, "CN");
+				} else {
+					AddressLogic.update(mContext, mHandler, mAddressId,
+							mConsignee, mProviceCode, mCityCode, mDistrictCode,
+							mAddressDetail, mPostCode, mContactWay, "CN");
+				}
+
+			} else {
+				Toast.makeText(mContext, getString(R.string.address_hint),
+						Toast.LENGTH_SHORT).show();
+			}
+			break;
 		}
 		case R.id.address_add_back_iv: {
 			finish();

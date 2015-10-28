@@ -1,5 +1,7 @@
 package com.plmt.boommall.ui.view.wheel.widget.adapters;
 
+import com.plmt.boommall.entity.AddressData;
+
 import android.content.Context;
 
 /**
@@ -34,6 +36,10 @@ public class ArrayWheelAdapter<T> extends AbstractWheelTextAdapter {
 			T item = items[index];
 			if (item instanceof CharSequence) {
 				return (CharSequence) item;
+			}
+			if (item instanceof AddressData) {
+				AddressData addressData = (AddressData) item;
+				return addressData.getName();
 			}
 			return item.toString();
 		}

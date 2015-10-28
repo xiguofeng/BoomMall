@@ -191,6 +191,7 @@
     <string name="sales">销量 </string>
     
     <!-- address -->
+    <string name="address_hint">请填写地址信息</string>
     <string name="address_add">新增地址</string>
     <string name="consignee">收货人</string>
     <string name="contact_way">联系方式</string>
