@@ -360,9 +360,9 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		}
 	}
 
-	private void fetchGoods(String sort) {
+	private void fetchGoods(String sortType) {
 		GoodsLogic.getGoodsListByCategory(mContext, mHandler, mCatgoryName,
-				mCurrentPageNum, MsgRequest.PAGE_SIZE, sort);
+				mCurrentPageNum, MsgRequest.PAGE_SIZE, sortType);
 	}
 
 	private void search(String key) {
