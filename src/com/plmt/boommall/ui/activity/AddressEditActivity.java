@@ -1,12 +1,5 @@
 package com.plmt.boommall.ui.activity;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.network.logic.AddressLogic;
-import com.plmt.boommall.ui.view.CustomProgressDialog;
-import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog;
-import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.OnSheetItemClickListener;
-import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.SheetItemColor;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -23,11 +16,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Address;
+import com.plmt.boommall.network.logic.AddressLogic;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.OnSheetItemClickListener;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.SheetItemColor;
+
 public class AddressEditActivity extends Activity implements OnClickListener {
 
 	public static final String ORIGIN_FROM_ADD_ACTION = "address.add";
 
 	public static final String ORIGIN_FROM_EDIT_ACTION = "address.edit";
+
+	public static final String ADDRESS_KEY = "addressKey";
 
 	private Context mContext;
 
@@ -54,6 +57,7 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 	private String mPostCode;
 
 	private String mAddressId;
+	private Address mAddress;
 	private String mNowAction = ORIGIN_FROM_ADD_ACTION;
 
 	private CustomProgressDialog mProgressDialog;
@@ -63,6 +67,28 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
+			case AddressLogic.ANDRESS_MODIFY_SUC: {
+				if (mNowAction.equals(ORIGIN_FROM_ADD_ACTION)) {
+					Toast.makeText(mContext,
+							getString(R.string.address_add_suc),
+							Toast.LENGTH_SHORT).show();
+				}else{
+					Toast.makeText(mContext,
+							getString(R.string.address_update_suc),
+							Toast.LENGTH_SHORT).show();
+				}
+				finish();
+				break;
+			}
+			case AddressLogic.ANDRESS_MODIFY_FAIL: {
+
+				break;
+			}
+			case AddressLogic.ANDRESS_MODIFY_EXCEPTION: {
+
+				break;
+			}
+
 			case AddressLogic.ANDRESS_DEL_SUC: {
 				break;
 			}
@@ -132,13 +158,44 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 	private void initData() {
 		mNowAction = getIntent().getAction();
 		if (ORIGIN_FROM_EDIT_ACTION.equals(mNowAction)) {
-			mAddressId = getIntent().getStringExtra("addressId");
+			mAddress = (Address) getIntent().getSerializableExtra(ADDRESS_KEY);
+			fillUpData();
 		}
 		// mProgressDialog = new CustomProgressDialog(mContext);
 		// mProgressDialog.show();
 		mProgressDialog = new CustomProgressDialog(mContext);
 		mProgressDialog.show();
 		AddressLogic.getAddressData(mContext, mHandler);
+	}
+
+	private void fillUpData() {
+		String addr = mAddress.getContent();
+		String bAddr = "";
+		String aAddr = "";
+		if (!TextUtils.isEmpty(addr)) {
+			if (addr.contains("区")) {
+				int index = addr.indexOf("区");
+				bAddr = addr.substring(0, index + 1);
+				aAddr = addr.substring(index + 1);
+			} else if (addr.contains("县")) {
+				int index = addr.indexOf("县");
+				bAddr = addr.substring(0, index + 1);
+				aAddr = addr.substring(index + 1);
+			} else {
+				bAddr = addr;
+				aAddr = addr;
+			}
+		}
+
+		mProviceCode = mAddress.getCn_province();
+		mCityCode = mAddress.getCn_city();
+		mDistrictCode = mAddress.getCn_district();
+		mPostCode = mAddress.getPostCode();
+
+		mConsigneeEt.setText(mAddress.getUsername());
+		mAddressDetailEt.setText(aAddr);
+		mContactWayEt.setText(mAddress.getTelephone());
+		mAreaTv.setText(bAddr);
 	}
 
 	@Override
@@ -194,7 +251,7 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 							mProviceCode, mCityCode, mDistrictCode,
 							mAddressDetail, mPostCode, mContactWay, "CN");
 				} else {
-					AddressLogic.update(mContext, mHandler, mAddressId,
+					AddressLogic.update(mContext, mHandler, mAddress.getId(),
 							mConsignee, mProviceCode, mCityCode, mDistrictCode,
 							mAddressDetail, mPostCode, mContactWay, "CN");
 				}

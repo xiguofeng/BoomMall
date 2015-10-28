@@ -193,6 +193,8 @@
     <!-- address -->
     <string name="address_hint">请填写地址信息</string>
     <string name="address_add">新增地址</string>
+    <string name="address_add_suc">新增地址成功</string>
+    <string name="address_update_suc">修改地址成功</string>
     <string name="consignee">收货人</string>
     <string name="contact_way">联系方式</string>
     <string name="area">所在地区</string>

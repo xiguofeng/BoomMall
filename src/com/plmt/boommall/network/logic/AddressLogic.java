@@ -163,16 +163,19 @@ public class AddressLogic {
 		}
 	}
 
+	// {"data":{"id":"70"},"result":"0","msg":"","Set-Cookie":"frontend=pnm8jqa1s6vjcf0g3sf60ak597;
+	// expires=Wed, 28-Oct-2015 09:32:53 GMT; path=\/; domain=120.55.116.206;
+	// httponly"}
 	private static void parseUpdateData(JSONObject response, Handler handler) {
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-				handler.sendEmptyMessage(ANDRESS_DEL_SUC);
+				handler.sendEmptyMessage(ANDRESS_MODIFY_SUC);
 			} else {
-				handler.sendEmptyMessage(ANDRESS_DEL_FAIL);
+				handler.sendEmptyMessage(ANDRESS_MODIFY_FAIL);
 			}
 		} catch (JSONException e) {
-			handler.sendEmptyMessage(ANDRESS_DEL_EXCEPTION);
+			handler.sendEmptyMessage(ANDRESS_MODIFY_EXCEPTION);
 		}
 	}
 

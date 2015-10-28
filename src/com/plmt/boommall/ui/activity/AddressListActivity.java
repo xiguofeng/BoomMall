@@ -3,16 +3,6 @@ package com.plmt.boommall.ui.activity;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Address;
-import com.plmt.boommall.network.logic.AddressLogic;
-import com.plmt.boommall.ui.adapter.AddressAdapter;
-import com.plmt.boommall.ui.utils.ListItemClickHelp;
-import com.plmt.boommall.ui.view.MultiStateView;
-import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog;
-import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.OnSheetItemClickListener;
-import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.SheetItemColor;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +17,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Address;
+import com.plmt.boommall.network.logic.AddressLogic;
+import com.plmt.boommall.ui.adapter.AddressAdapter;
+import com.plmt.boommall.ui.utils.ListItemClickHelp;
+import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.OnSheetItemClickListener;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.SheetItemColor;
 
 public class AddressListActivity extends Activity implements OnClickListener,
 		ListItemClickHelp {
@@ -106,6 +106,12 @@ public class AddressListActivity extends Activity implements OnClickListener,
 		initData();
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		fetchData();
+	}
+
 	private void initView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.address_list_multiStateView);
 		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
@@ -149,6 +155,9 @@ public class AddressListActivity extends Activity implements OnClickListener,
 
 	private void initData() {
 		mNowAction = getIntent().getAction();
+	}
+
+	private void fetchData() {
 		AddressLogic.getList(mContext, mHandler);
 	}
 
@@ -159,13 +168,28 @@ public class AddressListActivity extends Activity implements OnClickListener,
 			Intent intent = new Intent(AddressListActivity.this,
 					AddressEditActivity.class);
 			intent.setAction(AddressEditActivity.ORIGIN_FROM_EDIT_ACTION);
-			intent.putExtra("id", mAddresslist.get(position).getId());
-			intent.putExtra("consignee", mAddresslist.get(position)
-					.getUsername());
-			intent.putExtra("addressDetail", mAddresslist.get(position)
-					.getContent());
-			intent.putExtra("contactWay", mAddresslist.get(position)
-					.getTelephone());
+
+			Bundle bundle = new Bundle();
+			bundle.putSerializable(AddressEditActivity.ADDRESS_KEY,
+					mAddresslist.get(position));
+			intent.putExtras(bundle);
+
+			// intent.putExtra("id", mAddresslist.get(position).getId());
+			// intent.putExtra("username", mAddresslist.get(position)
+			// .getUsername());
+			// intent.putExtra("content",
+			// mAddresslist.get(position).getContent());
+			// intent.putExtra("telephone", mAddresslist.get(position)
+			// .getTelephone());
+			// intent.putExtra("cn_province", mAddresslist.get(position)
+			// .getCn_province());
+			// intent.putExtra("cn_city",
+			// mAddresslist.get(position).getCn_city());
+			// intent.putExtra("cn_district", mAddresslist.get(position)
+			// .getCn_district());
+			// intent.putExtra("postCode", mAddresslist.get(position)
+			// .getPostCode());
+
 			startActivityForResult(intent, 600);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
@@ -224,7 +248,7 @@ public class AddressListActivity extends Activity implements OnClickListener,
 		case R.id.address_list_add_btn: {
 			Intent intent = new Intent(AddressListActivity.this,
 					AddressEditActivity.class);
-			intent.setAction(AddressEditActivity.ORIGIN_FROM_EDIT_ACTION);
+			intent.setAction(AddressEditActivity.ORIGIN_FROM_ADD_ACTION);
 			intent.putExtra("addressId", "0");
 			startActivityForResult(intent, 500);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
