@@ -87,8 +87,9 @@ public class PromotionLogic {
 
 	public static void getRounds(final Context context, final Handler handler) {
 
-		// String url = RequestUrl.HOST_URL + RequestUrl.promotion.getRounds;
-		String url = "http://120.55.116.206:8060/index.php/mapi/flashSale/getRounds";
+		String url = RequestUrl.HOST_URL + RequestUrl.promotion.getRounds;
+		// String url =
+		// "http://120.55.116.206:8060/index.php/mapi/flashSale/getRounds";
 		JSONObject requestJson = new JSONObject();
 		CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
 				requestJson, new Listener<JSONObject>() {
