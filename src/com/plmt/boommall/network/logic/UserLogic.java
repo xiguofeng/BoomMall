@@ -251,6 +251,57 @@ public class UserLogic {
 
 	}
 
+	public static void register(final Context context, final Handler handler,
+			final User user, final String authCode) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.account.register;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("phone",
+					URLEncoder.encode(user.getPhone(), "UTF-8"));
+			requestJson.put("pwd",
+					URLEncoder.encode(user.getPassword(), "UTF-8"));
+			requestJson.put("pwd2",
+					URLEncoder.encode(user.getPassword(), "UTF-8"));
+			requestJson.put("authCode", URLEncoder.encode(authCode, "UTF-8"));
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_register", response.toString());
+								parseRegisterData(response, handler);
+							}
+
+						}
+					}, null);
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// {"data":[],"result":"0","msg":"","Set-Cookie":"frontend=t1b5e79bqp00pf80jobfpfbrc7;
+	// path=\/"}
+	private static void parseRegisterData(JSONObject response, Handler handler) {
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				handler.sendEmptyMessage(REGIS_SUC);
+			} else {
+				handler.sendEmptyMessage(REGIS_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(REGIS_EXCEPTION);
+		}
+	}
+
 	public static void modifyPwd(final Context context, final Handler handler,
 			final User user, final String authCode) {
 	}
@@ -281,26 +332,56 @@ public class UserLogic {
 	 */
 	public static void sendAuthCode(final Context context,
 			final Handler handler, final String phone, final String authType) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.account.sendAuthCode;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("phone", URLEncoder.encode(phone, "UTF-8"));
+			requestJson.put("register", URLEncoder.encode(authType, "UTF-8"));
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_sendAuthCode", response.toString());
+								parseSendAuthCodeData(response, handler);
+							}
+
+						}
+					}, null);
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
 	}
 
-	// {"datas":{"authCode":750152},"message":"操作成功","result":"0"}
+	// {"data":"770340","result":"0","msg":"","Set-Cookie":"frontend=4jpqr6krfjrmjpb3ernp8budp2;
+	// path=\/"}
+	// {"data":[],"result":"-1","msg":"手机号已存在","Set-Cookie":"frontend=fh0tjat9p3ik325h5vp9s7er63;
+	// path=\/"}
 	private static void parseSendAuthCodeData(JSONObject response,
 			Handler handler) {
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-
-				JSONObject jsonObject = response
-						.getJSONObject(MsgResult.RESULT_DATA_TAG);
-
-				String authCode = jsonObject.getString("authCode");
+				String authCode = response.getString(MsgResult.RESULT_DATA_TAG);
 				Message message = new Message();
 				message.what = SEND_AUTHCODE_SUC;
 				message.obj = authCode;
 				handler.sendMessage(message);
-
 			} else {
-				handler.sendEmptyMessage(SEND_AUTHCODE_FAIL);
+				String msg = response.getString("msg");
+				Message message = new Message();
+				message.what = SEND_AUTHCODE_FAIL;
+				message.obj = msg;
+				handler.sendMessage(message);
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(SEND_AUTHCODE_EXCEPTION);

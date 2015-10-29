@@ -19,7 +19,7 @@ public class RequestUrl {
 		public String connect = "/user/connect";
 
 	}
-	
+
 	public interface search {
 		/**
 		 * 搜索
@@ -27,14 +27,14 @@ public class RequestUrl {
 		public String normal = "/search/normal";
 
 	}
-	
-	public interface promotion{
-		
+
+	public interface promotion {
+
 		/**
 		 * 获取首页banner
 		 */
 		public String getBanners = "/flashSale/getBanners";
-		
+
 		/**
 		 * 获取分类Rounds
 		 */
@@ -49,6 +49,11 @@ public class RequestUrl {
 		public String login = "/account/login";
 
 		/**
+		 * 注册
+		 */
+		public String register = "/account/register";
+
+		/**
 		 * 获取用户信息
 		 */
 		public String getInfo = "/user/baseinfo";
@@ -58,9 +63,9 @@ public class RequestUrl {
 		/**
 		 * 验证码
 		 */
-		public String sendAuthCode = "sendAuthCode";
-		
-		public String setReal="/checkout/setReal";
+		public String sendAuthCode = "/account/authCode";
+
+		public String setReal = "/checkout/setReal";
 
 	}
 
@@ -80,7 +85,7 @@ public class RequestUrl {
 		 * 旺卡查询
 		 */
 		public String queryGiftCard = "/user/giftCart";
-		
+
 		/**
 		 * 旺卡充值到余额
 		 */
@@ -113,7 +118,7 @@ public class RequestUrl {
 	}
 
 	public interface address {
-		
+
 		/**
 		 * 地址数据
 		 */
@@ -140,7 +145,7 @@ public class RequestUrl {
 		public String del = "/address/delete";
 
 	}
-	
+
 	public interface collection {
 
 		/**
@@ -202,13 +207,12 @@ public class RequestUrl {
 		 * 获取订单支付信息
 		 */
 		public String getOrderPayInfo = "/appaliapy/payment/getOrder";
-		
-		
+
 		/**
 		 * 银联测试接口
 		 */
 		public String getOrderPayByUnionInfo = "/appunionpay/payment/test";
-		
+
 		/**
 		 * 订单信息
 		 */

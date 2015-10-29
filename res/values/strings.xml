@@ -4,7 +4,7 @@
     <string name="app_name">旺铺商城</string>
     <string name="exit">再按一次退出程序</string>
     <string name="exit_str">确定要退出吗？</string>
-    <string name="company">南京壹前零后科技有限公司</string>
+    <string name="company">天星旺</string>
     <string name="copyright">版权所有</string>
     <string name="agreement_title">服务协议</string>
     <string name="query">查询</string>
@@ -42,6 +42,9 @@
     <string name="pwd_confirm">确认密码</string>
     <string name="login_successful">登录成功</string>
     <string name="login_fail">登录失败</string>
+    <string name="register_suc">注册成功</string>
+    <string name="register_fail">注册失败</string>
+    <string name="register_emptyname_or_emptypwd">请正确填写注册信息</string>
     <string name="user_name_hint">请输入用户名</string>
     <string name="user_psw_hint">请输入密码</string>
     <string name="user_confirm_psw_hint">请再次输入密码</string>

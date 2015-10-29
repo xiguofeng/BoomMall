@@ -22,7 +22,6 @@ import com.plmt.boommall.R;
 import com.plmt.boommall.entity.User;
 import com.plmt.boommall.network.logic.UserLogic;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
-import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.utils.UserInfoManager;
 
 /**
@@ -50,16 +49,16 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 
 	private LinearLayout mAuthCodeLl;
 
-	private String mAccount;
-	private String mPassWord;
 	private String mPhone;
+	private String mPassWord;
+	private String mConfirmPwd;
 	private String mAuthCode;
 
 	private User mUser = new User();
 
 	private CustomProgressDialog mProgressDialog;
 
-	private int mTiming = 60;
+	private int mTiming = 30;
 
 	Handler mAuthHandler = new Handler() {
 
@@ -70,13 +69,15 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 			case UserLogic.SEND_AUTHCODE_SUC: {
 				if (null != msg.obj) {
 					mAuthCode = (String) msg.obj;
-					UserInfoManager.setPhone(mContext, mPhone);
-					UserInfoManager.setIsMustAuth(mContext, false);
 				}
 				mTimeHandler.sendEmptyMessage(TIME_UPDATE);
 				break;
 			}
 			case UserLogic.SEND_AUTHCODE_FAIL: {
+				if (null != msg.obj) {
+					Toast.makeText(mContext, (String) msg.obj,
+							Toast.LENGTH_SHORT).show();
+				}
 				break;
 			}
 			case UserLogic.SEND_AUTHCODE_EXCEPTION: {
@@ -106,16 +107,16 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 					mTiming--;
 					mTimingTv.setText(String.valueOf(mTiming) + "秒");
 					mAuthCodeLl.setClickable(false);
-					mAuthCodeLl.setBackgroundColor(getResources().getColor(
-							R.color.gray_divide_line));
+					mAuthCodeLl
+							.setBackgroundResource(R.drawable.corners_bg_gray_all);
 					mTimeHandler.sendEmptyMessageDelayed(TIME_UPDATE, 1000);
 				} else {
 					mAuthCodeLl.setClickable(true);
-					mAuthCodeLl.setBackgroundColor(getResources().getColor(
-							R.color.orange_bg));
+					mAuthCodeLl
+							.setBackgroundResource(R.drawable.corners_bg_red_all);
 					mTimingTv
 							.setText(getString(R.string.get_verification_code));
-					mTiming = 60;
+					mTiming = 30;
 				}
 				break;
 			}
@@ -133,22 +134,18 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 		public void handleMessage(Message msg) {
 			int what = msg.what;
 			switch (what) {
-			case UserLogic.LOGIN_SUC: {
-				if (null != msg.obj) {
-					String session = (String) msg.obj;
-					UserInfoManager.setSession(mContext, session);
-
-					UserLogic.getInfo(mContext, mHandler);
-				}
-
+			case UserLogic.REGIS_SUC: {
+				Toast.makeText(mContext, R.string.register_suc,
+						Toast.LENGTH_SHORT).show();
+				finish();
 				break;
 			}
-			case UserLogic.LOGIN_FAIL: {
-				Toast.makeText(mContext, R.string.login_fail,
+			case UserLogic.REGIS_FAIL: {
+				Toast.makeText(mContext, R.string.register_fail,
 						Toast.LENGTH_SHORT).show();
 				break;
 			}
-			case UserLogic.LOGIN_EXCEPTION: {
+			case UserLogic.REGIS_EXCEPTION: {
 				break;
 			}
 			case UserLogic.USER_INFO_GET_SUC: {
@@ -156,10 +153,11 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 					mUser = (User) msg.obj;
 					mUser.setPassword(mPassWord);
 
-					UserInfoManager.setRememberPwd(mContext, true);
-					UserInfoManager.saveUserInfo(RegisterActivity.this, mUser);
-					UserInfoManager.setUserInfo(RegisterActivity.this);
-					UserInfoManager.setLoginIn(RegisterActivity.this, true);
+					// UserInfoManager.setRememberPwd(mContext, true);
+					// UserInfoManager.saveUserInfo(RegisterActivity.this,
+					// mUser);
+					// UserInfoManager.setUserInfo(RegisterActivity.this);
+					// UserInfoManager.setLoginIn(RegisterActivity.this, true);
 
 					handle();
 				}
@@ -215,7 +213,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 		mPhoneEt.addTextChangedListener(this);
 		mPassWordEt.addTextChangedListener(this);
 		mAuthCodeEt.addTextChangedListener(this);
-		
+
 		mPhoneEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -244,18 +242,19 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 					}
 				});
 
-		mPassWordEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					clearBackground();
-					mPwdRl.setBackgroundResource(R.drawable.edittext_red_bg);
-					// 此处为得到焦点时的处理内容
-				} else {
-					// 此处为失去焦点时的处理内容
-				}
-			}
-		});
+		mPassWordEt
+				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							clearBackground();
+							mPwdRl.setBackgroundResource(R.drawable.edittext_red_bg);
+							// 此处为得到焦点时的处理内容
+						} else {
+							// 此处为失去焦点时的处理内容
+						}
+					}
+				});
 
 		mPwdConfirmEt
 				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
@@ -279,7 +278,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 		mRegisterBtn.setClickable(false);
 
 	}
-	
+
 	private void clearBackground() {
 		mPhoneRl.setBackgroundResource(R.drawable.edittext_gray_bg);
 		mVerCodeRl.setBackgroundResource(R.drawable.edittext_gray_bg);
@@ -299,22 +298,36 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 
 	private void register() {
 		// 获取用户的登录信息，连接服务器，获取登录状态
-		mAccount = mPhoneEt.getText().toString().trim();
+		mPhone = mPhoneEt.getText().toString().trim();
 		mPassWord = mPassWordEt.getText().toString().trim();
-
-		if ("".equals(mAccount) || "".equals(mPassWord)) {
-			Toast.makeText(RegisterActivity.this,
-					mContext.getString(R.string.login_emptyname_or_emptypwd),
+		mConfirmPwd = mPwdConfirmEt.getText().toString().trim();
+		mAuthCode = mAuthCodeEt.getText().toString().trim();
+		if ("".equals(mPhone) || "".equals(mPassWord) || "".equals(mConfirmPwd)
+				|| "".equals(mAuthCode)) {
+			Toast.makeText(
+					RegisterActivity.this,
+					mContext.getString(R.string.register_emptyname_or_emptypwd),
 					Toast.LENGTH_SHORT).show();
 		} else {
 			mProgressDialog = new CustomProgressDialog(mContext);
 			mProgressDialog.show();
 
-			mPassWord = "admin123";
 			User user = new User();
-			user.setUsername("13813003736");
-			user.setPassword("admin123");
-			UserLogic.login(mContext, mHandler, user);
+			user.setPhone(mPhone);
+			user.setPassword(mConfirmPwd);
+			UserLogic.register(mContext, mHandler, user, mAuthCode);
+		}
+	}
+
+	private void sendAuth() {
+		mProgressDialog = new CustomProgressDialog(mContext);
+		mProgressDialog.show();
+		mPhone = mPhoneEt.getText().toString().trim();
+		if (!TextUtils.isEmpty(mPhone)) {
+			UserLogic.sendAuthCode(mContext, mAuthHandler, mPhone, "0");
+		} else {
+			Toast.makeText(mContext, R.string.mobile_phone_hint,
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -336,11 +349,11 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 	@SuppressLint("NewApi")
 	@Override
 	public void afterTextChanged(Editable s) {
-		mAccount = mPhoneEt.getText().toString().trim();
+		mPhone = mPhoneEt.getText().toString().trim();
 		mPassWord = mPassWordEt.getText().toString().trim();
 		mAuthCode = mAuthCodeEt.getText().toString().trim();
 
-		if (!TextUtils.isEmpty(mAccount) && !TextUtils.isEmpty(mPassWord)
+		if (!TextUtils.isEmpty(mPhone) && !TextUtils.isEmpty(mPassWord)
 				&& !TextUtils.isEmpty(mAuthCode)) {
 			mRegisterBtn.setClickable(true);
 			mRegisterBtn.setBackground(mContext.getResources().getDrawable(
@@ -361,7 +374,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 			break;
 		}
 		case R.id.registerg_ver_code_get_ll: {
-			register();
+			sendAuth();
 			break;
 		}
 		default:

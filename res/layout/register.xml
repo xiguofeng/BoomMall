@@ -117,11 +117,12 @@
 
                 <LinearLayout
                     android:id="@+id/registerg_ver_code_get_ll"
-                    android:layout_width="100dip"
+                    android:layout_width="102dip"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="8dip"
+                    android:padding="2dip"
                     android:layout_marginRight="5dip"
                     android:background="@drawable/corners_bg_red_all"
                     android:gravity="center" >
@@ -131,10 +132,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:paddingBottom="4dip"
                         android:paddingLeft="10.0dip"
                         android:paddingRight="10dip"
-                        android:paddingTop="4dip"
+                        android:paddingTop="2dip"
                         android:text="@string/get_verification_code"
                         android:textColor="@color/white"
                         android:textSize="@dimen/small_text_size" />
