@@ -178,13 +178,12 @@ public class MainActivity extends Activity implements OnClickListener {
 		mContext = MainActivity.this;
 
 		initView();
-		// initData();
+		initData();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		initData();
 		HomeActivity.setCartMenuShow(false);
 	}
 
