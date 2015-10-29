@@ -13,8 +13,9 @@
     <permission
         android:name="com.plmt.boommall.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
-
-    <uses-permission android:name="com.plmt.boommal.permission.JPUSH_MESSAGE" />
+  
+    <!-- Required  一些系统要求的权限，如访问网络等-->
+    <uses-permission android:name="com.plmt.boommall.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
