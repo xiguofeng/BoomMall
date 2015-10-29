@@ -10,7 +10,7 @@
     app:msv_errorView="@layout/error_view"
     app:msv_loadingView="@layout/loading_view"
     app:msv_viewState="content"
-    tools:context=".MainActivity" >
+    tools:context=".JpushMainActivity" >
 
     <RelativeLayout
         android:id="@+id/main_bg_rl"

@@ -17,7 +17,7 @@ import cn.jpush.android.api.JPushInterface;
 import com.plmt.boommall.R;
 
 
-public class MainActivity extends InstrumentedActivity implements OnClickListener{
+public class JpushMainActivity extends InstrumentedActivity implements OnClickListener{
 
 	private Button mInit;
 	private Button mSetting;
@@ -75,7 +75,7 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 			init();
 			break;
 		case R.id.setting:
-			Intent intent = new Intent(MainActivity.this, PushSetActivity.class);
+			Intent intent = new Intent(JpushMainActivity.this, PushSetActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.stopPush:
