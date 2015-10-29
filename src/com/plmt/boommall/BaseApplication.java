@@ -30,10 +30,10 @@ public class BaseApplication extends Application {
 		sQueue = Volley.newRequestQueue(getApplicationContext());
 		ImageLoaderConfig.initImageLoader(this, Constants.BASE_IMAGE_CACHE);
 
-		Easemob.getInstance().init(context);
+		//Easemob.getInstance().init(context);
 
 		JPushInterface.setDebugMode(true); // 设置开启日志,发布时请关闭日志
-		JPushInterface.init(this);
+		JPushInterface.init(context);
 	}
 
 	@Override
