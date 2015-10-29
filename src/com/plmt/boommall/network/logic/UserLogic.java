@@ -63,6 +63,12 @@ public class UserLogic {
 
 	public static final int SEND_AUTHCODE_EXCEPTION = SEND_AUTHCODE_FAIL + 1;
 
+	public static final int SET_REAL_SUC = SEND_AUTHCODE_EXCEPTION + 1;
+
+	public static final int SET_REAL_FAIL = SET_REAL_SUC + 1;
+
+	public static final int SET_REAL_EXCEPTION = SET_REAL_FAIL + 1;
+
 	public static void login(final Context context, final Handler handler,
 			final User user) {
 
@@ -298,6 +304,60 @@ public class UserLogic {
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(SEND_AUTHCODE_EXCEPTION);
+		}
+	}
+
+	public static void setReal(final Context context, final Handler handler,
+			final String realname, final String dentity,
+			final String id_photo_opposite, final String id_photo_positive) {
+
+		// String url = "http://120.55.116.206:8060/mapi/checkout/setReal";
+		String url = RequestUrl.HOST_URL + RequestUrl.account.setReal;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("session",
+					"frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("realname", URLEncoder.encode(realname, "UTF-8"));
+			requestJson.put("dentity", URLEncoder.encode(dentity, "UTF-8"));
+			requestJson.put("id_photo_opposite", id_photo_opposite);
+			requestJson.put("id_photo_positive", id_photo_positive);
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_test", response.toString());
+								parseRealData(response, handler);
+							}
+
+						}
+					}, null);
+
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void parseRealData(JSONObject response, Handler handler) {
+		try {
+			// Log.e("xxx_login_suc", response.toString());
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				handler.sendEmptyMessage(SET_REAL_SUC);
+			} else {
+				handler.sendEmptyMessage(SET_REAL_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(SET_REAL_EXCEPTION);
 		}
 	}
 

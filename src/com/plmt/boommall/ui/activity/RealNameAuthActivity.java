@@ -1,8 +1,5 @@
 package com.plmt.boommall.ui.activity;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Collection;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,10 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Address;
-import com.plmt.boommall.network.logic.AddressLogic;
-import com.plmt.boommall.network.logic.TestLogic;
-import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.network.logic.UserLogic;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.utils.ImageUtils;
 import com.plmt.boommall.utils.cropimage.ChooseDialog;
 import com.plmt.boommall.utils.cropimage.CropHelper;
@@ -51,12 +46,32 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 	private Button mSubmitBtn;
 
 	private int mNowSelectIvFlag = 0;
+	private CustomProgressDialog mProgressDialog;
 
 	private Handler mHandler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
+			case UserLogic.SET_REAL_SUC: {
+				Toast.makeText(mContext, "设置成功！",
+						Toast.LENGTH_SHORT).show();
+				RealNameAuthActivity.this.finish();
+				break;
+			}
+			case UserLogic.SET_REAL_FAIL: {
+
+				break;
+			}
+			case UserLogic.SET_REAL_EXCEPTION: {
+
+				break;
+			}
+			default:
+				break;
+			}
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
 			}
 		}
 
@@ -89,7 +104,8 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-		mCropHelper = new CropHelper(this, OSUtils.getSdCardDirectory() + "/head.png");
+		mCropHelper = new CropHelper(this, OSUtils.getSdCardDirectory()
+				+ "/head.png");
 		mDialog = new ChooseDialog(this, mCropHelper);
 	}
 
@@ -111,14 +127,17 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 			case CropHelper.HEAD_SAVE_PHOTO:
 				if (data != null && data.getParcelableExtra("data") != null) {
 					if (mNowSelectIvFlag == 0) {
-						mIdcardFrontIv.setImageBitmap((Bitmap) data.getParcelableExtra("data"));
+						mIdcardFrontIv.setImageBitmap((Bitmap) data
+								.getParcelableExtra("data"));
 						mFrontBit = (Bitmap) data.getParcelableExtra("data");
 					} else {
-						mIdcardBackIv.setImageBitmap((Bitmap) data.getParcelableExtra("data"));
+						mIdcardBackIv.setImageBitmap((Bitmap) data
+								.getParcelableExtra("data"));
 						mBackBit = (Bitmap) data.getParcelableExtra("data");
 					}
 
-					mCropHelper.savePhoto(data, OSUtils.getSdCardDirectory() + "/myHead.png");
+					mCropHelper.savePhoto(data, OSUtils.getSdCardDirectory()
+							+ "/myHead.png");
 				}
 				break;
 			default:
@@ -132,7 +151,8 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.real_name_auth_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			break;
 		}
 		case R.id.real_name_auth_idcard_front_iv: {
@@ -148,19 +168,22 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 		case R.id.real_name_auth_btn: {
 			if (TextUtils.isEmpty(mRealNameEt.getText().toString())
 					|| TextUtils.isEmpty(mIDCardEt.getText().toString())) {
-				Toast.makeText(mContext, getString(R.string.real_name_id_card_hint), Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext,
+						getString(R.string.real_name_id_card_hint),
+						Toast.LENGTH_SHORT).show();
 				return;
 			}
 			if (null == mFrontBit || null == mBackBit) {
-				Toast.makeText(mContext, getString(R.string.upload_id_card), Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, getString(R.string.upload_id_card),
+						Toast.LENGTH_SHORT).show();
 				return;
 			}
-			try {
-				TestLogic.test(mContext, mHandler, mRealNameEt.getText().toString(), mIDCardEt.getText().toString(),
-						ImageUtils.Bitmap2StrByBase64(mFrontBit), ImageUtils.Bitmap2StrByBase64(mBackBit));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
+			mProgressDialog = new CustomProgressDialog(mContext);
+			mProgressDialog.show();
+			UserLogic.setReal(mContext, mHandler, mRealNameEt.getText()
+					.toString(), mIDCardEt.getText().toString(), ImageUtils
+					.Bitmap2StrByBase64(mFrontBit), ImageUtils
+					.Bitmap2StrByBase64(mBackBit));
 			break;
 		}
 		default:

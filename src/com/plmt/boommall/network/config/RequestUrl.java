@@ -48,6 +48,8 @@ public class RequestUrl {
 		 * 验证码
 		 */
 		public String sendAuthCode = "sendAuthCode";
+		
+		public String setReal="/checkout/setReal";
 
 	}
 
