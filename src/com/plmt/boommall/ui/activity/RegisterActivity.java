@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,6 +33,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 	public static final int TIME_UPDATE = 1;
 
 	private Context mContext;
+
+	private ImageView mBackIv;
 
 	private EditText mPhoneEt;
 	private EditText mPassWordEt;
@@ -127,7 +130,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 
 	};
 
-	// 登陆装填提示handler更新主线程，提示登陆状态情况
 	Handler mHandler = new Handler() {
 
 		@Override
@@ -198,6 +200,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 	}
 
 	protected void initView() {
+		mBackIv = (ImageView) findViewById(R.id.register_input_back_iv);
+		mBackIv.setOnClickListener(this);
+
 		mPhoneRl = (RelativeLayout) findViewById(R.id.register_username_rl);
 		mVerCodeRl = (RelativeLayout) findViewById(R.id.register_ver_code_rl);
 		mPwdRl = (RelativeLayout) findViewById(R.id.register_pwd_rl);
@@ -297,26 +302,44 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 	}
 
 	private void register() {
-		// 获取用户的登录信息，连接服务器，获取登录状态
 		mPhone = mPhoneEt.getText().toString().trim();
+		if (TextUtils.isEmpty(mPhone)) {
+			Toast.makeText(mContext, getString(R.string.mobile_phone_hint),
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		mAuthCode = mAuthCodeEt.getText().toString().trim();
+		if (TextUtils.isEmpty(mAuthCode)) {
+			Toast.makeText(mContext,
+					getString(R.string.verification_code_hint),
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+
 		mPassWord = mPassWordEt.getText().toString().trim();
 		mConfirmPwd = mPwdConfirmEt.getText().toString().trim();
-		mAuthCode = mAuthCodeEt.getText().toString().trim();
-		if ("".equals(mPhone) || "".equals(mPassWord) || "".equals(mConfirmPwd)
-				|| "".equals(mAuthCode)) {
-			Toast.makeText(
-					RegisterActivity.this,
-					mContext.getString(R.string.register_emptyname_or_emptypwd),
+		if (TextUtils.isEmpty(mPassWord) || TextUtils.isEmpty(mConfirmPwd)) {
+			Toast.makeText(mContext, getString(R.string.user_psw_hint),
 					Toast.LENGTH_SHORT).show();
-		} else {
-			mProgressDialog = new CustomProgressDialog(mContext);
-			mProgressDialog.show();
-
-			User user = new User();
-			user.setPhone(mPhone);
-			user.setPassword(mConfirmPwd);
-			UserLogic.register(mContext, mHandler, user, mAuthCode);
+			return;
 		}
+
+		if (!mPassWord.equals(mConfirmPwd)) {
+			Toast.makeText(mContext,
+					getString(R.string.user_confirm_psw_no_same_hint),
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		mProgressDialog = new CustomProgressDialog(mContext);
+		mProgressDialog.show();
+
+		User user = new User();
+		user.setPhone(mPhone);
+		user.setPassword(mConfirmPwd);
+		UserLogic.register(mContext, mHandler, user, mAuthCode);
+
 	}
 
 	private void sendAuth() {
@@ -377,6 +400,13 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 			sendAuth();
 			break;
 		}
+		case R.id.register_input_back_iv: {
+			finish();
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
+			break;
+		}
+
 		default:
 			break;
 		}
@@ -388,6 +418,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 			RegisterActivity.this.finish();
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

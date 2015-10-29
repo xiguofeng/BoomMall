@@ -52,13 +52,18 @@ public class RequestUrl {
 		 * 注册
 		 */
 		public String register = "/account/register";
+		
+		/**
+		 * 忘记密码
+		 */
+		public String forgetPwd = "/account/forgetPWD";
 
 		/**
 		 * 获取用户信息
 		 */
 		public String getInfo = "/user/baseinfo";
 
-		public String modifyPwd = "changePwd";
+		public String modifyPwd = "/account/forgetPWD";
 
 		/**
 		 * 验证码

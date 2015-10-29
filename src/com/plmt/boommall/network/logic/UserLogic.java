@@ -302,16 +302,46 @@ public class UserLogic {
 		}
 	}
 
-	public static void modifyPwd(final Context context, final Handler handler,
+	public static void forgetPwd(final Context context, final Handler handler,
 			final User user, final String authCode) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.account.forgetPwd;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("phone",
+					URLEncoder.encode(user.getPhone(), "UTF-8"));
+			requestJson.put("pwd",
+					URLEncoder.encode(user.getPassword(), "UTF-8"));
+			requestJson.put("pwd2",
+					URLEncoder.encode(user.getPassword(), "UTF-8"));
+			requestJson.put("authCode", URLEncoder.encode(authCode, "UTF-8"));
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_forgetPwd", response.toString());
+								parseForgetPwdData(response, handler);
+							}
+
+						}
+					}, null);
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 
-	// {"datas":"{}","message":"操作成功","result":"0"}
-	private static void parseModifyPwdData(JSONObject response, Handler handler) {
+	private static void parseForgetPwdData(JSONObject response, Handler handler) {
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-				// Log.e("xxx_modify_suc", sucResult);
 				handler.sendEmptyMessage(MODIFY_PWD_SUC);
 			} else {
 				handler.sendEmptyMessage(MODIFY_PWD_FAIL);

@@ -15,8 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.plmt.boommall.R;
+import com.plmt.boommall.entity.User;
 import com.plmt.boommall.network.logic.UserLogic;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.utils.UserInfoManager;
 
@@ -43,25 +46,15 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 
 	private String mPhone;
 	private String mAuthCode;
-	private String mAddress;
+	private String mPwd;
+	private String mConfirmPwd;
 
 	private String mId;
 
 	private MultiStateView mMultiStateView;
+	private CustomProgressDialog mProgressDialog;
 
-	private int mTiming = 60;
-
-	Handler mHandler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			int what = msg.what;
-			switch (what) {
-			}
-
-		}
-
-	};
+	private int mTiming = 30;
 
 	Handler mAuthHandler = new Handler() {
 
@@ -72,15 +65,15 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 			case UserLogic.SEND_AUTHCODE_SUC: {
 				if (null != msg.obj) {
 					mAuthCode = (String) msg.obj;
-					UserInfoManager.setPhone(mContext, mPhone);
-					UserInfoManager.setIsMustAuth(mContext, false);
 				}
 				mTimeHandler.sendEmptyMessage(TIME_UPDATE);
 				break;
 			}
 			case UserLogic.SEND_AUTHCODE_FAIL: {
-				// Toast.makeText(mContext, R.string.auth_get_fail,
-				// Toast.LENGTH_SHORT).show();
+				if (null != msg.obj) {
+					Toast.makeText(mContext, (String) msg.obj,
+							Toast.LENGTH_SHORT).show();
+				}
 				break;
 			}
 			case UserLogic.SEND_AUTHCODE_EXCEPTION: {
@@ -93,6 +86,11 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 			default:
 				break;
 			}
+
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+
 		}
 
 	};
@@ -105,16 +103,16 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 					mTiming--;
 					mTimingTv.setText(String.valueOf(mTiming) + "秒");
 					mAuthCodeLl.setClickable(false);
-					mAuthCodeLl.setBackgroundColor(getResources().getColor(
-							R.color.gray_divide_line));
+					mAuthCodeLl
+							.setBackgroundResource(R.drawable.corners_bg_gray_all);
 					mTimeHandler.sendEmptyMessageDelayed(TIME_UPDATE, 1000);
 				} else {
 					mAuthCodeLl.setClickable(true);
-					mAuthCodeLl.setBackgroundColor(getResources().getColor(
-							R.color.orange_bg));
+					mAuthCodeLl
+							.setBackgroundResource(R.drawable.corners_bg_red_all);
 					mTimingTv
 							.setText(getString(R.string.get_verification_code));
-					mTiming = 60;
+					mTiming = 30;
 				}
 				break;
 			}
@@ -122,6 +120,42 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 				break;
 			}
 		};
+
+	};
+
+	Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			int what = msg.what;
+			switch (what) {
+			case UserLogic.MODIFY_PWD_SUC: {
+				Toast.makeText(mContext, R.string.modify_pwd_suc,
+						Toast.LENGTH_SHORT).show();
+				finish();
+				break;
+			}
+			case UserLogic.MODIFY_PWD_FAIL: {
+				Toast.makeText(mContext, R.string.modify_pwd_fail,
+						Toast.LENGTH_SHORT).show();
+				break;
+			}
+			case UserLogic.MODIFY_PWD_EXCEPTION: {
+				break;
+			}
+			case UserLogic.NET_ERROR: {
+				break;
+			}
+
+			default:
+				break;
+			}
+
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+
+		}
 
 	};
 
@@ -249,48 +283,71 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
+	private void sendAuth() {
+		mProgressDialog = new CustomProgressDialog(mContext);
+		mProgressDialog.show();
+		mPhone = mPhoneEt.getText().toString().trim();
+		if (!TextUtils.isEmpty(mPhone)) {
+			UserLogic.sendAuthCode(mContext, mAuthHandler, mPhone, "1");
+		} else {
+			Toast.makeText(mContext, R.string.mobile_phone_hint,
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private void updatePwd() {
+		mPhone = mPhoneEt.getText().toString().trim();
+		if (TextUtils.isEmpty(mPhone)) {
+			Toast.makeText(mContext, getString(R.string.mobile_phone_hint),
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		mAuthCode = mVerCodeEt.getText().toString().trim();
+		if (TextUtils.isEmpty(mAuthCode)) {
+			Toast.makeText(mContext,
+					getString(R.string.verification_code_hint),
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		mPwd = mPwdEt.getText().toString().trim();
+		mConfirmPwd = mPwdConfirmEt.getText().toString().trim();
+		if (TextUtils.isEmpty(mPwd) || TextUtils.isEmpty(mConfirmPwd)) {
+			Toast.makeText(mContext, getString(R.string.user_psw_hint),
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		if (!mPwd.equals(mConfirmPwd)) {
+			Toast.makeText(mContext,
+					getString(R.string.user_confirm_psw_no_same_hint),
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		mProgressDialog = new CustomProgressDialog(mContext);
+		mProgressDialog.show();
+
+		User user = new User();
+		user.setPhone(mPhone);
+		user.setPassword(mConfirmPwd);
+		UserLogic.forgetPwd(mContext, mHandler, user, mAuthCode);
+
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 
 		case R.id.forget_pwd_input_submit_ll: {
-			if (TextUtils.isEmpty(mPhone)) {
-				mPhone = mPhoneEt.getText().toString().trim();
-			}
-			if (TextUtils.isEmpty(mPhone)) {
-				// Toast.makeText(mContext,
-				// getString(R.string.mobile_phone_and_code_hint),
-				// Toast.LENGTH_SHORT).show();
-			}
-			mAuthCode = mVerCodeEt.getText().toString().trim();
-			mAddress = mPwdEt.getText().toString().trim();
-			if (TextUtils.isEmpty(mAddress)) {
-				// Toast.makeText(mContext,
-				// getString(R.string.detail_info_hint),
-				// Toast.LENGTH_SHORT).show();
-				return;
-			}
-
-			if (!TextUtils.isEmpty(mPhone) && !TextUtils.isEmpty(mAuthCode)
-					&& !TextUtils.isEmpty(mAddress)
-					&& mAuthCode.equals(mVerCodeEt.getText().toString().trim())) {
-
-			} else {
-				// Toast.makeText(mContext,
-				// getString(R.string.mobile_phone_and_code_hint),
-				// Toast.LENGTH_SHORT).show();
-			}
-			// User user = new User();
-			// UserLogic.login(mContext, mLoginHandler, user);
-
+			updatePwd();
 			break;
 		}
 		case R.id.forget_pwd_input_ver_code_ll: {
-			if (TextUtils.isEmpty(mPhone)) {
-				mPhone = mPhoneEt.getText().toString().trim();
-			}
+			mPhone = mPhoneEt.getText().toString().trim();
 			if (!TextUtils.isEmpty(mPhone)) {
-				// UserLogic.sendAuthCode(mContext, mAuthHandler, mPhone);
+				sendAuth();
 			} else {
 				Toast.makeText(mContext, getString(R.string.mobile_phone_hint),
 						Toast.LENGTH_SHORT).show();
