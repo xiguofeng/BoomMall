@@ -53,7 +53,21 @@ public class GoodsGvPagingAdaper extends PagingBaseAdapter<Goods> {
 
 		Goods goods = getItem(position);
 		holderView.nameTv.setText(goods.getName().trim());
-		holderView.priceTv.setText("￥" + goods.getFinalPrice());
+		String fPrice = goods.getFinalPrice();
+		if (fPrice.contains(".")) {
+			int index = fPrice.indexOf(".");
+			if (fPrice.length() > index + 2) {
+				fPrice.substring(0, index + 2);
+			}
+		}
+		String yPrice = goods.getPrice();
+		if (yPrice.contains(".")) {
+			int index = yPrice.indexOf(".");
+			if (yPrice.length() > index + 2) {
+				yPrice.substring(0, index + 2);
+			}
+		}
+		holderView.priceTv.setText("￥" + fPrice);
 		ImageLoader.getInstance().displayImage(goods.getImage(),
 				holderView.iconIv);
 		return convertView;

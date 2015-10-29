@@ -69,8 +69,22 @@ public class GoodsAdapter extends BaseAdapter {
 		}
 
 		holder.mName.setText(mDatas.get(position).getName().trim());
-		holder.mPrice.setText("￥" + mDatas.get(position).getFinalPrice());
-		holder.mOriginalPrice.setText("原价￥" + mDatas.get(position).getPrice());
+		String fPrice = mDatas.get(position).getFinalPrice();
+		if (fPrice.contains(".")) {
+			int index = fPrice.indexOf(".");
+			if (fPrice.length() > index + 2) {
+				fPrice.substring(0, index + 2);
+			}
+		}
+		String yPrice = mDatas.get(position).getPrice();
+		if (yPrice.contains(".")) {
+			int index = yPrice.indexOf(".");
+			if (yPrice.length() > index + 2) {
+				yPrice.substring(0, index + 2);
+			}
+		}
+		holder.mPrice.setText("￥" + fPrice);
+		holder.mOriginalPrice.setText("原价￥" + yPrice);
 
 		ImageLoader.getInstance().displayImage(mDatas.get(position).getImage(),
 				holder.mIcon);
