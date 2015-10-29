@@ -30,35 +30,23 @@ public class PromotionLogic {
 
 	public static final int BANNER_GET_EXCEPTION = BANNER_GET_FAIL + 1;
 
-	public static final int ANDRESS_LIST_GET_SUC = BANNER_GET_EXCEPTION + 1;
+	public static final int ROUND_GET_SUC = BANNER_GET_EXCEPTION + 1;
 
-	public static final int ANDRESS_LIST_GET_FAIL = ANDRESS_LIST_GET_SUC + 1;
+	public static final int ROUND_GET_FAIL = ROUND_GET_SUC + 1;
 
-	public static final int ANDRESS_LIST_GET_EXCEPTION = ANDRESS_LIST_GET_FAIL + 1;
+	public static final int ROUND_GET_EXCEPTION = ROUND_GET_FAIL + 1;
 
-	public static final int ANDRESS_MODIFY_SUC = ANDRESS_LIST_GET_EXCEPTION + 1;
+	public static void getBannerList(final Context context,
+			final Handler handler) {
 
-	public static final int ANDRESS_MODIFY_FAIL = ANDRESS_MODIFY_SUC + 1;
-
-	public static final int ANDRESS_MODIFY_EXCEPTION = ANDRESS_MODIFY_FAIL + 1;
-
-	public static final int ANDRESS_DEL_SUC = ANDRESS_MODIFY_EXCEPTION + 1;
-
-	public static final int ANDRESS_DEL_FAIL = ANDRESS_DEL_SUC + 1;
-
-	public static final int ANDRESS_DEL_EXCEPTION = ANDRESS_DEL_FAIL + 1;
-
-	public static void getBannerList(final Context context, final Handler handler) {
-
-		String url = RequestUrl.HOST_URL + RequestUrl.promotion.getBanner;
+		String url = RequestUrl.HOST_URL + RequestUrl.promotion.getBanners;
 		JSONObject requestJson = new JSONObject();
 		CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
 				requestJson, new Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {
 						if (null != response) {
-							Log.e("xxx_Banner_getList",
-									response.toString());
+							Log.e("xxx_Banner_getList", response.toString());
 							parseBannerListData(response, handler);
 						}
 
@@ -73,8 +61,9 @@ public class PromotionLogic {
 		try {
 
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
-			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {				
-				JSONArray bannerArray = response.getJSONArray(MsgResult.RESULT_DATA_TAG);
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				JSONArray bannerArray = response
+						.getJSONArray(MsgResult.RESULT_DATA_TAG);
 				int size = bannerArray.length();
 				ArrayList<Banner> bannerList = new ArrayList<>();
 				for (int i = 0; i < size; i++) {
@@ -93,6 +82,55 @@ public class PromotionLogic {
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(BANNER_GET_EXCEPTION);
+		}
+	}
+
+	public static void getRounds(final Context context, final Handler handler) {
+
+		// String url = RequestUrl.HOST_URL + RequestUrl.promotion.getRounds;
+		String url = "http://120.55.116.206:8060/index.php/mapi/flashSale/getRounds";
+		JSONObject requestJson = new JSONObject();
+		CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+				requestJson, new Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						if (null != response) {
+							Log.e("xxx_Round_getList", response.toString());
+							parseRoundsData(response, handler);
+						}
+
+					}
+				}, null);
+
+		BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+		BaseApplication.getInstanceRequestQueue().start();
+	}
+
+	private static void parseRoundsData(JSONObject response, Handler handler) {
+		try {
+
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				JSONArray bannerArray = response
+						.getJSONArray(MsgResult.RESULT_DATA_TAG);
+				int size = bannerArray.length();
+				ArrayList<Banner> bannerList = new ArrayList<>();
+				for (int i = 0; i < size; i++) {
+					JSONObject bannerJsonObject = bannerArray.getJSONObject(i);
+					Banner banner = (Banner) JsonUtils.fromJsonToJava(
+							bannerJsonObject, Banner.class);
+					bannerList.add(banner);
+				}
+
+				Message message = new Message();
+				message.what = ROUND_GET_SUC;
+				message.obj = bannerList;
+				handler.sendMessage(message);
+			} else {
+				handler.sendEmptyMessage(ROUND_GET_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(ROUND_GET_EXCEPTION);
 		}
 	}
 

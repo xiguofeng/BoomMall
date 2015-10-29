@@ -73,7 +73,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private FrameLayout mBannerFl;
 
 	private CustomGridView mCategoryGv;
-	private ArrayList<Category> mCategoryList = new ArrayList<Category>();
+	private ArrayList<Banner> mCategoryList = new ArrayList<Banner>();
 	private MainGvCategoryAdapter mCategoryAdapter;
 	private int[] pic_path_classify = { R.drawable.menu_guide_1,
 			R.drawable.menu_guide_2, R.drawable.menu_guide_3,
@@ -110,7 +110,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private AsymmetricGridView mAsymmetricGridView;
 	private DemoAdapter mGoodsAdapter;
 	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
-	
+
 	private CustomProgressDialog mProgressDialog;
 
 	private Handler mPromotionHandler = new Handler() {
@@ -122,7 +122,8 @@ public class MainActivity extends Activity implements OnClickListener {
 			case PromotionLogic.BANNER_GET_SUC: {
 				if (null != msg.obj) {
 					mBannerActivityList.clear();
-					mBannerActivityList.addAll((Collection<? extends Banner>) msg.obj);
+					mBannerActivityList
+							.addAll((Collection<? extends Banner>) msg.obj);
 					initCircleimage();
 				}
 
@@ -136,6 +137,24 @@ public class MainActivity extends Activity implements OnClickListener {
 				break;
 			}
 			
+			case PromotionLogic.ROUND_GET_SUC: {
+				if (null != msg.obj) {
+					mCategoryList.clear();
+					mCategoryList
+							.addAll((Collection<? extends Banner>) msg.obj);
+					mCategoryAdapter.notifyDataSetChanged();
+				}
+
+				break;
+
+			}
+			case PromotionLogic.ROUND_GET_FAIL: {
+				break;
+			}
+			case PromotionLogic.ROUND_GET_EXCEPTION: {
+				break;
+			}
+
 			case PromotionLogic.NET_ERROR: {
 				break;
 			}
@@ -147,7 +166,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				mProgressDialog.dismiss();
 			}
 			// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-		
+
 		}
 
 	};
@@ -298,12 +317,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void initCategoryView() {
 		mCategoryGv = (CustomGridView) findViewById(R.id.main_category_gv);
-		int size = pic_path_classify.length;
-		for (int i = 0; i < size; i++) {
-			Category category = new Category();
-			category.setLocalImage(pic_path_classify[i]);
-			mCategoryList.add(category);
-		}
 
 		mCategoryAdapter = new MainGvCategoryAdapter(mContext, mCategoryList);
 		mCategoryGv.setAdapter(mCategoryAdapter);
@@ -435,6 +448,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		mProgressDialog = new CustomProgressDialog(mContext);
 		mProgressDialog.show();
 		PromotionLogic.getBannerList(mContext, mPromotionHandler);
+
+		PromotionLogic.getRounds(mContext, mPromotionHandler);
+
 	}
 
 	private List<DemoItem> getMoreItems(int qty) {

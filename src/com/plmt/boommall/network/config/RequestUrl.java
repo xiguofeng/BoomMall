@@ -26,8 +26,12 @@ public class RequestUrl {
 		/**
 		 * 获取首页banner
 		 */
-		public String getBanner = "/flashSale/getBanners";
-
+		public String getBanners = "/flashSale/getBanners";
+		
+		/**
+		 * 获取分类Rounds
+		 */
+		public String getRounds = "/flashSale/getRounds";
 	}
 
 	public interface account {

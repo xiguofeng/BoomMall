@@ -3,28 +3,30 @@ package com.plmt.boommall.ui.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Category;
+import com.plmt.boommall.entity.Banner;
 
 public class MainGvCategoryAdapter extends BaseAdapter {
-	private Context context;
-	private ArrayList<Category> data;
+	private Context mContext;
+	private ArrayList<Banner> mDatas;
 
-	public MainGvCategoryAdapter(Context context, ArrayList<Category> data) {
+	public MainGvCategoryAdapter(Context context, ArrayList<Banner> data) {
 
-		this.context = context;
-		this.data = data;
+		this.mContext = context;
+		this.mDatas = data;
 	}
 
 	@Override
 	public int getCount() {
-		return data.size();
+		return mDatas.size();
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public class MainGvCategoryAdapter extends BaseAdapter {
 		HolderView holderView = null;
 		if (currentView == null) {
 			holderView = new HolderView();
-			currentView = LayoutInflater.from(context).inflate(
+			currentView = LayoutInflater.from(mContext).inflate(
 					R.layout.main_gv_category_item, null);
 			holderView.iconIv = (ImageView) currentView
 					.findViewById(R.id.iv_adapter_grid_pic);
@@ -50,8 +52,10 @@ public class MainGvCategoryAdapter extends BaseAdapter {
 		} else {
 			holderView = (HolderView) currentView.getTag();
 		}
-
-		holderView.iconIv.setImageResource(data.get(position).getLocalImage());
+		if (!TextUtils.isEmpty(mDatas.get(position).getImgurl())) {
+			ImageLoader.getInstance().displayImage(
+					mDatas.get(position).getImgurl(), holderView.iconIv);
+		}
 
 		return currentView;
 	}
