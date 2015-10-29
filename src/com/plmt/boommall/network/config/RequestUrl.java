@@ -20,6 +20,13 @@ public class RequestUrl {
 
 	}
 	
+	public interface search {
+		/**
+		 * 搜索
+		 */
+		public String normal = "/search/normal";
+
+	}
 	
 	public interface promotion{
 		

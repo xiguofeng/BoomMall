@@ -1,6 +1,9 @@
 package com.plmt.boommall.ui.activity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,51 +14,54 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.network.logic.GoodsLogic;
+import com.plmt.boommall.network.config.MsgRequest;
+import com.plmt.boommall.network.logic.SearchLogic;
 import com.plmt.boommall.ui.adapter.GoodsAdapter;
 import com.plmt.boommall.ui.adapter.MySimpleAdapter;
 import com.plmt.boommall.ui.view.AutoClearEditText;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
+import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 import com.plmt.boommall.utils.CacheManager;
 
-public class SearchActivity extends Activity implements OnClickListener {
+public class SearchActivity extends Activity implements OnClickListener,
+		XListView.IXListViewListener {
 
 	private AutoClearEditText mSearchGoodsEt;
 
+	private ImageView mBackIv;
 	private TextView mSearchTagTv;
 	private TextView mSearchTv;
-	private ListView mSellersLv;
 
 	private ListView mSearchHistroyLv;
 	private MySimpleAdapter mSimpleAdapter;
 
-	// 弹出对话框中的控件
-
-	private CustomProgressDialog mCustomProgressDialog;
-
 	private String mSearchKey;
 
+	private XListView mGoodsLv;
+	private GoodsAdapter mGoodsAdapter;
 	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
 
 	private ArrayList<String> mSearchHistoryList = new ArrayList<String>();
-	private GoodsAdapter mGoodsAdapter;
+
+	private int mCurrentPageNum = 1;
+	private String mNowSortType;
+
+	private CustomProgressDialog mCustomProgressDialog;
 
 	private final Context mContext = SearchActivity.this;
-
-	// private long mExitTime = 0;
 
 	Handler mHandler = new Handler() {
 
@@ -63,13 +69,13 @@ public class SearchActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			int what = msg.what;
 			switch (what) {
-			case GoodsLogic.GOODS_LIST_BY_KEY_GET_SUC: {
+			case SearchLogic.NORAML_GET_SUC: {
 				mGoodsList.clear();
 				mGoodsList.addAll((ArrayList<Goods>) msg.obj);
 				if (mGoodsList.size() > 0) {
 					mGoodsAdapter.notifyDataSetChanged();
 					mSearchHistroyLv.setVisibility(View.GONE);
-					mSellersLv.setVisibility(View.VISIBLE);
+					mGoodsLv.setVisibility(View.VISIBLE);
 					mSearchTagTv.setText(getString(R.string.find_goods));
 				} else {
 					alertInfo();
@@ -84,14 +90,14 @@ public class SearchActivity extends Activity implements OnClickListener {
 				}
 				break;
 			}
-			case GoodsLogic.GOODS_LIST_BY_KEY_GET_FAIL: {
+			case SearchLogic.NORAML_GET_FAIL: {
 
 				break;
 			}
-			case GoodsLogic.GOODS_LIST_BY_KEY_GET_EXCEPTION: {
+			case SearchLogic.NORAML_GET_EXCEPTION: {
 				break;
 			}
-			case GoodsLogic.NET_ERROR: {
+			case SearchLogic.NET_ERROR: {
 				break;
 			}
 			default:
@@ -108,7 +114,6 @@ public class SearchActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.search);
 		initView();
 		initData();
@@ -129,29 +134,60 @@ public class SearchActivity extends Activity implements OnClickListener {
 		mSearchGoodsEt = (AutoClearEditText) findViewById(R.id.search_et);
 		mSearchTv = (TextView) findViewById(R.id.search_tv);
 		mSearchTagTv = (TextView) findViewById(R.id.search_tag_tv);
-		mSellersLv = (ListView) findViewById(R.id.sellers_lv);
 		mSearchHistroyLv = (ListView) findViewById(R.id.search_history_lv);
+
+		mBackIv = (ImageView) findViewById(R.id.search_back_iv);
+		mBackIv.setOnClickListener(this);
+
+		initXListView();
+	}
+
+	private void initXListView() {
+		mGoodsLv = (XListView) findViewById(R.id.search_goods_xlv);
+		mGoodsLv.setPullRefreshEnable(false);
+		mGoodsLv.setPullLoadEnable(false);
+		mGoodsLv.setAutoLoadEnable(false);
+		mGoodsLv.setXListViewListener(this);
+		mGoodsLv.setRefreshTime(getTime());
+
+		mGoodsAdapter = new GoodsAdapter(mContext, mGoodsList);
+		mGoodsLv.setAdapter(mGoodsAdapter);
+
+		mGoodsLv.setOnScrollListener(new AbsListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				// Log.i(TAG, "滚动状态变化");
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				// Log.i(TAG, "正在滚动");
+			}
+		});
+		mGoodsLv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				if (position > 0) {
+					Intent intent = new Intent(SearchActivity.this,
+							GoodsDetailActivity.class);
+					intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
+							mGoodsList.get(position - 1).getId());
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
+
+			}
+		});
+
 	}
 
 	private void initData() {
 		mSearchTv.setOnClickListener(this);
-		mGoodsAdapter = new GoodsAdapter(mContext, mGoodsList);
-		mSellersLv.setAdapter(mGoodsAdapter);
-		mSellersLv.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
-				Intent intent = new Intent(mContext, GoodsDetailActivity.class);
-				Bundle bundle = new Bundle();
-				Goods goods = mGoodsList.get(position);
-				intent.putExtras(bundle);
-				startActivity(intent);
-				overridePendingTransition(R.anim.push_left_in,
-						R.anim.push_left_out);
-
-			}
-		});
 
 		mSimpleAdapter = new MySimpleAdapter(SearchActivity.this,
 				mSearchHistoryList);
@@ -184,19 +220,24 @@ public class SearchActivity extends Activity implements OnClickListener {
 	private void getGoodsData(String keyword) {
 		mCustomProgressDialog = new CustomProgressDialog(mContext);
 		mCustomProgressDialog.show();
+		SearchLogic.queryGoods(mContext, mHandler, keyword, "",
+				mCurrentPageNum, MsgRequest.PAGE_SIZE, mNowSortType);
 		CacheManager.addSearchHistroy(getApplicationContext(), mSearchKey);
-		// GoodsLogic.getGoodsByKey(mContext, mHandler, keyword,
-		// MsgRequest.GOODS_PAGE_SIZE);
+	}
 
-		// mGoodsList.clear();
-		// for (int i = 0; i < 10; i++) {
-		// Goods goods = new Goods();
-		// goods.setName("可乐" + i);
-		// goods.setPrice("" + i);
-		// goods.setBrief("可口可乐出品" + i);
-		// mGoodsList.add(goods);
-		// }
-		// mGoodsAdapter.notifyDataSetChanged();
+	private String getTime() {
+		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)
+				.format(new Date());
+	}
+
+	@Override
+	public void onRefresh() {
+
+	}
+
+	@Override
+	public void onLoadMore() {
+
 	}
 
 	protected void alertInfo() {
@@ -242,8 +283,13 @@ public class SearchActivity extends Activity implements OnClickListener {
 								.getString(R.string.search_thing),
 						Toast.LENGTH_SHORT).show();
 			} else {
-				//getGoodsData(mSearchKey);
+				getGoodsData(mSearchKey);
 			}
+			break;
+		}
+		case R.id.search_back_iv: {
+			finish();
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			break;
 		}
 		default:
@@ -255,14 +301,8 @@ public class SearchActivity extends Activity implements OnClickListener {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-			// if ((System.currentTimeMillis() - mExitTime) > 2000) {
-			// Toast.makeText(getApplicationContext(), R.string.exit,
-			// Toast.LENGTH_SHORT).show();
-			// mExitTime = System.currentTimeMillis();
-			// } else {
-			// finish();
-			// }
 			finish();
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
