@@ -12,27 +12,37 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
-import com.plmt.boommall.entity.GroupBean;
+import com.plmt.boommall.entity.ShoppingCart;
+import com.plmt.boommall.ui.activity.ShopCartActivity;
+import com.plmt.boommall.ui.utils.ListItemClickHelp;
 
 public class ShoppingCartAdapter extends BaseExpandableListAdapter {
-	List<GroupBean> grouds;
-	Map<String, List<GroupBean>> chiles;
+	List<ShoppingCart> grouds;
+	Map<String, List<ShoppingCart>> chiles;
 	Context contenx;
+	private String mNowMode;
 	ischeck ischeck;
+
+	private ListItemClickHelp mCallback;
 
 	public void setischek(ischeck ischeck) {
 		this.ischeck = ischeck;
 	}
 
-	public ShoppingCartAdapter(Context context, List<GroupBean> grouds,
-			Map<String, List<GroupBean>> chiles) {
+	public ShoppingCartAdapter(Context context, List<ShoppingCart> grouds,
+			Map<String, List<ShoppingCart>> chiles, ListItemClickHelp callback) {
 		this.contenx = context;
 		this.grouds = grouds;
 		this.chiles = chiles;
+		mCallback = callback;
 	}
 
 	@Override
@@ -42,8 +52,8 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return ((List<GroupBean>) chiles
-				.get(grouds.get(groupPosition).getTxt())).size();
+		return ((List<ShoppingCart>) chiles.get(grouds.get(groupPosition)
+				.getTxt())).size();
 	}
 
 	@Override
@@ -123,9 +133,9 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 					ischeck.ischekgroup(groupPosition, true);
 				} else {
 					// grouds.get(groupPosition).setIscheck(false);
-					// List<GroupBean> chiless =
+					// List<ShoppingCart> chiless =
 					// chiles.get(grouds.get(groupPosition).getTxt());
-					// for(GroupBean bean:chiless){
+					// for(ShoppingCart bean:chiless){
 					// bean.setIscheck(false);
 					// }
 					ischeck.ischekgroup(groupPosition, false);
@@ -138,28 +148,133 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getChildView(final int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		ViewHolderChild viewholder;
 		if (convertView == null) {
 			convertView = LayoutInflater.from(contenx).inflate(
 					R.layout.shoping_cart_item, null);
 			viewholder = new ViewHolderChild();
+			viewholder.mChildCb = (CheckBox) convertView
+					.findViewById(R.id.cart_goods_cb);
+
+			viewholder.mName = (TextView) convertView
+					.findViewById(R.id.cart_goods_name_tv);
+			viewholder.mPrice = (TextView) convertView
+					.findViewById(R.id.cart_goods_price_tv);
+			viewholder.mOriginalPrice = (TextView) convertView
+					.findViewById(R.id.cart_goods_original_prices_tv);
+
+			viewholder.mCount = (TextView) convertView
+					.findViewById(R.id.cart_goods_count_tv);
+
+			viewholder.mAddIb = (ImageButton) convertView
+					.findViewById(R.id.cart_goods_add_ib);
+			viewholder.mReduceIb = (ImageButton) convertView
+					.findViewById(R.id.cart_goods_reduce_ib);
+
+			viewholder.mCollectionLl = (LinearLayout) convertView
+					.findViewById(R.id.cart_goods_collect_ll);
+			viewholder.mDelLl = (LinearLayout) convertView
+					.findViewById(R.id.cart_goods_del_ll);
+			viewholder.mCollectionAndDelLl = (LinearLayout) convertView
+					.findViewById(R.id.cart_goods_collect_del_ll);
+			viewholder.mUpdateCountLl = (LinearLayout) convertView
+					.findViewById(R.id.right_bottom_rl);
+
+			viewholder.mNum = (EditText) convertView
+					.findViewById(R.id.cart_goods_count_et);
+			viewholder.mIcon = (ImageView) convertView
+					.findViewById(R.id.cart_goods_iv);
+
 			convertView.setTag(viewholder);
-			viewholder.tv = (CheckBox) convertView.findViewById(R.id.tv);
-			viewholder.btn = (TextView) convertView.findViewById(R.id.tv2);
 		}
 		viewholder = (ViewHolderChild) convertView.getTag();
-		viewholder.tv.setText(this.chiles
+
+		viewholder.mCollectionAndDelLl.setVisibility(View.GONE);
+		viewholder.mUpdateCountLl.setVisibility(View.GONE);
+		viewholder.mCount.setVisibility(View.GONE);
+		if (mNowMode.equals(ShopCartActivity.EDITOR_MODE)) {
+			viewholder.mCollectionAndDelLl.setVisibility(View.VISIBLE);
+			viewholder.mUpdateCountLl.setVisibility(View.VISIBLE);
+		} else {
+			viewholder.mCount.setVisibility(View.VISIBLE);
+		}
+
+		viewholder.mName.setText("");
+		viewholder.mPrice.setText("￥" + "");
+		viewholder.mOriginalPrice.setText("原价￥" + "");
+		viewholder.mNum.setText("");
+		viewholder.mCount.setText("数量：" + "");
+
+		// ImageLoader.getInstance().displayImage(mDatas.get(position).getImage(),
+		// viewholder.mIcon);
+
+		// final int tempPosition = position;
+		// final View view = convertView;
+		// final int whichAdd = holder.mAddIb.getId();
+		// final int whichReduce = holder.mReduceIb.getId();
+		// final int whichCollection = holder.mCollectionLl.getId();
+		// final int whichDel = holder.mDelLl.getId();
+
+		// viewholder.vId = tempPosition;
+
+		// holder.mCheckIb.setOnCheckedChangeListener(new
+		// OnCheckedChangeListener() {
+		//
+		// @Override
+		// public void onCheckedChanged(CompoundButton buttonView, boolean
+		// isChecked) {
+		// getmIsSelected().put(tempPosition, isChecked);
+		// if (!isChecked) {
+		// HomeActivity.mIsCancelAll = false;
+		// HomeActivity.mCheckAllIb.setChecked(false);
+		// }
+		// notifyDataSetChanged();
+		// HomeActivity.mIsCancelAll = true;
+		// }
+		// });
+		//
+		// holder.mCheckIb.setChecked(getmIsSelected().get(position));
+		viewholder.mAddIb.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				// mCallback.onClick(view, v, tempPosition, whichAdd);
+
+			}
+		});
+		viewholder.mReduceIb.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				// mCallback.onClick(view, v, tempPosition, whichReduce);
+			}
+		});
+		viewholder.mCollectionLl.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				// mCallback.onClick(view, v, tempPosition, whichCollection);
+			}
+		});
+		viewholder.mDelLl.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				// mCallback.onClick(view, v, tempPosition, whichDel);
+			}
+		});
+
+		viewholder.mChildCb.setText(this.chiles
 				.get(grouds.get(groupPosition).getTxt()).get(childPosition)
 				.getTxt());
-		viewholder.btn.setText(viewholder.tv.getText() + "商品描述");
+		viewholder.mName.setText(viewholder.mChildCb.getText() + "商品描述");
 		if (this.chiles.get(grouds.get(groupPosition).getTxt())
 				.get(childPosition).isIscheck()) {
-			viewholder.tv.setChecked(true);
+			viewholder.mChildCb.setChecked(true);
 		} else {
-			viewholder.tv.setChecked(false);
+			viewholder.mChildCb.setChecked(false);
 		}
-		viewholder.tv.setOnClickListener(new OnClickListener() {
+		viewholder.mChildCb.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -177,7 +292,6 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -187,12 +301,45 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 	}
 
 	public static class ViewHolderChild {
-		private TextView btn;
-		private CheckBox tv;
+		public int vId;
+
+		public TextView mName;
+
+		public TextView mPrice;
+
+		public TextView mOriginalPrice;
+
+		public TextView mCount;
+
+		public CheckBox mChildCb;
+
+		public ImageButton mAddIb;
+
+		public ImageButton mReduceIb;
+
+		public EditText mNum;
+
+		public ImageView mIcon;
+
+		public LinearLayout mCollectionAndDelLl;
+
+		public LinearLayout mCollectionLl;
+
+		public LinearLayout mDelLl;
+
+		public LinearLayout mUpdateCountLl;
 	}
 
 	public interface ischeck {
 		public void ischekgroup(int groupposition, boolean ischeck);
+	}
+
+	public String getmNowMode() {
+		return mNowMode;
+	}
+
+	public void setmNowMode(String mNowMode) {
+		this.mNowMode = mNowMode;
 	}
 
 }
