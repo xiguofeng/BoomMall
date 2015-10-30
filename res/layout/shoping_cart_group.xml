@@ -3,20 +3,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <View android:layout_height="10dp"
+
+    <View
         android:layout_width="match_parent"
-        android:background="#000000"
-        />
-	
-	<CheckBox android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="供货商"
-	    android:id="@+id/rb"
-	    />
-	<TextView android:layout_height="wrap_content"
-	    android:layout_width="wrap_content"
-	    
-	    android:text="优惠券"
-	    android:id="@+id/tv"
-	    />
+        android:layout_height="10dp"
+        android:background="@color/gray_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@drawable/h_line" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/cart_group_cb"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dip"
+            android:background="@null"
+            android:button="@drawable/check_selector"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/cart_group_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="优惠券"
+            android:textColor="@color/black_character"
+            android:textSize="@dimen/middle_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@drawable/h_line" >
+    </LinearLayout>
+
 </LinearLayout>

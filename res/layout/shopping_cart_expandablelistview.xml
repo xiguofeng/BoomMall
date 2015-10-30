@@ -110,9 +110,10 @@
         </LinearLayout>
 
         <ExpandableListView
-            android:id="@+id/lv"
+            android:id="@+id/shopping_cart_elv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/gray_bg"
             android:groupIndicator="@null" >
         </ExpandableListView>
     </com.plmt.boommall.ui.view.MultiStateView>

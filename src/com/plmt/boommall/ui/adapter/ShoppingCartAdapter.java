@@ -91,8 +91,8 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 					R.layout.shoping_cart_group, null);
 			holder = new ViewHolder();
 			convertView.setTag(holder);
-			holder.tv = (TextView) convertView.findViewById(R.id.tv);
-			holder.btn = (CheckBox) convertView.findViewById(R.id.rb);
+			holder.tv = (TextView) convertView.findViewById(R.id.cart_group_tv);
+			holder.btn = (CheckBox) convertView.findViewById(R.id.cart_group_cb);
 		}
 		holder = (ViewHolder) convertView.getTag();
 		holder.tv.setText(grouds.get(groupPosition).getTxt());
@@ -264,10 +264,10 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 			}
 		});
 
-		viewholder.mChildCb.setText(this.chiles
-				.get(grouds.get(groupPosition).getTxt()).get(childPosition)
-				.getTxt());
-		viewholder.mName.setText(viewholder.mChildCb.getText() + "商品描述");
+//		viewholder.mChildCb.setText(this.chiles
+//				.get(grouds.get(groupPosition).getTxt()).get(childPosition)
+//				.getTxt());
+		viewholder.mName.setText("商品描述");
 		if (this.chiles.get(grouds.get(groupPosition).getTxt())
 				.get(childPosition).isIscheck()) {
 			viewholder.mChildCb.setChecked(true);

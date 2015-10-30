@@ -150,7 +150,7 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 	}
 
 	private void initListView() {
-		mGoodsElv = (ExpandableListView) findViewById(R.id.lv);
+		mGoodsElv = (ExpandableListView) findViewById(R.id.shopping_cart_elv);
 		mGroup = new ArrayList<ShoppingCart>();
 		bean = new ShoppingCart();
 		bean.setTxt("一个商家");
@@ -246,9 +246,9 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 	}
 
 	private void initData() {
-		mGoodsElv.setVisibility(View.GONE);
-		mEAdapter.setmNowMode(COMPLETE_MODE);
-		mEAdapter.notifyDataSetChanged();
+//		mGoodsElv.setVisibility(View.GONE);
+        mEAdapter.setmNowMode(COMPLETE_MODE);
+//		mEAdapter.notifyDataSetChanged();
 		HomeActivity.setCartMenuShow(true);
 	}
 
@@ -444,6 +444,7 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+			finish();
 			HomeActivity.showMainByOnkey();
 			return true;
 		}
