@@ -1,34 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res/com.plmt.boommall"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_bg"
     android:orientation="vertical" >
-    
-	<ExpandableListView android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:id="@+id/lv"
-	    android:groupIndicator="@null"
-	    android:layout_above="@+id/cb"
-	    ></ExpandableListView>
-	<CheckBox android:id="@+id/cb"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="全选"
-	    android:layout_alignParentBottom="true"
-	    />
-	<LinearLayout android:id="@+id/empty"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:orientation="vertical"
-	    android:gravity="center"
-	    >
-	    <TextView android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="购物车是空的"
-	        />
-	    <Button android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="开始购物"
-	        />
-	</LinearLayout>	
-	</RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red_title_bg"
+        android:padding="10dip" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shopping_cart"
+                android:textColor="@color/white"
+                android:textSize="@dimen/large_text_size" />
+
+            <TextView
+                android:id="@+id/shop_cart_total_num_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/large_text_size" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/shop_cart_modify_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="3dip"
+            android:text="@string/editor"
+            android:textColor="@color/white"
+            android:textSize="@dimen/middle_text_size" />
+    </RelativeLayout>
+
+    <com.plmt.boommall.ui.view.MultiStateView
+        android:id="@+id/shop_cart_multiStateView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:msv_emptyView="@layout/empty_view"
+        app:msv_errorView="@layout/error_view"
+        app:msv_loadingView="@layout/loading_view"
+        app:msv_viewState="content" >
+
+        <LinearLayout
+            android:id="@+id/shop_cart_null_and_not_login_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/shop_cart_null_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/cart_no_hint"
+                android:textColor="@color/black_character"
+                android:textSize="@dimen/middle_text_size"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/shop_cart_not_login_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/shop_cart_login_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/see_after_login"
+                    android:textColor="@color/gray_character"
+                    android:textSize="@dimen/small_text_size" />
+
+                <Button
+                    android:id="@+id/shop_cart_login_btn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:background="@drawable/corners_bg_red_all"
+                    android:gravity="center"
+                    android:paddingBottom="5dip"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="5dip"
+                    android:text="@string/login"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ExpandableListView
+            android:id="@+id/lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:groupIndicator="@null" >
+        </ExpandableListView>
+    </com.plmt.boommall.ui.view.MultiStateView>
+
+</LinearLayout>
