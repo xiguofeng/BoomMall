@@ -1,23 +1,15 @@
 package com.plmt.boommall.ui.view.srollview.slidingmenu;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-
-import com.nineoldandroids.view.ViewHelper;
 
 public class SlidingMenu extends ScrollView {
 	private int mScreenHeight;

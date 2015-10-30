@@ -1,9 +1,9 @@
 package com.plmt.boommall.ui.view.gridview.paging;
 
-import android.widget.BaseAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import android.widget.BaseAdapter;
 
 
 public abstract class PagingBaseAdapter<T> extends BaseAdapter {

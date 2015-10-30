@@ -1,8 +1,8 @@
 package com.plmt.boommall.ui.view.wheel.widget.adapters;
 
-import com.plmt.boommall.entity.AddressData;
-
 import android.content.Context;
+
+import com.plmt.boommall.entity.AddressData;
 
 /**
  * The simple Array wheel adapter

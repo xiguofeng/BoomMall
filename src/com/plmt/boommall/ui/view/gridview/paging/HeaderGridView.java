@@ -1,6 +1,8 @@
 package com.plmt.boommall.ui.view.gridview.paging;
 
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -8,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ListAdapter;
-
-import java.util.ArrayList;
 
 public class HeaderGridView extends GridView {
 

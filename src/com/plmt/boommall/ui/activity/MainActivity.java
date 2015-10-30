@@ -4,29 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Banner;
-import com.plmt.boommall.entity.Category;
-import com.plmt.boommall.entity.DemoItem;
-import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.network.logic.GoodsLogic;
-import com.plmt.boommall.network.logic.PromotionLogic;
-import com.plmt.boommall.ui.adapter.BannerAdapter;
-import com.plmt.boommall.ui.adapter.DemoAdapter;
-import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
-import com.plmt.boommall.ui.adapter.MainGvCategoryAdapter;
-import com.plmt.boommall.ui.view.CustomClassifyView;
-import com.plmt.boommall.ui.view.CustomProgressDialog;
-import com.plmt.boommall.ui.view.MultiStateView;
-import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView;
-import com.plmt.boommall.ui.view.gridview.CustomGridView;
-import com.plmt.boommall.ui.view.iosdialog.AlertDialog;
-import com.plmt.boommall.ui.view.listview.HorizontalListView;
-import com.plmt.boommall.ui.view.srollview.BorderScrollView;
-import com.plmt.boommall.ui.view.srollview.BorderScrollView.OnBorderListener;
-import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
-import com.plmt.boommall.ui.view.viewflow.ViewFlow;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -44,6 +21,27 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Banner;
+import com.plmt.boommall.entity.DemoItem;
+import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.network.logic.PromotionLogic;
+import com.plmt.boommall.ui.adapter.BannerAdapter;
+import com.plmt.boommall.ui.adapter.DemoAdapter;
+import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
+import com.plmt.boommall.ui.adapter.MainGvCategoryAdapter;
+import com.plmt.boommall.ui.view.CustomClassifyView;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
+import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.ui.view.asymmetricgridview.widget.AsymmetricGridView;
+import com.plmt.boommall.ui.view.gridview.CustomGridView;
+import com.plmt.boommall.ui.view.iosdialog.AlertDialog;
+import com.plmt.boommall.ui.view.listview.HorizontalListView;
+import com.plmt.boommall.ui.view.srollview.BorderScrollView;
+import com.plmt.boommall.ui.view.srollview.BorderScrollView.OnBorderListener;
+import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
+import com.plmt.boommall.ui.view.viewflow.ViewFlow;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -325,7 +323,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Intent intent = new Intent(MainActivity.this,
-						CreateOrderActivity.class);
+						ShoppingCartActivity.class);
 				startActivity(intent);
 			}
 		});

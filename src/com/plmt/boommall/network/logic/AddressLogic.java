@@ -13,7 +13,6 @@ import android.util.Log;
 
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Address;
-import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;

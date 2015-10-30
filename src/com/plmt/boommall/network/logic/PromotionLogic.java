@@ -6,6 +6,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Banner;
 import com.plmt.boommall.network.config.MsgResult;
@@ -14,11 +19,6 @@ import com.plmt.boommall.network.utils.CookieRequest;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
 import com.plmt.boommall.utils.JsonUtils;
-
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 
 public class PromotionLogic {
 

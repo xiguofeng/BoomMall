@@ -2,7 +2,6 @@ package com.plmt.boommall.ui.view.webview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ViewDebug.ExportedProperty;

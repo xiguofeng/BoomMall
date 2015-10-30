@@ -1,11 +1,11 @@
 package com.plmt.boommall.ui.view.webview.jsbridge;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * data of bridge

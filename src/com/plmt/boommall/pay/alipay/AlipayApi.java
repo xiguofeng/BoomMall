@@ -7,13 +7,13 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
-import com.alipay.sdk.app.PayTask;
-import com.plmt.boommall.pay.AlipayMerchant;
-
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import com.alipay.sdk.app.PayTask;
+import com.plmt.boommall.pay.AlipayMerchant;
 
 public class AlipayApi {
 

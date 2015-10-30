@@ -15,9 +15,6 @@ import com.plmt.boommall.network.volley.Response.ErrorListener;
 import com.plmt.boommall.network.volley.Response.Listener;
 import com.plmt.boommall.network.volley.toolbox.HttpHeaderParser;
 import com.plmt.boommall.network.volley.toolbox.JsonObjectRequest;
-import com.plmt.boommall.utils.StringUtils;
-
-import android.util.Log;
 
 public class CookieRequest extends JsonObjectRequest {
 	private Map mHeaders = new HashMap(1);

@@ -1,16 +1,14 @@
 package com.plmt.boommall;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.res.Configuration;
 import cn.jpush.android.api.JPushInterface;
 
 import com.plmt.boommall.config.Constants;
 import com.plmt.boommall.network.volley.RequestQueue;
 import com.plmt.boommall.network.volley.toolbox.Volley;
-import com.plmt.boommall.push.Easemob;
 import com.plmt.boommall.utils.image.ImageLoaderConfig;
-
-import android.app.Application;
-import android.content.Context;
-import android.content.res.Configuration;
 
 public class BaseApplication extends Application {
 

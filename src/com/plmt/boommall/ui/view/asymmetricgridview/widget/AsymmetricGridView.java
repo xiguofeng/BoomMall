@@ -69,7 +69,7 @@ public class AsymmetricGridView extends ListView {
   public void setAdapter(@NonNull ListAdapter adapter) {
     if (!(adapter instanceof AsymmetricGridViewAdapter)) {
       throw new UnsupportedOperationException(
-          "Adapter must be an instance of AsymmetricGridViewAdapter");
+          "ShoppingCartAdapter must be an instance of AsymmetricGridViewAdapter");
     }
 
     gridAdapter = (AsymmetricGridViewAdapter) adapter;

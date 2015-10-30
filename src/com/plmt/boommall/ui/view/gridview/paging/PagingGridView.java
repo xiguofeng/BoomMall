@@ -1,11 +1,11 @@
 package com.plmt.boommall.ui.view.gridview.paging;
 
+import java.util.List;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
-
-import java.util.List;
 
 
 public class PagingGridView extends HeaderGridView {

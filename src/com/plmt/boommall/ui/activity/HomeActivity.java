@@ -1,7 +1,5 @@
 package com.plmt.boommall.ui.activity;
 
-import com.plmt.boommall.R;
-
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+
+import com.plmt.boommall.R;
 
 public class HomeActivity extends TabActivity implements OnClickListener {
 

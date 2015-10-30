@@ -1,7 +1,6 @@
 package com.plmt.boommall.ui.activity;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -12,10 +11,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -25,16 +21,9 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.AddressData;
-import com.plmt.boommall.entity.AddressData;
-import com.plmt.boommall.entity.CityModel;
-import com.plmt.boommall.entity.DistrictModel;
 import com.plmt.boommall.network.config.MsgResult;
-import com.plmt.boommall.network.logic.AddressLogic;
-import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.wheel.widget.OnWheelChangedListener;
 import com.plmt.boommall.ui.view.wheel.widget.WheelView;
 import com.plmt.boommall.ui.view.wheel.widget.adapters.ArrayWheelAdapter;

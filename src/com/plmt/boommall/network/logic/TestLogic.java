@@ -1,20 +1,5 @@
 package com.plmt.boommall.network.logic;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.plmt.boommall.BaseApplication;
-import com.plmt.boommall.network.utils.CookieRequest;
-import com.plmt.boommall.network.volley.Request.Method;
-import com.plmt.boommall.network.volley.Response.Listener;
-import com.plmt.boommall.utils.UserInfoManager;
-
-import android.content.Context;
-import android.os.Handler;
-import android.util.Log;
 
 public class TestLogic {
 

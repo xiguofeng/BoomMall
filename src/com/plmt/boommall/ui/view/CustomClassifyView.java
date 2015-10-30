@@ -17,8 +17,6 @@ import android.widget.TextView;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.ui.activity.GoodsDetailActivity;
-import com.plmt.boommall.ui.activity.GoodsListActivity;
-import com.plmt.boommall.ui.adapter.GoodsGvAdapter;
 import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
 import com.plmt.boommall.ui.adapter.MainGoodsGvAdapter;
 import com.plmt.boommall.ui.view.gridview.CustomGridView;

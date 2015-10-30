@@ -616,7 +616,7 @@ public class GridViewWithHeaderAndFooter extends GridView {
                         && mHeaderViewInfos.get(position / mNumColumns).isSelectable;
             }
 
-            // Adapter
+            // ShoppingCartAdapter
             final int adjPosition = position - numHeadersAndPlaceholders;
             int adapterCount = 0;
             if (mAdapter != null) {
@@ -643,7 +643,7 @@ public class GridViewWithHeaderAndFooter extends GridView {
                 return null;
             }
 
-            // Adapter
+            // ShoppingCartAdapter
             final int adjPosition = position - numHeadersAndPlaceholders;
             int adapterCount = 0;
             if (mAdapter != null) {
@@ -707,7 +707,7 @@ public class GridViewWithHeaderAndFooter extends GridView {
                     return convertView;
                 }
             }
-            // Adapter
+            // ShoppingCartAdapter
             final int adjPosition = position - numHeadersAndPlaceholders;
             int adapterCount = 0;
             if (mAdapter != null) {
@@ -766,7 +766,7 @@ public class GridViewWithHeaderAndFooter extends GridView {
                 }
             }
 
-            // Adapter
+            // ShoppingCartAdapter
             final int adjPosition = position - numHeadersAndPlaceholders;
             int adapterCount = 0;
             if (mAdapter != null) {

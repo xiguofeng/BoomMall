@@ -9,6 +9,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
+
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Address;
 import com.plmt.boommall.entity.Goods;
@@ -24,14 +30,7 @@ import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
 import com.plmt.boommall.pay.UnionpayMerchant;
 import com.plmt.boommall.utils.JsonUtils;
-import com.plmt.boommall.utils.OrderManager;
 import com.plmt.boommall.utils.UserInfoManager;
-
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
-import android.util.Log;
 
 public class OrderLogic {
 

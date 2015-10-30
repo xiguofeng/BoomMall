@@ -1,8 +1,5 @@
 package com.plmt.boommall.ui.adapter;
 
-import java.util.ArrayList;
-
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

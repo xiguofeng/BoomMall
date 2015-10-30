@@ -8,6 +8,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.entity.Comment;
@@ -19,11 +24,6 @@ import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
 import com.plmt.boommall.network.volley.toolbox.JsonObjectRequest;
 import com.plmt.boommall.utils.JsonUtils;
-
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 
 public class GoodsLogic {
 

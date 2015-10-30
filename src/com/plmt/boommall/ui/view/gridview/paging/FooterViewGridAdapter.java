@@ -16,6 +16,8 @@
 
 package com.plmt.boommall.ui.view.gridview.paging;
 
+import java.util.ArrayList;
+
 import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +26,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListAdapter;
 import android.widget.WrapperListAdapter;
-
-import java.util.ArrayList;
 
 /**
  * ListAdapter used when a HeaderGridView has header views. This ListAdapter
@@ -121,7 +121,7 @@ public class FooterViewGridAdapter implements WrapperListAdapter, Filterable {
     }
 
     public boolean isEnabled(int position) {
-        // Adapter
+        // ShoppingCartAdapter
         final int adjPosition = position;
         int adapterCount = 0;
         if (mAdapter != null) {
@@ -136,7 +136,7 @@ public class FooterViewGridAdapter implements WrapperListAdapter, Filterable {
     }
 
     public Object getItem(int position) {
-        // Adapter
+        // ShoppingCartAdapter
         final int adjPosition = position;
         int adapterCount = 0;
         if (mAdapter != null) {
@@ -170,7 +170,7 @@ public class FooterViewGridAdapter implements WrapperListAdapter, Filterable {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // Adapter
+        // ShoppingCartAdapter
         final int adjPosition = position;
         int adapterCount = 0;
         if (mAdapter != null) {

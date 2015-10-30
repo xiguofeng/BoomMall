@@ -13,8 +13,8 @@
     <permission
         android:name="com.plmt.boommall.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
-  
-    <!-- Required  一些系统要求的权限，如访问网络等-->
+
+    <!-- Required  一些系统要求的权限，如访问网络等 -->
     <uses-permission android:name="com.plmt.boommall.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -97,6 +97,12 @@
         </activity>
         <activity
             android:name="com.plmt.boommall.ui.activity.ShopCartActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.plmt.boommall.ui.activity.ShoppingCartActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
@@ -280,28 +286,31 @@
             </intent-filter>
         </activity>
 
-<!--         设置环信应用的appkey -->
-<!--         <meta-data -->
-<!--             android:name="EASEMOB_APPKEY" -->
-<!--             android:value="txw20151021#wangpugo" /> -->
+        <!-- 设置环信应用的appkey -->
+        <!-- <meta-data -->
+        <!-- android:name="EASEMOB_APPKEY" -->
+        <!-- android:value="txw20151021#wangpugo" /> -->
 
-<!--         声明sdk所需的service -->
-<!--         <service -->
-<!--             android:name="com.easemob.chat.EMChatService" -->
-<!--             android:exported="true" /> -->
-<!--         声明sdk所需的receiver -->
-<!--         <receiver android:name="com.easemob.chat.EMMonitorReceiver" > -->
-<!--             <intent-filter> -->
-<!--                 <action android:name="android.intent.action.PACKAGE_REMOVED" /> -->
 
-<!--                 <data android:scheme="package" /> -->
-<!--             </intent-filter> -->
-<!--             可选filter -->
-<!--             <intent-filter> -->
-<!--                 <action android:name="android.intent.action.BOOT_COMPLETED" /> -->
-<!--                 <action android:name="android.intent.action.USER_PRESENT" /> -->
-<!--             </intent-filter> -->
-<!--         </receiver> -->
+        <!-- 声明sdk所需的service -->
+        <!-- <service -->
+        <!-- android:name="com.easemob.chat.EMChatService" -->
+        <!-- android:exported="true" /> -->
+        <!-- 声明sdk所需的receiver -->
+        <!-- <receiver android:name="com.easemob.chat.EMMonitorReceiver" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.PACKAGE_REMOVED" /> -->
+
+
+        <!-- <data android:scheme="package" /> -->
+        <!-- </intent-filter> -->
+        <!-- 可选filter -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.BOOT_COMPLETED" /> -->
+        <!-- <action android:name="android.intent.action.USER_PRESENT" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+
 
         <!-- jpush start -->
         <!-- Required SDK核心功能 -->

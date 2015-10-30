@@ -13,8 +13,6 @@ import android.widget.ListView;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Msg;
 import com.plmt.boommall.ui.adapter.MsgAdapter;
-import com.plmt.boommall.ui.view.CustomProgressDialog;
-import com.plmt.boommall.utils.CacheManager;
 
 public class MsgActivity extends Activity implements OnClickListener {
 

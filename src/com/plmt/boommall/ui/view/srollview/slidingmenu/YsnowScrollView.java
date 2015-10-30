@@ -2,7 +2,6 @@ package com.plmt.boommall.ui.view.srollview.slidingmenu;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 

@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.plmt.boommall.R;
-import com.plmt.boommall.network.logic.CartLogic;
 import com.plmt.boommall.network.logic.PropertyLogic;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
 

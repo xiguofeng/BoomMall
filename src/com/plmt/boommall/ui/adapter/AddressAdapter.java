@@ -3,10 +3,6 @@ package com.plmt.boommall.ui.adapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Address;
-import com.plmt.boommall.ui.utils.ListItemClickHelp;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +15,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Address;
+import com.plmt.boommall.ui.utils.ListItemClickHelp;
 
 public class AddressAdapter extends BaseAdapter {
 

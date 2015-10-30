@@ -1,12 +1,12 @@
 package com.plmt.boommall.ui.view.webview.jsbridge;
 
-import android.content.Context;
-import android.webkit.WebView;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import android.content.Context;
+import android.webkit.WebView;
 
 public class BridgeUtil {
 	final static String YY_OVERRIDE_SCHEMA = "yy://";

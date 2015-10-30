@@ -200,7 +200,7 @@ public class WheelView extends View {
 		return viewAdapter;
 	}
 
-	// Adapter listener
+	// ShoppingCartAdapter listener
 	private DataSetObserver dataObserver = new DataSetObserver() {
 		@Override
 		public void onChanged() {

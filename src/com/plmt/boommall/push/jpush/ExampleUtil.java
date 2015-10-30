@@ -3,7 +3,6 @@ package com.plmt.boommall.push.jpush;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
