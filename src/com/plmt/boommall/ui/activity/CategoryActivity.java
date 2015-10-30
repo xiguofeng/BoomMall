@@ -138,6 +138,7 @@ public class CategoryActivity extends Activity implements OnClickListener {
 
 	private void initView() {
 		mSearchLl = (LinearLayout) findViewById(R.id.category_search_ll);
+		mSearchLl.setOnClickListener(this);
 
 		mSearchIv = (ImageView) findViewById(R.id.category_search_iv);
 		mSearchIv.setOnClickListener(this);
@@ -159,15 +160,6 @@ public class CategoryActivity extends Activity implements OnClickListener {
 						}
 					}
 				});
-
-		mSearchLl.setOnClickListener(new OnClickListener() {
-
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
 
 		initCategoryView();
 	}
@@ -239,6 +231,12 @@ public class CategoryActivity extends Activity implements OnClickListener {
 				Toast.makeText(mContext, getString(R.string.search_hint),
 						Toast.LENGTH_SHORT).show();
 			}
+			break;
+		}
+		case R.id.category_search_ll: {
+			Intent intent = new Intent(CategoryActivity.this, SearchActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		}
 		default:

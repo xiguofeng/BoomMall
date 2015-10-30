@@ -194,14 +194,6 @@ public class GoodsListActivity extends Activity
 			}
 		});
 
-		mSearchLl.setOnClickListener(new OnClickListener() {
-
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
 		mViewModeIv = (ImageView) findViewById(R.id.goods_list_show_mode_iv);
 		mViewModeIv.setOnClickListener(this);
 		mBackIv = (ImageView) findViewById(R.id.goods_list_back_iv);
