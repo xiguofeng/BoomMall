@@ -79,6 +79,7 @@
                 android:paddingLeft="5dip"
                 android:paddingRight="5dip"
                 android:singleLine="true"
+                android:visibility="gone"
                 android:textColor="@color/gray_character" />
 
             <ImageView
