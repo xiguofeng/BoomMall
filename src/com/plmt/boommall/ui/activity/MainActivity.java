@@ -2,6 +2,7 @@ package com.plmt.boommall.ui.activity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -24,8 +25,10 @@ import android.widget.RelativeLayout;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Banner;
+import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.entity.DemoItem;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.network.logic.PromotionLogic;
 import com.plmt.boommall.ui.adapter.BannerAdapter;
 import com.plmt.boommall.ui.adapter.DemoAdapter;
@@ -73,13 +76,13 @@ public class MainActivity extends Activity implements OnClickListener {
 	private CustomGridView mCategoryGv;
 	private ArrayList<Banner> mCategoryList = new ArrayList<Banner>();
 	private MainGvCategoryAdapter mCategoryAdapter;
-	private int[] pic_path_classify = { R.drawable.menu_guide_1,
-			R.drawable.menu_guide_2, R.drawable.menu_guide_3,
-			R.drawable.menu_guide_4, R.drawable.menu_guide_5,
-			R.drawable.menu_guide_6, R.drawable.menu_guide_7,
+	private int[] pic_path_classify = { R.drawable.menu_guide_1, R.drawable.menu_guide_2, R.drawable.menu_guide_3,
+			R.drawable.menu_guide_4, R.drawable.menu_guide_5, R.drawable.menu_guide_6, R.drawable.menu_guide_7,
 			R.drawable.menu_guide_8 };
 
 	private LinearLayout mCategoryAndGoodsListLl;
+	private ArrayList<Category> mTopCategoryList = new ArrayList<Category>();
+	// private HashMap<String, V>
 
 	private HorizontalListView mHotGoodsLv;
 	private ArrayList<Goods> mHotGoodsList = new ArrayList<Goods>();
@@ -120,8 +123,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			case PromotionLogic.BANNER_GET_SUC: {
 				if (null != msg.obj) {
 					mBannerActivityList.clear();
-					mBannerActivityList
-							.addAll((Collection<? extends Banner>) msg.obj);
+					mBannerActivityList.addAll((Collection<? extends Banner>) msg.obj);
 					initCircleimage();
 				}
 
@@ -134,12 +136,69 @@ public class MainActivity extends Activity implements OnClickListener {
 			case PromotionLogic.BANNER_GET_EXCEPTION: {
 				break;
 			}
-			
+
 			case PromotionLogic.ROUND_GET_SUC: {
 				if (null != msg.obj) {
 					mCategoryList.clear();
-					mCategoryList
-							.addAll((Collection<? extends Banner>) msg.obj);
+					mCategoryList.addAll((Collection<? extends Banner>) msg.obj);
+					mCategoryAdapter.notifyDataSetChanged();
+				}
+
+				break;
+
+			}
+			case PromotionLogic.ROUND_GET_FAIL: {
+				break;
+			}
+			case PromotionLogic.ROUND_GET_EXCEPTION: {
+				break;
+			}
+
+			case PromotionLogic.NET_ERROR: {
+				break;
+			}
+
+			default:
+				break;
+			}
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+			// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+
+		}
+
+	};
+
+	private Handler mCateAndGoodsHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			int what = msg.what;
+			switch (what) {
+			case GoodsLogic.CATEGROY_TOP_LIST_GET_SUC: {
+				if (null != msg.obj) {
+					mTopCategoryList.clear();
+					mTopCategoryList.addAll((Collection<? extends Category>) msg.obj);
+
+					if (mTopCategoryList.size() > 0) {
+						GoodsLogic.getSubCategoryHome(mContext, mCateAndGoodsHandler,
+								mTopCategoryList.get(0).getName());
+					}
+				}
+				break;
+			}
+			case GoodsLogic.CATEGROY_TOP_LIST_GET_FAIL: {
+				break;
+			}
+			case GoodsLogic.CATEGROY_TOP_LIST_GET_EXCEPTION: {
+				break;
+			}
+
+			case PromotionLogic.ROUND_GET_SUC: {
+				if (null != msg.obj) {
+					mCategoryList.clear();
+					mCategoryList.addAll((Collection<? extends Banner>) msg.obj);
 					mCategoryAdapter.notifyDataSetChanged();
 				}
 
@@ -268,22 +327,21 @@ public class MainActivity extends Activity implements OnClickListener {
 		mSearchIv.setOnClickListener(this);
 
 		mSearchEt = (EditText) findViewById(R.id.main_search_et);
-		mSearchEt
-				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
-					@Override
-					public void onFocusChange(View v, boolean hasFocus) {
-						if (hasFocus) {
-							// 此处为得到焦点时的处理内容
-							mSearchLl.setVisibility(View.GONE);
-							mSearchIv.setVisibility(View.VISIBLE);
-						} else {
-							// 此处为失去焦点时的处理内容
-							mSearchEt.setText("");
-							mSearchLl.setVisibility(View.VISIBLE);
-							mSearchIv.setVisibility(View.GONE);
-						}
-					}
-				});
+		mSearchEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					// 此处为得到焦点时的处理内容
+					mSearchLl.setVisibility(View.GONE);
+					mSearchIv.setVisibility(View.VISIBLE);
+				} else {
+					// 此处为失去焦点时的处理内容
+					mSearchEt.setText("");
+					mSearchLl.setVisibility(View.VISIBLE);
+					mSearchIv.setVisibility(View.GONE);
+				}
+			}
+		});
 
 		mStandardMsgLl = (LinearLayout) findViewById(R.id.main_msg_ll);
 		mStandardMsgLl.setOnClickListener(this);
@@ -320,10 +378,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		mCategoryGv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Intent intent = new Intent(MainActivity.this,
-						ShoppingCartActivity.class);
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent intent = new Intent(MainActivity.this, ShoppingCartActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -445,9 +501,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		mProgressDialog = new CustomProgressDialog(mContext);
 		mProgressDialog.show();
 		PromotionLogic.getBannerList(mContext, mPromotionHandler);
-
 		PromotionLogic.getRounds(mContext, mPromotionHandler);
 
+		GoodsLogic.getTopCategory(mContext, mCateAndGoodsHandler);
 	}
 
 	private List<DemoItem> getMoreItems(int qty) {
@@ -504,27 +560,21 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 
-			new AlertDialog(MainActivity.this)
-					.builder()
-					.setTitle(getString(R.string.prompt))
+			new AlertDialog(MainActivity.this).builder().setTitle(getString(R.string.prompt))
 					.setMsg(getString(R.string.exit_str))
-					.setPositiveButton(getString(R.string.confirm),
-							new OnClickListener() {
-								@Override
-								public void onClick(View v) {
-									finish();
-								}
-							})
-					.setNegativeButton(getString(R.string.cancal),
-							new OnClickListener() {
-								@Override
-								public void onClick(View v) {
+					.setPositiveButton(getString(R.string.confirm), new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							finish();
+						}
+					}).setNegativeButton(getString(R.string.cancal), new OnClickListener() {
+						@Override
+						public void onClick(View v) {
 
-								}
-							}).show();
+						}
+					}).show();
 
 			// if ((System.currentTimeMillis() - exitTime) > 2000) {
 			// Toast.makeText(getApplicationContext(), R.string.exit,

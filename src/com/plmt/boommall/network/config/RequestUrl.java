@@ -203,9 +203,14 @@ public class RequestUrl {
 		public String queryTopCategory = "/category/getcategory";
 
 		/**
-		 * 一级分类获取二级分类和一级分类的banner接口
+		 * 一级分类获取二级分类
 		 */
 		public String querySubCategory = "/category/getsubCategory";
+
+		/**
+		 * 一级分类获取首页商品
+		 */
+		public String querySubCategoryHome = "/category/getHomeSubCategory";
 
 	}
 
