@@ -42,7 +42,7 @@
 			responseCallback(data)
 		})
 
-		bridge.registerHandler('functionInJs', function(data, responseCallback) {
+		bridge.registerHandler('testJavascriptHandler', function(data, responseCallback) {
 //			log('ObjC called testJavascriptHandler with', data)
 			var responseData = { 'Javascript Says':'Right back atcha!' }
 //			log('JS responding with', responseData)
@@ -67,7 +67,7 @@
 		callbackButton.onclick = function(e) {
 			e.preventDefault()
 //			log('JS calling handler "testObjcCallback"')
-			bridge.callHandler('submitFromWeb', {'foo': 'bar'}, function(response) {
+			bridge.callHandler('testObjcCallback', {'foo': 'bar'}, function(response) {
 //				log('JS got response', response)
 			})
 		}
