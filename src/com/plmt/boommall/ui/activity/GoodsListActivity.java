@@ -179,6 +179,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 				});
 
 		mSearchLl = (LinearLayout) findViewById(R.id.goods_list_search_ll);
+		mSearchLl.setOnClickListener(this);
 
 		mSearchIv = (ImageView) findViewById(R.id.goods_list_search_iv);
 		mSearchIv.setOnClickListener(this);

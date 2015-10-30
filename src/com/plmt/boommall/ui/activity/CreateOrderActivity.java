@@ -59,6 +59,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private PreOrder mPreOrder;
 
 	private String mOrderId;
+	private boolean isCreateOrder = false;
 
 	private CustomProgressDialog mProgressDialog;
 
@@ -71,6 +72,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 				if (null != msg.obj) {
 					mPreOrder = (PreOrder) msg.obj;
 					fillUpData(mPreOrder);
+					if (isCreateOrder) {
+						OrderLogic.createOrder(mContext, mOrderInfoHandler);
+					}
 				}
 				break;
 			}
@@ -265,7 +269,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		case R.id.create_order_confirm_btn: {
 			mProgressDialog = new CustomProgressDialog(mContext);
 			mProgressDialog.show();
-			OrderLogic.createOrder(mContext, mOrderInfoHandler);
+			isCreateOrder = true;
+			OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
 			break;
 		}
 
