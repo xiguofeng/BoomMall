@@ -52,7 +52,7 @@ public class RequestUrl {
 		 * 注册
 		 */
 		public String register = "/account/register";
-		
+
 		/**
 		 * 忘记密码
 		 */
@@ -95,6 +95,16 @@ public class RequestUrl {
 		 * 旺卡充值到余额
 		 */
 		public String rechargeBalance = "/user/redeemGift";
+
+		/**
+		 * 余额支付接口
+		 */
+		public String balancePay = "/checkout/appsavePaymentData";
+
+		/**
+		 * 旺卡支付接口
+		 */
+		public String giftCardPay = "/checkout/saveGiftcard";
 
 	}
 
