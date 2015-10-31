@@ -355,7 +355,6 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				GoodsDetailActivity.GOODS_ID_KEY);
 		mNowAction = getIntent().getAction();
 
-		Log.e("xxx_goodsID", ":"+mGoodsId);
 		if (!TextUtils.isEmpty(mGoodsId)) {
 			mProgressDialog = new CustomProgressDialog(mContext);
 			mProgressDialog.show();
