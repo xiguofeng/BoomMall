@@ -470,14 +470,11 @@ public class MainActivity extends Activity implements OnClickListener {
 		// mFifthGoodsAdapter.notifyDataSetChanged();
 		// initialize your items array
 
-		int size=0;
 		for (Entry<String, HomeRecommend> entry : mRecommendMap.entrySet()) {
-			size++;
 //			entry.getKey();
 //			entry.getValue();
 			CustomClassifyView cv = new CustomClassifyView(mContext, entry.getValue());
 			mCategoryAndGoodsListLl.addView(cv);
-			Log.e("xxx_size", "s:"+size);
 		}
 
 

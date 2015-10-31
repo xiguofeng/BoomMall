@@ -173,7 +173,7 @@ public class SearchActivity extends Activity implements OnClickListener,
 				if (position > 0) {
 					Intent intent = new Intent(SearchActivity.this,
 							GoodsDetailActivity.class);
-					intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
+					intent.setAction(GoodsDetailActivity.ORIGIN_FROM_SEAR_ACTION);
 					Bundle bundle = new Bundle();
 					bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
 							mGoodsList.get(position - 1).getId());

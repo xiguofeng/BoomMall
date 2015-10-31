@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,6 +48,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	public static final String ORIGIN_FROM_MAIN_ACTION = "MAINS";
 
 	public static final String ORIGIN_FROM_CATE_ACTION = "CATE";
+	
+	public static final String ORIGIN_FROM_SEAR_ACTION = "SEAR";
 
 	private Context mContext;
 
@@ -352,9 +355,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				GoodsDetailActivity.GOODS_ID_KEY);
 		mNowAction = getIntent().getAction();
 
-		// if (null != mGoods) {
-		// fillUpGoodsData();
-		// }
+		Log.e("xxx_goodsID", ":"+mGoodsId);
 		if (!TextUtils.isEmpty(mGoodsId)) {
 			mProgressDialog = new CustomProgressDialog(mContext);
 			mProgressDialog.show();

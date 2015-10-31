@@ -2,13 +2,14 @@ package com.plmt.boommall.entity;
 
 public class RootName {
 
-	private String rootName;
+	private String subname;
 
-	public String getRootName() {
-		return rootName;
+	public final String getSubname() {
+		return subname;
 	}
 
-	public void setRootName(String rootName) {
-		this.rootName = rootName;
+	public final void setSubname(String subname) {
+		this.subname = subname;
 	}
+
 }

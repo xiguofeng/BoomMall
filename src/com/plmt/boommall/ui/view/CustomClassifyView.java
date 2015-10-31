@@ -27,6 +27,7 @@ public class CustomClassifyView extends LinearLayout {
 
 	private ImageView mIv;
 
+	private TextView mTitleNameTv;
 	private TextView mFirstNameTv;
 	private TextView mSecondNameTv;
 	private TextView mNumTv;
@@ -53,10 +54,14 @@ public class CustomClassifyView extends LinearLayout {
 				R.layout.custom_classify, null);
 
 		mIv = (ImageView) layout.findViewById(R.id.custom_classify_iv);
+		mTitleNameTv= (TextView) layout
+				.findViewById(R.id.custom_classify_title_tv);
 		mFirstNameTv = (TextView) layout
 				.findViewById(R.id.custom_classify_first_name_tv);
 		mSecondNameTv = (TextView) layout
 				.findViewById(R.id.custom_classify_second_name_tv);
+		
+		
 
 		mGoodsGv = (CustomGridView) layout
 				.findViewById(R.id.custom_classify_goods_gv);
@@ -82,18 +87,19 @@ public class CustomClassifyView extends LinearLayout {
 				intent.setAction(GoodsDetailActivity.ORIGIN_FROM_MAIN_ACTION);
 				Bundle bundle = new Bundle();
 				bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
-						"13278");
+						mGoodsList.get(position).getId());
 				intent.putExtras(bundle);
 				context.startActivity(intent);
 			}
 		});
 		ArrayList<RootName> rootNameList=new ArrayList<>();
 		rootNameList.addAll(homeRecommend.getRootNameList());
-		Log.e("xxx_rootname", "size:"+rootNameList.size()+":"+rootNameList.get(0).getRootName()+":"+rootNameList.get(1).getRootName());
 		if(rootNameList.size()>=2){
-			mFirstNameTv.setText(rootNameList.get(0).getRootName());
-			mSecondNameTv.setText(rootNameList.get(1).getRootName());
+			mFirstNameTv.setText(rootNameList.get(0).getSubname());
+			mSecondNameTv.setText(rootNameList.get(1).getSubname());
 		}
+		
+		mTitleNameTv.setText(homeRecommend.getRootCategoryName());
 		
 		this.addView(layout);
 	}
