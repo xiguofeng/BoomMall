@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,11 +29,11 @@ public class Html5Activity extends Activity implements OnClickListener {
 
 	BridgeWebView webView;
 
-	Button button;
-
 	int RESULT_CODE = 0;
 
 	ValueCallback<Uri> mUploadMessage;
+
+	private String mUrl = "http://120.55.116.206:8060/webview_test";
 
 	static class Location {
 		String address;
@@ -50,10 +51,6 @@ public class Html5Activity extends Activity implements OnClickListener {
 		setContentView(R.layout.h5_jsbridge);
 
 		webView = (BridgeWebView) findViewById(R.id.webView);
-
-		button = (Button) findViewById(R.id.button);
-
-		button.setOnClickListener(this);
 
 		webView.setDefaultHandler(new DefaultHandler());
 
@@ -74,9 +71,17 @@ public class Html5Activity extends Activity implements OnClickListener {
 				pickFile();
 			}
 		});
+		
+		initData();
+	}
 
+	private void initData() {
+		String url = getIntent().getStringExtra("url");
+		if (!TextUtils.isEmpty(url)) {
+			mUrl = url;
+		}
 		// webView.loadUrl("http://120.55.116.206:8060/demo.html");
-		webView.loadUrl("http://120.55.116.206:8060/webview_test");
+		webView.loadUrl(mUrl);
 		// webView.loadUrl("file:///android_asset/demo.html");
 		// webView.loadUrl("file:///android_asset/ExampleApp.html");
 
@@ -111,7 +116,6 @@ public class Html5Activity extends Activity implements OnClickListener {
 		});
 
 		webView.send("hello");
-
 	}
 
 	public void pickFile() {
@@ -134,17 +138,6 @@ public class Html5Activity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		if (button.equals(v)) {
-			webView.callHandler("testJavascriptHandler", "data from Java", new CallBackFunction() {
-
-				@Override
-				public void onCallBack(String data) {
-					// TODO Auto-generated method stub
-					Log.e(TAG, "reponse data from js " + data);
-				}
-
-			});
-		}
 
 	}
 

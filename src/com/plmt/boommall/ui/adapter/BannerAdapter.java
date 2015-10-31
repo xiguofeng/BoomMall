@@ -88,15 +88,14 @@ public class BannerAdapter extends BaseAdapter {
 				int index = position % 3;
 
 				// 在这里可以设置跳转界面
-				Intent intent = new Intent(mContext, Html5Activity.class);
-				// Bundle bundle = new Bundle();
-				// bundle.putString("jumpToUrl",
-				// mDatas.get(index).getJumpToUrl());
-				// intent.putExtras(bundle);
-				mContext.startActivity(intent);
-
-				if (null != mDatas.get(index).getId()
-						&& !"".equals(mDatas.get(index).getId())) {
+//				Intent intent = new Intent(mContext, Html5Activity.class);
+//				intent.putExtra("url", value)
+//				mContext.startActivity(intent);
+				if (null != mDatas.get(index).getLink()
+						&& !"".equals(mDatas.get(index).getLink())) {
+					Intent intent = new Intent(mContext, Html5Activity.class);
+					intent.putExtra("url", mDatas.get(index).getLink());
+					mContext.startActivity(intent);
 				}
 			}
 		});
