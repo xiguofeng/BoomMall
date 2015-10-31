@@ -254,7 +254,7 @@ public class PropertyLogic {
 
 	}
 
-	
+	//{"data":"1000","result":"0","msg":"","Set-Cookie":"frontend=b9k6gd9eq3f7mib98kuifpuia7; expires=Sat, 31-Oct-2015 13:42:19 GMT; path=\/; domain=120.55.116.206; httponly"}
 	private static void parseBalancePayData(JSONObject response, Handler handler) {
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();

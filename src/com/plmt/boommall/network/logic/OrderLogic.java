@@ -338,6 +338,7 @@ public class OrderLogic {
 				preOrder.setPayment(payment);
 				preOrder.setBase_total(dataJsonObject.getString("base_total"));
 				preOrder.setTotal(dataJsonObject.getString("total"));
+				preOrder.setBalance(dataJsonObject.getString("balance"));
 				preOrder.getGoodsList().addAll(goodsArrayList);
 				preOrder.getPayMoneyList().addAll(payMoneyArrayList);
 

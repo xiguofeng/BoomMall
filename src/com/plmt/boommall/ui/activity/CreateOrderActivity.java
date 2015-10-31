@@ -1,13 +1,14 @@
 package com.plmt.boommall.ui.activity;
 
 import java.util.ArrayList;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -25,6 +26,8 @@ import com.plmt.boommall.entity.PayMoney;
 import com.plmt.boommall.entity.PreOrder;
 import com.plmt.boommall.network.logic.AddressLogic;
 import com.plmt.boommall.network.logic.OrderLogic;
+import com.plmt.boommall.network.logic.PropertyLogic;
+import com.plmt.boommall.ui.adapter.ShoppingCartAdapter.ischeck;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.MultiStateView;
 
@@ -43,6 +46,14 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private TextView mDeliveryWayTv;
 	private TextView mBmCardRemainingTv;
 
+	private LinearLayout mInvoiceNotLl;
+	private LinearLayout mInvoicePersonLl;
+	private LinearLayout mInvoiceCompanyLl;
+
+	private ImageView mInvoiceNotIv;
+	private ImageView mInvoicePersonIv;
+	private ImageView mInvoiceCompanyIv;
+
 	private EditText mInvoiceTitleEt;
 	private EditText mRemarkEt;
 
@@ -50,8 +61,10 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private TextView mPostTaxTv;
 	private TextView mFreightMoneyTv;
 	private TextView mRemainingMoneyTv;
+	private TextView mBmCardMoneyTv;
 
-	private CheckBox mCheckBmCardIb;
+	private CheckBox mCheckBmCardCb;
+	private CheckBox mCheckRemainingCb;
 
 	private Button mConfirmBtn;
 
@@ -106,7 +119,6 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			case OrderLogic.ORDER_CREATE_SUC: {
 				if (null != msg.obj) {
 					mOrderId = (String) msg.obj;
-					mProgressDialog = new CustomProgressDialog(mContext);
 					mProgressDialog.show();
 					Intent intent = new Intent(CreateOrderActivity.this, PayActivity.class);
 					intent.putExtra("orderId", mOrderId);
@@ -139,11 +151,57 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	};
 
+	private Handler mGiftCardHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case PropertyLogic.BALANCE_PAY_SUC: {
+				mProgressDialog.show();
+				OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
+				break;
+			}
+			case PropertyLogic.BALANCE_PAY_FAIL: {
+
+				break;
+			}
+			case PropertyLogic.BALANCE_PAY_EXCEPTION: {
+
+				break;
+			}
+			case PropertyLogic.GIFTCARD_PAY_SUC: {
+				mProgressDialog.show();
+				OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
+				break;
+			}
+			case PropertyLogic.GIFTCARD_PAY_FAIL: {
+
+				break;
+			}
+			case PropertyLogic.GIFTCARD_PAY_EXCEPTION: {
+
+				break;
+			}
+			case AddressLogic.NET_ERROR: {
+
+				break;
+			}
+			default:
+				break;
+			}
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+		}
+
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.create_order);
 		mContext = CreateOrderActivity.this;
+		mProgressDialog = new CustomProgressDialog(mContext);
 		initView();
 		initData();
 	}
@@ -177,22 +235,68 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 		mRealPayAmountTv = (TextView) findViewById(R.id.create_order_pay_amount_tv);
 
-		mInvoiceTitleEt = (EditText) findViewById(R.id.create_order_bmcard_pwd_et);
 		mRemarkEt = (EditText) findViewById(R.id.create_order_remark_et);
 
 		mGoodsMoneyTv = (TextView) findViewById(R.id.create_order_goods_money_tv);
 		mPostTaxTv = (TextView) findViewById(R.id.create_order_post_tax_tv);
 		mFreightMoneyTv = (TextView) findViewById(R.id.create_order_freight_money_tv);
 		mRemainingMoneyTv = (TextView) findViewById(R.id.create_order_bmcard_remainin_money_tv);
+		mBmCardMoneyTv= (TextView) findViewById(R.id.create_order_bmcard_money_tv);
 
-		mCheckBmCardIb = (CheckBox) findViewById(R.id.create_order_bmcard_remaining_ib);
-		mCheckBmCardIb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+		mCheckRemainingCb = (CheckBox) findViewById(R.id.create_order_bmcard_remaining_cb);
+		mCheckRemainingCb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				mProgressDialog.show();
+				if (isChecked) {
+					PropertyLogic.balancePay(mContext, mGiftCardHandler, "1");
+				} else {
+					PropertyLogic.balancePay(mContext, mGiftCardHandler, "0");
+				}
 			}
 
 		});
 
+		mCheckBmCardCb = (CheckBox) findViewById(R.id.create_order_bmcard_cb);
+		mCheckBmCardCb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				String giftCardPwd = mInvoiceTitleEt.getText().toString().trim();
+				if (!TextUtils.isEmpty(giftCardPwd)) {
+					mProgressDialog.show();
+					if (isChecked) {
+						PropertyLogic.giftCardPay(mContext, mGiftCardHandler, giftCardPwd, "0");
+					} else {
+						PropertyLogic.giftCardPay(mContext, mGiftCardHandler, giftCardPwd, "1");
+					}
+				}
+			}
+
+		});
+
+		initInvoiceView();
+	}
+
+	private void initInvoiceView() {
+		mInvoiceNotLl = (LinearLayout) findViewById(R.id.create_order_invoice_not_ll);
+		mInvoiceNotLl.setOnClickListener(this);
+		mInvoicePersonLl = (LinearLayout) findViewById(R.id.create_order_invoice_person_ll);
+		mInvoicePersonLl.setOnClickListener(this);
+		mInvoiceCompanyLl = (LinearLayout) findViewById(R.id.create_order_invoice_company_ll);
+		mInvoiceCompanyLl.setOnClickListener(this);
+
+		mInvoiceNotIv = (ImageView) findViewById(R.id.create_order_invoice_not_iv);
+		mInvoicePersonIv = (ImageView) findViewById(R.id.create_order_invoice_person_iv);
+		mInvoiceCompanyIv = (ImageView) findViewById(R.id.create_order_invoice_company_iv);
+
+		mInvoiceTitleEt = (EditText) findViewById(R.id.create_order_bmcard_pwd_et);
+		mInvoiceNotIv.setImageResource(R.drawable.radio_selected);
+	}
+
+	private void clearInvoiceBackground() {
+		mInvoiceNotIv.setImageResource(R.drawable.radio_normal);
+		mInvoicePersonIv.setImageResource(R.drawable.radio_normal);
+		mInvoiceCompanyIv.setImageResource(R.drawable.radio_normal);
 	}
 
 	private void initData() {
@@ -204,8 +308,6 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		fillUpAddressData(mAddress);
 		fillUpPayData();
 		fillUpDeliveryData();
-
-		mRealPayAmountTv.setText(preOrder.getTotal());
 	}
 
 	private void fillUpAddressData(Address address) {
@@ -220,16 +322,52 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private void fillUpPayData() {
 		ArrayList<PayMoney> arrayList = mPreOrder.getPayMoneyList();
-		PayMoney payMoney = null;
+		PayMoney freightPayMoney = null;
+		PayMoney balancePayMoney = null;
+		PayMoney postPayMoney = null;
+		PayMoney bmCardPayMoney = null;
 		for (int i = 0; i < arrayList.size(); i++) {
 			PayMoney tempPayMoney = arrayList.get(i);
+			if ("运费".equals(tempPayMoney.getTitle())) {
+				freightPayMoney = tempPayMoney;
+			}
+			if ("余额".equals(tempPayMoney.getTitle())) {
+				balancePayMoney = tempPayMoney;
+			}
+			if ("行邮税".equals(tempPayMoney.getTitle())) {
+				postPayMoney = tempPayMoney;
+			}
 			if ("旺卡".equals(tempPayMoney.getTitle())) {
-				payMoney = tempPayMoney;
+				bmCardPayMoney = tempPayMoney;
 			}
 		}
-		if (null != payMoney) {
-			mBmCardRemainingTv.setText(payMoney.getValue());
+
+		mFreightMoneyTv.setText("¥0");
+		mRemainingMoneyTv.setText("¥0");
+		mPostTaxTv.setText("¥0");
+		mBmCardMoneyTv.setText("¥0");
+
+		if (null != postPayMoney) {
+			mPostTaxTv.setText("¥" + postPayMoney.getValue());
 		}
+		if (null != balancePayMoney) {
+			mRemainingMoneyTv.setText("¥" + balancePayMoney.getValue());
+		}
+		if (null != freightPayMoney) {
+			mFreightMoneyTv.setText("¥" + freightPayMoney.getValue());
+		}
+		if (null != freightPayMoney) {
+			mBmCardMoneyTv.setText("¥" + bmCardPayMoney.getValue());
+		}
+
+
+		mBmCardRemainingTv.setText("¥0");
+		if (!TextUtils.isEmpty(mPreOrder.getBalance())) {
+			mBmCardRemainingTv.setText(mPreOrder.getBalance());
+		}
+		mRealPayAmountTv.setText("¥" + mPreOrder.getTotal());
+
+		mGoodsMoneyTv.setText("¥" + mPreOrder.getBase_total());
 	}
 
 	@Override
@@ -267,10 +405,25 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 
 		case R.id.create_order_confirm_btn: {
-			mProgressDialog = new CustomProgressDialog(mContext);
 			mProgressDialog.show();
 			isCreateOrder = true;
 			OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
+			break;
+		}
+
+		case R.id.create_order_invoice_not_ll: {
+			clearInvoiceBackground();
+			mInvoiceNotIv.setImageResource(R.drawable.radio_selected);
+			break;
+		}
+		case R.id.create_order_invoice_person_ll: {
+			clearInvoiceBackground();
+			mInvoicePersonIv.setImageResource(R.drawable.radio_selected);
+			break;
+		}
+		case R.id.create_order_invoice_company_ll: {
+			clearInvoiceBackground();
+			mInvoiceCompanyIv.setImageResource(R.drawable.radio_selected);
 			break;
 		}
 

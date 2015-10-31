@@ -13,6 +13,8 @@ public class PreOrder implements Serializable {
 
 	private String base_total;
 
+	private String balance;
+
 	private Payment payment;
 
 	private Shipping shipping;
@@ -23,67 +25,75 @@ public class PreOrder implements Serializable {
 
 	private ArrayList<Goods> goodsList = new ArrayList<Goods>();
 
-	public String getId() {
+	public final String getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public final void setId(String id) {
 		this.id = id;
 	}
 
-	public String getTotal() {
+	public final String getTotal() {
 		return total;
 	}
 
-	public void setTotal(String total) {
+	public final void setTotal(String total) {
 		this.total = total;
 	}
 
-	public String getBase_total() {
+	public final String getBase_total() {
 		return base_total;
 	}
 
-	public void setBase_total(String base_total) {
+	public final void setBase_total(String base_total) {
 		this.base_total = base_total;
 	}
 
-	public Payment getPayment() {
+	public final String getBalance() {
+		return balance;
+	}
+
+	public final void setBalance(String balance) {
+		this.balance = balance;
+	}
+
+	public final Payment getPayment() {
 		return payment;
 	}
 
-	public void setPayment(Payment payment) {
+	public final void setPayment(Payment payment) {
 		this.payment = payment;
 	}
 
-	public Shipping getShipping() {
+	public final Shipping getShipping() {
 		return shipping;
 	}
 
-	public void setShipping(Shipping shipping) {
+	public final void setShipping(Shipping shipping) {
 		this.shipping = shipping;
 	}
 
-	public Address getAddress() {
+	public final Address getAddress() {
 		return address;
 	}
 
-	public void setAddress(Address address) {
+	public final void setAddress(Address address) {
 		this.address = address;
 	}
 
-	public ArrayList<PayMoney> getPayMoneyList() {
+	public final ArrayList<PayMoney> getPayMoneyList() {
 		return payMoneyList;
 	}
 
-	public void setPayMoneyList(ArrayList<PayMoney> payMoneyList) {
+	public final void setPayMoneyList(ArrayList<PayMoney> payMoneyList) {
 		this.payMoneyList = payMoneyList;
 	}
 
-	public ArrayList<Goods> getGoodsList() {
+	public final ArrayList<Goods> getGoodsList() {
 		return goodsList;
 	}
 
-	public void setGoodsList(ArrayList<Goods> goodsList) {
+	public final void setGoodsList(ArrayList<Goods> goodsList) {
 		this.goodsList = goodsList;
 	}
 
