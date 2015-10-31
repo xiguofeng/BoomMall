@@ -1,6 +1,7 @@
 package com.plmt.boommall.network.logic;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -163,11 +164,20 @@ public class GoodsLogic {
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-
 				JSONObject jsonObject = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
 
 				Goods goods = (Goods) JsonUtils.fromJsonToJava(jsonObject, Goods.class);
 				goods.setNum("0");
+
+				JSONArray jsonArray = jsonObject.getJSONArray("litterImage");
+				ArrayList<String> tempLitterImage = new ArrayList<>();
+				for (int i = 0; i < jsonArray.length(); i++) {
+					JSONObject imageJson = jsonArray.getJSONObject(i);
+					tempLitterImage.add(imageJson.getString("thumbnail"));
+				}
+				ArrayList<String> litterImage = new ArrayList<>();
+				goods.setLitterImage(litterImage);
+				goods.getLitterImage().addAll(tempLitterImage);
 
 				JSONObject commentJsonObject = jsonObject.getJSONObject("first_commit");
 				Comment comment = (Comment) JsonUtils.fromJsonToJava(commentJsonObject, Comment.class);
@@ -365,7 +375,7 @@ public class GoodsLogic {
 				ArrayList<RootName> rootNameList = new ArrayList<RootName>();
 				homeRecommend.setRootNameList(rootNameList);
 				homeRecommend.getRootNameList().addAll(mTempRootNameList);
-				Log.e("xxx_RootNameList", "size:"+mTempRootNameList.size());
+				Log.e("xxx_RootNameList", "size:" + mTempRootNameList.size());
 
 				Message message = new Message();
 				message.what = CATEGROY_SUB_HOME_LIST_GET_SUC;

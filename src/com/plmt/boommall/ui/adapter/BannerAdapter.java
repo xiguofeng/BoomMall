@@ -64,11 +64,11 @@ public class BannerAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		int tempPosition = position % 3;
-		if (0 == position % 3) {
+		int tempPosition = position % mDatas.size();
+		if (0 == position % mDatas.size()) {
 			holder.mBannerIcon.setImageDrawable(mContext.getResources()
 					.getDrawable(R.drawable.menu_viewpager_1));
-		} else if (1 == position % 3) {
+		} else if (1 == position % mDatas.size()) {
 			holder.mBannerIcon.setImageDrawable(mContext.getResources()
 					.getDrawable(R.drawable.menu_viewpager_1));
 		} else {
@@ -80,17 +80,12 @@ public class BannerAdapter extends BaseAdapter {
 			ImageLoader.getInstance().displayImage(
 					mDatas.get(tempPosition).getImgurl(), holder.mBannerIcon);
 		}
-		// ImageLoader.getInstance().displayImage(
-		// mDatas.get(position % 3).getIconUrl(), holder.mBannerIcon);
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				int index = position % 3;
+				int index = position % mDatas.size();
 
 				// 在这里可以设置跳转界面
-//				Intent intent = new Intent(mContext, Html5Activity.class);
-//				intent.putExtra("url", value)
-//				mContext.startActivity(intent);
 				if (null != mDatas.get(index).getLink()
 						&& !"".equals(mDatas.get(index).getLink())) {
 					Intent intent = new Intent(mContext, Html5Activity.class);

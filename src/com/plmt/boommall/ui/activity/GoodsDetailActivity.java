@@ -27,6 +27,7 @@ import com.plmt.boommall.R;
 import com.plmt.boommall.config.Constants;
 import com.plmt.boommall.entity.Ads;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.network.config.RequestUrl.goods;
 import com.plmt.boommall.network.logic.CartLogic;
 import com.plmt.boommall.network.logic.CollectionLogic;
 import com.plmt.boommall.network.logic.GoodsLogic;
@@ -319,23 +320,18 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		mBannerFl.setVisibility(View.VISIBLE);
 		mViewFlow = (ViewFlow) findViewById(R.id.goods_detail_viewflow);
 		mIndic = (CircleFlowIndicator) findViewById(R.id.goods_detail_viewflowindic);
-		for (int i = 0; i < 3; i++) {
-			Ads promotion = new Ads();
-			promotion.setImgUrl("");
-			mBannerActivityList.add(promotion);
-		}
 
-		showcircleimage();
+		//showcircleimage();
 	}
 
 	private void showcircleimage() {
 		mBannerAdapter = new GoodsDetailBannerAdapter(mContext, mBannerActivityList);
 		mViewFlow.setAdapter(mBannerAdapter);
 		mViewFlow.setViewGroup(mBannerFl);
-		mViewFlow.setmSideBuffer(3); // 实际图片张数
+		mViewFlow.setmSideBuffer(mBannerActivityList.size()); // 实际图片张数
 		mViewFlow.setFlowIndicator(mIndic);
 		mViewFlow.setTimeSpan(2000);
-		mViewFlow.setSelection(3 * 1000); // 设置初始位置
+		mViewFlow.setSelection(mBannerActivityList.size() * 1000); // 设置初始位置
 		mViewFlow.startAutoFlowTimer(); // 启动自动播放
 		mViewFlow.requestFocus();
 	}
@@ -353,23 +349,34 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void fillUpGoodsData() {
-
 		mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods.getName().trim() : "");
 		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥" + mGoods.getFinalPrice().trim() : "¥");
 
 		mSlidingMenu.setmUrl(mGoods.getDescription());
 
+		fillUpBanner();
 		fillUpComment();
 	}
 
+	private void fillUpBanner() {
+		mBannerActivityList.clear();
+		for (int i = 0; i < mGoods.getLitterImage().size(); i++) {
+			Ads promotion = new Ads();
+			promotion.setImgUrl(mGoods.getLitterImage().get(i));
+			mBannerActivityList.add(promotion);
+		}
+		showcircleimage();
+	}
+
 	private void fillUpComment() {
-		mCommentRatioTv.setText(!TextUtils.isEmpty(mGoods.getRating_avg()) ? mGoods.getRating_avg().trim()+"%" : "0%");
-		mCommentPersonNumTv.setText(!TextUtils.isEmpty(mGoods.getReview_total())
-				?  mGoods.getReview_total().trim()+"人评论"  : "0人评论");
+		mCommentRatioTv
+				.setText(!TextUtils.isEmpty(mGoods.getRating_avg()) ? mGoods.getRating_avg().trim() + "%" : "0%");
+		mCommentPersonNumTv.setText(
+				!TextUtils.isEmpty(mGoods.getReview_total()) ? mGoods.getReview_total().trim() + "人评论" : "0人评论");
 		mCommentTimeTv.setText(!TextUtils.isEmpty(mGoods.getComment().getCreated_at())
 				? mGoods.getComment().getCreated_at().trim() : "");
-		mCommentContentTv.setText(!TextUtils.isEmpty(mGoods.getComment().getDetail())
-				? mGoods.getComment().getDetail().trim() : "暂无评论");
+		mCommentContentTv.setText(
+				!TextUtils.isEmpty(mGoods.getComment().getDetail()) ? mGoods.getComment().getDetail().trim() : "暂无评论");
 		mCommentNameTv.setText(
 				!TextUtils.isEmpty(mGoods.getComment().getNickname()) ? mGoods.getComment().getNickname().trim() : "");
 	}

@@ -125,7 +125,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				if (null != msg.obj) {
 					mBannerActivityList.clear();
 					mBannerActivityList.addAll((Collection<? extends Banner>) msg.obj);
-					initCircleimage();
+					showcircleimage();
 				}
 
 				break;
@@ -296,26 +296,11 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		});
 
-		// mMultiStateView = (MultiStateView)
-		// findViewById(R.id.main_multiStateView);
-		// mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
-		// .findViewById(R.id.retry)
-		// .setOnClickListener(new View.OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// mMultiStateView
-		// .setViewState(MultiStateView.VIEW_STATE_LOADING);
-		// Toast.makeText(getApplicationContext(),
-		// "Fetching Data", Toast.LENGTH_SHORT).show();
-		// }
-		// });
-		// // mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
-		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-
 		initSearchAndMsgView();
+		initCircleimage();
 		initCategoryView();
 		initGoodsShow();
-		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+		
 	}
 
 	private void initSearchAndMsgView() {
@@ -361,8 +346,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		mBannerFl.setVisibility(View.VISIBLE);
 		mViewFlow = (ViewFlow) findViewById(R.id.main_viewflow);
 		mIndic = (CircleFlowIndicator) findViewById(R.id.main_viewflowindic);
-
-		showcircleimage();
 	}
 
 	private void showcircleimage() {
@@ -372,7 +355,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		mViewFlow.setFlowIndicator(mIndic);
 		mViewFlow.setViewGroup(mBannerFl);
 		mViewFlow.setTimeSpan(2000);
-		mViewFlow.setSelection(3 * 1000); // 设置初始位置
+		mViewFlow.setSelection(mBannerActivityList.size() * 1000); // 设置初始位置
 		mViewFlow.startAutoFlowTimer(); // 启动自动播放
 		mViewFlow.requestFocus();
 	}
