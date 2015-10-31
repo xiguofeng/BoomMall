@@ -55,11 +55,11 @@ public class GoodsDetailBannerAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.banner_item, null);
+			convertView = mInflater.inflate(R.layout.goods_detail_banner_item, null);
 
 			holder = new ViewHolder();
 			holder.mBannerIcon = (ImageView) convertView
-					.findViewById(R.id.banner_iv);
+					.findViewById(R.id.goods_detail_banner_iv);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();

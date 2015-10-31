@@ -38,7 +38,7 @@
                         <FrameLayout
                             android:id="@+id/goods_detail_framelayout"
                             android:layout_width="fill_parent"
-                            android:layout_height="160dip" >
+                            android:layout_height="360dip" >
 
                             <com.plmt.boommall.ui.view.viewflow.ViewFlow
                                 android:id="@+id/goods_detail_viewflow"
