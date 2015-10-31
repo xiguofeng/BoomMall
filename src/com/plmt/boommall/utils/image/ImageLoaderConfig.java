@@ -36,11 +36,11 @@ public class ImageLoaderConfig {
 		displayImageOptionsBuilder.imageScaleType(ImageScaleType.EXACTLY);
 		if (isShowDefault) {
 			// 默认显示的图片
-			displayImageOptionsBuilder.showStubImage(R.drawable.ic_launcher);
+			displayImageOptionsBuilder.showStubImage(R.drawable.launcher_logo);
 			// 地址为空的默认显示图片
-			displayImageOptionsBuilder.showImageForEmptyUri(R.drawable.ic_launcher);
+			displayImageOptionsBuilder.showImageForEmptyUri(R.drawable.launcher_logo);
 			// 加载失败的显示图片
-			displayImageOptionsBuilder.showImageOnFail(R.drawable.ic_launcher);
+			displayImageOptionsBuilder.showImageOnFail(R.drawable.launcher_logo);
 		}
 		// 开启内存缓存
 		displayImageOptionsBuilder.cacheInMemory(true);
@@ -69,12 +69,12 @@ public class ImageLoaderConfig {
 		displayImageOptionsBuilder.imageScaleType(ImageScaleType.EXACTLY);
 		if (isShowDefault) {
 			// 默认显示的图片
-			displayImageOptionsBuilder.showStubImage(R.drawable.ic_launcher);
+			displayImageOptionsBuilder.showStubImage(R.drawable.launcher_logo);
 			// 地址为空的默认显示图片
 			displayImageOptionsBuilder
-					.showImageForEmptyUri(R.drawable.ic_launcher);
+					.showImageForEmptyUri(R.drawable.launcher_logo);
 			// 加载失败的显示图片
-			displayImageOptionsBuilder.showImageOnFail(R.drawable.ic_launcher);
+			displayImageOptionsBuilder.showImageOnFail(R.drawable.launcher_logo);
 		}
 		// 开启内存缓存
 		displayImageOptionsBuilder.cacheInMemory(true);
