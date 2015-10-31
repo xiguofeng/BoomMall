@@ -19,7 +19,7 @@ public class TestActivity extends Activity {
 	        Bundle bundle = getIntent().getExtras();
 	        String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
 	        String content = bundle.getString(JPushInterface.EXTRA_ALERT);
-	        tv.setText("Title : " + title + "  " + "Content : " + content);
+	        tv.setText("用户自定义打开的Activity"+"Title : " + title + "  " + "Content : " + content);
         }
         addContentView(tv, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
     }
