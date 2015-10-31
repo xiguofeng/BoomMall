@@ -8,34 +8,45 @@ public class HomeRecommend implements Serializable {
 	private static final long serialVersionUID = 8912365559481657349L;
 
 	private String image;
-
+	
+	private String rootCategoryName;
+	
 	private ArrayList<RootName> rootNameList;
 
 	private ArrayList<Goods> goodsList;
 
-	public String getImage() {
+	public final String getImage() {
 		return image;
 	}
 
-	public void setImage(String image) {
+	public final void setImage(String image) {
 		this.image = image;
 	}
 
-	public ArrayList<RootName> getRootNameList() {
+	public final String getRootCategoryName() {
+		return rootCategoryName;
+	}
+
+	public final void setRootCategoryName(String rootCategoryName) {
+		this.rootCategoryName = rootCategoryName;
+	}
+
+	public final ArrayList<RootName> getRootNameList() {
 		return rootNameList;
 	}
 
-	public void setRootNameList(ArrayList<RootName> rootNameList) {
+	public final void setRootNameList(ArrayList<RootName> rootNameList) {
 		this.rootNameList = rootNameList;
 	}
 
-	public ArrayList<Goods> getGoodsList() {
+	public final ArrayList<Goods> getGoodsList() {
 		return goodsList;
 	}
 
-	public void setGoodsList(ArrayList<Goods> goodsList) {
+	public final void setGoodsList(ArrayList<Goods> goodsList) {
 		this.goodsList = goodsList;
 	}
+
 
 	
 	

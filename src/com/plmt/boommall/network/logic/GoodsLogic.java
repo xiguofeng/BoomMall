@@ -337,6 +337,7 @@ public class GoodsLogic {
 
 				JSONObject categoryJsonObject = dataJsonObject.getJSONObject("Category");
 				String parentImageurl = categoryJsonObject.getString("image");
+				String rootCategoryName = categoryJsonObject.getString("rootCategoryName");
 
 				JSONObject subCategoryJsonObject = dataJsonObject.getJSONObject("subCategory");
 				JSONArray rootNameJsonArray = subCategoryJsonObject.getJSONArray("rootName");
@@ -357,23 +358,25 @@ public class GoodsLogic {
 				}
 				HomeRecommend homeRecommend = new HomeRecommend();
 				homeRecommend.setImage(parentImageurl);
+				homeRecommend.setRootCategoryName(rootCategoryName);
 				ArrayList<Goods> goodsList = new ArrayList<Goods>();
 				homeRecommend.setGoodsList(goodsList);
 				homeRecommend.getGoodsList().addAll(mTempGoodsList);
 				ArrayList<RootName> rootNameList = new ArrayList<RootName>();
 				homeRecommend.setRootNameList(rootNameList);
 				homeRecommend.getRootNameList().addAll(mTempRootNameList);
+				Log.e("xxx_RootNameList", "size:"+mTempRootNameList.size());
 
 				Message message = new Message();
-				message.what = CATEGROY_SUB_LIST_GET_SUC;
-				message.obj = mTempGoodsList;
+				message.what = CATEGROY_SUB_HOME_LIST_GET_SUC;
+				message.obj = homeRecommend;
 				handler.sendMessage(message);
 
 			} else {
-				handler.sendEmptyMessage(CATEGROY_SUB_LIST_GET_FAIL);
+				handler.sendEmptyMessage(CATEGROY_SUB_HOME_LIST_GET_FAIL);
 			}
 		} catch (JSONException e) {
-			handler.sendEmptyMessage(CATEGROY_SUB_LIST_GET_EXCEPTION);
+			handler.sendEmptyMessage(CATEGROY_SUB_HOME_LIST_GET_EXCEPTION);
 		}
 	}
 }

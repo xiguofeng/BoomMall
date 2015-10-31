@@ -4,30 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import java.util.Map.Entry;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Banner;
 import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.entity.DemoItem;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.entity.HomeRecommend;
 import com.plmt.boommall.network.logic.GoodsLogic;
 import com.plmt.boommall.network.logic.PromotionLogic;
 import com.plmt.boommall.ui.adapter.BannerAdapter;
@@ -45,6 +29,25 @@ import com.plmt.boommall.ui.view.srollview.BorderScrollView;
 import com.plmt.boommall.ui.view.srollview.BorderScrollView.OnBorderListener;
 import com.plmt.boommall.ui.view.viewflow.CircleFlowIndicator;
 import com.plmt.boommall.ui.view.viewflow.ViewFlow;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -76,13 +79,11 @@ public class MainActivity extends Activity implements OnClickListener {
 	private CustomGridView mCategoryGv;
 	private ArrayList<Banner> mCategoryList = new ArrayList<Banner>();
 	private MainGvCategoryAdapter mCategoryAdapter;
-	private int[] pic_path_classify = { R.drawable.menu_guide_1, R.drawable.menu_guide_2, R.drawable.menu_guide_3,
-			R.drawable.menu_guide_4, R.drawable.menu_guide_5, R.drawable.menu_guide_6, R.drawable.menu_guide_7,
-			R.drawable.menu_guide_8 };
 
 	private LinearLayout mCategoryAndGoodsListLl;
 	private ArrayList<Category> mTopCategoryList = new ArrayList<Category>();
-	// private HashMap<String, V>
+	private HashMap<String, HomeRecommend> mRecommendMap = new HashMap<String, HomeRecommend>();
+	private int mRecommendSize = 0;
 
 	private HorizontalListView mHotGoodsLv;
 	private ArrayList<Goods> mHotGoodsList = new ArrayList<Goods>();
@@ -185,6 +186,11 @@ public class MainActivity extends Activity implements OnClickListener {
 						GoodsLogic.getSubCategoryHome(mContext, mCateAndGoodsHandler,
 								mTopCategoryList.get(0).getName());
 					}
+
+					for (int i = 0; i < mTopCategoryList.size(); i++) {
+						GoodsLogic.getSubCategoryHome(mContext, mCateAndGoodsHandler,
+								mTopCategoryList.get(i).getName());
+					}
 				}
 				break;
 			}
@@ -195,24 +201,26 @@ public class MainActivity extends Activity implements OnClickListener {
 				break;
 			}
 
-			case PromotionLogic.ROUND_GET_SUC: {
+			case GoodsLogic.CATEGROY_SUB_HOME_LIST_GET_SUC: {
 				if (null != msg.obj) {
-					mCategoryList.clear();
-					mCategoryList.addAll((Collection<? extends Banner>) msg.obj);
-					mCategoryAdapter.notifyDataSetChanged();
+					mRecommendSize++;
+					HomeRecommend homeRecommend = (HomeRecommend) msg.obj;
+					mRecommendMap.put(homeRecommend.getRootCategoryName(), homeRecommend);
 				}
-
+				if (mRecommendSize == mTopCategoryList.size()+1) {
+					initGoodsShow();
+				}
 				break;
 
 			}
-			case PromotionLogic.ROUND_GET_FAIL: {
+			case GoodsLogic.CATEGROY_SUB_HOME_LIST_GET_FAIL: {
 				break;
 			}
-			case PromotionLogic.ROUND_GET_EXCEPTION: {
+			case GoodsLogic.CATEGROY_SUB_HOME_LIST_GET_EXCEPTION: {
 				break;
 			}
 
-			case PromotionLogic.NET_ERROR: {
+			case GoodsLogic.NET_ERROR: {
 				break;
 			}
 
@@ -222,7 +230,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			if (null != mProgressDialog && mProgressDialog.isShowing()) {
 				mProgressDialog.dismiss();
 			}
-			// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
 
 		}
 
@@ -462,10 +469,17 @@ public class MainActivity extends Activity implements OnClickListener {
 		// mFifthGoodsLv.setAdapter(mFifthGoodsAdapter);
 		// mFifthGoodsAdapter.notifyDataSetChanged();
 		// initialize your items array
-		for (int i = 0; i < 5; i++) {
-			CustomClassifyView cv = new CustomClassifyView(mContext, null);
+
+		int size=0;
+		for (Entry<String, HomeRecommend> entry : mRecommendMap.entrySet()) {
+			size++;
+//			entry.getKey();
+//			entry.getValue();
+			CustomClassifyView cv = new CustomClassifyView(mContext, entry.getValue());
 			mCategoryAndGoodsListLl.addView(cv);
+			Log.e("xxx_size", "s:"+size);
 		}
+
 
 	}
 
