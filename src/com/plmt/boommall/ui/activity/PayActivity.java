@@ -412,6 +412,10 @@ public class PayActivity extends Activity implements OnClickListener {
 
 	private void initData() {
 		mOrderId = getIntent().getExtras().getString("orderId");
+		mMoney = getIntent().getStringExtra("price");
+		if (!TextUtils.isEmpty(mMoney)) {
+			mMoneyTv.setText(mMoney);
+		}
 	}
 
 	@Override

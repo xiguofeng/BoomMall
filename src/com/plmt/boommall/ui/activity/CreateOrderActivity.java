@@ -122,6 +122,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					mProgressDialog.show();
 					Intent intent = new Intent(CreateOrderActivity.this, PayActivity.class);
 					intent.putExtra("orderId", mOrderId);
+					intent.putExtra("price", "¥" + mPreOrder.getTotal());
 					startActivity(intent);
 					finish();
 					overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
