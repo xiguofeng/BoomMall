@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.plmt.boommall.R;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.webview.jsbridge.BridgeHandler;
 import com.plmt.boommall.ui.view.webview.jsbridge.BridgeWebView;
 import com.plmt.boommall.ui.view.webview.jsbridge.CallBackFunction;
@@ -34,6 +35,8 @@ public class Html5Activity extends Activity implements OnClickListener {
 	ValueCallback<Uri> mUploadMessage;
 
 	private String mUrl = "http://120.55.116.206:8060/webview_test";
+	
+	private CustomProgressDialog mProgressDialog;
 
 	static class Location {
 		String address;
