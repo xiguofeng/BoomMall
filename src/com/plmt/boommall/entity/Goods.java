@@ -25,6 +25,9 @@ public class Goods implements Serializable {
 
 	private String finalPrice;
 
+	/**
+	 * 是否有货
+	 */
 	private String isSaleable;
 
 	private String cn_price;
@@ -50,8 +53,14 @@ public class Goods implements Serializable {
 
 	private String description;
 
+	/**
+	 * 评论数
+	 */
 	private String review_total;
 
+	/**
+	 * 好评率
+	 */
 	private String rating_avg;
 
 	private Comment comment;

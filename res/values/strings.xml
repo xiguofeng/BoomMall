@@ -127,6 +127,9 @@
     <string name="goods_parameters">商品参数</string>
     <string name="goods_detail">商品详情</string>
     <string name="good_comment">好评</string>
+    <string name="authentic_guarantee">正品保障</string>
+    <string name="all_transparent">全程透明</string>
+    <string name="sevice_good">售后无忧</string>
 
     <!-- cart -->
     <string name="shopping_cart">购物车</string>

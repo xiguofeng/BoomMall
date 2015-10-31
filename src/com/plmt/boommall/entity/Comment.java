@@ -16,6 +16,9 @@ public class Comment implements Serializable {
 
 	private String kd_value;
 
+	/**
+	 * 时间
+	 */
 	private String created_at;
 
 	private String customer_id;
