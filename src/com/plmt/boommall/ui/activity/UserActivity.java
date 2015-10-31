@@ -42,9 +42,9 @@ public class UserActivity extends Activity implements OnClickListener {
 	private ArrayList<MenuItem> mOrderList = new ArrayList<MenuItem>();
 	private UserGvCommonAdapter mOrderAdapter;
 	private int[] mOrderStatePicPath = {
-			R.drawable.personal_order_wait_for_payment,
-			R.drawable.personal_order_wait_for_payment,
-			R.drawable.personal_order_wait_for_payment };
+			R.drawable.order_wait_pay,
+			R.drawable.order_wait_get,
+			R.drawable.order_wait_comment };
 	private String[] mOrderStateStr = { "待付款", "待收货", "待评价" };
 
 	private LinearLayout mMyPropertyLl;

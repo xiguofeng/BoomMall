@@ -77,8 +77,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="#FC6D5E"
-                    android:visibility="gone"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -187,19 +187,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/item_common_selector"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp" >
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" >
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="0dip"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="@string/my_order"
-                        android:textColor="@color/black_character"
-                        android:textSize="@dimen/middle_text_size" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dip"
+                            android:src="@drawable/my_order" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/my_order"
+                            android:textColor="@color/black_character"
+                            android:textSize="@dimen/middle_text_size" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -255,17 +268,30 @@
                     android:background="@drawable/item_common_selector"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp" >
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" >
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="0dip"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="@string/my_property"
-                        android:textColor="@color/black_character"
-                        android:textSize="@dimen/middle_text_size" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dip"
+                            android:src="@drawable/my_assets" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/my_property"
+                            android:textColor="@color/black_character"
+                            android:textSize="@dimen/middle_text_size" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -316,17 +342,30 @@
                 android:background="@drawable/item_common_selector"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp" >
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" >
 
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
-                    android:text="@string/my_account"
-                    android:textColor="@color/black_character"
-                    android:textSize="@dimen/middle_text_size" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dip"
+                        android:src="@drawable/my_account" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/my_account"
+                        android:textColor="@color/black_character"
+                        android:textSize="@dimen/middle_text_size" />
+                </LinearLayout>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -356,8 +395,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:gravity="center"
-            android:visibility="gone"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -379,10 +418,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:paddingLeft="5dip"
-            android:paddingRight="5dip"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip" >
 
             <ImageView
                 android:layout_width="wrap_content"
