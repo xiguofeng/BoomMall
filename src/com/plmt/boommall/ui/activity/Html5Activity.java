@@ -38,16 +38,6 @@ public class Html5Activity extends Activity implements OnClickListener {
 	
 	private CustomProgressDialog mProgressDialog;
 
-	static class Location {
-		String address;
-	}
-
-	static class User {
-		String name;
-		Location location;
-		String testStr;
-	}
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,8 +60,6 @@ public class Html5Activity extends Activity implements OnClickListener {
 			}
 
 			public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-				mUploadMessage = uploadMsg;
-				pickFile();
 			}
 		});
 		
@@ -121,23 +109,7 @@ public class Html5Activity extends Activity implements OnClickListener {
 		webView.send("hello");
 	}
 
-	public void pickFile() {
-		Intent chooserIntent = new Intent(Intent.ACTION_GET_CONTENT);
-		chooserIntent.setType("image/*");
-		startActivityForResult(chooserIntent, RESULT_CODE);
-	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		if (requestCode == RESULT_CODE) {
-			if (null == mUploadMessage) {
-				return;
-			}
-			Uri result = intent == null || resultCode != RESULT_OK ? null : intent.getData();
-			mUploadMessage.onReceiveValue(result);
-			mUploadMessage = null;
-		}
-	}
 
 	@Override
 	public void onClick(View v) {
