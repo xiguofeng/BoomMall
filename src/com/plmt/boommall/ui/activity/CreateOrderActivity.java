@@ -66,6 +66,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private CheckBox mCheckBmCardCb;
 	private CheckBox mCheckRemainingCb;
 
+	private boolean isHasBalance = false;
+	private boolean isHasBmCard = false;
+
 	private Button mConfirmBtn;
 
 	private Address mAddress;
@@ -252,12 +255,15 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mCheckRemainingCb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				mProgressDialog.show();
-				if (isChecked) {
-					PropertyLogic.balancePay(mContext, mGiftCardHandler, "1");
-				} else {
-					PropertyLogic.balancePay(mContext, mGiftCardHandler, "0");
+				if (!isHasBalance) {
+					mProgressDialog.show();
+					if (isChecked) {
+						PropertyLogic.balancePay(mContext, mGiftCardHandler, "1");
+					} else {
+						PropertyLogic.balancePay(mContext, mGiftCardHandler, "0");
+					}
 				}
+				isHasBalance = false;
 			}
 
 		});
@@ -266,17 +272,20 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mCheckBmCardCb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				String giftCardPwd = mInvoiceTitleEt.getText().toString().trim();
-				if (!TextUtils.isEmpty(giftCardPwd)) {
-					mProgressDialog.show();
-					if (isChecked) {
-						PropertyLogic.giftCardPay(mContext, mGiftCardHandler, giftCardPwd, "0");
-					} else {
-						PropertyLogic.giftCardPay(mContext, mGiftCardHandler, giftCardPwd, "1");
+				if (!isHasBmCard) {
+					String giftCardPwd = mInvoiceTitleEt.getText().toString().trim();
+					if (!TextUtils.isEmpty(giftCardPwd)) {
+						mProgressDialog.show();
+						if (isChecked) {
+							PropertyLogic.giftCardPay(mContext, mGiftCardHandler, giftCardPwd, "0");
+						} else {
+							PropertyLogic.giftCardPay(mContext, mGiftCardHandler, giftCardPwd, "1");
+						}
+					} else if (isChecked) {
+						mCheckBmCardCb.setChecked(false);
 					}
-				} else if (isChecked) {
-					mCheckBmCardCb.setChecked(false);
 				}
+				isHasBmCard = false;
 			}
 
 		});
@@ -359,12 +368,20 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 		if (null != balancePayMoney) {
 			mRemainingMoneyTv.setText("¥" + balancePayMoney.getValue());
+			if (!"0".equals(bmCardPayMoney.getValue())) {
+				isHasBalance = true;
+				mCheckRemainingCb.setChecked(true);
+			}
 		}
 		if (null != freightPayMoney) {
 			mFreightMoneyTv.setText("¥" + freightPayMoney.getValue());
 		}
-		if (null != freightPayMoney) {
+		if (null != bmCardPayMoney) {
 			mBmCardMoneyTv.setText("¥" + bmCardPayMoney.getValue());
+			if (!"0".equals(bmCardPayMoney.getValue())) {
+				isHasBmCard = true;
+				mCheckBmCardCb.setChecked(true);
+			}
 		}
 
 		mBmCardRemainingTv.setText("¥0");
