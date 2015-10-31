@@ -64,6 +64,7 @@ public class CartLogic {
 						@Override
 						public void onResponse(JSONObject response) {
 							if (null != response) {
+								Log.e("xxx_cartlist", response.toString());
 								parseListData(response, handler);
 							}
 
