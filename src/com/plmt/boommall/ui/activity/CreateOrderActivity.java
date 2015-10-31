@@ -162,7 +162,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 				break;
 			}
 			case PropertyLogic.BALANCE_PAY_FAIL: {
-
+				if (null != msg.obj) {
+					Toast.makeText(mContext, (String) msg.obj, Toast.LENGTH_SHORT).show();
+				}
 				break;
 			}
 			case PropertyLogic.BALANCE_PAY_EXCEPTION: {
@@ -175,7 +177,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 				break;
 			}
 			case PropertyLogic.GIFTCARD_PAY_FAIL: {
-
+				if (null != msg.obj) {
+					Toast.makeText(mContext, (String) msg.obj, Toast.LENGTH_SHORT).show();
+				}
 				break;
 			}
 			case PropertyLogic.GIFTCARD_PAY_EXCEPTION: {
@@ -241,7 +245,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mPostTaxTv = (TextView) findViewById(R.id.create_order_post_tax_tv);
 		mFreightMoneyTv = (TextView) findViewById(R.id.create_order_freight_money_tv);
 		mRemainingMoneyTv = (TextView) findViewById(R.id.create_order_bmcard_remainin_money_tv);
-		mBmCardMoneyTv= (TextView) findViewById(R.id.create_order_bmcard_money_tv);
+		mBmCardMoneyTv = (TextView) findViewById(R.id.create_order_bmcard_money_tv);
 
 		mCheckRemainingCb = (CheckBox) findViewById(R.id.create_order_bmcard_remaining_cb);
 		mCheckRemainingCb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
@@ -269,6 +273,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					} else {
 						PropertyLogic.giftCardPay(mContext, mGiftCardHandler, giftCardPwd, "1");
 					}
+				} else if (isChecked) {
+					mCheckBmCardCb.setChecked(false);
 				}
 			}
 
@@ -359,7 +365,6 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		if (null != freightPayMoney) {
 			mBmCardMoneyTv.setText("¥" + bmCardPayMoney.getValue());
 		}
-
 
 		mBmCardRemainingTv.setText("¥0");
 		if (!TextUtils.isEmpty(mPreOrder.getBalance())) {

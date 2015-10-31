@@ -254,19 +254,26 @@ public class PropertyLogic {
 
 	}
 
-	//{"data":"1000","result":"0","msg":"","Set-Cookie":"frontend=b9k6gd9eq3f7mib98kuifpuia7; expires=Sat, 31-Oct-2015 13:42:19 GMT; path=\/; domain=120.55.116.206; httponly"}
+	// {"data":"1000","result":"0","msg":"","Set-Cookie":"frontend=b9k6gd9eq3f7mib98kuifpuia7;
+	// expires=Sat, 31-Oct-2015 13:42:19 GMT; path=\/; domain=120.55.116.206;
+	// httponly"}
 	private static void parseBalancePayData(JSONObject response, Handler handler) {
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				handler.sendEmptyMessage(BALANCE_PAY_SUC);
 			} else {
-				handler.sendEmptyMessage(BALANCE_PAY_FAIL);
+				String msg = response.getString("msg");
+				Message message = new Message();
+				message.what = BALANCE_PAY_FAIL;
+				message.obj = msg;
+				handler.sendMessage(message);
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(BALANCE_PAY_EXCEPTION);
 		}
 	}
+
 	/**
 	 * 
 	 * @param context
@@ -285,7 +292,7 @@ public class PropertyLogic {
 				public void onResponse(JSONObject response) {
 					if (null != response) {
 						Log.e("xxx_giftCardPay", response.toString());
-						parseRechargeBalanceData(response, handler);
+						parseGiftCardPayData(response, handler);
 					}
 
 				}
@@ -298,7 +305,23 @@ public class PropertyLogic {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+	}
 
+	private static void parseGiftCardPayData(JSONObject response, Handler handler) {
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				handler.sendEmptyMessage(GIFTCARD_PAY_SUC);
+			} else {
+				String msg = response.getString("msg");
+				Message message = new Message();
+				message.what = GIFTCARD_PAY_FAIL;
+				message.obj = msg;
+				handler.sendMessage(message);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(GIFTCARD_PAY_EXCEPTION);
+		}
 	}
 
 }
