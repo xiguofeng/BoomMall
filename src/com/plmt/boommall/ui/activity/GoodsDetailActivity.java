@@ -182,6 +182,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.GoodsListActivity");
 
 				finish();
+				ShoppingCartActivity.isNeedUpdate = true;
 				HomeActivity.setTab(HomeActivity.TAB_CART);
 				break;
 			}

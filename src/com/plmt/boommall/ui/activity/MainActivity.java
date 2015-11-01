@@ -114,6 +114,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	private DemoAdapter mGoodsAdapter;
 	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
 
+	public static boolean isBannerNeedUpdate = true;
+	public static boolean isRoundNeedUpdate = true;
+	public static boolean isCateAndGoodsNeedUpdate = true;
 	private CustomProgressDialog mProgressDialog;
 
 	private Handler mPromotionHandler = new Handler() {
@@ -127,6 +130,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					mBannerActivityList.clear();
 					mBannerActivityList.addAll((Collection<? extends Banner>) msg.obj);
 					showcircleimage();
+					isBannerNeedUpdate = false;
 				}
 
 				break;
@@ -144,6 +148,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					mCategoryList.clear();
 					mCategoryList.addAll((Collection<? extends Banner>) msg.obj);
 					mCategoryAdapter.notifyDataSetChanged();
+					isRoundNeedUpdate = false;
 				}
 
 				break;
@@ -180,18 +185,21 @@ public class MainActivity extends Activity implements OnClickListener {
 			switch (what) {
 			case GoodsLogic.CATEGROY_TOP_LIST_GET_SUC: {
 				if (null != msg.obj) {
-//					mTopCategoryList.clear();
-//					mTopCategoryList.addAll((Collection<? extends Category>) msg.obj);
-//
-//					if (mTopCategoryList.size() > 0) {
-//						GoodsLogic.getSubCategoryHome(mContext, mCateAndGoodsHandler,
-//								mTopCategoryList.get(0).getName());
-//					}
-//
-//					for (int i = 0; i < mTopCategoryList.size(); i++) {
-//						GoodsLogic.getSubCategoryHome(mContext, mCateAndGoodsHandler,
-//								mTopCategoryList.get(i).getName());
-//					}
+					// mTopCategoryList.clear();
+					// mTopCategoryList.addAll((Collection<? extends Category>)
+					// msg.obj);
+					//
+					// if (mTopCategoryList.size() > 0) {
+					// GoodsLogic.getSubCategoryHome(mContext,
+					// mCateAndGoodsHandler,
+					// mTopCategoryList.get(0).getName());
+					// }
+					//
+					// for (int i = 0; i < mTopCategoryList.size(); i++) {
+					// GoodsLogic.getSubCategoryHome(mContext,
+					// mCateAndGoodsHandler,
+					// mTopCategoryList.get(i).getName());
+					// }
 				}
 				break;
 			}
@@ -218,6 +226,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					mRecommendMap.clear();
 					mRecommendMap = (HashMap<String, HomeRecommend>) msg.obj;
 					initGoodsShow();
+					isCateAndGoodsNeedUpdate = false;
 				}
 				break;
 
@@ -249,7 +258,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		mContext = MainActivity.this;
-
+		mProgressDialog = new CustomProgressDialog(mContext);
 		initView();
 		initData();
 	}
@@ -464,7 +473,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		for (Entry<String, HomeRecommend> entry : mRecommendMap.entrySet()) {
 			Log.e("xxx_entry_key", entry.getKey());
-			
+
 			// entry.getKey();
 			// entry.getValue();
 			CustomClassifyView cv = new CustomClassifyView(mContext, entry.getValue());
@@ -474,12 +483,25 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-		mProgressDialog = new CustomProgressDialog(mContext);
 		mProgressDialog.show();
 		PromotionLogic.getBannerList(mContext, mPromotionHandler);
 		PromotionLogic.getRounds(mContext, mPromotionHandler);
-
 		GoodsLogic.getHomeCategory(mContext, mCateAndGoodsHandler);
+	}
+	
+	private void getNotLoadData(){
+		if(isBannerNeedUpdate||isRoundNeedUpdate||isCateAndGoodsNeedUpdate){
+			mProgressDialog.show();
+			if(isBannerNeedUpdate){
+				PromotionLogic.getBannerList(mContext, mPromotionHandler);
+			}
+			if(isRoundNeedUpdate){
+				PromotionLogic.getRounds(mContext, mPromotionHandler);
+			}
+			if(isCateAndGoodsNeedUpdate){
+				GoodsLogic.getHomeCategory(mContext, mCateAndGoodsHandler);
+			}
+		}
 	}
 
 	private List<DemoItem> getMoreItems(int qty) {

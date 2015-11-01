@@ -60,6 +60,8 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 	public static TextView mCartNullTv;
 	public static Button mCartLoginBtn;
 
+	public static boolean isNeedUpdate = false;
+
 	private CustomProgressDialog mProgressDialog;
 
 	Handler mHandler = new Handler() {
@@ -73,6 +75,7 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 					mShoppingCartList.clear();
 					mShoppingCartList.addAll((Collection<? extends ShoppingCart>) msg.obj);
 					refresh();
+					isNeedUpdate = false;
 				}
 
 				break;
@@ -178,7 +181,9 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 	@Override
 	protected void onResume() {
 		super.onResume();
-		initData();
+		if (isNeedUpdate) {
+			initData();
+		}
 	}
 
 	public static void refreshView(boolean isChecked, boolean isCancelAll) {
