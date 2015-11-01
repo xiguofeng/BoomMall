@@ -321,7 +321,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		mViewFlow = (ViewFlow) findViewById(R.id.goods_detail_viewflow);
 		mIndic = (CircleFlowIndicator) findViewById(R.id.goods_detail_viewflowindic);
 
-		//showcircleimage();
+		// showcircleimage();
 	}
 
 	private void showcircleimage() {
@@ -338,8 +338,9 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private void initData() {
 		mGoodsId = (String) getIntent().getSerializableExtra(GoodsDetailActivity.GOODS_ID_KEY);
-		mNowAction = getIntent().getAction();
-
+		if (!TextUtils.isEmpty(getIntent().getAction())) {
+			mNowAction = getIntent().getAction();
+		}
 		if (!TextUtils.isEmpty(mGoodsId)) {
 			mProgressDialog = new CustomProgressDialog(mContext);
 			mProgressDialog.show();
@@ -390,7 +391,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				intent.setAction(LoginActivity.ORIGIN_FROM_GOODS_DETAIL_KEY);
 				startActivity(intent);
 				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-			} else if (!TextUtils.isEmpty(mNowAction) && ORIGIN_FROM_CATE_ACTION.equals(mNowAction)) {
+			} else if (!TextUtils.isEmpty(mNowAction)) {
 				mProgressDialog = new CustomProgressDialog(mContext);
 				mProgressDialog.show();
 				CartLogic.add(mContext, mCartHandler, mGoods.getId(), String.valueOf(mCartNum));

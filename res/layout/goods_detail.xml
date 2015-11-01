@@ -466,6 +466,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dip"
                 android:contentDescription="@null"
+                android:visibility="gone"
                 android:src="@drawable/social_share" />
         </RelativeLayout>
 
