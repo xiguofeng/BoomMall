@@ -391,7 +391,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				intent.setAction(LoginActivity.ORIGIN_FROM_GOODS_DETAIL_KEY);
 				startActivity(intent);
 				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-			} else if (!TextUtils.isEmpty(mNowAction)) {
+			} else {
 				mProgressDialog = new CustomProgressDialog(mContext);
 				mProgressDialog.show();
 				CartLogic.add(mContext, mCartHandler, mGoods.getId(), String.valueOf(mCartNum));
