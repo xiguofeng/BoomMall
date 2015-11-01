@@ -112,23 +112,36 @@
                     android:textSize="@dimen/middle_text_size" />
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:text="@string/upload_id_card"
                 android:layout_marginTop="10dip"
-                android:textColor="@color/black"
-                android:textSize="@dimen/small_text_size" />
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/must_star"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/small_text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:text="@string/upload_id_card"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/small_text_size" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center"
                 android:layout_marginTop="10dip"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="5dip"
                 android:paddingTop="5dip" >
@@ -150,7 +163,7 @@
                     android:padding="5dip"
                     android:scaleType="centerCrop" />
             </LinearLayout>
-            
+
             <Button
                 android:id="@+id/real_name_auth_btn"
                 android:layout_width="fill_parent"
@@ -173,6 +186,53 @@
                 android:orientation="horizontal"
                 android:paddingBottom="5dip"
                 android:paddingTop="5dip" >
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/must_star"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/small_text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:text="@string/upload_id_one_hint"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/small_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dip"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/must_star"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/small_text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:text="@string/upload_id_two_hint"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/small_text_size" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

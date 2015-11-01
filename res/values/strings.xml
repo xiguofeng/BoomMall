@@ -87,7 +87,10 @@
     <string name="real_name_hint">请输入真实姓名</string>
     <string name="id_card_hint">请输入身份证号</string>
     <string name="real_name_id_card_hint">请输入真实姓名和身份证号</string>
+    <string name="must_star">*</string>
     <string name="upload_id_card">请上传身份证正反两面</string>
+    <string name="upload_id_one_hint">海关需对海外购物查验身份信息，信息错误可能导致无法通关。</string>
+    <string name="upload_id_two_hint">身份信息将加密报关，旺铺将保证您的信息安全。</string>
 
     <!-- pay -->
     <string name="add_cart">加入购物车</string>
