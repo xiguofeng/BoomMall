@@ -207,7 +207,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					HomeRecommend homeRecommend = (HomeRecommend) msg.obj;
 					mRecommendMap.put(homeRecommend.getRootCategoryName(), homeRecommend);
 				}
-				if (mRecommendSize == mTopCategoryList.size()+1) {
+				if (mRecommendSize == mTopCategoryList.size() + 1) {
 					initGoodsShow();
 				}
 				break;
@@ -217,6 +217,22 @@ public class MainActivity extends Activity implements OnClickListener {
 				break;
 			}
 			case GoodsLogic.CATEGROY_SUB_HOME_LIST_GET_EXCEPTION: {
+				break;
+			}
+
+			case GoodsLogic.CATEGROY_HOME_LIST_GET_SUC: {
+				if (null != msg.obj) {
+					mRecommendMap.clear();
+					mRecommendMap = (HashMap<String, HomeRecommend>) msg.obj;
+					initGoodsShow();
+				}
+				break;
+
+			}
+			case GoodsLogic.CATEGROY_HOME_LIST_GET_FAIL: {
+				break;
+			}
+			case GoodsLogic.CATEGROY_HOME_LIST_GET_EXCEPTION: {
 				break;
 			}
 
@@ -300,7 +316,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		initCircleimage();
 		initCategoryView();
 		initGoodsShow();
-		
+
 	}
 
 	private void initSearchAndMsgView() {
@@ -454,40 +470,11 @@ public class MainActivity extends Activity implements OnClickListener {
 		// initialize your items array
 
 		for (Entry<String, HomeRecommend> entry : mRecommendMap.entrySet()) {
-//			entry.getKey();
-//			entry.getValue();
+			// entry.getKey();
+			// entry.getValue();
 			CustomClassifyView cv = new CustomClassifyView(mContext, entry.getValue());
 			mCategoryAndGoodsListLl.addView(cv);
 		}
-
-
-	}
-
-	private void initGoodsShowOld() {
-		// mAsymmetricGridView = (AsymmetricGridView)
-		// findViewById(R.id.main_goods_classify_lv);
-		// for (int i = 0; i < 10; i++) {
-		// Goods goods = new Goods();
-		// goods.setName("商品" + i);
-		// goods.setImage("http://img3.douban.com/view/commodity_story/medium/public/p19671.jpg");
-		// mGoodsList.add(goods);
-		// }
-		//
-		// mAsymmetricGridView.setRequestedColumnWidth(Utils.dpToPx(this, 120));
-		// mAsymmetricGridView.setRequestedColumnCount(3);
-		// mAsymmetricGridView
-		// .setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
-		// mAsymmetricGridView.setDebugging(true);
-		//
-		// // initialize your items array
-		// mGoodsAdapter = new DefaultListAdapter(this, getMoreItems(5));
-		// AsymmetricGridViewAdapter asymmetricAdapter = new
-		// AsymmetricGridViewAdapter<>(
-		// this, mAsymmetricGridView, mGoodsAdapter);
-		//
-		// mAsymmetricGridView.setAdapter(asymmetricAdapter);
-		//
-		// // initialize your items array
 
 	}
 
@@ -497,7 +484,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		PromotionLogic.getBannerList(mContext, mPromotionHandler);
 		PromotionLogic.getRounds(mContext, mPromotionHandler);
 
-		GoodsLogic.getTopCategory(mContext, mCateAndGoodsHandler);
+		GoodsLogic.getHomeCategory(mContext, mCateAndGoodsHandler);
 	}
 
 	private List<DemoItem> getMoreItems(int qty) {

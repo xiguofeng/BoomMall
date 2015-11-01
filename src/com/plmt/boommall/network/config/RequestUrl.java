@@ -212,6 +212,11 @@ public class RequestUrl {
 		 */
 		public String querySubCategoryHome = "/category/getHomeSubCategory";
 
+		/**
+		 * 获取首页分类商品
+		 */
+		public String queryHomeCategory = "/category/getHomeCategory";
+
 	}
 
 	public interface order {

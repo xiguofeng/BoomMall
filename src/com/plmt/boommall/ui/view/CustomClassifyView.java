@@ -93,7 +93,7 @@ public class CustomClassifyView extends LinearLayout {
 			mSecondNameTv.setText(rootNameList.get(1).getSubname());
 		}
 		
-		mTitleNameTv.setText(homeRecommend.getRootCategoryName());
+		mTitleNameTv.setText(homeRecommend.getName());
 		
 		this.addView(layout);
 	}

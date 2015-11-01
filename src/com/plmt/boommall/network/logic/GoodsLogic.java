@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,6 +68,12 @@ public class GoodsLogic {
 	public static final int CATEGROY_SUB_HOME_LIST_GET_FAIL = CATEGROY_SUB_HOME_LIST_GET_SUC + 1;
 
 	public static final int CATEGROY_SUB_HOME_LIST_GET_EXCEPTION = CATEGROY_SUB_HOME_LIST_GET_FAIL + 1;
+
+	public static final int CATEGROY_HOME_LIST_GET_SUC = CATEGROY_SUB_HOME_LIST_GET_EXCEPTION + 1;
+
+	public static final int CATEGROY_HOME_LIST_GET_FAIL = CATEGROY_HOME_LIST_GET_SUC + 1;
+
+	public static final int CATEGROY_HOME_LIST_GET_EXCEPTION = CATEGROY_HOME_LIST_GET_FAIL + 1;
 
 	public static void getGoodsListByCategory(final Context context, final Handler handler, String categoryName,
 			final int pageNum, final int pageSize, final String sortType) {
@@ -387,6 +394,78 @@ public class GoodsLogic {
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(CATEGROY_SUB_HOME_LIST_GET_EXCEPTION);
+		}
+	}
+
+	public static void getHomeCategory(final Context context, final Handler handler) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.goods.queryHomeCategory;
+		JSONObject requestJson = new JSONObject();
+		BaseApplication.getInstanceRequestQueue()
+				.add(new JsonObjectRequestUtf(Method.POST, url, requestJson, new Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						if (null != response) {
+							Log.e("xxx_getHomeCategory", response.toString());
+							parseHomeCategoryData(response, handler);
+						}
+
+					}
+				}, null));
+		BaseApplication.getInstanceRequestQueue().start();
+	}
+
+	private static void parseHomeCategoryData(JSONObject response, Handler handler) {
+
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+
+				HashMap<String, HomeRecommend> recommendMap = new HashMap<String, HomeRecommend>();
+
+				JSONArray dataJsonArray = response.getJSONArray(MsgResult.RESULT_DATA_TAG);
+				for (int k = 0; k < dataJsonArray.length(); k++) {
+					JSONObject recommendJsonObject = dataJsonArray.getJSONObject(k);
+					HomeRecommend recommend = (HomeRecommend) JsonUtils.fromJsonToJava(recommendJsonObject,
+							HomeRecommend.class);
+
+					JSONArray rootNameJsonArray = recommendJsonObject.getJSONArray("rootName");
+					ArrayList<RootName> mTempRootNameList = new ArrayList<RootName>();
+					for (int j = 0; j < rootNameJsonArray.length(); j++) {
+						JSONObject rootNameJsonObject = rootNameJsonArray.getJSONObject(j);
+						RootName rootName = (RootName) JsonUtils.fromJsonToJava(rootNameJsonObject, RootName.class);
+						mTempRootNameList.add(rootName);
+					}
+
+					JSONArray goodsJsonArray = recommendJsonObject.getJSONArray("product");
+					ArrayList<Goods> mTempGoodsList = new ArrayList<Goods>();
+					int size = goodsJsonArray.length();
+					for (int i = 0; i < size; i++) {
+						JSONObject goodsJsonObject = goodsJsonArray.getJSONObject(i);
+						Goods goods = (Goods) JsonUtils.fromJsonToJava(goodsJsonObject, Goods.class);
+						mTempGoodsList.add(goods);
+					}
+
+					ArrayList<Goods> goodsList = new ArrayList<Goods>();
+					recommend.setGoodsList(goodsList);
+					recommend.getGoodsList().addAll(mTempGoodsList);
+					ArrayList<RootName> rootNameList = new ArrayList<RootName>();
+					recommend.setRootNameList(rootNameList);
+					recommend.getRootNameList().addAll(mTempRootNameList);
+
+					recommendMap.put(recommend.getName(), recommend);
+				}
+
+				Message message = new Message();
+				message.what = CATEGROY_HOME_LIST_GET_SUC;
+				message.obj = recommendMap;
+				handler.sendMessage(message);
+
+			} else {
+				handler.sendEmptyMessage(CATEGROY_HOME_LIST_GET_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(CATEGROY_HOME_LIST_GET_EXCEPTION);
 		}
 	}
 }

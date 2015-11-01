@@ -6,7 +6,9 @@ import java.util.ArrayList;
 public class HomeRecommend implements Serializable {
 
 	private static final long serialVersionUID = 8912365559481657349L;
-
+	
+	private String name;
+	
 	private String image;
 	
 	private String rootCategoryName;
@@ -14,6 +16,14 @@ public class HomeRecommend implements Serializable {
 	private ArrayList<RootName> rootNameList;
 
 	private ArrayList<Goods> goodsList;
+
+	public final String getName() {
+		return name;
+	}
+
+	public final void setName(String name) {
+		this.name = name;
+	}
 
 	public final String getImage() {
 		return image;
@@ -47,6 +57,7 @@ public class HomeRecommend implements Serializable {
 		this.goodsList = goodsList;
 	}
 
+	
 
 	
 	
