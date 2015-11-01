@@ -14,7 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
         android:background="@color/white"
-        android:padding="5dip" >
+        android:paddingTop="8dip"
+        android:paddingBottom="8dip"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip" >
 
         <ImageView
             android:id="@+id/custom_classify_iv"
@@ -34,7 +37,7 @@
             android:layout_toRightOf="@+id/custom_classify_iv"
             android:text="美妆"
             android:textColor="@color/red_character"
-            android:textSize="@dimen/small_text_size" />
+            android:textSize="@dimen/middle_text_size" />
 
         <ImageView
             android:id="@+id/custom_classify_arrow_iv"

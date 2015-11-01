@@ -69,13 +69,7 @@ public class CustomClassifyView extends LinearLayout {
 		ArrayList<Goods> goodsList=new ArrayList<>();
 		goodsList.addAll(homeRecommend.getGoodsList());
 		mGoodsList.addAll(homeRecommend.getGoodsList());
-//		for (int i = 0; i < goodsList.size(); i++) {
-//			
-//			Goods goods = new Goods();
-//			goods.setName("商品" + i);
-//			goods.setImage("http://image.rayliimg.cn/2014/0803/2014832242370.jpg");
-//			mGoodsList.add(goods);
-//		}
+
 		mGoodsGvAdapter = new MainGoodsGvAdapter(context, mGoodsList);
 		mGoodsGv.setAdapter(mGoodsGvAdapter);
 		mGoodsGv.setOnItemClickListener(new OnItemClickListener() {

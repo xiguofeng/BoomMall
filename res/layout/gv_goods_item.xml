@@ -39,7 +39,6 @@
         android:layout_marginLeft="5dip"
         android:layout_marginTop="5dip"
         android:singleLine="true"
-        android:text="￥1080"
         android:textColor="@color/red"
         android:textSize="@dimen/micro_text_size" />
 

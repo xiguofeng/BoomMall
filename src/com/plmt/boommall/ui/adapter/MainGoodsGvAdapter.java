@@ -44,12 +44,10 @@ public class MainGoodsGvAdapter extends BaseAdapter {
 		HolderView holderView = null;
 		if (currentView == null) {
 			holderView = new HolderView();
-			currentView = LayoutInflater.from(context).inflate(
-					R.layout.gv_main_goods_item, null);
-			holderView.iconIv = (ImageView) currentView
-					.findViewById(R.id.gv_main_goods_common_iv);
-			holderView.nameTv = (TextView) currentView
-					.findViewById(R.id.gv_main_goods_common_name_tv);
+			currentView = LayoutInflater.from(context).inflate(R.layout.gv_main_goods_item, null);
+			holderView.mIconIv = (ImageView) currentView.findViewById(R.id.gv_main_goods_common_iv);
+			holderView.mNameTv = (TextView) currentView.findViewById(R.id.gv_main_goods_common_name_tv);
+			holderView.mPriceTv = (TextView) currentView.findViewById(R.id.gv_main_goods_common_price_tv);
 
 			currentView.setTag(holderView);
 		} else {
@@ -57,17 +55,19 @@ public class MainGoodsGvAdapter extends BaseAdapter {
 		}
 
 		// holderView.iconIv.setImageResource(data.get(position).getLocalImage());
-		holderView.nameTv.setText(mDatas.get(position).getName());
-		ImageLoader.getInstance().displayImage(mDatas.get(position).getImage(),
-				holderView.iconIv);
+		holderView.mNameTv.setText(mDatas.get(position).getName());
+		holderView.mPriceTv.setText("¥"+mDatas.get(position).getFinalPrice());
+		ImageLoader.getInstance().displayImage(mDatas.get(position).getImage(), holderView.mIconIv);
 		return currentView;
 	}
 
 	public class HolderView {
 
-		private ImageView iconIv;
+		private ImageView mIconIv;
 
-		private TextView nameTv;
+		private TextView mNameTv;
+
+		private TextView mPriceTv;
 
 	}
 

@@ -4,8 +4,8 @@
     android:layout_height="200dip"
     android:background="@drawable/gv_item_common_selector"
     android:gravity="center"
-    android:padding="5dip"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="5dip" >
 
     <ImageView
         android:id="@+id/gv_main_goods_common_iv"
@@ -22,6 +22,24 @@
         android:layout_marginTop="5dip"
         android:maxLines="2"
         android:textColor="@color/black_character"
+        android:textSize="@dimen/micro_text_size" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:background="@drawable/h_line" >
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/gv_main_goods_common_price_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginTop="5dip"
+        android:singleLine="true"
+        android:textColor="@color/red"
         android:textSize="@dimen/micro_text_size" />
 
 </LinearLayout>
