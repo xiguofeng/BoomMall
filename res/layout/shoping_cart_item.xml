@@ -17,7 +17,7 @@
             android:layout_height="50dip"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="8dip"
+            android:layout_marginLeft="10dip"
             android:background="@null"
             android:button="@drawable/check_selector"
             android:focusable="false"
@@ -28,10 +28,9 @@
             android:layout_width="60dip"
             android:layout_height="81dip"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="5dip"
             android:layout_toRightOf="@+id/cart_goods_cb"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/ic_default" />
 
         <LinearLayout
             android:id="@+id/cart_goods_collect_del_ll"
@@ -74,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_delete" />
+                    android:src="@drawable/del_top" />
             </LinearLayout>
         </LinearLayout>
 

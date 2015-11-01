@@ -52,7 +52,7 @@ public class HomeActivity extends TabActivity implements OnClickListener {
 
 		Intent i_home = new Intent(this, MainActivity.class);
 		Intent i_category = new Intent(this, CategoryActivity.class);
-		Intent i_cart = new Intent(this, ShopCartActivity.class);
+		Intent i_cart = new Intent(this, ShoppingCartActivity.class);
 		Intent i_person = new Intent(this, UserActivity.class);
 
 		mTabHost.addTab(mTabHost.newTabSpec(TAB_MAIN).setIndicator(TAB_MAIN)

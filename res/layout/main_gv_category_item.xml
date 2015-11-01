@@ -7,6 +7,7 @@
         android:id="@+id/iv_adapter_grid_pic"
         android:layout_width="match_parent"
         android:layout_height="90dip"
+        android:src="@drawable/ic_default"
         android:scaleType="center" />
 
 </LinearLayout>

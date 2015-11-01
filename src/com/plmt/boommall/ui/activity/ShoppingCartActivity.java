@@ -127,7 +127,6 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 			if (null != mProgressDialog && mProgressDialog.isShowing()) {
 				mProgressDialog.dismiss();
 			}
-			// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
 		}
 
 	};
@@ -166,9 +165,8 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 	}
 
 	private void initData() {
-		// mGoodsElv.setVisibility(View.GONE);
+		mGoodsElv.setVisibility(View.GONE);
 		mEAdapter.setmNowMode(COMPLETE_MODE);
-		// mEAdapter.notifyDataSetChanged();
 		HomeActivity.setCartMenuShow(true);
 		getCartList();
 	}
@@ -198,28 +196,25 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 		for (int i = 0; i < mShoppingCartList.size(); i++) {
 			String manuf = mShoppingCartList.get(i).getManufacturer();
 			boolean isGroupHas = false;
-			
-			for (int j = 0; i < mGroup.size(); j++) {
-				Log.e("xxx_group", mGroup.get(j).getManufacturer());
+			for (int j = 0; j < mGroup.size(); j++) {
 				if (manuf.equals(mGroup.get(j).getManufacturer())) {
 					isGroupHas = true;
-					if (!mChild.containsKey(manuf)) {
-						ArrayList<ShoppingCart> shoppingCartList = new ArrayList<ShoppingCart>();
-						shoppingCartList.add(mShoppingCartList.get(i));
-						mChild.put(manuf, shoppingCartList);
-						Log.e("xxx_mChild", mShoppingCartList.get(i).getManufacturer());
-					} else {
-						mChild.get(manuf).add(mShoppingCartList.get(i));
-						Log.e("xxx_mChild", mShoppingCartList.get(i).getManufacturer());
-					}
 				}
 			}
+
 			if (!isGroupHas) {
 				mGroup.add(mShoppingCartList.get(i));
 			}
+			if (!mChild.containsKey(manuf)) {
+				ArrayList<ShoppingCart> shoppingCartList = new ArrayList<ShoppingCart>();
+				shoppingCartList.add(mShoppingCartList.get(i));
+				mChild.put(manuf, shoppingCartList);
+			} else {
+				mChild.get(manuf).add(mShoppingCartList.get(i));
+			}
 			isGroupHas = false;
 		}
-		
+
 		mEAdapter.notifyDataSetChanged();
 		int size = mEAdapter.getGroupCount();
 		for (int i = 0; i < size; i++) {
@@ -248,7 +243,6 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 			// HomeActivity.mCheckAllIb.setChecked(false);
 		}
 
-		
 		// CartManager.setCartTotalMoney();
 	}
 
@@ -319,7 +313,7 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 
 	@Override
 	public void ischekgroup(int groupposition, boolean ischeck) {
-		List<ShoppingCart> child = mChild.get(mGroup.get(groupposition).getTxt());
+		List<ShoppingCart> child = mChild.get(mGroup.get(groupposition).getManufacturer());
 		for (ShoppingCart bean : child) {
 			bean.setIscheck(ischeck);
 		}
