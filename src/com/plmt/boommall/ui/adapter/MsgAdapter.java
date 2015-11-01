@@ -53,10 +53,8 @@ public class MsgAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.list_msg_item, null);
 
 			holder = new ViewHolder();
-			holder.mName = (TextView) convertView
-					.findViewById(R.id.msg_item_name_tv);
-			// holder.mPrice = (TextView) convertView
-			// .findViewById(R.id.Msg_price_tv);
+			holder.mName = (TextView) convertView.findViewById(R.id.msg_item_name_tv);
+			holder.mContent = (TextView) convertView.findViewById(R.id.msg_item_content_tv);
 			// holder.mOriginalPrice = (TextView) convertView
 			// .findViewById(R.id.Msg_original_prices_tv);
 			//
@@ -67,8 +65,8 @@ public class MsgAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.mName.setText(mDatas.get(position).getName().trim());
-		// holder.mPrice.setText("￥" + mDatas.get(position).getFinalPrice());
+		holder.mName.setText(mDatas.get(position).getTitle().trim());
+		holder.mContent.setText(mDatas.get(position).getContent().trim());
 		// holder.mOriginalPrice.setText("原价￥" +
 		// mDatas.get(position).getPrice());
 		//
@@ -82,7 +80,7 @@ public class MsgAdapter extends BaseAdapter {
 
 		public TextView mName;
 
-		public TextView mPrice;
+		public TextView mContent;
 
 		public TextView mOriginalPrice;
 

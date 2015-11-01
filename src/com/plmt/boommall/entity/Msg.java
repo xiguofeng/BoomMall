@@ -8,22 +8,42 @@ public class Msg implements Serializable {
 
 	private String id;
 
-	private String name;
+	private String title;
+	
+	private String content;
+	
+	private String url;
 
-	public String getId() {
+	public final String getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public final void setId(String id) {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public final String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public final void setTitle(String title) {
+		this.title = title;
+	}
+
+	public final String getContent() {
+		return content;
+	}
+
+	public final void setContent(String content) {
+		this.content = content;
+	}
+
+	public final String getUrl() {
+		return url;
+	}
+
+	public final void setUrl(String url) {
+		this.url = url;
 	}
 
 }
