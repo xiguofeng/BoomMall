@@ -15,7 +15,7 @@
         android:gravity="center_horizontal"
         android:paddingBottom="15dp"
         android:paddingTop="15dp"
-        android:text="@string/modify_head_portrait"
+        android:text="@string/add_photo"
         android:textColor="@color/orange_bg"
         android:textSize="@dimen/middle_text_size" />
 

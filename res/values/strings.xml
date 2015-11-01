@@ -81,6 +81,7 @@
     <string name="my_property">我的资产</string>
     <string name="view_all_property">查看全部资产</string>
     <string name="modify_head_portrait">修改头像</string>
+    <string name="add_photo">添加照片</string>
     <string name="cart">购物车</string>
     <string name="real_name">真实姓名:</string>
     <string name="id_card">身份证号:</string>
