@@ -1,10 +1,10 @@
 package com.plmt.boommall.network.logic;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,13 +86,14 @@ public class GoodsLogic {
 			requestJson.put("c", pageNum);
 			requestJson.put("s", pageSize);
 			requestJson.put("orderitme", sortType);
+			Log.e("xxx_orderitme", "orderitme:" + sortType);
 
 			BaseApplication.getInstanceRequestQueue()
 					.add(new JsonObjectRequestUtf(Method.POST, url, requestJson, new Listener<JSONObject>() {
 						@Override
 						public void onResponse(JSONObject response) {
 							if (null != response) {
-								Log.e("xxx_queryGoodsByCategory", response.toString());
+								Log.e("xxx_queryGoodsByCategory" + "--orderitme:" + sortType, response.toString());
 								parseGoodsListByCategoryData(response, handler);
 							}
 
@@ -421,7 +422,7 @@ public class GoodsLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 
-				HashMap<String, HomeRecommend> recommendMap = new HashMap<String, HomeRecommend>();
+				HashMap<String, HomeRecommend> recommendMap = new LinkedHashMap<String, HomeRecommend>();
 
 				JSONArray dataJsonArray = response.getJSONArray(MsgResult.RESULT_DATA_TAG);
 				for (int k = 0; k < dataJsonArray.length(); k++) {
@@ -453,7 +454,7 @@ public class GoodsLogic {
 					recommend.setRootNameList(rootNameList);
 					recommend.getRootNameList().addAll(mTempRootNameList);
 
-					recommendMap.put(recommend.getName(), recommend);
+					recommendMap.put(String.valueOf(k), recommend);
 				}
 
 				Message message = new Message();

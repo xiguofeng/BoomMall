@@ -3,6 +3,7 @@ package com.plmt.boommall.ui.activity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -82,7 +83,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private LinearLayout mCategoryAndGoodsListLl;
 	private ArrayList<Category> mTopCategoryList = new ArrayList<Category>();
-	private HashMap<String, HomeRecommend> mRecommendMap = new HashMap<String, HomeRecommend>();
+	private HashMap<String, HomeRecommend> mRecommendMap = new LinkedHashMap<String, HomeRecommend>();
 	private int mRecommendSize = 0;
 
 	private HorizontalListView mHotGoodsLv;
@@ -179,18 +180,18 @@ public class MainActivity extends Activity implements OnClickListener {
 			switch (what) {
 			case GoodsLogic.CATEGROY_TOP_LIST_GET_SUC: {
 				if (null != msg.obj) {
-					mTopCategoryList.clear();
-					mTopCategoryList.addAll((Collection<? extends Category>) msg.obj);
-
-					if (mTopCategoryList.size() > 0) {
-						GoodsLogic.getSubCategoryHome(mContext, mCateAndGoodsHandler,
-								mTopCategoryList.get(0).getName());
-					}
-
-					for (int i = 0; i < mTopCategoryList.size(); i++) {
-						GoodsLogic.getSubCategoryHome(mContext, mCateAndGoodsHandler,
-								mTopCategoryList.get(i).getName());
-					}
+//					mTopCategoryList.clear();
+//					mTopCategoryList.addAll((Collection<? extends Category>) msg.obj);
+//
+//					if (mTopCategoryList.size() > 0) {
+//						GoodsLogic.getSubCategoryHome(mContext, mCateAndGoodsHandler,
+//								mTopCategoryList.get(0).getName());
+//					}
+//
+//					for (int i = 0; i < mTopCategoryList.size(); i++) {
+//						GoodsLogic.getSubCategoryHome(mContext, mCateAndGoodsHandler,
+//								mTopCategoryList.get(i).getName());
+//					}
 				}
 				break;
 			}
@@ -202,14 +203,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 
 			case GoodsLogic.CATEGROY_SUB_HOME_LIST_GET_SUC: {
-				if (null != msg.obj) {
-					mRecommendSize++;
-					HomeRecommend homeRecommend = (HomeRecommend) msg.obj;
-					mRecommendMap.put(homeRecommend.getRootCategoryName(), homeRecommend);
-				}
-				if (mRecommendSize == mTopCategoryList.size() + 1) {
-					initGoodsShow();
-				}
 				break;
 
 			}
@@ -470,6 +463,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		// initialize your items array
 
 		for (Entry<String, HomeRecommend> entry : mRecommendMap.entrySet()) {
+			Log.e("xxx_entry_key", entry.getKey());
+			
 			// entry.getKey();
 			// entry.getValue();
 			CustomClassifyView cv = new CustomClassifyView(mContext, entry.getValue());
