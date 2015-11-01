@@ -33,6 +33,7 @@ import com.plmt.boommall.ui.view.CreateOrderGoodsView;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.OrderGoodsView;
+import com.plmt.boommall.utils.ActivitiyInfoManager;
 
 public class CreateOrderActivity extends Activity implements OnClickListener {
 	private Context mContext;
@@ -126,6 +127,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			switch (msg.what) {
 			case OrderLogic.ORDER_CREATE_SUC: {
 				if (null != msg.obj) {
+					ShoppingCartActivity.isNeedUpdate =true;
 					mOrderId = (String) msg.obj;
 					mProgressDialog.show();
 					Intent intent = new Intent(CreateOrderActivity.this, PayActivity.class);
@@ -215,6 +217,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.create_order);
 		mContext = CreateOrderActivity.this;
 		mProgressDialog = new CustomProgressDialog(mContext);
+		if (!ActivitiyInfoManager.activitityMap.containsKey(ActivitiyInfoManager.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap.put(ActivitiyInfoManager.getCurrentActivityName(mContext), this);
+		}
 		initView();
 		initData();
 	}

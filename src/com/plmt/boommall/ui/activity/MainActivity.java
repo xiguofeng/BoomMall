@@ -266,7 +266,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		HomeActivity.setCartMenuShow(false,"0");
+		HomeActivity.setCartMenuShow(false, "0");
 		getNotLoadData();
 	}
 
@@ -388,8 +388,9 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(MainActivity.this, ShoppingCartActivity.class);
-				startActivity(intent);
+				Intent intent = new Intent(mContext, Html5Activity.class);
+				intent.putExtra("url", mCategoryList.get(position).getLink());
+				mContext.startActivity(intent);
 			}
 		});
 	}
@@ -489,17 +490,17 @@ public class MainActivity extends Activity implements OnClickListener {
 		PromotionLogic.getRounds(mContext, mPromotionHandler);
 		GoodsLogic.getHomeCategory(mContext, mCateAndGoodsHandler);
 	}
-	
-	private void getNotLoadData(){
-		if(isBannerNeedUpdate||isRoundNeedUpdate||isCateAndGoodsNeedUpdate){
+
+	private void getNotLoadData() {
+		if (isBannerNeedUpdate || isRoundNeedUpdate || isCateAndGoodsNeedUpdate) {
 			mProgressDialog.show();
-			if(isBannerNeedUpdate){
+			if (isBannerNeedUpdate) {
 				PromotionLogic.getBannerList(mContext, mPromotionHandler);
 			}
-			if(isRoundNeedUpdate){
+			if (isRoundNeedUpdate) {
 				PromotionLogic.getRounds(mContext, mPromotionHandler);
 			}
-			if(isCateAndGoodsNeedUpdate){
+			if (isCateAndGoodsNeedUpdate) {
 				GoodsLogic.getHomeCategory(mContext, mCateAndGoodsHandler);
 			}
 		}

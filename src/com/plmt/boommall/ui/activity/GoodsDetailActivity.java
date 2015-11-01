@@ -58,7 +58,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private ViewFlow mViewFlow;
 	private CircleFlowIndicator mIndic;
-	private ArrayList<Ads> mBannerActivityList = new ArrayList<Ads>();
+	public static ArrayList<Ads> mBannerActivityList = new ArrayList<Ads>();
 	private GoodsDetailBannerAdapter mBannerAdapter;
 	private FrameLayout mBannerFl;
 

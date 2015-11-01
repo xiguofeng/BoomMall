@@ -159,7 +159,8 @@ public class PayActivity extends Activity implements OnClickListener {
 				if (TextUtils.equals(resultStatus, "9000")) {
 					// TODO
 					// payResultCheck支付成功比对支付结果
-					mProgressDialog.show();
+					ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.CreateOrderActivity");
+					finish();
 
 				} else {
 
@@ -420,6 +421,8 @@ public class PayActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
 		if (data == null) {
 			return;
 		}
@@ -431,7 +434,9 @@ public class PayActivity extends Activity implements OnClickListener {
 		String str = data.getExtras().getString("pay_result");
 		if (str.equalsIgnoreCase("success")) {
 			msg = "支付成功！";
-			mProgressDialog.show();
+			Toast.makeText(mContext, "支付结果为：" + msg, Toast.LENGTH_SHORT).show();
+			ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.CreateOrderActivity");
+			finish();
 		} else if (str.equalsIgnoreCase("fail")) {
 			msg = "支付失败！";
 			Toast.makeText(mContext, "支付结果为：" + msg, Toast.LENGTH_SHORT).show();
@@ -439,8 +444,7 @@ public class PayActivity extends Activity implements OnClickListener {
 			msg = "支付取消！";
 			Toast.makeText(mContext, "支付结果为：" + msg, Toast.LENGTH_SHORT).show();
 		}
-
-		super.onActivityResult(requestCode, resultCode, data);
+		
 	}
 
 	private void hanlder() {

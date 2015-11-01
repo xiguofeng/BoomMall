@@ -92,7 +92,7 @@ public class GoodsDetailBannerAdapter extends BaseAdapter {
 				Intent intent = new Intent(mContext,
 						TouchImageViewActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString("jumpToUrl", mDatas.get(index).getJumpToUrl());
+				bundle.putString("jumpToUrl", mDatas.get(index).getImgUrl());
 				intent.putExtras(bundle);
 				mContext.startActivity(intent);
 
