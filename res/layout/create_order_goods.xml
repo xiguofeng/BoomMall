@@ -71,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:textColor="@color/orange_text"
+                android:visibility="gone"
                 android:textSize="@dimen/micro_text_size" />
         </RelativeLayout>
     </RelativeLayout>
