@@ -173,6 +173,7 @@
     <string name="order_all">全部订单</string>
     <string name="order_unpay">待付款</string>
     <string name="order_uncomment">待评价</string>
+    <string name="order_undelivery">待收货</string>
     <string name="order_state">订单状态</string>
     <string name="delivery">配送</string>
     <string name="take_goods">收货</string>

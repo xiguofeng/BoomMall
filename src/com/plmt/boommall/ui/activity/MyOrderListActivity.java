@@ -12,6 +12,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Order;
+import com.plmt.boommall.network.config.MsgRequest;
 import com.plmt.boommall.network.logic.OrderLogic;
 import com.plmt.boommall.ui.adapter.OrderAdapter;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
@@ -28,6 +30,14 @@ import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 
 public class MyOrderListActivity extends Activity
 		implements OnClickListener, XListView.IXListViewListener, ListItemClickHelp {
+
+	public static final String ORIGIN_FROM_ALL_ACTION = "";
+
+	public static final String ORIGIN_FROM_PENDING_ACTION = "pending";
+
+	public static final String ORIGIN_FROM_PAID_ACTION = "paid";
+
+	public static final String ORIGIN_FROM_COMPLETE_ACTION = "complete";
 
 	private Context mContext;
 
@@ -46,7 +56,11 @@ public class MyOrderListActivity extends Activity
 	private int mIndex = 0;
 
 	private int mRefreshIndex = 0;
-	
+
+	private String mNowAction = ORIGIN_FROM_ALL_ACTION;
+
+	private int mCurrentPageNum = 1;
+
 	private CustomProgressDialog mProgressDialog;
 
 	Handler mHandler = new Handler() {
@@ -106,15 +120,29 @@ public class MyOrderListActivity extends Activity
 		mListView.setAdapter(mOrderAdapter);
 
 		mTitleTv = (TextView) findViewById(R.id.my_orders_title_tv);
-		mBackIv=(ImageView) findViewById(R.id.my_orders_back_iv);
+		mBackIv = (ImageView) findViewById(R.id.my_orders_back_iv);
 		mBackIv.setOnClickListener(this);
 
 	}
 
 	private void initData() {
+
 		mProgressDialog = new CustomProgressDialog(mContext);
 		mProgressDialog.show();
-		OrderLogic.getOrders(mContext, mHandler, "1", "15", "pending");
+		if (!TextUtils.isEmpty(getIntent().getAction())) {
+			mNowAction = getIntent().getAction();
+		}
+
+		if (ORIGIN_FROM_ALL_ACTION.equals(mNowAction)) {
+
+		} else if (ORIGIN_FROM_PENDING_ACTION.equals(mNowAction)) {
+			mTitleTv.setText(getString(R.string.order_unpay));
+		} else if (ORIGIN_FROM_PAID_ACTION.equals(mNowAction)) {
+			mTitleTv.setText(getString(R.string.order_undelivery));
+		} else if (ORIGIN_FROM_COMPLETE_ACTION.equals(mNowAction)) {
+			mTitleTv.setText(getString(R.string.order_uncomment));
+		}
+		OrderLogic.getOrders(mContext, mHandler, String.valueOf(mCurrentPageNum), String.valueOf(MsgRequest.PAGE_SIZE), mNowAction);
 	}
 
 	private void onLoad() {

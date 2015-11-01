@@ -14,6 +14,8 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="5dip"
+        android:paddingBottom="5dip"
         android:layout_marginTop="5dip" >
 
         <ImageView
@@ -21,6 +23,7 @@
             android:layout_width="66dip"
             android:layout_height="80dip"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
             android:scaleType="centerCrop" />
 
@@ -55,7 +58,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dip"
+            android:layout_margin="6dip"
             android:layout_toLeftOf="@+id/order_goods_right_ll"
             android:layout_toRightOf="@+id/order_goods_iv" >
 
@@ -65,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:textColor="@color/black"
+                android:maxLines="3"
                 android:textSize="@dimen/micro_text_size" />
 
             <TextView
