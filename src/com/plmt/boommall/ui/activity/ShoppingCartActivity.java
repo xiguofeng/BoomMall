@@ -229,7 +229,7 @@ public class ShoppingCartActivity extends Activity
 		if (isNeedUpdate) {
 			initData();
 		}
-		HomeActivity.setCartMenuShow(true, "0");
+		HomeActivity.setCartMenuShow(true, mTotalMoney);
 	}
 
 	public static void refreshView(boolean isChecked, boolean isCancelAll) {

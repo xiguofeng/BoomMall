@@ -22,14 +22,17 @@ import android.widget.Toast;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Address;
+import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.entity.PayMoney;
 import com.plmt.boommall.entity.PreOrder;
 import com.plmt.boommall.network.logic.AddressLogic;
 import com.plmt.boommall.network.logic.OrderLogic;
 import com.plmt.boommall.network.logic.PropertyLogic;
 import com.plmt.boommall.ui.adapter.ShoppingCartAdapter.ischeck;
+import com.plmt.boommall.ui.view.CreateOrderGoodsView;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.ui.view.OrderGoodsView;
 
 public class CreateOrderActivity extends Activity implements OnClickListener {
 	private Context mContext;
@@ -45,6 +48,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private TextView mDeliveryWayTv;
 	private TextView mBmCardRemainingTv;
+
+	private LinearLayout mGoodsViewLl;
 
 	private LinearLayout mInvoiceNotLl;
 	private LinearLayout mInvoicePersonLl;
@@ -289,7 +294,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			}
 
 		});
-
+		mGoodsViewLl = (LinearLayout) findViewById(R.id.create_order_goods_view_ll);
 		initInvoiceView();
 	}
 
@@ -324,6 +329,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		fillUpAddressData(mAddress);
 		fillUpPayData();
 		fillUpDeliveryData();
+		fillUpGoods();
 	}
 
 	private void fillUpAddressData(Address address) {
@@ -334,6 +340,16 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private void fillUpDeliveryData() {
 		mDeliveryWayTv.setText("标准快递");
+	}
+
+	private void fillUpGoods() {
+		mGoodsViewLl.removeAllViews();
+		ArrayList<Goods> goodsList = mPreOrder.getGoodsList();
+		for (int i = 0; i < goodsList.size(); i++) {
+			Goods goods = goodsList.get(i);
+			CreateOrderGoodsView orderGoodsView = new CreateOrderGoodsView(mContext, goods);
+			mGoodsViewLl.addView(orderGoodsView);
+		}
 	}
 
 	private void fillUpPayData() {

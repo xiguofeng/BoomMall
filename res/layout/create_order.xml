@@ -176,6 +176,15 @@
                     </LinearLayout>
                 </RelativeLayout>
 
+                <LinearLayout
+                    android:id="@+id/create_order_goods_view_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dip"
+                    android:background="@color/white"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
                 <RelativeLayout
                     android:id="@+id/create_order_delivery_rl"
                     android:layout_width="match_parent"
@@ -401,7 +410,7 @@
                         android:text="@string/bmcard"
                         android:textColor="@color/black_character"
                         android:textSize="@dimen/middle_text_size" />
-                    
+
                     <CheckBox
                         android:id="@+id/create_order_bmcard_cb"
                         android:layout_width="wrap_content"
@@ -419,8 +428,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/create_order_bmcard_tag_rl"
                         android:layout_toLeftOf="@+id/create_order_bmcard_cb"
+                        android:layout_toRightOf="@+id/create_order_bmcard_tag_rl"
                         android:background="@null"
                         android:hint="@string/bmcard_hint"
                         android:maxLines="1"
@@ -457,8 +466,7 @@
                         android:text="@string/remaining_money"
                         android:textColor="@color/black_character"
                         android:textSize="@dimen/middle_text_size" />
-                    
-                    
+
                     <CheckBox
                         android:id="@+id/create_order_bmcard_remaining_cb"
                         android:layout_width="wrap_content"
@@ -651,6 +659,7 @@
                             android:textColor="@color/red_character"
                             android:textSize="@dimen/middle_text_size" />
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:id="@+id/create_order_bmcard_money_rl"
                         android:layout_width="match_parent"
