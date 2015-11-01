@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
@@ -48,6 +49,9 @@ public class MainGvCategoryAdapter extends BaseAdapter {
 					R.layout.main_gv_category_item, null);
 			holderView.iconIv = (ImageView) currentView
 					.findViewById(R.id.iv_adapter_grid_pic);
+			
+			holderView.nameTv = (TextView) currentView
+					.findViewById(R.id.main_gv_category_name_tv);
 			currentView.setTag(holderView);
 		} else {
 			holderView = (HolderView) currentView.getTag();
@@ -56,6 +60,8 @@ public class MainGvCategoryAdapter extends BaseAdapter {
 			ImageLoader.getInstance().displayImage(
 					mDatas.get(position).getImgurl(), holderView.iconIv);
 		}
+		
+		holderView.nameTv.setText(mDatas.get(position).getTitle());
 
 		return currentView;
 	}
@@ -63,6 +69,8 @@ public class MainGvCategoryAdapter extends BaseAdapter {
 	public class HolderView {
 
 		private ImageView iconIv;
+		
+		private TextView nameTv;
 
 	}
 
