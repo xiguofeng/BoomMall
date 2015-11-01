@@ -192,7 +192,7 @@ public class ShopCartActivity extends Activity implements OnClickListener,
 		mGoodsAdapter.setmNowMode(COMPLETE_MODE);
 		mGoodsAdapter.notifyDataSetChanged();
 		getCartList();
-		HomeActivity.setCartMenuShow(true);
+		HomeActivity.setCartMenuShow(true,"0");
 	}
 
 	public static void refreshView(boolean isChecked, boolean isCancelAll) {

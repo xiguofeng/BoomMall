@@ -5,6 +5,22 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.ShoppingCart;
+import com.plmt.boommall.network.logic.CartLogic;
+import com.plmt.boommall.ui.adapter.ShoppingCartAdapter;
+import com.plmt.boommall.ui.adapter.ShoppingCartAdapter.ischeck;
+import com.plmt.boommall.ui.utils.ListItemClickHelpWithID;
+import com.plmt.boommall.ui.utils.OtherActivityClickHelp;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
+import com.plmt.boommall.utils.CartManager;
+import com.plmt.boommall.utils.UserInfoManager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +28,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,25 +37,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.entity.Shipping;
-import com.plmt.boommall.entity.ShoppingCart;
-import com.plmt.boommall.network.logic.CartLogic;
-import com.plmt.boommall.ui.adapter.ShoppingCartAdapter;
-import com.plmt.boommall.ui.adapter.ShoppingCartAdapter.ischeck;
-import com.plmt.boommall.ui.utils.ListItemClickHelp;
-import com.plmt.boommall.ui.utils.ListItemClickHelpWithID;
-import com.plmt.boommall.ui.view.CustomProgressDialog;
-import com.plmt.boommall.utils.CartManager;
-import com.plmt.boommall.utils.UserInfoManager;
-
-public class ShoppingCartActivity extends Activity implements ischeck, OnClickListener, ListItemClickHelpWithID {
+public class ShoppingCartActivity extends Activity
+		implements ischeck, OnClickListener, ListItemClickHelpWithID, OtherActivityClickHelp {
 
 	public final static String EDITOR_MODE = "0";
 	public final static String COMPLETE_MODE = "1";
 
-	private Context mContext;
+	private static Context mContext;
 	private String mNowMode = COMPLETE_MODE;
 
 	private ExpandableListView mGoodsElv;
@@ -52,6 +55,8 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 	private ArrayList<ShoppingCart> mShoppingCartListDelList = new ArrayList<ShoppingCart>();
 	private ArrayList<ShoppingCart> mShoppingCartListUpdateList = new ArrayList<ShoppingCart>();
 
+	private ArrayList<ShoppingCart> mSelectedShoppingCartList = new ArrayList<ShoppingCart>();
+
 	private TextView mTotalNumTv;
 	private TextView mEditorTv;
 
@@ -59,6 +64,9 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 	public static LinearLayout mCartNotLoginLl;
 	public static TextView mCartNullTv;
 	public static Button mCartLoginBtn;
+
+	private String mTotalMoney = "0";
+	public static boolean isCanSumbit = false;
 
 	public static boolean isNeedUpdate = false;
 
@@ -117,12 +125,48 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 				break;
 			}
 			case CartLogic.CART_ADD_FAIL: {
-				Toast.makeText(mContext, R.string.login_fail, Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, "添加购物车失败！", Toast.LENGTH_SHORT).show();
 				break;
 			}
 			case CartLogic.CART_ADD_EXCEPTION: {
 				break;
 			}
+			case CartLogic.NET_ERROR: {
+				break;
+			}
+
+			default:
+				break;
+			}
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+		}
+
+	};
+
+	Handler mSetSelectHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			int what = msg.what;
+			switch (what) {
+			case CartLogic.CART_SET_SELECT_SUC: {
+				Intent intent = new Intent(ShoppingCartActivity.this, CreateOrderActivity.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+				break;
+
+			}
+			case CartLogic.CART_SET_SELECT_FAIL: {
+				if (null != msg.obj) {
+				}
+				break;
+			}
+			case CartLogic.CART_SET_SELECT_EXCEPTION: {
+				break;
+			}
+
 			case CartLogic.NET_ERROR: {
 				break;
 			}
@@ -144,6 +188,7 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 		mProgressDialog = new CustomProgressDialog(mContext);
 		setContentView(R.layout.shopping_cart_expandablelistview);
 		initView();
+		initData();
 	}
 
 	private void initView() {
@@ -158,6 +203,7 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 		mCartLoginBtn.setOnClickListener(this);
 
 		initListView();
+		HomeActivity.setmOtherActivityClickHelp(this);
 	}
 
 	private void initListView() {
@@ -174,7 +220,6 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 	private void initData() {
 		mGoodsElv.setVisibility(View.GONE);
 		mEAdapter.setmNowMode(COMPLETE_MODE);
-		HomeActivity.setCartMenuShow(true);
 		getCartList();
 	}
 
@@ -184,6 +229,7 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 		if (isNeedUpdate) {
 			initData();
 		}
+		HomeActivity.setCartMenuShow(true, "0");
 	}
 
 	public static void refreshView(boolean isChecked, boolean isCancelAll) {
@@ -347,6 +393,56 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 		return position;
 	}
 
+	private void check() {
+		mTotalMoney = "0";
+		mSelectedShoppingCartList.clear();
+		int selectManuNum = 0;
+		for (Entry<String, List<ShoppingCart>> entry : mChild.entrySet()) {
+			List<ShoppingCart> list = entry.getValue();
+			boolean isHasChecked = false;
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i).isIscheck()) {
+					mSelectedShoppingCartList.add(list.get(i));
+					if (!isHasChecked) {
+						selectManuNum = selectManuNum + 1;
+					}
+					isHasChecked = true;
+					mTotalMoney = String.valueOf(Float.parseFloat(mTotalMoney)
+							+ (Float.parseFloat(list.get(i).getFinalPrice())) * Integer.parseInt(list.get(i).getQty()));
+				}
+			}
+		}
+		if (selectManuNum > 1 || selectManuNum == 0) {
+			isCanSumbit = false;
+		} else {
+			isCanSumbit = true;
+		}
+
+		HomeActivity.setCartMenuShow(true, mTotalMoney);
+	}
+
+	// public static void setSelect() {
+	//
+	// if (isCanSumbit) {
+	// try {
+	// JSONArray jsonArray = new JSONArray();
+	// for (int i = 0; i < mSelectedShoppingCartList.size(); i++) {
+	// JSONObject jsonObject = new JSONObject();
+	// jsonObject.put("items_id", mSelectedShoppingCartList.get(i).getId());
+	// jsonArray.put(jsonObject);
+	// }
+	// String selectItems = jsonArray.toString();
+	// selectItems = "'" + selectItems + "'";
+	// CartLogic.setSelectItem(mContext, mSetSelectHandler, selectItems);
+	// } catch (JSONException e) {
+	// e.printStackTrace();
+	// }
+	// } else {
+	// Toast.makeText(mContext, "由于跨境运输限制,只能对单一仓库进行结算！",
+	// Toast.LENGTH_LONG).show();
+	// }
+	// }
+
 	@Override
 	public void ischekgroup(int groupposition, boolean ischeck) {
 		List<ShoppingCart> child = mChild.get(mGroup.get(groupposition).getManufacturer());
@@ -426,8 +522,34 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 			refresh();
 			break;
 		}
+		case R.id.cart_goods_cb: {
+			check();
+			break;
+		}
 		default:
 			break;
+		}
+	}
+
+	@Override
+	public void onClick(int which) {
+		if (isCanSumbit) {
+			mProgressDialog.show();
+			try {
+				JSONArray jsonArray = new JSONArray();
+				for (int i = 0; i < mSelectedShoppingCartList.size(); i++) {
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("items_id", mSelectedShoppingCartList.get(i).getId());
+					jsonArray.put(jsonObject);
+				}
+				String selectItems = jsonArray.toString();
+				//selectItems = "'" + selectItems + "'";
+				CartLogic.setSelectItem(mContext, mSetSelectHandler, selectItems);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} else {
+			Toast.makeText(mContext, "由于跨境运输限制,只能对单一仓库进行结算！", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -440,4 +562,5 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
 }

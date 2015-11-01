@@ -71,7 +71,7 @@ public class UserActivity extends Activity implements OnClickListener {
 	protected void onResume() {
 		super.onResume();
 		initData();
-		HomeActivity.setCartMenuShow(false);
+		HomeActivity.setCartMenuShow(false,"0");
 	}
 
 	private void initView() {

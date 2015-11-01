@@ -8,9 +8,10 @@ public class RequestUrl {
 	public static final String NAMESPACE = "http://120.55.116.206";
 
 	// http://120.55.116.206:8080/mapi
-	public static final String HOST_URL = "http://120.55.116.206:8060/mapi";
+	// public static final String HOST_URL = "http://120.55.116.206:8060/mapi";
+	public static final String HOST_URL = "http://120.55.116.206:8000/mapi";
 
-	public static final String HOST_PAY_URL = "http://120.55.116.206:8060";
+	public static final String HOST_PAY_URL = "http://120.55.116.206:8000";
 
 	public interface connect {
 		/**
@@ -129,6 +130,11 @@ public class RequestUrl {
 		 * 购物车删除
 		 */
 		public String del = "/cart/delete";
+
+		/**
+		 * 设置购物车选择
+		 */
+		public String setSelectItem = "/cart/selectItem";
 
 	}
 

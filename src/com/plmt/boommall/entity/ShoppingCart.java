@@ -32,115 +32,115 @@ public class ShoppingCart {
 
 	private ArrayList<Goods> goodsList = new ArrayList<>();
 
-	public final String getId() {
+	public String getId() {
 		return id;
 	}
 
-	public final void setId(String id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public final boolean isIscheck() {
+	public boolean isIscheck() {
 		return ischeck;
 	}
 
-	public final void setIscheck(boolean ischeck) {
+	public void setIscheck(boolean ischeck) {
 		this.ischeck = ischeck;
 	}
 
-	public final String getTxt() {
+	public String getTxt() {
 		return txt;
 	}
 
-	public final void setTxt(String txt) {
+	public void setTxt(String txt) {
 		this.txt = txt;
 	}
 
-	public final String getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public final void setPrice(String price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
-	public final String getManufacturer() {
+	public String getManufacturer() {
 		return manufacturer;
 	}
 
-	public final void setManufacturer(String manufacturer) {
+	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
 	}
 
-	public final String getName() {
+	public String getName() {
 		return name;
 	}
 
-	public final void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public final String getMinSaleQty() {
+	public String getMinSaleQty() {
 		return minSaleQty;
 	}
 
-	public final void setMinSaleQty(String minSaleQty) {
+	public void setMinSaleQty(String minSaleQty) {
 		this.minSaleQty = minSaleQty;
 	}
 
-	public final String getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public final void setImage(String image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
-	public final String getQty() {
+	public String getQty() {
 		return qty;
 	}
 
-	public final void setQty(String qty) {
+	public void setQty(String qty) {
 		this.qty = qty;
 	}
 
-	public final String getPid() {
+	public String getPid() {
 		return pid;
 	}
 
-	public final void setPid(String pid) {
+	public void setPid(String pid) {
 		this.pid = pid;
 	}
 
-	public final String getNum() {
+	public String getNum() {
 		return num;
 	}
 
-	public final void setNum(String num) {
+	public void setNum(String num) {
 		this.num = num;
 	}
 
-	public final String getFinalPrice() {
+	public String getFinalPrice() {
 		return finalPrice;
 	}
 
-	public final void setFinalPrice(String finalPrice) {
+	public void setFinalPrice(String finalPrice) {
 		this.finalPrice = finalPrice;
 	}
 
-	public final String getMaxSaleQty() {
+	public String getMaxSaleQty() {
 		return maxSaleQty;
 	}
 
-	public final void setMaxSaleQty(String maxSaleQty) {
+	public void setMaxSaleQty(String maxSaleQty) {
 		this.maxSaleQty = maxSaleQty;
 	}
 
-	public final ArrayList<Goods> getGoodsList() {
+	public ArrayList<Goods> getGoodsList() {
 		return goodsList;
 	}
 
-	public final void setGoodsList(ArrayList<Goods> goodsList) {
+	public void setGoodsList(ArrayList<Goods> goodsList) {
 		this.goodsList = goodsList;
 	}
 

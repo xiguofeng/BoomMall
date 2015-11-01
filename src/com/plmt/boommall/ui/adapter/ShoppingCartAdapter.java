@@ -210,6 +210,7 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 		final int whichAdd = viewholder.mAddIb.getId();
 		final int whichReduce = viewholder.mReduceIb.getId();
 		final int whichDel = viewholder.mDelLl.getId();
+		final int whichCb = viewholder.mChildCb.getId();
 		final String whichId = this.chiles.get(grouds.get(groupPosition).getManufacturer()).get(childPosition).getId();
 
 		viewholder.vId = tempPosition;
@@ -278,6 +279,7 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 				} else {
 					chiles.get(grouds.get(groupPosition).getManufacturer()).get(childPosition).setIscheck(false);
 				}
+				mCallback.onClick(view, v, tempPosition, whichCb, whichId);
 			}
 		});
 		return convertView;

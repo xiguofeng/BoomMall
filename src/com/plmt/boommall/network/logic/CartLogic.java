@@ -54,6 +54,12 @@ public class CartLogic {
 
 	public static final int CART_DEL_EXCEPTION = CART_DEL_FAIL + 1;
 
+	public static final int CART_SET_SELECT_SUC = CART_DEL_EXCEPTION + 1;
+
+	public static final int CART_SET_SELECT_FAIL = CART_SET_SELECT_SUC + 1;
+
+	public static final int CART_SET_SELECT_EXCEPTION = CART_SET_SELECT_FAIL + 1;
+
 	public static void getList(final Context context, final Handler handler) {
 
 		String url = RequestUrl.HOST_URL + RequestUrl.cart.list;
@@ -294,6 +300,48 @@ public class CartLogic {
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(CART_DEL_EXCEPTION);
+		}
+	}
+
+	public static void setSelectItem(final Context context, final Handler handler, final String selectitems) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.cart.setSelectItem;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("sessionid", "frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("selectitems", selectitems);
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
+				@Override
+				public void onResponse(JSONObject response) {
+					if (null != response) {
+						Log.e("xxx_cart_SelectItem", response.toString());
+						parseSetSelectItemData(response, handler);
+					}
+
+				}
+			}, null);
+			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void parseSetSelectItemData(JSONObject response, Handler handler) {
+
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				handler.sendEmptyMessage(CART_SET_SELECT_SUC);
+			} else {
+				handler.sendEmptyMessage(CART_SET_SELECT_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(CART_SET_SELECT_EXCEPTION);
 		}
 	}
 
