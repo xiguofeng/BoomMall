@@ -53,7 +53,7 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 	@Override
 	public int getChildrenCount(int groupPosition) {
 		return ((List<ShoppingCart>) chiles.get(grouds.get(groupPosition)
-				.getTxt())).size();
+				.getManufacturer())).size();
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
-		return chiles.get(grouds.get(groupPosition).getTxt())
+		return chiles.get(grouds.get(groupPosition).getManufacturer())
 				.get(childPosition);
 	}
 
@@ -95,7 +95,7 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 			holder.btn = (CheckBox) convertView.findViewById(R.id.cart_group_cb);
 		}
 		holder = (ViewHolder) convertView.getTag();
-		holder.tv.setText(grouds.get(groupPosition).getTxt());
+		holder.tv.setText(grouds.get(groupPosition).getManufacturer());
 		if (grouds.get(groupPosition).isIscheck()) {
 			holder.btn.setChecked(true);
 		} else {
@@ -134,7 +134,7 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 				} else {
 					// grouds.get(groupPosition).setIscheck(false);
 					// List<ShoppingCart> chiless =
-					// chiles.get(grouds.get(groupPosition).getTxt());
+					// chiles.get(grouds.get(groupPosition).getManufacturer());
 					// for(ShoppingCart bean:chiless){
 					// bean.setIscheck(false);
 					// }
@@ -265,10 +265,10 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 		});
 
 //		viewholder.mChildCb.setText(this.chiles
-//				.get(grouds.get(groupPosition).getTxt()).get(childPosition)
-//				.getTxt());
+//				.get(grouds.get(groupPosition).getManufacturer()).get(childPosition)
+//				.getManufacturer());
 		viewholder.mName.setText("商品描述");
-		if (this.chiles.get(grouds.get(groupPosition).getTxt())
+		if (this.chiles.get(grouds.get(groupPosition).getManufacturer())
 				.get(childPosition).isIscheck()) {
 			viewholder.mChildCb.setChecked(true);
 		} else {
@@ -279,10 +279,10 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 			@Override
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
-					chiles.get(grouds.get(groupPosition).getTxt())
+					chiles.get(grouds.get(groupPosition).getManufacturer())
 							.get(childPosition).setIscheck(true);
 				} else {
-					chiles.get(grouds.get(groupPosition).getTxt())
+					chiles.get(grouds.get(groupPosition).getManufacturer())
 							.get(childPosition).setIscheck(false);
 				}
 			}
