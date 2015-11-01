@@ -66,7 +66,7 @@ public class CartLogic {
 				public void onResponse(JSONObject response) {
 					if (null != response) {
 						Log.e("xxx_cartlist", response.toString());
-						//parseListData(response, handler);
+						// parseListData(response, handler);
 						parseListNewData(response, handler);
 					}
 
@@ -137,6 +137,7 @@ public class CartLogic {
 							|| shoppingCart.getManufacturer().equals("null")) {
 						shoppingCart.setManufacturer("0");
 					}
+					shoppingCart.setNum(shoppingCart.getQty());
 					tempGoodsList.add(shoppingCart);
 				}
 				Message message = new Message();

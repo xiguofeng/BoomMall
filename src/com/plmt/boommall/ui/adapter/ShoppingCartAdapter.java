@@ -3,6 +3,13 @@ package com.plmt.boommall.ui.adapter;
 import java.util.List;
 import java.util.Map;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.ShoppingCart;
+import com.plmt.boommall.ui.activity.HomeActivity;
+import com.plmt.boommall.ui.activity.ShopCartActivity;
+import com.plmt.boommall.ui.utils.ListItemClickHelpWithID;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.ShoppingCart;
-import com.plmt.boommall.ui.activity.ShopCartActivity;
-import com.plmt.boommall.ui.utils.ListItemClickHelp;
-
 public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 	List<ShoppingCart> grouds;
 	Map<String, List<ShoppingCart>> chiles;
@@ -31,14 +33,14 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 	private String mNowMode;
 	ischeck ischeck;
 
-	private ListItemClickHelp mCallback;
+	private ListItemClickHelpWithID mCallback;
 
 	public void setischek(ischeck ischeck) {
 		this.ischeck = ischeck;
 	}
 
 	public ShoppingCartAdapter(Context context, List<ShoppingCart> grouds, Map<String, List<ShoppingCart>> chiles,
-			ListItemClickHelp callback) {
+			ListItemClickHelpWithID callback) {
 		this.contenx = context;
 		this.grouds = grouds;
 		this.chiles = chiles;
@@ -195,23 +197,24 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 		viewholder.mPrice.setText("￥" + fPrice);
 		viewholder.mOriginalPrice.setText("原价￥" + yPrice);
 		viewholder.mNum
-				.setText(this.chiles.get(grouds.get(groupPosition).getManufacturer()).get(childPosition).getQty());
+				.setText(this.chiles.get(grouds.get(groupPosition).getManufacturer()).get(childPosition).getNum());
 		viewholder.mCount.setText(
 				"数量：" + this.chiles.get(grouds.get(groupPosition).getManufacturer()).get(childPosition).getQty());
 
-		// ImageLoader.getInstance().displayImage(mDatas.get(position).getImage(),
-		// viewholder.mIcon);
+		ImageLoader.getInstance().displayImage(
+				this.chiles.get(grouds.get(groupPosition).getManufacturer()).get(childPosition).getImage(),
+				viewholder.mIcon);
 
-		// final int tempPosition = position;
-		// final View view = convertView;
-		// final int whichAdd = holder.mAddIb.getId();
-		// final int whichReduce = holder.mReduceIb.getId();
-		// final int whichCollection = holder.mCollectionLl.getId();
-		// final int whichDel = holder.mDelLl.getId();
+		final int tempPosition = childPosition;
+		final View view = convertView;
+		final int whichAdd = viewholder.mAddIb.getId();
+		final int whichReduce = viewholder.mReduceIb.getId();
+		final int whichDel = viewholder.mDelLl.getId();
+		final String whichId = this.chiles.get(grouds.get(groupPosition).getManufacturer()).get(childPosition).getId();
 
-		// viewholder.vId = tempPosition;
+		viewholder.vId = tempPosition;
 
-		// holder.mCheckIb.setOnCheckedChangeListener(new
+		// viewholder.mCheckIb.setOnCheckedChangeListener(new
 		// OnCheckedChangeListener() {
 		//
 		// @Override
@@ -227,12 +230,12 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 		// }
 		// });
 		//
-		// holder.mCheckIb.setChecked(getmIsSelected().get(position));
+		// viewholder.mCheckIb.setChecked(getmIsSelected().get(position));
 		viewholder.mAddIb.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
-				// mCallback.onClick(view, v, tempPosition, whichAdd);
+				mCallback.onClick(view, v, tempPosition, whichAdd, whichId);
 
 			}
 		});
@@ -240,21 +243,21 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 			@Override
 			public void onClick(View v) {
 
-				// mCallback.onClick(view, v, tempPosition, whichReduce);
+				mCallback.onClick(view, v, tempPosition, whichReduce, whichId);
 			}
 		});
 		viewholder.mCollectionLl.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
-				// mCallback.onClick(view, v, tempPosition, whichCollection);
+				mCallback.onClick(view, v, tempPosition, whichAdd, whichId);
 			}
 		});
 		viewholder.mDelLl.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
-				// mCallback.onClick(view, v, tempPosition, whichDel);
+				mCallback.onClick(view, v, tempPosition, whichDel, whichId);
 			}
 		});
 

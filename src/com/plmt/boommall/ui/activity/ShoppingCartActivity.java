@@ -24,16 +24,18 @@ import android.widget.Toast;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.entity.Shipping;
 import com.plmt.boommall.entity.ShoppingCart;
 import com.plmt.boommall.network.logic.CartLogic;
 import com.plmt.boommall.ui.adapter.ShoppingCartAdapter;
 import com.plmt.boommall.ui.adapter.ShoppingCartAdapter.ischeck;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
+import com.plmt.boommall.ui.utils.ListItemClickHelpWithID;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.utils.CartManager;
 import com.plmt.boommall.utils.UserInfoManager;
 
-public class ShoppingCartActivity extends Activity implements ischeck, OnClickListener, ListItemClickHelp {
+public class ShoppingCartActivity extends Activity implements ischeck, OnClickListener, ListItemClickHelpWithID {
 
 	public final static String EDITOR_MODE = "0";
 	public final static String COMPLETE_MODE = "1";
@@ -45,9 +47,10 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 	private ShoppingCartAdapter mEAdapter;
 	private List<ShoppingCart> mGroup = new ArrayList<ShoppingCart>();
 	private Map<String, List<ShoppingCart>> mChild = new HashMap<String, List<ShoppingCart>>();
-	private ShoppingCart bean;
 
 	private ArrayList<ShoppingCart> mShoppingCartList = new ArrayList<ShoppingCart>();
+	private ArrayList<ShoppingCart> mShoppingCartListDelList = new ArrayList<ShoppingCart>();
+	private ArrayList<ShoppingCart> mShoppingCartListUpdateList = new ArrayList<ShoppingCart>();
 
 	private TextView mTotalNumTv;
 	private TextView mEditorTv;
@@ -135,6 +138,7 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext = ShoppingCartActivity.this;
+		mProgressDialog = new CustomProgressDialog(mContext);
 		setContentView(R.layout.shopping_cart_expandablelistview);
 		initView();
 	}
@@ -251,7 +255,6 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 			mCartNullLl.setVisibility(View.VISIBLE);
 			mCartNullTv.setVisibility(View.VISIBLE);
 			mCartNotLoginLl.setVisibility(View.GONE);
-			mProgressDialog = new CustomProgressDialog(mContext);
 			mProgressDialog.show();
 			CartLogic.getList(mContext, mHandler);
 		} else {
@@ -273,42 +276,70 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 		}
 		mEAdapter.setmNowMode(mNowMode);
 		mEAdapter.notifyDataSetChanged();
+		int size = mEAdapter.getGroupCount();
+		for (int i = 0; i < size; i++) {
+			mGoodsElv.expandGroup(i);
+		}
+
 	}
 
 	private void modifyCart() {
+		mProgressDialog.show();
 		delCart();
 		updateCart();
+
 	}
 
 	private void updateCart() {
-		// for (Goods goods : mGoodsUpdateList) {
-		// mProgressDialog = new CustomProgressDialog(mContext);
-		// mProgressDialog.show();
-		// CartLogic.update(mContext, mHandler, goods.getScid(), "",
-		// goods.getNum());
-		// }
+		for (ShoppingCart shoppingcart : mShoppingCartListUpdateList) {
+			CartLogic.update(mContext, mHandler, shoppingcart.getId(), "", shoppingcart.getQty());
+		}
 	}
 
 	private void delCart() {
-		// for (Goods goods : mGoodsDelList) {
-		// mProgressDialog = new CustomProgressDialog(mContext);
-		// mProgressDialog.show();
-		// CartLogic.del(mContext, mHandler, goods.getScid());
-		// }
+		for (ShoppingCart shoppingcart : mShoppingCartListDelList) {
+			CartLogic.del(mContext, mHandler, shoppingcart.getId());
+		}
 	}
 
-	private void addUpdate(Goods goods) {
-		// boolean isHasGoods = false;
-		// for (int i = 0; i < mGoodsUpdateList.size(); i++) {
-		// if (mGoodsUpdateList.get(i).getScid().equals(goods.getScid())) {
-		// mGoodsUpdateList.set(i, goods);
-		// isHasGoods = true;
-		// }
-		// }
-		// if (!isHasGoods) {
-		// mGoodsUpdateList.add(goods);
-		// }
-		// mGoodsAdapter.notifyDataSetChanged();
+	private void addUpdate(ShoppingCart shoppingcart) {
+		boolean isHasGoods = false;
+		for (int i = 0; i < mShoppingCartListUpdateList.size(); i++) {
+			if (mShoppingCartListUpdateList.get(i).getId().equals(shoppingcart.getId())) {
+				mShoppingCartListUpdateList.set(i, shoppingcart);
+				isHasGoods = true;
+			}
+		}
+		if (!isHasGoods) {
+			mShoppingCartListUpdateList.add(shoppingcart);
+		}
+
+		mEAdapter.notifyDataSetChanged();
+		int size = mEAdapter.getGroupCount();
+		for (int i = 0; i < size; i++) {
+			mGoodsElv.expandGroup(i);
+		}
+
+	}
+
+	private ShoppingCart getShoppingCartById(String id) {
+		ShoppingCart shoppingCart = null;
+		for (int i = 0; i < mShoppingCartList.size(); i++) {
+			if (id.equals(mShoppingCartList.get(i).getId())) {
+				shoppingCart = mShoppingCartList.get(i);
+			}
+		}
+		return shoppingCart;
+	}
+
+	private int getPositionById(String id) {
+		int position = -1;
+		for (int i = 0; i < mShoppingCartList.size(); i++) {
+			if (id.equals(mShoppingCartList.get(i).getId())) {
+				position = i;
+			}
+		}
+		return position;
 	}
 
 	@Override
@@ -342,26 +373,32 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 	}
 
 	@Override
-	public void onClick(View item, View widget, int position, int which) {
+	public void onClick(View item, View widget, int position, int which, String id) {
 		switch (which) {
 		case R.id.cart_goods_add_ib: {
-			// Goods goods = mGoodsList.get(position);
-			// String num = String.valueOf(Integer.parseInt(goods.getNum()) +
-			// 1);
-			// goods.setNum(num);
-			// mGoodsList.set(position, goods);
-			// addUpdate(goods);
+			ShoppingCart shoppingCart = getShoppingCartById(id);
+			int tempPosition = getPositionById(id);
+
+			if (null != shoppingCart) {
+				String num = String.valueOf(Integer.parseInt(shoppingCart.getNum()) + 1);
+				shoppingCart.setNum(num);
+				mShoppingCartList.set(tempPosition, shoppingCart);
+				addUpdate(shoppingCart);
+			}
+
 			break;
 		}
 		case R.id.cart_goods_reduce_ib: {
-			// Goods goods = mGoodsList.get(position);
-			// if (Integer.parseInt(goods.getNum()) > 1) {
-			// String num = String
-			// .valueOf(Integer.parseInt(goods.getNum()) - 1);
-			// goods.setNum(num);
-			// mGoodsList.set(position, goods);
-			// addUpdate(goods);
-			// }
+			ShoppingCart shoppingCart = getShoppingCartById(id);
+			int tempPosition = getPositionById(id);
+			if (null != shoppingCart) {
+				if (Integer.parseInt(shoppingCart.getNum()) > 1) {
+					String num = String.valueOf(Integer.parseInt(shoppingCart.getNum()) - 1);
+					shoppingCart.setNum(num);
+					mShoppingCartList.set(tempPosition, shoppingCart);
+					addUpdate(shoppingCart);
+				}
+			}
 
 			break;
 		}
@@ -370,15 +407,18 @@ public class ShoppingCartActivity extends Activity implements ischeck, OnClickLi
 			break;
 		}
 		case R.id.cart_goods_del_ll: {
-			// mGoodsDelList.add(mGoodsList.get(position));
-			// mGoodsList.remove(position);
-			// ArrayList<Goods> arrayList = new ArrayList<Goods>();
-			// for (Goods goods : mGoodsList) {
-			// arrayList.add(goods);
-			// }
-			// mGoodsList.clear();
-			// mGoodsList.addAll(arrayList);
-			// mGoodsAdapter.notifyDataSetChanged();
+			ShoppingCart shoppingCart = getShoppingCartById(id);
+			int tempPosition = getPositionById(id);
+			mShoppingCartListDelList.add(shoppingCart);
+			mShoppingCartList.remove(tempPosition);
+
+			ArrayList<ShoppingCart> arrayList = new ArrayList<ShoppingCart>();
+			for (ShoppingCart tempShoppingCart : mShoppingCartList) {
+				arrayList.add(tempShoppingCart);
+			}
+			mShoppingCartList.clear();
+			mShoppingCartList.addAll(arrayList);
+			refresh();
 			break;
 		}
 		default:

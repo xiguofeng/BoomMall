@@ -9,23 +9,25 @@ public class ShoppingCart {
 	private boolean ischeck;
 
 	private String txt;
-	
+
 	private String price;
-	
+
 	private String manufacturer;
-	
+
 	private String name;
-	
+
 	private String minSaleQty;
-	
+
 	private String image;
-	
+
 	private String qty;
-	
+
 	private String pid;
-	
+
+	private String num;
+
 	private String finalPrice;
-	
+
 	private String maxSaleQty;
 
 	private ArrayList<Goods> goodsList = new ArrayList<>();
@@ -110,6 +112,14 @@ public class ShoppingCart {
 		this.pid = pid;
 	}
 
+	public final String getNum() {
+		return num;
+	}
+
+	public final void setNum(String num) {
+		this.num = num;
+	}
+
 	public final String getFinalPrice() {
 		return finalPrice;
 	}
@@ -133,6 +143,5 @@ public class ShoppingCart {
 	public final void setGoodsList(ArrayList<Goods> goodsList) {
 		this.goodsList = goodsList;
 	}
-
 
 }
