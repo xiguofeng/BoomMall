@@ -103,7 +103,13 @@ public class OrderLogic {
 		try {
 			Address address = preOrder.getAddress();
 			Shipping shipping = preOrder.getShipping();
+			if(TextUtils.isEmpty(shipping.getTitle())){
+				shipping.setTitle("标准快递");
+			}
 			Payment payment = preOrder.getPayment();
+			if(TextUtils.isEmpty(payment.getTitle())){
+				payment.setTitle("在线支付");
+			}
 			// URLEncoder.encode(UserInfoManager.getSession(context), "UTF-8")
 			requestJson.put("sessionid",
 					"frontend=" + UserInfoManager.getSession(context));

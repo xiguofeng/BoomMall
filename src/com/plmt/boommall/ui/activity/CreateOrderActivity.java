@@ -477,12 +477,15 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 
 		case R.id.create_order_confirm_btn: {
-			if (!TextUtils.isEmpty(mPreOrder.getAddress().getId())) {
+			if (!TextUtils.isEmpty(mPreOrder.getAddress().getId())
+					&& !TextUtils
+							.isEmpty(mPreOrder.getAddress().getTelephone())) {
 				mProgressDialog.show();
 				isCreateOrder = true;
 				OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
-			}else{
-				Toast.makeText(mContext, R.string.address_hint, Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(mContext, R.string.address_hint,
+						Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
