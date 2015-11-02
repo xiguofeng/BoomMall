@@ -244,9 +244,9 @@ public class RequestUrl {
 		public String getOrderPayInfo = "/appaliapy/payment/getOrder";
 
 		/**
-		 * 银联测试接口
+		 * 银联接口
 		 */
-		public String getOrderPayByUnionInfo = "/appunionpay/payment/test";
+		public String getOrderPayByUnionInfo = "/appunionpay/payment/getOrder";
 
 		/**
 		 * 订单信息
