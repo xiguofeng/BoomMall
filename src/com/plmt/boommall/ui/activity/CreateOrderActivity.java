@@ -448,6 +448,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 				address.setTelephone(data.getStringExtra("telephone"));
 				address.setContent(data.getStringExtra("content"));
 				fillUpAddressData(address);
+				mProgressDialog.show();
+				OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
 				break;
 			}
 
@@ -474,9 +476,13 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 
 		case R.id.create_order_confirm_btn: {
-			mProgressDialog.show();
-			isCreateOrder = true;
-			OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
+			if (!TextUtils.isEmpty(mPreOrder.getAddress().getId())) {
+				mProgressDialog.show();
+				isCreateOrder = true;
+				OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
+			}else{
+				Toast.makeText(mContext, R.string.address_hint, Toast.LENGTH_SHORT).show();
+			}
 			break;
 		}
 

@@ -165,6 +165,10 @@ public class RequestUrl {
 		 */
 		public String del = "/address/delete";
 
+		/**
+		 * 设置地址
+		 */
+		public String setShippingAddress = "/checkout/setShippingAddress";
 	}
 
 	public interface collection {

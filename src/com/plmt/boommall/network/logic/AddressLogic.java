@@ -54,6 +54,13 @@ public class AddressLogic {
 	public static final int ANDRESS_DATA_GET_FAIL = ANDRESS_DATA_GET_SUC + 1;
 
 	public static final int ANDRESS_DATA_GET_EXCEPTION = ANDRESS_DATA_GET_FAIL + 1;
+	
+	public static final int ANDRESS_SET_SHIPPING_SUC = ANDRESS_DATA_GET_EXCEPTION + 1;
+
+	public static final int ANDRESS_SET_SHIPPING_FAIL = ANDRESS_SET_SHIPPING_SUC + 1;
+
+	public static final int ANDRESS_SET_SHIPPING_EXCEPTION = ANDRESS_SET_SHIPPING_FAIL + 1;
+
 
 	public static void getList(final Context context, final Handler handler) {
 
@@ -273,6 +280,56 @@ public class AddressLogic {
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(ANDRESS_DATA_GET_EXCEPTION);
+		}
+	}
+	
+	public static void setShippingAddress(final Context context, final Handler handler,
+			final String id) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.address.setShippingAddress;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("address_id", id);
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_setShippingAddress", response.toString());
+								parseSetShippingAddressData(response, handler);
+							}
+
+						}
+					}, null);
+
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void parseSetShippingAddressData(JSONObject response,
+			Handler handler) {
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				Message message = new Message();
+				message.what = ANDRESS_SET_SHIPPING_SUC;
+				message.obj = response.toString();
+				handler.sendMessage(message);
+			} else {
+				handler.sendEmptyMessage(ANDRESS_SET_SHIPPING_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(ANDRESS_SET_SHIPPING_EXCEPTION);
 		}
 	}
 

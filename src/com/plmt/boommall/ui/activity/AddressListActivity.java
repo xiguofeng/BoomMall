@@ -49,7 +49,7 @@ public class AddressListActivity extends Activity implements OnClickListener,
 	private AddressAdapter mAdapter;
 
 	private Address mAddress;
-	
+
 	private CustomProgressDialog mProgressDialog;
 
 	private Handler mHandler = new Handler() {
@@ -76,7 +76,7 @@ public class AddressListActivity extends Activity implements OnClickListener,
 				break;
 			}
 			case AddressLogic.ANDRESS_DEL_SUC: {
-				mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+				mProgressDialog.show();
 				AddressLogic.getList(mContext, mHandler);
 				break;
 			}
@@ -85,6 +85,23 @@ public class AddressListActivity extends Activity implements OnClickListener,
 				break;
 			}
 			case AddressLogic.ANDRESS_DEL_EXCEPTION: {
+
+				break;
+			}
+			case AddressLogic.ANDRESS_SET_SHIPPING_SUC: {
+				Intent intent = new Intent();
+				intent.putExtra("username", mAddress.getUsername());
+				intent.putExtra("telephone", mAddress.getTelephone());
+				intent.putExtra("content", mAddress.getContent());
+				setResult(RESULT_OK, intent);
+				AddressListActivity.this.finish();
+				break;
+			}
+			case AddressLogic.ANDRESS_SET_SHIPPING_FAIL: {
+
+				break;
+			}
+			case AddressLogic.ANDRESS_SET_SHIPPING_EXCEPTION: {
 
 				break;
 			}
@@ -107,6 +124,7 @@ public class AddressListActivity extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.address_list);
 		mContext = AddressListActivity.this;
+		mProgressDialog = new CustomProgressDialog(mContext);
 		initView();
 		initData();
 	}
@@ -130,7 +148,7 @@ public class AddressListActivity extends Activity implements OnClickListener,
 								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
-		//mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+		// mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
 		mAddAddressBtn = (Button) findViewById(R.id.address_list_add_btn);
 		mBackIv = (ImageView) findViewById(R.id.address_list_back_iv);
@@ -146,13 +164,10 @@ public class AddressListActivity extends Activity implements OnClickListener,
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if (ORIGIN_FROM_ORDER_KEY.equals(mNowAction)) {
+					mProgressDialog.show();
 					mAddress = mAddresslist.get(position);
-					Intent intent = new Intent();
-					intent.putExtra("username", mAddress.getUsername());
-					intent.putExtra("telephone", mAddress.getTelephone());
-					intent.putExtra("content", mAddress.getContent());
-					setResult(RESULT_OK, intent);
-					finish();
+					AddressLogic.setShippingAddress(mContext, mHandler, mAddress.getId());
+
 				}
 			}
 		});
@@ -163,6 +178,7 @@ public class AddressListActivity extends Activity implements OnClickListener,
 	}
 
 	private void fetchData() {
+		mProgressDialog.show();
 		AddressLogic.getList(mContext, mHandler);
 	}
 
@@ -216,23 +232,6 @@ public class AddressListActivity extends Activity implements OnClickListener,
 													.getId());
 								}
 							}).show();
-			// new
-			// AlertDialog(AddressListActivity.this).builder().setTitle(getString(R.string.prompt))
-			// .setMsg(getString(R.string.exit_str))
-			// .setPositiveButton(getString(R.string.confirm), new
-			// OnClickListener() {
-			// @Override
-			// public void onClick(View v) {
-			// AddressLogic.del(mContext, mHandler,
-			// mAddresslist.get(tempPosition).getId());
-			// }
-			// }).setNegativeButton(getString(R.string.cancal), new
-			// OnClickListener() {
-			// @Override
-			// public void onClick(View v) {
-			//
-			// }
-			// }).show();
 			break;
 		}
 
