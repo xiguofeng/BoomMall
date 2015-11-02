@@ -28,8 +28,8 @@
     <string name="save">保存</string>
     <string name="del">删除</string>
     <string name="confirm_submit">确认提交</string>
+    <string name="activity">活动</string>
     
-
     <!-- account -->
     <string name="login_emptyname_or_emptypwd">用户名或密码为空，请重新输入</string>
     <string name="login">登录</string>
@@ -193,6 +193,7 @@
     <string name="order_cancel_fail">订单取消失败</string>
     <string name="order_cancel_confirm">确定取消订单？</string>
     <string name="order_cancel_no">订单已经配送，不能取消！</string>
+    
 
     <!-- search -->
     <string name="search">搜索 </string>
