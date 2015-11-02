@@ -549,7 +549,7 @@ public class ShoppingCartActivity extends Activity
 				e.printStackTrace();
 			}
 		} else {
-			Toast.makeText(mContext, "由于跨境运输限制,只能对单一仓库进行结算！", Toast.LENGTH_LONG).show();
+			Toast.makeText(mContext, "请选择单一仓库的商品进行结算！", Toast.LENGTH_LONG).show();
 		}
 	}
 

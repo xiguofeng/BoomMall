@@ -292,12 +292,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener,
 	}
 
 	private void initData() {
-		if (UserInfoManager.getRememberPwd(mContext)) {
-			UserInfoManager.setUserInfo(mContext);
-
-			mPhoneEt.setText(UserInfoManager.userInfo.getUsername());
-			mPassWordEt.setText(UserInfoManager.userInfo.getPassword());
-		}
 
 	}
 

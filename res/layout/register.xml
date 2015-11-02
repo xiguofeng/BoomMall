@@ -112,7 +112,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dip"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/user_login" />
+                        android:src="@drawable/pwd_login" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -175,7 +175,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dip"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user_login" />
+                    android:src="@drawable/pwd_login" />
             </RelativeLayout>
             
              <RelativeLayout
@@ -212,7 +212,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dip"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user_login" />
+                    android:src="@drawable/pwd_login" />
             </RelativeLayout>
             
 

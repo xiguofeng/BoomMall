@@ -275,11 +275,11 @@ public class ForgetPwdActivity extends BaseActivity implements OnClickListener {
 	private void initData() {
 		mId = getIntent().getStringExtra("id");
 
-		if (!UserInfoManager.getIsMustAuth(mContext)
-				&& !TextUtils.isEmpty(UserInfoManager.getPhone(mContext))) {
-			mPhone = UserInfoManager.getPhone(mContext);
-			mPhoneEt.setText(mPhone);
-		}
+//		if (!UserInfoManager.getIsMustAuth(mContext)
+//				&& !TextUtils.isEmpty(UserInfoManager.getPhone(mContext))) {
+//			mPhone = UserInfoManager.getPhone(mContext);
+//			mPhoneEt.setText(mPhone);
+//		}
 	}
 
 	private void sendAuth() {

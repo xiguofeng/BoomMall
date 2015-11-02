@@ -101,7 +101,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dip"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/user_login" />
+                        android:src="@drawable/pwd_login" />
 
                     <EditText
                         android:id="@+id/forget_pwd_input_ver_code_et"
@@ -127,6 +127,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dip"
+                        android:layout_marginBottom="5dip"
                         android:background="@drawable/corners_bg_red_all"
                         android:gravity="center" >
 
@@ -159,7 +160,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dip"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/user_login" />
+                        android:src="@drawable/pwd_login" />
 
                     <EditText
                         android:id="@+id/forget_pwd_input_pwd_et"
@@ -194,7 +195,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dip"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/user_login" />
+                        android:src="@drawable/pwd_login" />
 
                     <EditText
                         android:id="@+id/forget_pwd_input_pwd_confirm_et"
