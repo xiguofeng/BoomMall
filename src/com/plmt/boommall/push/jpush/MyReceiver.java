@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.plmt.boommall.entity.Msg;
+import com.plmt.boommall.ui.activity.MsgActivity;
 import com.plmt.boommall.utils.FileHelper;
 import com.plmt.boommall.utils.FileUtils;
 import com.plmt.boommall.utils.JsonUtils;
@@ -52,7 +53,7 @@ public class MyReceiver extends BroadcastReceiver {
 			Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
 
 			// 打开自定义的Activity
-			Intent i = new Intent(context, TestActivity.class);
+			Intent i = new Intent(context, MsgActivity.class);
 			i.putExtras(bundle);
 			// i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
