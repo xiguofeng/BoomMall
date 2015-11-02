@@ -23,6 +23,7 @@ import com.plmt.boommall.entity.Address;
 import com.plmt.boommall.network.logic.AddressLogic;
 import com.plmt.boommall.ui.adapter.AddressAdapter;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog;
 import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.OnSheetItemClickListener;
@@ -48,6 +49,8 @@ public class AddressListActivity extends Activity implements OnClickListener,
 	private AddressAdapter mAdapter;
 
 	private Address mAddress;
+	
+	private CustomProgressDialog mProgressDialog;
 
 	private Handler mHandler = new Handler() {
 
@@ -92,7 +95,9 @@ public class AddressListActivity extends Activity implements OnClickListener,
 			default:
 				break;
 			}
-			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
 		}
 
 	};
@@ -125,7 +130,7 @@ public class AddressListActivity extends Activity implements OnClickListener,
 								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
-		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+		//mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
 		mAddAddressBtn = (Button) findViewById(R.id.address_list_add_btn);
 		mBackIv = (ImageView) findViewById(R.id.address_list_back_iv);
@@ -205,6 +210,7 @@ public class AddressListActivity extends Activity implements OnClickListener,
 							new OnSheetItemClickListener() {
 								@Override
 								public void onClick(int which) {
+									mProgressDialog.show();
 									AddressLogic.del(mContext, mHandler,
 											mAddresslist.get(tempPosition)
 													.getId());

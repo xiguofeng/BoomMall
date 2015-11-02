@@ -133,6 +133,7 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.address_add);
 		mContext = AddressEditActivity.this;
+		mProgressDialog = new CustomProgressDialog(mContext);
 		initView();
 		initData();
 
@@ -163,7 +164,6 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 		}
 		// mProgressDialog = new CustomProgressDialog(mContext);
 		// mProgressDialog.show();
-		mProgressDialog = new CustomProgressDialog(mContext);
 		mProgressDialog.show();
 		AddressLogic.getAddressData(mContext, mHandler);
 	}
@@ -244,7 +244,6 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 					&& !TextUtils.isEmpty(mAddressDetail)
 					&& !TextUtils.isEmpty(mContactWay)) {
 
-				mProgressDialog = new CustomProgressDialog(mContext);
 				mProgressDialog.show();
 				if (ORIGIN_FROM_ADD_ACTION.equals(mNowAction)) {
 					AddressLogic.update(mContext, mHandler, "0", mConsignee,
@@ -276,6 +275,7 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 							new OnSheetItemClickListener() {
 								@Override
 								public void onClick(int which) {
+									mProgressDialog.show();
 									AddressLogic.del(mContext, mHandler, "");
 								}
 							}).show();
