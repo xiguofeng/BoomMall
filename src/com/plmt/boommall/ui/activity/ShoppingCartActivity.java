@@ -289,7 +289,8 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 			mCartNullLl.setVisibility(View.GONE);
 			mCartNullTv.setVisibility(View.GONE);
 		} else {
-			HomeActivity.setCartMenuShow(true, "0");
+			mTotalMoney = "0";
+			HomeActivity.setCartMenuShow(true, mTotalMoney);
 		}
 
 		mTotalNumTv.setText("(" + String.valueOf(mGroup.size()) + ")");
