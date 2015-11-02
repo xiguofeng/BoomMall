@@ -109,12 +109,9 @@ public class OrderLogic {
 					"frontend=" + UserInfoManager.getSession(context));
 			requestJson.put("cn_name",
 					URLEncoder.encode(address.getUsername(), "UTF-8"));
-			requestJson.put("cn_province",
-					URLEncoder.encode(address.getCn_province(), "UTF-8"));
-			requestJson.put("cn_city",
-					URLEncoder.encode(address.getCn_city(), "UTF-8"));
-			requestJson.put("cn_district",
-					URLEncoder.encode(address.getCn_district(), "UTF-8"));
+			requestJson.put("cn_province", address.getCn_province());
+			requestJson.put("cn_city", address.getCn_city());
+			requestJson.put("cn_district", address.getCn_district());
 			requestJson.put("street",
 					URLEncoder.encode(address.getContent(), "UTF-8"));
 			requestJson.put("postcode",

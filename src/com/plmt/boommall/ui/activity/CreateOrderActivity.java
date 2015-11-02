@@ -118,7 +118,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			default:
 				break;
 			}
-			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
 		}
 
 	};
@@ -132,7 +134,6 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 				if (null != msg.obj) {
 					ShoppingCartActivity.isNeedUpdate = true;
 					mOrderId = (String) msg.obj;
-					mProgressDialog.show();
 					Intent intent = new Intent(CreateOrderActivity.this,
 							PayActivity.class);
 					intent.putExtra("orderId", mOrderId);
@@ -248,7 +249,6 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
-		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
 		mBackIv = (ImageView) findViewById(R.id.create_order_back_iv);
 		mBackIv.setOnClickListener(this);
@@ -349,6 +349,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
+		mProgressDialog.show();
 		OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
 	}
 
