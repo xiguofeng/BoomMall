@@ -208,6 +208,8 @@ public class UserActivity extends Activity implements OnClickListener {
 	private void initData() {
 		if (!TextUtils.isEmpty(UserInfoManager.userInfo.getUsername())) {
 			mUserNameTv.setText(UserInfoManager.userInfo.getUsername());
+		}else if(UserInfoManager.getLoginIn(mContext)){
+			mUserNameTv.setText("已登录");
 		}
 	}
 

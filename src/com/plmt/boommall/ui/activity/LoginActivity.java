@@ -197,10 +197,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Text
 			mProgressDialog = new CustomProgressDialog(mContext);
 			mProgressDialog.show();
 
-			mPassWord = "admin123";
 			User user = new User();
-			user.setUsername("13813003736");
-			user.setPassword("admin123");
+			user.setUsername(mAccount);
+			user.setPassword(mPassWord);
 			UserLogic.login(mContext, mHandler, user);
 		}
 	}
