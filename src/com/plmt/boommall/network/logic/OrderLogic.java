@@ -9,6 +9,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
+
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Address;
 import com.plmt.boommall.entity.Goods;
@@ -26,12 +32,6 @@ import com.plmt.boommall.pay.AlipayMerchant;
 import com.plmt.boommall.pay.UnionpayMerchant;
 import com.plmt.boommall.utils.JsonUtils;
 import com.plmt.boommall.utils.UserInfoManager;
-
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
-import android.util.Log;
 
 public class OrderLogic {
 
@@ -97,38 +97,53 @@ public class OrderLogic {
 
 	public static final int ORDER_PAY_INFO_GET_EXCEPTION = ORDER_PAY_INFO_GET_FAIL + 1;
 
-	public static void createOrder(final Context context, final Handler handler) {
+	public static void createOrder(final Context context,
+			final Handler handler, PreOrder preOrder) {
 		JSONObject requestJson = new JSONObject();
 		try {
-
+			Address address = preOrder.getAddress();
+			Shipping shipping = preOrder.getShipping();
+			Payment payment = preOrder.getPayment();
 			// URLEncoder.encode(UserInfoManager.getSession(context), "UTF-8")
-			requestJson.put("sessionid", "frontend=" + UserInfoManager.getSession(context));
-			requestJson.put("cn_name", URLEncoder.encode("Lucyss", "UTF-8"));
-			requestJson.put("cn_province", URLEncoder.encode("10", "UTF-8"));
-			requestJson.put("cn_city", URLEncoder.encode("75", "UTF-8"));
-			requestJson.put("cn_district", URLEncoder.encode("799", "UTF-8"));
-			requestJson.put("street", URLEncoder.encode("北京", "UTF-8"));
-			requestJson.put("postcode", URLEncoder.encode("210000", "UTF-8"));
-			requestJson.put("telephone", URLEncoder.encode("17712888306", "UTF-8"));
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("cn_name",
+					URLEncoder.encode(address.getUsername(), "UTF-8"));
+			requestJson.put("cn_province",
+					URLEncoder.encode(address.getCn_province(), "UTF-8"));
+			requestJson.put("cn_city",
+					URLEncoder.encode(address.getCn_city(), "UTF-8"));
+			requestJson.put("cn_district",
+					URLEncoder.encode(address.getCn_district(), "UTF-8"));
+			requestJson.put("street",
+					URLEncoder.encode(address.getContent(), "UTF-8"));
+			requestJson.put("postcode",
+					URLEncoder.encode(address.getPostCode(), "UTF-8"));
+			requestJson.put("telephone",
+					URLEncoder.encode(address.getTelephone(), "UTF-8"));
 			requestJson.put("country_id", URLEncoder.encode("CN", "UTF-8"));
-			requestJson.put("shipping", URLEncoder.encode("标准快递", "UTF-8"));
-			requestJson.put("payment", URLEncoder.encode("支付宝手机", "UTF-8"));
+			requestJson.put("shipping",
+					URLEncoder.encode(shipping.getTitle(), "UTF-8"));
+			requestJson.put("payment",
+					URLEncoder.encode(payment.getTitle(), "UTF-8"));
 
 			String url = RequestUrl.HOST_URL + RequestUrl.order.submitOrder;
-			Log.e("xxx_submitOrder", url);
+			Log.e("xxx_submitOrder_request", requestJson.toString());
 
-			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
-				@Override
-				public void onResponse(JSONObject response) {
-					if (null != response) {
-						Log.e("xxx_submitOrder", response.toString());
-						parseCreateOrderData(response, handler);
-					}
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_submitOrder", response.toString());
+								parseCreateOrderData(response, handler);
+							}
 
-				}
+						}
 
-			}, null);
-			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+					}, null);
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
 
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
@@ -141,13 +156,15 @@ public class OrderLogic {
 
 	}
 
-	private static void parseCreateOrderData(JSONObject response, Handler handler) {
+	private static void parseCreateOrderData(JSONObject response,
+			Handler handler) {
 
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 
-				JSONObject dataJsonObject = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				JSONObject dataJsonObject = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
 				String orderID = dataJsonObject.getString("order_id").trim();
 				if (!TextUtils.isEmpty(orderID)) {
 					Message message = new Message();
@@ -166,28 +183,33 @@ public class OrderLogic {
 		}
 	}
 
-	public static void getOrderPayInfo(final Context context, final Handler handler, final String orderId) {
+	public static void getOrderPayInfo(final Context context,
+			final Handler handler, final String orderId) {
 		JSONObject requestJson = new JSONObject();
 		try {
 			Log.e("xxx_getOrderPayInfo", "start");
 			requestJson.put("order_id", URLEncoder.encode(orderId, "UTF-8"));
 
-			String url = RequestUrl.HOST_PAY_URL + RequestUrl.order.getOrderPayInfo;
+			String url = RequestUrl.HOST_PAY_URL
+					+ RequestUrl.order.getOrderPayInfo;
 
 			Log.e("xxx_getOrderPayInfo", url);
 			Log.e("xxx_getOrderPayInfo_orderId", orderId);
-			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
-				@Override
-				public void onResponse(JSONObject response) {
-					if (null != response) {
-						Log.e("xxx_getOrderPayInfo", response.toString());
-						parseOrderPayInfoData(response, handler);
-					}
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_getOrderPayInfo",
+										response.toString());
+								parseOrderPayInfoData(response, handler);
+							}
 
-				}
+						}
 
-			}, null);
-			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+					}, null);
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
 
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
@@ -200,14 +222,16 @@ public class OrderLogic {
 
 	}
 
-	private static void parseOrderPayInfoData(JSONObject response, Handler handler) {
+	private static void parseOrderPayInfoData(JSONObject response,
+			Handler handler) {
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 
-				JSONObject dataJsonObject = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
-				AlipayMerchant alipayMerchant = (AlipayMerchant) JsonUtils.fromJsonToJava(dataJsonObject,
-						AlipayMerchant.class);
+				JSONObject dataJsonObject = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				AlipayMerchant alipayMerchant = (AlipayMerchant) JsonUtils
+						.fromJsonToJava(dataJsonObject, AlipayMerchant.class);
 				Message message = new Message();
 				message.what = ORDER_PAY_INFO_GET_SUC;
 				message.obj = alipayMerchant;
@@ -220,26 +244,31 @@ public class OrderLogic {
 		}
 	}
 
-	public static void getOrderPayInfoByUnion(final Context context, final Handler handler, final String orderId) {
+	public static void getOrderPayInfoByUnion(final Context context,
+			final Handler handler, final String orderId) {
 		JSONObject requestJson = new JSONObject();
 		Log.e("xxx_getOrderPayInfo", "start");
 		try {
 			requestJson.put("order_id", URLEncoder.encode(orderId, "UTF-8"));
-			String url = RequestUrl.HOST_PAY_URL + RequestUrl.order.getOrderPayByUnionInfo;
+			String url = RequestUrl.HOST_PAY_URL
+					+ RequestUrl.order.getOrderPayByUnionInfo;
 
 			Log.e("xxx_getOrderPayInfoByUnion", url);
-			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
-				@Override
-				public void onResponse(JSONObject response) {
-					if (null != response) {
-						Log.e("xxx_getOrderPayInfoByUnion_result", "result" + response.toString());
-						parseOrderPayInfoByUnionData(response, handler);
-					}
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_getOrderPayInfoByUnion_result",
+										"result" + response.toString());
+								parseOrderPayInfoByUnionData(response, handler);
+							}
 
-				}
+						}
 
-			}, null);
-			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+					}, null);
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
 
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
@@ -251,14 +280,16 @@ public class OrderLogic {
 		}
 
 	}
-	
-	private static void parseOrderPayInfoByUnionData(JSONObject response, Handler handler) {
+
+	private static void parseOrderPayInfoByUnionData(JSONObject response,
+			Handler handler) {
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-				JSONObject dataJsonObject = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
-				UnionpayMerchant unionpayMerchant = (UnionpayMerchant) JsonUtils.fromJsonToJava(dataJsonObject,
-						UnionpayMerchant.class);
+				JSONObject dataJsonObject = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				UnionpayMerchant unionpayMerchant = (UnionpayMerchant) JsonUtils
+						.fromJsonToJava(dataJsonObject, UnionpayMerchant.class);
 				Message message = new Message();
 				message.what = ORDER_PAY_UNION_TN_GET_SUC;
 				message.obj = unionpayMerchant;
@@ -271,25 +302,29 @@ public class OrderLogic {
 		}
 	}
 
-	public static void getOrderPreInfo(final Context context, final Handler handler) {
+	public static void getOrderPreInfo(final Context context,
+			final Handler handler) {
 		JSONObject requestJson = new JSONObject();
 		try {
-			requestJson.put("sessionid", "frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
 
 			String url = RequestUrl.HOST_URL + RequestUrl.order.cartDetail;
 
-			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
-				@Override
-				public void onResponse(JSONObject response) {
-					if (null != response) {
-						Log.e("xxx_cartDetail_str", response.toString());
-						parseOrderPreInfoData(response, handler);
-					}
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_cartDetail_str", response.toString());
+								parseOrderPreInfoData(response, handler);
+							}
 
-				}
+						}
 
-			}, null);
-			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+					}, null);
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
 
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
@@ -300,36 +335,49 @@ public class OrderLogic {
 
 	}
 
-	private static void parseOrderPreInfoData(JSONObject response, Handler handler) {
+	private static void parseOrderPreInfoData(JSONObject response,
+			Handler handler) {
 
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-				JSONObject dataJsonObject = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				JSONObject dataJsonObject = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
 				PreOrder preOrder = new PreOrder();
 
-				JSONObject addressJsonObject = dataJsonObject.getJSONObject("address");
-				Address address = (Address) JsonUtils.fromJsonToJava(addressJsonObject, Address.class);
+				JSONObject addressJsonObject = dataJsonObject
+						.getJSONObject("address");
+				Address address = (Address) JsonUtils.fromJsonToJava(
+						addressJsonObject, Address.class);
 
-				JSONObject shippingJsonObject = dataJsonObject.getJSONObject("shipping");
-				Shipping shiping = (Shipping) JsonUtils.fromJsonToJava(shippingJsonObject, Shipping.class);
+				JSONObject shippingJsonObject = dataJsonObject
+						.getJSONObject("shipping");
+				Shipping shiping = (Shipping) JsonUtils.fromJsonToJava(
+						shippingJsonObject, Shipping.class);
 
-				JSONObject paymentJsonObject = dataJsonObject.getJSONObject("payment");
-				Payment payment = (Payment) JsonUtils.fromJsonToJava(paymentJsonObject, Payment.class);
+				JSONObject paymentJsonObject = dataJsonObject
+						.getJSONObject("payment");
+				Payment payment = (Payment) JsonUtils.fromJsonToJava(
+						paymentJsonObject, Payment.class);
 
 				JSONArray goodsJsonArray = dataJsonObject.getJSONArray("items");
 				ArrayList<Goods> goodsArrayList = new ArrayList<>();
 				for (int i = 0; i < goodsJsonArray.length(); i++) {
-					JSONObject goodsJsonObject = goodsJsonArray.getJSONObject(i);
-					Goods goods = (Goods) JsonUtils.fromJsonToJava(goodsJsonObject, Goods.class);
+					JSONObject goodsJsonObject = goodsJsonArray
+							.getJSONObject(i);
+					Goods goods = (Goods) JsonUtils.fromJsonToJava(
+							goodsJsonObject, Goods.class);
 					goodsArrayList.add(goods);
 				}
 
-				JSONArray payMoneyJsonArray = dataJsonObject.getJSONArray("totals");
+				JSONArray payMoneyJsonArray = dataJsonObject
+						.getJSONArray("totals");
 				ArrayList<PayMoney> payMoneyArrayList = new ArrayList<>();
 				for (int j = 0; j < payMoneyJsonArray.length(); j++) {
-					JSONObject payMoneyJsonObject = payMoneyJsonArray.getJSONObject(j);
-					PayMoney payMoney = (PayMoney) JsonUtils.fromJsonToJava(payMoneyJsonObject, PayMoney.class);
+					JSONObject payMoneyJsonObject = payMoneyJsonArray
+							.getJSONObject(j);
+					PayMoney payMoney = (PayMoney) JsonUtils.fromJsonToJava(
+							payMoneyJsonObject, PayMoney.class);
 					payMoneyArrayList.add(payMoney);
 				}
 
@@ -357,30 +405,34 @@ public class OrderLogic {
 		}
 	}
 
-	public static void getOrders(final Context context, final Handler handler, final String pageNum,
-			final String pageSize, final String orderstatus) {
+	public static void getOrders(final Context context, final Handler handler,
+			final String pageNum, final String pageSize,
+			final String orderstatus) {
 		JSONObject requestJson = new JSONObject();
 		try {
 			// URLEncoder.encode(UserInfoManager.getSession(context), "UTF-8")
-			requestJson.put("sessionid", "frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
 			requestJson.put("c", pageNum);
 			requestJson.put("s", pageSize);
 			requestJson.put("orderstatus", orderstatus);
 
 			String url = RequestUrl.HOST_URL + RequestUrl.order.queryOrderList;
 
-			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
-				@Override
-				public void onResponse(JSONObject response) {
-					if (null != response) {
-						Log.e("xxx_getOrders", response.toString());
-						parseOrdersData(response, handler);
-					}
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_getOrders", response.toString());
+								parseOrdersData(response, handler);
+							}
 
-				}
+						}
 
-			}, null);
-			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+					}, null);
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
 
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
@@ -398,23 +450,30 @@ public class OrderLogic {
 
 				ArrayList<Order> tempOrderList = new ArrayList<Order>();
 
-				JSONObject dataResponse = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
-				JSONArray orderListArray = dataResponse.getJSONArray("order_data");
+				JSONObject dataResponse = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				JSONArray orderListArray = dataResponse
+						.getJSONArray("order_data");
 
 				HashMap<String, Object> msgMap = new HashMap<String, Object>();
 
 				int size = orderListArray.length();
 				for (int i = 0; i < size; i++) {
-					JSONObject orderJsonObject = orderListArray.getJSONObject(i);
-					Order order = (Order) JsonUtils.fromJsonToJava(orderJsonObject, Order.class);
+					JSONObject orderJsonObject = orderListArray
+							.getJSONObject(i);
+					Order order = (Order) JsonUtils.fromJsonToJava(
+							orderJsonObject, Order.class);
 					tempOrderList.add(order);
 
 					ArrayList<Goods> tempGoodsList = new ArrayList<Goods>();
-					JSONArray goodsArray = orderJsonObject.getJSONArray("items");
+					JSONArray goodsArray = orderJsonObject
+							.getJSONArray("items");
 
 					for (int j = 0; j < goodsArray.length(); j++) {
-						JSONObject goodsJsonObject = goodsArray.getJSONObject(j);
-						Goods goods = (Goods) JsonUtils.fromJsonToJava(goodsJsonObject, Goods.class);
+						JSONObject goodsJsonObject = goodsArray
+								.getJSONObject(j);
+						Goods goods = (Goods) JsonUtils.fromJsonToJava(
+								goodsJsonObject, Goods.class);
 						tempGoodsList.add(goods);
 					}
 					ArrayList<Goods> goodsList = new ArrayList<Goods>();

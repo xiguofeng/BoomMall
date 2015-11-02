@@ -83,6 +83,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private String mOrderId;
 	private boolean isCreateOrder = false;
 
+	private PreOrder mSubmitpreOrder = new PreOrder();
+
 	private CustomProgressDialog mProgressDialog;
 
 	private Handler mOrderPreHandler = new Handler() {
@@ -95,7 +97,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					mPreOrder = (PreOrder) msg.obj;
 					fillUpData(mPreOrder);
 					if (isCreateOrder) {
-						OrderLogic.createOrder(mContext, mOrderInfoHandler);
+						OrderLogic.createOrder(mContext, mOrderInfoHandler,
+								mPreOrder);
 					}
 				}
 				break;
@@ -127,15 +130,17 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			switch (msg.what) {
 			case OrderLogic.ORDER_CREATE_SUC: {
 				if (null != msg.obj) {
-					ShoppingCartActivity.isNeedUpdate =true;
+					ShoppingCartActivity.isNeedUpdate = true;
 					mOrderId = (String) msg.obj;
 					mProgressDialog.show();
-					Intent intent = new Intent(CreateOrderActivity.this, PayActivity.class);
+					Intent intent = new Intent(CreateOrderActivity.this,
+							PayActivity.class);
 					intent.putExtra("orderId", mOrderId);
 					intent.putExtra("price", "¥" + mPreOrder.getTotal());
 					startActivity(intent);
 					finish();
-					overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+					overridePendingTransition(R.anim.push_left_in,
+							R.anim.push_left_out);
 				}
 				break;
 			}
@@ -174,7 +179,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			}
 			case PropertyLogic.BALANCE_PAY_FAIL: {
 				if (null != msg.obj) {
-					Toast.makeText(mContext, (String) msg.obj, Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, (String) msg.obj,
+							Toast.LENGTH_SHORT).show();
 				}
 				break;
 			}
@@ -189,7 +195,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			}
 			case PropertyLogic.GIFTCARD_PAY_FAIL: {
 				if (null != msg.obj) {
-					Toast.makeText(mContext, (String) msg.obj, Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, (String) msg.obj,
+							Toast.LENGTH_SHORT).show();
 				}
 				break;
 			}
@@ -217,8 +224,12 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.create_order);
 		mContext = CreateOrderActivity.this;
 		mProgressDialog = new CustomProgressDialog(mContext);
-		if (!ActivitiyInfoManager.activitityMap.containsKey(ActivitiyInfoManager.getCurrentActivityName(mContext))) {
-			ActivitiyInfoManager.activitityMap.put(ActivitiyInfoManager.getCurrentActivityName(mContext), this);
+		if (!ActivitiyInfoManager.activitityMap
+				.containsKey(ActivitiyInfoManager
+						.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap
+					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
+							this);
 		}
 		initView();
 		initData();
@@ -226,12 +237,15 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private void initView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.create_order_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
+				.findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(), "Fetching Data", Toast.LENGTH_SHORT).show();
+						mMultiStateView
+								.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(),
+								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
 		mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
@@ -262,43 +276,52 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mBmCardMoneyTv = (TextView) findViewById(R.id.create_order_bmcard_money_tv);
 
 		mCheckRemainingCb = (CheckBox) findViewById(R.id.create_order_bmcard_remaining_cb);
-		mCheckRemainingCb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (!isHasBalance) {
-					mProgressDialog.show();
-					if (isChecked) {
-						PropertyLogic.balancePay(mContext, mGiftCardHandler, "1");
-					} else {
-						PropertyLogic.balancePay(mContext, mGiftCardHandler, "0");
+		mCheckRemainingCb
+				.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (!isHasBalance) {
+							mProgressDialog.show();
+							if (isChecked) {
+								PropertyLogic.balancePay(mContext,
+										mGiftCardHandler, "1");
+							} else {
+								PropertyLogic.balancePay(mContext,
+										mGiftCardHandler, "0");
+							}
+						}
+						isHasBalance = false;
 					}
-				}
-				isHasBalance = false;
-			}
 
-		});
+				});
 
 		mCheckBmCardCb = (CheckBox) findViewById(R.id.create_order_bmcard_cb);
-		mCheckBmCardCb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (!isHasBmCard) {
-					String giftCardPwd = mInvoiceTitleEt.getText().toString().trim();
-					if (!TextUtils.isEmpty(giftCardPwd)) {
-						mProgressDialog.show();
-						if (isChecked) {
-							PropertyLogic.giftCardPay(mContext, mGiftCardHandler, giftCardPwd, "0");
-						} else {
-							PropertyLogic.giftCardPay(mContext, mGiftCardHandler, giftCardPwd, "1");
+		mCheckBmCardCb
+				.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (!isHasBmCard) {
+							String giftCardPwd = mInvoiceTitleEt.getText()
+									.toString().trim();
+							if (!TextUtils.isEmpty(giftCardPwd)) {
+								mProgressDialog.show();
+								if (isChecked) {
+									PropertyLogic.giftCardPay(mContext,
+											mGiftCardHandler, giftCardPwd, "0");
+								} else {
+									PropertyLogic.giftCardPay(mContext,
+											mGiftCardHandler, giftCardPwd, "1");
+								}
+							} else if (isChecked) {
+								mCheckBmCardCb.setChecked(false);
+							}
 						}
-					} else if (isChecked) {
-						mCheckBmCardCb.setChecked(false);
+						isHasBmCard = false;
 					}
-				}
-				isHasBmCard = false;
-			}
 
-		});
+				});
 		mGoodsViewLl = (LinearLayout) findViewById(R.id.create_order_goods_view_ll);
 		initInvoiceView();
 	}
@@ -352,7 +375,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		ArrayList<Goods> goodsList = mPreOrder.getGoodsList();
 		for (int i = 0; i < goodsList.size(); i++) {
 			Goods goods = goodsList.get(i);
-			CreateOrderGoodsView orderGoodsView = new CreateOrderGoodsView(mContext, goods);
+			CreateOrderGoodsView orderGoodsView = new CreateOrderGoodsView(
+					mContext, goods);
 			mGoodsViewLl.addView(orderGoodsView);
 		}
 	}
@@ -442,7 +466,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			break;
 		}
 		case R.id.create_order_address_ll: {
-			Intent intent = new Intent(CreateOrderActivity.this, AddressListActivity.class);
+			Intent intent = new Intent(CreateOrderActivity.this,
+					AddressListActivity.class);
 			intent.setAction(AddressListActivity.ORIGIN_FROM_ORDER_KEY);
 			startActivityForResult(intent, 500);
 			break;
