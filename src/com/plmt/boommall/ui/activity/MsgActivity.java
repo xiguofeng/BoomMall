@@ -8,11 +8,16 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -24,6 +29,10 @@ import com.plmt.boommall.utils.JsonUtils;
 
 public class MsgActivity extends Activity implements OnClickListener {
 
+	public static final int SUC = 0;
+
+	public static final int FAIL = SUC + 1;
+
 	private final Context mContext = MsgActivity.this;
 
 	private ImageView mBackIv;
@@ -31,6 +40,28 @@ public class MsgActivity extends Activity implements OnClickListener {
 	private ListView mMsgLv;
 	private MsgAdapter mMsgAdapter;
 	private ArrayList<Msg> mMsgList = new ArrayList<Msg>();
+
+	Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			int what = msg.what;
+			switch (what) {
+			case SUC: {
+				break;
+
+			}
+			case FAIL: {
+				break;
+			}
+
+			default:
+				break;
+			}
+
+		}
+
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +85,17 @@ public class MsgActivity extends Activity implements OnClickListener {
 		mMsgLv = (ListView) findViewById(R.id.msg_lv);
 		mMsgAdapter = new MsgAdapter(mContext, mMsgList);
 		mMsgLv.setAdapter(mMsgAdapter);
+
+		mMsgLv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(mContext, Html5Activity.class);
+				intent.putExtra("url", mMsgList.get(position).getUrl());
+				mContext.startActivity(intent);
+			}
+		});
 	}
 
 	private void initData() {
@@ -84,7 +126,8 @@ public class MsgActivity extends Activity implements OnClickListener {
 					}
 					for (int i = 0; i < size; i++) {
 						JSONObject msgJsonObject = jsonArray.getJSONObject(i);
-						Msg msg = (Msg) JsonUtils.fromJsonToJava(msgJsonObject, Msg.class);
+						Msg msg = (Msg) JsonUtils.fromJsonToJava(msgJsonObject,
+								Msg.class);
 						mMsgList.add(msg);
 					}
 					mMsgAdapter.notifyDataSetChanged();
@@ -103,7 +146,8 @@ public class MsgActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.msg_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			break;
 		}
 		default:
@@ -114,9 +158,11 @@ public class MsgActivity extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 			finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
