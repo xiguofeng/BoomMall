@@ -72,6 +72,9 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	private TextView mCommentContentTv;
 	private TextView mCommentNameTv;
 
+	private TextView mIsSaleAbleTv;
+	private TextView mDeliverytimeTv;
+
 	public EditText mNum;
 
 	private LinearLayout mCollectionLl;
@@ -79,6 +82,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	private LinearLayout mCartLl;
 
 	private LinearLayout mBriefLl;
+
+	private LinearLayout mMoreCommentsLl;
 
 	public ImageButton mAddIb;
 
@@ -178,8 +183,12 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				break;
 			}
 			case CartLogic.CART_ADD_SUC: {
-				ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.CategoryActivity");
-				ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.GoodsListActivity");
+				ActivitiyInfoManager
+						.finishActivity("com.plmt.boommall.ui.activity.CategoryActivity");
+				ActivitiyInfoManager
+						.finishActivity("com.plmt.boommall.ui.activity.GoodsListActivity");
+				ActivitiyInfoManager
+						.finishActivity("com.plmt.boommall.ui.activity.Html5Activity");
 
 				finish();
 				ShoppingCartActivity.isNeedUpdate = true;
@@ -188,7 +197,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			}
 			case CartLogic.CART_ADD_FAIL: {
 				if (null != msg.obj) {
-					Toast.makeText(mContext, R.string.cart_add_fail, Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, R.string.cart_add_fail,
+							Toast.LENGTH_SHORT).show();
 				}
 
 				break;
@@ -225,7 +235,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			}
 			case CollectionLogic.COLLECTION_ADD_FAIL: {
 				if (null != msg.obj) {
-					Toast.makeText(mContext, "收藏失败：" + (String) msg.obj, Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, "收藏失败：" + (String) msg.obj,
+							Toast.LENGTH_SHORT).show();
 				}
 				break;
 			}
@@ -239,7 +250,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			}
 			case CollectionLogic.COLLECTION_DEL_FAIL: {
 				if (null != msg.obj) {
-					Toast.makeText(mContext, "删除收藏失败：" + (String) msg.obj, Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, "删除收藏失败：" + (String) msg.obj,
+							Toast.LENGTH_SHORT).show();
 				}
 				break;
 			}
@@ -266,8 +278,12 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.goods_detail);
 		mContext = GoodsDetailActivity.this;
-		if (!ActivitiyInfoManager.activitityMap.containsKey(ActivitiyInfoManager.getCurrentActivityName(mContext))) {
-			ActivitiyInfoManager.activitityMap.put(ActivitiyInfoManager.getCurrentActivityName(mContext), this);
+		if (!ActivitiyInfoManager.activitityMap
+				.containsKey(ActivitiyInfoManager
+						.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap
+					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
+							this);
 		}
 		initView();
 		initData();
@@ -289,6 +305,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		mCartLl = (LinearLayout) findViewById(R.id.goods_detail_cart_ll);
 		mCollectionLl.setOnClickListener(this);
 		mCartLl.setOnClickListener(this);
+		mMoreCommentsLl = (LinearLayout) findViewById(R.id.goods_detail_more_comment_ll);
+		mMoreCommentsLl.setOnClickListener(this);
 
 		mShareIv = (ImageView) findViewById(R.id.goods_detail_share_iv);
 		mBackIv = (ImageView) findViewById(R.id.goods_detail_back_iv);
@@ -306,6 +324,9 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 		mGoodsNameTv = (TextView) findViewById(R.id.goods_detail_name_tv);
 		mGoodsPriceTv = (TextView) findViewById(R.id.goods_detail_price_tv);
+
+		mIsSaleAbleTv = (TextView) findViewById(R.id.goods_detail_goods_is_sale_tv);
+		mDeliverytimeTv = (TextView) findViewById(R.id.goods_detail_goods_delivery_tv);
 	}
 
 	private void initComment() {
@@ -326,7 +347,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void showcircleimage() {
-		mBannerAdapter = new GoodsDetailBannerAdapter(mContext, mBannerActivityList);
+		mBannerAdapter = new GoodsDetailBannerAdapter(mContext,
+				mBannerActivityList);
 		mViewFlow.setAdapter(mBannerAdapter);
 		mViewFlow.setViewGroup(mBannerFl);
 		mViewFlow.setmSideBuffer(mBannerActivityList.size()); // 实际图片张数
@@ -338,7 +360,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-		mGoodsId = (String) getIntent().getSerializableExtra(GoodsDetailActivity.GOODS_ID_KEY);
+		mGoodsId = (String) getIntent().getSerializableExtra(
+				GoodsDetailActivity.GOODS_ID_KEY);
 		if (!TextUtils.isEmpty(getIntent().getAction())) {
 			mNowAction = getIntent().getAction();
 		}
@@ -351,8 +374,18 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void fillUpGoodsData() {
-		mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods.getName().trim() : "");
-		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥" + mGoods.getFinalPrice().trim() : "¥");
+		mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods
+				.getName().trim() : "");
+		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥"
+				+ mGoods.getFinalPrice().trim() : "¥");
+
+		if (!"1".equals(mGoods.getIsSaleable())) {
+			mIsSaleAbleTv.setText("非现货");
+		}
+		if (!TextUtils.isEmpty(mGoods.getDeliverytime())
+				&& mGoods.getDeliverytime().equals("")) {
+			mDeliverytimeTv.setText("下单后" + mGoods.getDeliverytime() + "天发货");
+		}
 
 		mSlidingMenu.setmUrl(mGoods.getDescription());
 
@@ -372,37 +405,53 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private void fillUpComment() {
 		mCommentRatioTv
-				.setText(!TextUtils.isEmpty(mGoods.getRating_avg()) ? mGoods.getRating_avg().trim() + "%" : "0%");
-		mCommentPersonNumTv.setText(
-				!TextUtils.isEmpty(mGoods.getReview_total()) ? mGoods.getReview_total().trim() + "人评论" : "0人评论");
-		mCommentTimeTv.setText(!TextUtils.isEmpty(mGoods.getComment().getCreated_at())
-				? mGoods.getComment().getCreated_at().trim() : "");
-		mCommentContentTv.setText(
-				!TextUtils.isEmpty(mGoods.getComment().getDetail()) ? mGoods.getComment().getDetail().trim() : "暂无评论");
-		mCommentNameTv.setText(
-				!TextUtils.isEmpty(mGoods.getComment().getNickname()) ? mGoods.getComment().getNickname().trim() : "");
+				.setText(!TextUtils.isEmpty(mGoods.getRating_avg()) ? mGoods
+						.getRating_avg().trim() + "%" : "0%");
+		mCommentPersonNumTv
+				.setText(!TextUtils.isEmpty(mGoods.getReview_total()) ? mGoods
+						.getReview_total().trim() + "人评论" : "0人评论");
+		mCommentTimeTv.setText(!TextUtils.isEmpty(mGoods.getComment()
+				.getCreated_at()) ? mGoods.getComment().getCreated_at().trim()
+				: "");
+		mCommentContentTv
+				.setText(!TextUtils.isEmpty(mGoods.getComment().getDetail()) ? mGoods
+						.getComment().getDetail().trim()
+						: "暂无评论");
+		mCommentNameTv
+				.setText(!TextUtils.isEmpty(mGoods.getComment().getNickname()) ? mGoods
+						.getComment().getNickname().trim()
+						: "");
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.goods_detail_cart_ll: {
+			if (0 == mCartNum) {
+				Toast.makeText(mContext, R.string.cart_add_num_no_hint,
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
 			if (!UserInfoManager.getLoginIn(mContext)) {
-				Intent intent = new Intent(GoodsDetailActivity.this, LoginActivity.class);
+				Intent intent = new Intent(GoodsDetailActivity.this,
+						LoginActivity.class);
 				intent.setAction(LoginActivity.ORIGIN_FROM_GOODS_DETAIL_KEY);
 				startActivity(intent);
-				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+				overridePendingTransition(R.anim.push_left_in,
+						R.anim.push_left_out);
 			} else {
 				mProgressDialog = new CustomProgressDialog(mContext);
 				mProgressDialog.show();
-				CartLogic.add(mContext, mCartHandler, mGoods.getId(), String.valueOf(mCartNum));
+				CartLogic.add(mContext, mCartHandler, mGoods.getId(),
+						String.valueOf(mCartNum));
 			}
 			break;
 		}
 		case R.id.goods_detail_add_cart_btn: {
 
 			mAddCartBtn.setClickable(false);
-			if (TextUtils.isEmpty(mGoods.getNum()) || "null".equals(mGoods.getNum())) {
+			if (TextUtils.isEmpty(mGoods.getNum())
+					|| "null".equals(mGoods.getNum())) {
 				mGoods.setNum("0");
 			}
 			mCartNum++;
@@ -427,7 +476,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		}
 		case R.id.goods_detail_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			break;
 		}
 		case R.id.goods_detail_share_iv: {
@@ -436,9 +486,15 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				title = mGoods.getName();
 			}
 			startActivity(Intent.createChooser(
-					new Intent(Intent.ACTION_SEND).putExtra(Intent.EXTRA_SUBJECT, title)
-							.putExtra(Intent.EXTRA_TEXT, title).setType(Constants.MIMETYPE_TEXT_PLAIN),
+					new Intent(Intent.ACTION_SEND)
+							.putExtra(Intent.EXTRA_SUBJECT, title)
+							.putExtra(Intent.EXTRA_TEXT, title)
+							.setType(Constants.MIMETYPE_TEXT_PLAIN),
 					getString(R.string.menu_share)));
+			break;
+		}
+		case R.id.goods_detail_more_comment_ll: {
+
 			break;
 		}
 

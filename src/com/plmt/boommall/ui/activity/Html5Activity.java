@@ -1,6 +1,7 @@
 package com.plmt.boommall.ui.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,10 +26,13 @@ import com.plmt.boommall.ui.view.webview.jsbridge.BridgeHandler;
 import com.plmt.boommall.ui.view.webview.jsbridge.BridgeWebView;
 import com.plmt.boommall.ui.view.webview.jsbridge.CallBackFunction;
 import com.plmt.boommall.ui.view.webview.jsbridge.DefaultHandler;
+import com.plmt.boommall.utils.ActivitiyInfoManager;
 
 public class Html5Activity extends Activity implements OnClickListener {
 
 	private final String TAG = "xxx_Html5Activity";
+
+	private Context mContext;
 
 	BridgeWebView webView;
 
@@ -46,6 +50,15 @@ public class Html5Activity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.h5_jsbridge);
+
+		mContext = Html5Activity.this;
+		if (!ActivitiyInfoManager.activitityMap
+				.containsKey(ActivitiyInfoManager
+						.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap
+					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
+							this);
+		}
 
 		mBackIv = (ImageView) findViewById(R.id.h5_back_iv);
 		mBackIv.setOnClickListener(this);

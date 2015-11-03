@@ -62,205 +62,218 @@ public class Goods implements Serializable {
 	 * 好评率
 	 */
 	private String rating_avg;
-	
+
 	/**
 	 * 所属商户
 	 */
 	private String manufacturer;
-	
+
+	/**
+	 * 配送时间
+	 */
+	private String deliverytime;
+
 	private Comment comment;
 
 	private ArrayList<String> litterImage;
 
-	public final String getId() {
+	public String getId() {
 		return id;
 	}
 
-	public final void setId(String id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public final String getName() {
+	public String getName() {
 		return name;
 	}
 
-	public final void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public final String getCountryOfManufacture() {
+	public String getCountryOfManufacture() {
 		return countryOfManufacture;
 	}
 
-	public final void setCountryOfManufacture(String countryOfManufacture) {
+	public void setCountryOfManufacture(String countryOfManufacture) {
 		this.countryOfManufacture = countryOfManufacture;
 	}
 
-	public final String getWc_model() {
+	public String getWc_model() {
 		return wc_model;
 	}
 
-	public final void setWc_model(String wc_model) {
+	public void setWc_model(String wc_model) {
 		this.wc_model = wc_model;
 	}
 
-	public final String getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public final void setPrice(String price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
-	public final String getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public final void setImage(String image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
-	public final String getTierPrice() {
+	public String getTierPrice() {
 		return tierPrice;
 	}
 
-	public final void setTierPrice(String tierPrice) {
+	public void setTierPrice(String tierPrice) {
 		this.tierPrice = tierPrice;
 	}
 
-	public final String getWc_cap() {
+	public String getWc_cap() {
 		return wc_cap;
 	}
 
-	public final void setWc_cap(String wc_cap) {
+	public void setWc_cap(String wc_cap) {
 		this.wc_cap = wc_cap;
 	}
 
-	public final String getFinalPrice() {
+	public String getFinalPrice() {
 		return finalPrice;
 	}
 
-	public final void setFinalPrice(String finalPrice) {
+	public void setFinalPrice(String finalPrice) {
 		this.finalPrice = finalPrice;
 	}
 
-	public final String getIsSaleable() {
+	public String getIsSaleable() {
 		return isSaleable;
 	}
 
-	public final void setIsSaleable(String isSaleable) {
+	public void setIsSaleable(String isSaleable) {
 		this.isSaleable = isSaleable;
 	}
 
-	public final String getCn_price() {
+	public String getCn_price() {
 		return cn_price;
 	}
 
-	public final void setCn_price(String cn_price) {
+	public void setCn_price(String cn_price) {
 		this.cn_price = cn_price;
 	}
 
-	public final String getNum() {
+	public String getNum() {
 		return num;
 	}
 
-	public final void setNum(String num) {
+	public void setNum(String num) {
 		this.num = num;
 	}
 
-	public final String getMinSaleQty() {
+	public String getMinSaleQty() {
 		return minSaleQty;
 	}
 
-	public final void setMinSaleQty(String minSaleQty) {
+	public void setMinSaleQty(String minSaleQty) {
 		this.minSaleQty = minSaleQty;
 	}
 
-	public final String getMaxSaleQty() {
+	public String getMaxSaleQty() {
 		return maxSaleQty;
 	}
 
-	public final void setMaxSaleQty(String maxSaleQty) {
+	public void setMaxSaleQty(String maxSaleQty) {
 		this.maxSaleQty = maxSaleQty;
 	}
 
-	public final String getQty() {
+	public String getQty() {
 		return qty;
 	}
 
-	public final void setQty(String qty) {
+	public void setQty(String qty) {
 		this.qty = qty;
 	}
 
-	public final String getScid() {
+	public String getScid() {
 		return scid;
 	}
 
-	public final void setScid(String scid) {
+	public void setScid(String scid) {
 		this.scid = scid;
 	}
 
-	public final String getWeight() {
+	public String getWeight() {
 		return weight;
 	}
 
-	public final void setWeight(String weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 
-	public final String getType() {
+	public String getType() {
 		return type;
 	}
 
-	public final void setType(String type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
-	public final String getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
-	public final void setDescription(String description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public final String getReview_total() {
+	public String getReview_total() {
 		return review_total;
 	}
 
-	public final void setReview_total(String review_total) {
+	public void setReview_total(String review_total) {
 		this.review_total = review_total;
 	}
 
-	public final String getRating_avg() {
+	public String getRating_avg() {
 		return rating_avg;
 	}
 
-	public final void setRating_avg(String rating_avg) {
+	public void setRating_avg(String rating_avg) {
 		this.rating_avg = rating_avg;
 	}
 
-	public final String getManufacturer() {
+	public String getManufacturer() {
 		return manufacturer;
 	}
 
-	public final void setManufacturer(String manufacturer) {
+	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
 	}
 
-	public final Comment getComment() {
+	public String getDeliverytime() {
+		return deliverytime;
+	}
+
+	public void setDeliverytime(String deliverytime) {
+		this.deliverytime = deliverytime;
+	}
+
+	public Comment getComment() {
 		return comment;
 	}
 
-	public final void setComment(Comment comment) {
+	public void setComment(Comment comment) {
 		this.comment = comment;
 	}
 
-	public final ArrayList<String> getLitterImage() {
+	public ArrayList<String> getLitterImage() {
 		return litterImage;
 	}
 
-	public final void setLitterImage(ArrayList<String> litterImage) {
+	public void setLitterImage(ArrayList<String> litterImage) {
 		this.litterImage = litterImage;
 	}
 
