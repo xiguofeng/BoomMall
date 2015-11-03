@@ -24,10 +24,10 @@
             android:orientation="vertical" >
 
             <ImageView
-                android:background="@color/gray_bg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:background="@color/gray_bg"
                 android:paddingBottom="20dip"
                 android:paddingTop="40dip"
                 android:scaleType="centerInside"
@@ -91,20 +91,31 @@
                     android:paddingBottom="5dip"
                     android:paddingTop="5dip" >
 
-                    <EditText
+                    <ImageView
+                        android:id="@+id/login_see_pwd_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dip"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/login_express" />
+
+                    <com.plmt.boommall.ui.view.AutoClearEditText
                         android:id="@+id/login_password"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/login_see_pwd_iv"
                         android:background="@null"
                         android:hint="@string/user_psw_hint"
+                        android:layout_centerVertical="true"
                         android:imeActionLabel="下一步"
                         android:imeOptions="actionDone|flagNoExtractUi"
                         android:inputType="textPassword"
-                        android:maxLength="16"
                         android:maxLines="1"
                         android:paddingBottom="6.0dip"
                         android:paddingLeft="40dip"
-                        android:paddingRight="50dip"
+                        android:paddingRight="10dip"
                         android:paddingTop="6.0dip"
                         android:textColor="@color/blue_text"
                         android:textSize="@dimen/middle_text_size" />
@@ -185,8 +196,8 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="15dip"
             android:background="@color/white"
-            android:visibility="gone"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <Button
                 android:id="@+id/login_anonymous_btn"
@@ -242,8 +253,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
                 android:layout_marginBottom="15dip"
+                android:layout_marginTop="10dip"
                 android:background="@color/white"
                 android:gravity="center"
                 android:orientation="horizontal" >
@@ -259,16 +270,16 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/wechat"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/wechat" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
                         android:text="@string/wechat_login"
-                        android:textSize="@dimen/micro_text_size" 
-                        android:textColor="@color/black_character"/>
+                        android:textColor="@color/black_character"
+                        android:textSize="@dimen/micro_text_size" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -278,19 +289,20 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical" >
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/weibo"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/weibo" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
                         android:text="@string/weibo_login"
-                        android:textSize="@dimen/micro_text_size" 
-                        android:textColor="@color/black_character"/>
+                        android:textColor="@color/black_character"
+                        android:textSize="@dimen/micro_text_size" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -300,19 +312,20 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical" >
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/qq"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/qq" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
                         android:text="@string/qq_login"
-                        android:textSize="@dimen/micro_text_size" 
-                        android:textColor="@color/black_character"/>
+                        android:textColor="@color/black_character"
+                        android:textSize="@dimen/micro_text_size" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
