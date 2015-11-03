@@ -189,6 +189,16 @@ public class RequestUrl {
 		public String del = "/favorite/delete";
 
 	}
+	
+	public interface comment {
+
+		/**
+		 * 评论列表
+		 */
+		public String list = "/pdp/listComment";
+
+
+	}
 
 	public interface goods {
 

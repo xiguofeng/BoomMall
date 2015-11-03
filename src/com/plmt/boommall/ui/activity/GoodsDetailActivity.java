@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +27,6 @@ import com.plmt.boommall.R;
 import com.plmt.boommall.config.Constants;
 import com.plmt.boommall.entity.Ads;
 import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.network.config.RequestUrl.goods;
 import com.plmt.boommall.network.logic.CartLogic;
 import com.plmt.boommall.network.logic.CollectionLogic;
 import com.plmt.boommall.network.logic.GoodsLogic;
@@ -83,7 +82,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private LinearLayout mBriefLl;
 
-	private LinearLayout mMoreCommentsLl;
+	private RelativeLayout mMoreCommentsRl;
 
 	public ImageButton mAddIb;
 
@@ -305,8 +304,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		mCartLl = (LinearLayout) findViewById(R.id.goods_detail_cart_ll);
 		mCollectionLl.setOnClickListener(this);
 		mCartLl.setOnClickListener(this);
-		mMoreCommentsLl = (LinearLayout) findViewById(R.id.goods_detail_more_comment_ll);
-		mMoreCommentsLl.setOnClickListener(this);
+		mMoreCommentsRl = (RelativeLayout) findViewById(R.id.goods_detail_more_comment_rl);
+		mMoreCommentsRl.setOnClickListener(this);
 
 		mShareIv = (ImageView) findViewById(R.id.goods_detail_share_iv);
 		mBackIv = (ImageView) findViewById(R.id.goods_detail_back_iv);
@@ -493,8 +492,12 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 					getString(R.string.menu_share)));
 			break;
 		}
-		case R.id.goods_detail_more_comment_ll: {
-
+		case R.id.goods_detail_more_comment_rl: {
+			Intent intent = new Intent(GoodsDetailActivity.this,
+					MoreCommentsActivity.class);
+			intent.putExtra("id", mGoodsId);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		}
 

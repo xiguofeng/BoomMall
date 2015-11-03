@@ -223,6 +223,12 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.plmt.boommall.ui.activity.MoreCommentsActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.plmt.boommall.ui.activity.TouchImageViewActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"

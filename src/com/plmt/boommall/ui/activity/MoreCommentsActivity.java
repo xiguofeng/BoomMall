@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,21 +19,22 @@ import android.widget.ListView;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Comment;
+import com.plmt.boommall.network.config.MsgRequest;
+import com.plmt.boommall.network.logic.CollectionLogic;
+import com.plmt.boommall.network.logic.CommetLogic;
 import com.plmt.boommall.ui.adapter.CommentsAdapter;
 
 public class MoreCommentsActivity extends Activity implements OnClickListener {
-
-	public static final int SUC = 0;
-
-	public static final int FAIL = SUC + 1;
 
 	private final Context mContext = MoreCommentsActivity.this;
 
 	private ImageView mBackIv;
 
 	private ListView mCommentsLv;
-	private CommentsAdapter mMsgAdapter;
-	private ArrayList<Comment> mMsgList = new ArrayList<Comment>();
+	private CommentsAdapter mCommentAdapter;
+	private ArrayList<Comment> mCommentList = new ArrayList<Comment>();
+
+	private String mId;
 
 	Handler mHandler = new Handler() {
 
@@ -40,11 +42,13 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			int what = msg.what;
 			switch (what) {
-			case SUC: {
+			case CommetLogic.COMMENT_LIST_GET_SUC: {
 				break;
-
 			}
-			case FAIL: {
+			case CommetLogic.COMMENT_LIST_GET_FAIL: {
+				break;
+			}
+			case CommetLogic.COMMENT_LIST_GET_EXCEPTION: {
 				break;
 			}
 
@@ -76,8 +80,8 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 		mBackIv.setOnClickListener(this);
 
 		mCommentsLv = (ListView) findViewById(R.id.more_comments_lv);
-		mMsgAdapter = new CommentsAdapter(mContext, mMsgList);
-		mCommentsLv.setAdapter(mMsgAdapter);
+		mCommentAdapter = new CommentsAdapter(mContext, mCommentList);
+		mCommentsLv.setAdapter(mCommentAdapter);
 
 		mCommentsLv.setOnItemClickListener(new OnItemClickListener() {
 
@@ -89,11 +93,17 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-		mMsgList.clear();
+		mId = getIntent().getStringExtra("id");
+
+		mCommentList.clear();
 		getData();
 	}
 
 	private void getData() {
+		if (!TextUtils.isEmpty(mId)) {
+			mId = "22266";
+			CommetLogic.getList(mContext, mHandler, mId);
+		}
 	}
 
 	@Override
