@@ -1,6 +1,7 @@
 package com.plmt.boommall.ui.activity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import android.app.Activity;
 import android.content.Context;
@@ -43,6 +44,11 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 			int what = msg.what;
 			switch (what) {
 			case CommetLogic.COMMENT_LIST_GET_SUC: {
+				if (null != msg.obj) {
+					mCommentList.clear();
+					mCommentList.addAll((Collection<? extends Comment>) msg.obj);
+					mCommentAdapter.notifyDataSetChanged();
+				}
 				break;
 			}
 			case CommetLogic.COMMENT_LIST_GET_FAIL: {
@@ -86,8 +92,7 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 		mCommentsLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			}
 		});
 	}
@@ -111,8 +116,7 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.more_comments_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			break;
 		}
 		default:
@@ -123,11 +127,9 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 			finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

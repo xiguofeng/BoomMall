@@ -24,6 +24,8 @@ public class Comment implements Serializable {
 	private String customer_id;
 
 	private String detail;
+	
+	private String start_avg;
 
 	public String getReview_id() {
 		return review_id;
@@ -88,5 +90,15 @@ public class Comment implements Serializable {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
+
+	public String getStart_avg() {
+		return start_avg;
+	}
+
+	public void setStart_avg(String start_avg) {
+		this.start_avg = start_avg;
+	}
+	
+
 
 }

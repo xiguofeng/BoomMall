@@ -1,34 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="56dip"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical"
-    android:paddingTop="8dip"
-    android:paddingBottom="8dip"
+    android:paddingBottom="10dp"
     android:paddingLeft="5dip"
-    android:paddingRight="5dip" >
+    android:paddingRight="5dip"
+    android:paddingTop="10dp" >
 
-    <TextView
-        android:id="@+id/msg_item_name_tv"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/list_comments_comment_detial_ll"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginTop="5dip"
-        android:maxLines="1"
-        android:text=""
-        android:textColor="@color/black_character"
-        android:textSize="@dimen/middle_text_size" />
-    
-    
-    <TextView
-        android:id="@+id/msg_item_content_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginTop="10dip"
-        android:maxLines="1"
-        android:text=""
-        android:textColor="@color/gray_character"
-        android:textSize="@dimen/middle_text_size" />
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/list_comments_comment_detial_star_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dip" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
+                android:layout_marginLeft="10dip"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/list_comments_score_first_btn"
+                    android:layout_width="12dip"
+                    android:layout_height="12dip"
+                    android:background="@drawable/star_defalut"
+                    android:contentDescription="@null" />
+
+                <ImageButton
+                    android:id="@+id/list_comments_score_second_btn"
+                    android:layout_width="12dip"
+                    android:layout_height="12dip"
+                    android:layout_marginLeft="2dip"
+                    android:background="@drawable/star_defalut"
+                    android:contentDescription="@null" />
+
+                <ImageButton
+                    android:id="@+id/list_comments_score_third_btn"
+                    android:layout_width="12dip"
+                    android:layout_height="12dip"
+                    android:layout_marginLeft="2dip"
+                    android:background="@drawable/star_defalut"
+                    android:contentDescription="@null" />
+
+                <ImageButton
+                    android:id="@+id/list_comments_score_fourth_btn"
+                    android:layout_width="12dip"
+                    android:layout_height="12dip"
+                    android:layout_marginLeft="2dip"
+                    android:background="@drawable/star_defalut"
+                    android:contentDescription="@null" />
+
+                <ImageButton
+                    android:id="@+id/list_comments_score_fifth_btn"
+                    android:layout_width="12dip"
+                    android:layout_height="12dip"
+                    android:layout_marginLeft="2dip"
+                    android:background="@drawable/star_defalut"
+                    android:contentDescription="@null" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/list_comments_comment_detial_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dip"
+                android:textColor="@color/gray_character"
+                android:textSize="@dimen/small_text_size" />
+
+            <TextView
+                android:id="@+id/list_comments_comment_detial_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dip"
+                android:layout_toLeftOf="@+id/list_comments_comment_detial_time_tv"
+                android:textColor="@color/gray_character"
+                android:textSize="@dimen/small_text_size" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/list_comments_comment_detial_content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="10dip"
+            android:text=""
+            android:textColor="@color/black_character"
+            android:textSize="@dimen/small_text_size" />
+    </LinearLayout>
 
 </LinearLayout>

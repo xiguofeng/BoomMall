@@ -2,16 +2,16 @@ package com.plmt.boommall.ui.adapter;
 
 import java.util.ArrayList;
 
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Comment;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Comment;
 
 public class CommentsAdapter extends BaseAdapter {
 
@@ -53,38 +53,99 @@ public class CommentsAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.list_comments_item, null);
 
 			holder = new ViewHolder();
-			holder.mName = (TextView) convertView
-					.findViewById(R.id.msg_item_name_tv);
-			holder.mContent = (TextView) convertView
-					.findViewById(R.id.msg_item_content_tv);
-			// holder.mOriginalPrice = (TextView) convertView
-			// .findViewById(R.id.Msg_original_prices_tv);
-			//
-			// holder.mIcon = (ImageView) convertView.findViewById(R.id.Msg_iv);
+			holder.mCommentNameTv = (TextView) convertView.findViewById(R.id.list_comments_comment_detial_name_tv);
+			holder.mCommentContentTv = (TextView) convertView.findViewById(R.id.list_comments_comment_detial_content_tv);
+			holder.mCommentTimeTv = (TextView) convertView.findViewById(R.id.list_comments_comment_detial_time_tv);
+			//holder.mCommentRatioTv = (TextView) convertView.findViewById(R.id.list_comments_comment_detial_content_tv);
+			holder.mGameScoreFirstIb = (ImageButton) convertView.findViewById(R.id.list_comments_score_first_btn);
+			holder.mGameScoreSecondIb = (ImageButton) convertView.findViewById(R.id.list_comments_score_second_btn);
+			holder.mGameScoreThirdIb = (ImageButton) convertView.findViewById(R.id.list_comments_score_third_btn);
+			holder.mGameScoreFourthIb = (ImageButton) convertView.findViewById(R.id.list_comments_score_fourth_btn);
+			holder.mGameScoreFifthIb = (ImageButton) convertView.findViewById(R.id.list_comments_score_fifth_btn);
 
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		// holder.mOriginalPrice.setText("原价￥" +
-		// mDatas.get(position).getPrice());
-		//
-		// ImageLoader.getInstance().displayImage(mDatas.get(position).getImage(),
-		// holder.mIcon);
+		holder.mCommentNameTv.setText(mDatas.get(position).getNickname());
+		holder.mCommentTimeTv.setText(mDatas.get(position).getCreated_at());
+		holder.mCommentContentTv.setText(mDatas.get(position).getDetail());
+		
+		setStar(holder,Integer.parseInt(mDatas.get(position).getStart_avg()));
 
 		return convertView;
 	}
 
+	private void setStar(ViewHolder holder, int score) {
+		switch (score) {
+		case 1: {
+			holder.mGameScoreFirstIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreSecondIb.setBackgroundResource(R.drawable.star_defalut);
+			holder.mGameScoreThirdIb.setBackgroundResource(R.drawable.star_defalut);
+			holder.mGameScoreFourthIb.setBackgroundResource(R.drawable.star_defalut);
+			holder.mGameScoreFifthIb.setBackgroundResource(R.drawable.star_defalut);
+			break;
+		}
+		case 2: {
+			holder.mGameScoreFirstIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreSecondIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreThirdIb.setBackgroundResource(R.drawable.star_defalut);
+			holder.mGameScoreFourthIb.setBackgroundResource(R.drawable.star_defalut);
+			holder.mGameScoreFifthIb.setBackgroundResource(R.drawable.star_defalut);
+			break;
+		}
+		case 3: {
+			holder.mGameScoreFirstIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreSecondIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreThirdIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreFourthIb.setBackgroundResource(R.drawable.star_defalut);
+			holder.mGameScoreFifthIb.setBackgroundResource(R.drawable.star_defalut);
+			break;
+		}
+		case 4: {
+			holder.mGameScoreFirstIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreSecondIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreThirdIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreFourthIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreFifthIb.setBackgroundResource(R.drawable.star_defalut);
+			break;
+		}
+		case 5: {
+			holder.mGameScoreFirstIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreSecondIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreThirdIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreFourthIb.setBackgroundResource(R.drawable.star_select_icon);
+			holder.mGameScoreFifthIb.setBackgroundResource(R.drawable.star_select_icon);
+			break;
+		}
+
+		default:
+			break;
+		}
+	}
+
 	static class ViewHolder {
 
-		public TextView mName;
+		private TextView mCommentRatioTv;
+		
+		private TextView mCommentPersonNumTv;
+		
+		private TextView mCommentTimeTv;
+		
+		private TextView mCommentContentTv;
+		
+		private TextView mCommentNameTv;
 
-		public TextView mContent;
+		public ImageButton mGameScoreFirstIb;
 
-		public TextView mOriginalPrice;
+		public ImageButton mGameScoreSecondIb;
 
-		public ImageView mIcon;
+		public ImageButton mGameScoreThirdIb;
+
+		public ImageButton mGameScoreFourthIb;
+
+		public ImageButton mGameScoreFifthIb;
 	}
 
 }

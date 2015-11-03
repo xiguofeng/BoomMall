@@ -12,7 +12,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.plmt.boommall.BaseApplication;
-import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.entity.Comment;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
 import com.plmt.boommall.network.utils.CookieRequest;
@@ -71,22 +71,20 @@ public class CommetLogic {
 
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-				JSONObject jsonObject = response
-						.getJSONObject(MsgResult.RESULT_DATA_TAG);
-
-				JSONArray goodsArray = jsonObject.getJSONArray("items");
-				int size = goodsArray.length();
-				ArrayList<Goods> goodslist = new ArrayList<>();
+				JSONArray commentArray = response.getJSONArray(MsgResult.RESULT_DATA_TAG);
+				int size = commentArray.length();
+				ArrayList<Comment> commentlist = new ArrayList<>();
 				for (int i = 0; i < size; i++) {
-					JSONObject goodsJsonObject = goodsArray.getJSONObject(i);
-					Goods address = (Goods) JsonUtils.fromJsonToJava(
-							goodsJsonObject, Goods.class);
-					goodslist.add(address);
+					JSONObject jsonObject = commentArray.getJSONObject(i);
+					JSONObject commentJsonObject = jsonObject.getJSONObject("comment");
+					Comment comment = (Comment) JsonUtils.fromJsonToJava(
+							commentJsonObject, Comment.class);
+					commentlist.add(comment);
 				}
 
 				Message message = new Message();
 				message.what = COMMENT_LIST_GET_SUC;
-				message.obj = goodslist;
+				message.obj = commentlist;
 				handler.sendMessage(message);
 			} else {
 				handler.sendEmptyMessage(COMMENT_LIST_GET_FAIL);
