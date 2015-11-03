@@ -9,38 +9,26 @@
         android:id="@+id/msg_top_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/gray_search_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="5dip"
-        android:paddingTop="5dip" >
+        android:background="@color/red_title_bg" >
 
-          <ImageView
+        <ImageView
             android:id="@+id/msg_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="5dip"
-            android:src="@drawable/btn_back" />
+            android:contentDescription="@null"
+            android:padding="8dip"
+            android:src="@drawable/back_selector" />
 
         <TextView
-            android:id="@+id/msg_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:paddingBottom="5dip"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dip"
+            android:padding="8dip"
             android:text="@string/msg"
-            android:textColor="@color/black"
-            android:textSize="@dimen/middle_text_size" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/large_text_size" />
     </RelativeLayout>
-
 
     <ListView
         android:id="@+id/msg_lv"
