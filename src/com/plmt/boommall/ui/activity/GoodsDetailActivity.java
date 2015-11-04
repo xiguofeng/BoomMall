@@ -409,9 +409,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				!TextUtils.isEmpty(mGoods.getComment().getDetail()) ? mGoods.getComment().getDetail().trim() : "暂无评论");
 		mCommentNameTv.setText(
 				!TextUtils.isEmpty(mGoods.getComment().getNickname()) ? mGoods.getComment().getNickname().trim() : "");
-		// TODO
-		// setStar(mGoods.getComment().ge);
-
+		
+		setStar(Integer.parseInt(mGoods.getComment().getStart_avg()));
 	}
 
 	private void setStar(int score) {
