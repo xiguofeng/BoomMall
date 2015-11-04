@@ -90,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/total_price"
-                    android:textColor="@color/gray_character"
+                    android:textColor="@color/black_character_title"
                     android:textSize="@dimen/middle_text_size" />
 
                 <TextView
