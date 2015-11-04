@@ -581,7 +581,6 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-			finish();
 			HomeActivity.showMainByOnkey();
 			return true;
 		}
