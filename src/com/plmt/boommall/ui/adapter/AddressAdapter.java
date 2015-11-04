@@ -91,7 +91,7 @@ public class AddressAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.mNameTv.setText(mDatas.get(position).getUsername().trim());
+		holder.mNameTv.setText(mDatas.get(position).getUsername());
 		holder.mPhoneTv.setText(mDatas.get(position).getTelephone());
 		holder.mAddressDetail.setText(mDatas.get(position).getContent());
 
