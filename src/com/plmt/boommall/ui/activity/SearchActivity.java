@@ -2,6 +2,7 @@ package com.plmt.boommall.ui.activity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
@@ -14,7 +15,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,9 +31,11 @@ import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.config.MsgRequest;
 import com.plmt.boommall.network.logic.SearchLogic;
 import com.plmt.boommall.ui.adapter.GoodsAdapter;
+import com.plmt.boommall.ui.adapter.HotWordAdapter;
 import com.plmt.boommall.ui.adapter.MySimpleAdapter;
 import com.plmt.boommall.ui.view.AutoClearEditText;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
+import com.plmt.boommall.ui.view.gridview.CustomGridView;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 import com.plmt.boommall.utils.CacheManager;
 
@@ -50,13 +52,15 @@ public class SearchActivity extends Activity implements OnClickListener,
 	private MySimpleAdapter mSimpleAdapter;
 	private ArrayList<String> mSearchHistoryList = new ArrayList<String>();
 
+	private CustomGridView mHotWordGv;
+	private HotWordAdapter mHotWordAdapter;
+	private ArrayList<String> mHotWordList = new ArrayList<String>();
+
 	private String mSearchKey;
 
 	private XListView mGoodsLv;
 	private GoodsAdapter mGoodsAdapter;
 	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
-
-	
 
 	private int mCurrentPageNum = 1;
 	private String mNowSortType;
@@ -99,6 +103,21 @@ public class SearchActivity extends Activity implements OnClickListener,
 			case SearchLogic.NORAML_GET_EXCEPTION: {
 				break;
 			}
+			case SearchLogic.HOT_KEY_GET_SUC: {
+				if(null!=msg.obj){
+					mHotWordList.clear();
+					mHotWordList.addAll((Collection<? extends String>) msg.obj);
+					mHotWordAdapter.notifyDataSetChanged();
+				}
+				break;
+			}
+			case SearchLogic.HOT_KEY_GET_FAIL: {
+				break;
+			}
+			case SearchLogic.HOT_KEY_GET_EXCEPTION: {
+
+				break;
+			}
 			case SearchLogic.NET_ERROR: {
 				break;
 			}
@@ -117,6 +136,7 @@ public class SearchActivity extends Activity implements OnClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search);
+		mCustomProgressDialog = new CustomProgressDialog(mContext);
 		initView();
 		initData();
 
@@ -141,7 +161,24 @@ public class SearchActivity extends Activity implements OnClickListener,
 		mBackIv = (ImageView) findViewById(R.id.search_back_iv);
 		mBackIv.setOnClickListener(this);
 
+		initHotGv();
 		initXListView();
+	}
+
+	private void initHotGv() {
+		mHotWordGv = (CustomGridView) findViewById(R.id.search_hot_gv);
+		mHotWordAdapter = new HotWordAdapter(mContext, mHotWordList);
+		mHotWordGv.setAdapter(mHotWordAdapter);
+		mHotWordGv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				mSearchKey = mHotWordList.get(position);
+				mSearchGoodsEt.setText(mSearchKey);
+				getGoodsData(mSearchKey);
+			}
+		});
 	}
 
 	private void initXListView() {
@@ -217,10 +254,15 @@ public class SearchActivity extends Activity implements OnClickListener,
 				getGoodsData(mSearchKey);
 			}
 		}
+
+		getHotWordsData();
+	}
+
+	private void getHotWordsData() {
+		SearchLogic.getHotWords(mContext, mHandler);
 	}
 
 	private void getGoodsData(String keyword) {
-		mCustomProgressDialog = new CustomProgressDialog(mContext);
 		mCustomProgressDialog.show();
 		SearchLogic.queryGoods(mContext, mHandler, keyword, "",
 				mCurrentPageNum, MsgRequest.PAGE_SIZE, mNowSortType);
@@ -291,7 +333,8 @@ public class SearchActivity extends Activity implements OnClickListener,
 		}
 		case R.id.search_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			break;
 		}
 		default:
@@ -304,7 +347,8 @@ public class SearchActivity extends Activity implements OnClickListener,
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 			finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

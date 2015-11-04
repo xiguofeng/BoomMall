@@ -32,7 +32,7 @@ public class SearchLogic {
 
 	public static final int NORAML_GET_EXCEPTION = NORAML_GET_FAIL + 1;
 
-	public static final int HOT_KEY_GET_SUC = NET_ERROR + 1;
+	public static final int HOT_KEY_GET_SUC = NORAML_GET_EXCEPTION + 1;
 
 	public static final int HOT_KEY_GET_FAIL = HOT_KEY_GET_SUC + 1;
 
@@ -109,42 +109,52 @@ public class SearchLogic {
 		}
 	}
 
-	public static void getHotKeys(final Context context, final Handler handler,
-			String query, String categoryName, final int pageNum,
-			final int pageSize, final String sortType) {
+	public static void getHotWords(final Context context, final Handler handler) {
 
-		String url = RequestUrl.HOST_URL + RequestUrl.search.normal;
-		Log.e("xxx_url", url);
+		String url = RequestUrl.HOST_URL + RequestUrl.search.getHotWords;
 		JSONObject requestJson = new JSONObject();
-		try {
-			requestJson.put("query", URLEncoder.encode(query, "UTF-8"));
-			requestJson.put("category",
-					URLEncoder.encode(categoryName, "UTF-8"));
-			requestJson.put("c", pageNum);
-			requestJson.put("s", pageSize);
-			requestJson.put("orderitme", sortType);
-
-			Log.e("xxx_queryGoods_request", requestJson.toString());
-
-			BaseApplication.getInstanceRequestQueue().add(
-					new JsonObjectRequestUtf(Method.POST, url, requestJson,
-							new Listener<JSONObject>() {
-								@Override
-								public void onResponse(JSONObject response) {
-									if (null != response) {
-										Log.e("xxx_queryGoods",
-												response.toString());
-										parseGoodsListData(response, handler);
-									}
-
+		BaseApplication.getInstanceRequestQueue().add(
+				new JsonObjectRequestUtf(Method.POST, url, requestJson,
+						new Listener<JSONObject>() {
+							@Override
+							public void onResponse(JSONObject response) {
+								if (null != response) {
+									Log.e("xxx_getHotWords", response.toString());
+									parseHotWordsData(response, handler);
 								}
-							}, null));
-			BaseApplication.getInstanceRequestQueue().start();
 
+							}
+						}, null));
+		BaseApplication.getInstanceRequestQueue().start();
+	}
+
+	private static void parseHotWordsData(JSONObject response, Handler handler) {
+
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				JSONObject dataJB = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
+
+				JSONArray jsonArray = dataJB.getJSONArray("key");
+				ArrayList<String> mTempWordsList = new ArrayList<String>();
+				int size = jsonArray.length();
+				for (int j = 0; j < size; j++) {
+					JSONObject wordJsonObject = jsonArray.getJSONObject(j);
+					String word = wordJsonObject.getString("keyname");
+					mTempWordsList.add(word);
+				}
+
+				Message message = new Message();
+				message.what = HOT_KEY_GET_SUC;
+				message.obj = mTempWordsList;
+				handler.sendMessage(message);
+
+			} else {
+				handler.sendEmptyMessage(HOT_KEY_GET_FAIL);
+			}
 		} catch (JSONException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			handler.sendEmptyMessage(HOT_KEY_GET_EXCEPTION);
 		}
 	}
 }

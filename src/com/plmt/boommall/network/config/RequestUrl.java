@@ -26,6 +26,12 @@ public class RequestUrl {
 		 * 搜索
 		 */
 		public String normal = "/search/normal";
+		
+		
+		/**
+		 * 热搜
+		 */
+		public String getHotWords = "/search/getHotWords";
 
 	}
 

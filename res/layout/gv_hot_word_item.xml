@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/corners_bg_white_all_hot_search"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="8dip" >
+
+    <TextView
+        android:id="@+id/gv_hot_word_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:singleLine="true"
+        android:textColor="@color/black_character"
+        android:textSize="@dimen/small_text_size" />
+
+</LinearLayout>

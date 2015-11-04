@@ -12,9 +12,9 @@
         android:layout_alignParentTop="true"
         android:background="@color/gray_search_bg"
         android:gravity="center_vertical"
-        android:paddingTop="5dip"
+        android:orientation="horizontal"
         android:paddingBottom="5dip"
-        android:orientation="horizontal" >
+        android:paddingTop="5dip" >
 
         <ImageView
             android:id="@+id/search_back_iv"
@@ -22,9 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="5dip"
+            android:scaleType="centerCrop"
             android:src="@drawable/btn_back" />
 
         <TextView
@@ -75,6 +75,40 @@
         </LinearLayout>
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/search_hot_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/search_hot_tag_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:paddingBottom="5dip"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dip"
+            android:text="@string/hot_search_words"
+            android:textColor="@color/black"
+            android:textSize="@dimen/middle_text_size" />
+
+        <com.plmt.boommall.ui.view.gridview.CustomGridView
+            android:id="@+id/search_hot_gv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="10dip"
+            android:cacheColorHint="#00000000"
+            android:horizontalSpacing="10dip"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3"
+            android:verticalSpacing="10dip" >
+        </com.plmt.boommall.ui.view.gridview.CustomGridView>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/search_tag_tv"
         android:layout_width="wrap_content"
@@ -88,18 +122,18 @@
         android:textColor="@color/black"
         android:textSize="@dimen/middle_text_size" />
 
-     <com.plmt.boommall.ui.view.listview.pullrefresh.XListView
-            android:id="@+id/search_goods_xlv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:cacheColorHint="#00000000"
-            android:divider="@null"
-            android:dividerHeight="1dip"
-            android:fastScrollEnabled="false"
-            android:focusable="true"
-            android:visibility="gone"
-            android:scrollbars="none" />
+    <com.plmt.boommall.ui.view.listview.pullrefresh.XListView
+        android:id="@+id/search_goods_xlv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:cacheColorHint="#00000000"
+        android:divider="@null"
+        android:dividerHeight="1dip"
+        android:fastScrollEnabled="false"
+        android:focusable="true"
+        android:scrollbars="none"
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/search_history_lv"
