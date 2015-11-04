@@ -249,8 +249,15 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 	}
 
 	private void refresh() {
+		//clear 
 		mGroup.clear();
 		mChild.clear();
+		mEAdapter.notifyDataSetChanged();
+		int tempSize = mEAdapter.getGroupCount();
+		for (int i = 0; i < tempSize; i++) {
+			mGoodsElv.expandGroup(i);
+		}
+		
 		for (int i = 0; i < mShoppingCartList.size(); i++) {
 			String manuf = mShoppingCartList.get(i).getManufacturer();
 			boolean isGroupHas = false;

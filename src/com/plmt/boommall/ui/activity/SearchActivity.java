@@ -48,6 +48,7 @@ public class SearchActivity extends Activity implements OnClickListener,
 
 	private ListView mSearchHistroyLv;
 	private MySimpleAdapter mSimpleAdapter;
+	private ArrayList<String> mSearchHistoryList = new ArrayList<String>();
 
 	private String mSearchKey;
 
@@ -55,7 +56,7 @@ public class SearchActivity extends Activity implements OnClickListener,
 	private GoodsAdapter mGoodsAdapter;
 	private ArrayList<Goods> mGoodsList = new ArrayList<Goods>();
 
-	private ArrayList<String> mSearchHistoryList = new ArrayList<String>();
+	
 
 	private int mCurrentPageNum = 1;
 	private String mNowSortType;

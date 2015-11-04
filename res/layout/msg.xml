@@ -36,6 +36,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:dividerHeight="0.5dip"
+        android:background="@null"
         android:fastScrollEnabled="false"
         android:focusable="true"
         android:scrollbars="none" />

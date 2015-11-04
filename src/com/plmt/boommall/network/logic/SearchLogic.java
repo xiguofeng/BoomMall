@@ -32,6 +32,12 @@ public class SearchLogic {
 
 	public static final int NORAML_GET_EXCEPTION = NORAML_GET_FAIL + 1;
 
+	public static final int HOT_KEY_GET_SUC = NET_ERROR + 1;
+
+	public static final int HOT_KEY_GET_FAIL = HOT_KEY_GET_SUC + 1;
+
+	public static final int HOT_KEY_GET_EXCEPTION = HOT_KEY_GET_FAIL + 1;
+
 	public static void queryGoods(final Context context, final Handler handler,
 			String query, String categoryName, final int pageNum,
 			final int pageSize, final String sortType) {
@@ -57,8 +63,7 @@ public class SearchLogic {
 									if (null != response) {
 										Log.e("xxx_queryGoods",
 												response.toString());
-										parseGoodsListData(response,
-												handler);
+										parseGoodsListData(response, handler);
 									}
 
 								}
@@ -72,8 +77,7 @@ public class SearchLogic {
 		}
 	}
 
-	private static void parseGoodsListData(JSONObject response,
-			Handler handler) {
+	private static void parseGoodsListData(JSONObject response, Handler handler) {
 
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
@@ -103,6 +107,44 @@ public class SearchLogic {
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(NORAML_GET_EXCEPTION);
 		}
+	}
 
+	public static void getHotKeys(final Context context, final Handler handler,
+			String query, String categoryName, final int pageNum,
+			final int pageSize, final String sortType) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.search.normal;
+		Log.e("xxx_url", url);
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("query", URLEncoder.encode(query, "UTF-8"));
+			requestJson.put("category",
+					URLEncoder.encode(categoryName, "UTF-8"));
+			requestJson.put("c", pageNum);
+			requestJson.put("s", pageSize);
+			requestJson.put("orderitme", sortType);
+
+			Log.e("xxx_queryGoods_request", requestJson.toString());
+
+			BaseApplication.getInstanceRequestQueue().add(
+					new JsonObjectRequestUtf(Method.POST, url, requestJson,
+							new Listener<JSONObject>() {
+								@Override
+								public void onResponse(JSONObject response) {
+									if (null != response) {
+										Log.e("xxx_queryGoods",
+												response.toString());
+										parseGoodsListData(response, handler);
+									}
+
+								}
+							}, null));
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 }
