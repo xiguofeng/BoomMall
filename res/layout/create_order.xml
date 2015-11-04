@@ -485,7 +485,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dip"
-                        android:layout_toLeftOf="@+id/create_order_bmcard_remaining_ib"
+                        android:layout_toLeftOf="@+id/create_order_bmcard_remaining_cb"
                         android:layout_toRightOf="@+id/create_order_bmcard_remaining_tag_tv"
                         android:hint="@string/remaining_money_can_use"
                         android:maxLines="1"
