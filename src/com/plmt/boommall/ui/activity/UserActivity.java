@@ -41,16 +41,18 @@ public class UserActivity extends Activity implements OnClickListener {
 	private CustomGridView mOrderGv;
 	private ArrayList<MenuItem> mOrderList = new ArrayList<MenuItem>();
 	private UserGvCommonAdapter mOrderAdapter;
-	private int[] mOrderStatePicPath = { R.drawable.order_wait_pay, R.drawable.order_wait_get,
-			R.drawable.order_wait_comment };
+	private int[] mOrderStatePicPath = { R.drawable.order_wait_pay,
+			R.drawable.order_wait_get, R.drawable.order_wait_comment };
 	private String[] mOrderStateStr = { "待付款", "待收货", "待评价" };
 
 	private LinearLayout mMyPropertyLl;
 	private CustomGridView mPropertyGv;
 	private ArrayList<MenuItem> mPropertyList = new ArrayList<MenuItem>();
 	private UserGvCommonAdapter mPropertyAdapter;
-	private int[] mPropertyStatePicPath = { R.drawable.personal_order_wait_for_payment,
-			R.drawable.personal_order_wait_for_payment, R.drawable.personal_order_wait_for_payment };
+	private int[] mPropertyStatePicPath = {
+			R.drawable.personal_order_wait_for_payment,
+			R.drawable.personal_order_wait_for_payment,
+			R.drawable.personal_order_wait_for_payment };
 	private String[] mPropertyStateStr = { "余额", "旺卡", "积分" };
 
 	private LinearLayout mMyAccountLl;
@@ -71,7 +73,7 @@ public class UserActivity extends Activity implements OnClickListener {
 	protected void onResume() {
 		super.onResume();
 		initData();
-		HomeActivity.setCartMenuShow(false,"0");
+		HomeActivity.setCartMenuShow(false, "0");
 	}
 
 	private void initView() {
@@ -91,7 +93,8 @@ public class UserActivity extends Activity implements OnClickListener {
 	private void intCropImage() {
 		headImage = (ImageView) findViewById(R.id.user_icon_iv);
 		headImage.setOnClickListener(this);
-		mCropHelper = new CropHelper(this, OSUtils.getSdCardDirectory() + "/head.png");
+		mCropHelper = new CropHelper(this, OSUtils.getSdCardDirectory()
+				+ "/head.png");
 		mDialog = new ChooseDialog(this, mCropHelper);
 	}
 
@@ -113,29 +116,36 @@ public class UserActivity extends Activity implements OnClickListener {
 		mOrderGv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				if (UserInfoManager.getLoginIn(mContext)) {
 
 					switch (position) {
 					case 0: {
-						Intent intent = new Intent(UserActivity.this, MyOrderListActivity.class);
+						Intent intent = new Intent(UserActivity.this,
+								MyOrderListActivity.class);
 						intent.setAction(MyOrderListActivity.ORIGIN_FROM_PENDING_ACTION);
 						startActivity(intent);
-						overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+						overridePendingTransition(R.anim.push_left_in,
+								R.anim.push_left_out);
 						break;
 					}
 					case 1: {
-						Intent intent = new Intent(UserActivity.this, MyOrderListActivity.class);
+						Intent intent = new Intent(UserActivity.this,
+								MyOrderListActivity.class);
 						intent.setAction(MyOrderListActivity.ORIGIN_FROM_PAID_ACTION);
 						startActivity(intent);
-						overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+						overridePendingTransition(R.anim.push_left_in,
+								R.anim.push_left_out);
 						break;
 					}
 					case 2: {
-						Intent intent = new Intent(UserActivity.this, MyOrderListActivity.class);
+						Intent intent = new Intent(UserActivity.this,
+								MyOrderListActivity.class);
 						intent.setAction(MyOrderListActivity.ORIGIN_FROM_COMPLETE_ACTION);
 						startActivity(intent);
-						overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+						overridePendingTransition(R.anim.push_left_in,
+								R.anim.push_left_out);
 						break;
 					}
 					default:
@@ -143,10 +153,12 @@ public class UserActivity extends Activity implements OnClickListener {
 					}
 
 				} else {
-					Intent intent = new Intent(UserActivity.this, LoginActivity.class);
+					Intent intent = new Intent(UserActivity.this,
+							LoginActivity.class);
 					intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
 					startActivity(intent);
-					overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+					overridePendingTransition(R.anim.push_left_in,
+							R.anim.push_left_out);
 				}
 			}
 		});
@@ -170,25 +182,32 @@ public class UserActivity extends Activity implements OnClickListener {
 		mPropertyGv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				if (UserInfoManager.getLoginIn(mContext)) {
 					switch (position) {
 					case 0: {
-						Intent intent = new Intent(UserActivity.this, RemainingMoneyActivity.class);
+						Intent intent = new Intent(UserActivity.this,
+								RemainingMoneyActivity.class);
 						startActivity(intent);
-						overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+						overridePendingTransition(R.anim.push_left_in,
+								R.anim.push_left_out);
 						break;
 					}
 					case 1: {
-						Intent intent = new Intent(UserActivity.this, BmcardActivity.class);
+						Intent intent = new Intent(UserActivity.this,
+								BmcardActivity.class);
 						startActivity(intent);
-						overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+						overridePendingTransition(R.anim.push_left_in,
+								R.anim.push_left_out);
 						break;
 					}
 					case 2: {
-						Intent intent = new Intent(UserActivity.this, IntegralActivity.class);
+						Intent intent = new Intent(UserActivity.this,
+								IntegralActivity.class);
 						startActivity(intent);
-						overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+						overridePendingTransition(R.anim.push_left_in,
+								R.anim.push_left_out);
 						break;
 					}
 					default:
@@ -196,10 +215,12 @@ public class UserActivity extends Activity implements OnClickListener {
 					}
 
 				} else {
-					Intent intent = new Intent(UserActivity.this, LoginActivity.class);
+					Intent intent = new Intent(UserActivity.this,
+							LoginActivity.class);
 					intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
 					startActivity(intent);
-					overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+					overridePendingTransition(R.anim.push_left_in,
+							R.anim.push_left_out);
 				}
 			}
 		});
@@ -208,7 +229,7 @@ public class UserActivity extends Activity implements OnClickListener {
 	private void initData() {
 		if (!TextUtils.isEmpty(UserInfoManager.userInfo.getUsername())) {
 			mUserNameTv.setText(UserInfoManager.userInfo.getUsername());
-		}else if(UserInfoManager.getLoginIn(mContext)){
+		} else if (UserInfoManager.getLoginIn(mContext)) {
 			mUserNameTv.setText("已登录");
 		}
 	}
@@ -230,8 +251,10 @@ public class UserActivity extends Activity implements OnClickListener {
 				break;
 			case CropHelper.HEAD_SAVE_PHOTO:
 				if (data != null && data.getParcelableExtra("data") != null) {
-					headImage.setImageBitmap((Bitmap) data.getParcelableExtra("data"));
-					mCropHelper.savePhoto(data, OSUtils.getSdCardDirectory() + "/myHead.png");
+					headImage.setImageBitmap((Bitmap) data
+							.getParcelableExtra("data"));
+					mCropHelper.savePhoto(data, OSUtils.getSdCardDirectory()
+							+ "/myHead.png");
 				}
 				break;
 			default:
@@ -245,24 +268,38 @@ public class UserActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.user_my_order_ll: {
 			if (UserInfoManager.getLoginIn(mContext)) {
-				Intent intent = new Intent(UserActivity.this, MyOrderListActivity.class);
+				Intent intent = new Intent(UserActivity.this,
+						MyOrderListActivity.class);
 				intent.setAction(MyOrderListActivity.ORIGIN_FROM_ALL_ACTION);
 				startActivity(intent);
-				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+				overridePendingTransition(R.anim.push_left_in,
+						R.anim.push_left_out);
 			} else {
-				Intent intent = new Intent(UserActivity.this, LoginActivity.class);
+				Intent intent = new Intent(UserActivity.this,
+						LoginActivity.class);
 				intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
 				startActivity(intent);
-				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+				overridePendingTransition(R.anim.push_left_in,
+						R.anim.push_left_out);
 			}
 
 			break;
 		}
 		case R.id.user_my_account_ll: {
-			Intent intent = new Intent(UserActivity.this, AccountActivity.class);
-			// intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
-			startActivity(intent);
-			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			if (UserInfoManager.getLoginIn(mContext)) {
+				Intent intent = new Intent(UserActivity.this,
+						AccountActivity.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.push_left_in,
+						R.anim.push_left_out);
+			} else {
+				Intent intent = new Intent(UserActivity.this,
+						LoginActivity.class);
+				intent.setAction(LoginActivity.ORIGIN_FROM_USER_KEY);
+				startActivity(intent);
+				overridePendingTransition(R.anim.push_left_in,
+						R.anim.push_left_out);
+			}
 			break;
 		}
 
@@ -309,7 +346,8 @@ public class UserActivity extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 			HomeActivity.showMainByOnkey();
 			return true;
 		}
