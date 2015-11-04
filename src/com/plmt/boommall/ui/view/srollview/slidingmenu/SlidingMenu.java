@@ -52,8 +52,10 @@ public class SlidingMenu extends ScrollView {
 			WebSettings settings = wrapperContent.getSettings();
 			settings.setJavaScriptEnabled(true);
 			settings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+			settings.setLoadWithOverviewMode(true);
 			settings.setSupportZoom(true);
 			settings.setBuiltInZoomControls(true);
+	
 			wrapperContent.setWebViewClient(new WebViewClient() {
 				@Override
 				public boolean shouldOverrideUrlLoading(WebView view, String url) {
