@@ -12,9 +12,47 @@
         android:background="@color/white"
         android:orientation="vertical" >
 
+        <RelativeLayout
+            android:id="@+id/goods_detail_title_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/red_title_bg" >
+
+            <ImageView
+                android:id="@+id/goods_detail_back_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dip"
+                android:paddingBottom="8dip"
+                android:paddingTop="8dip"
+                android:src="@drawable/back_selector" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/goods_detail"
+                android:textColor="@color/white"
+                android:textSize="@dimen/medium_text_size" />
+
+            <ImageView
+                android:id="@+id/goods_detail_share_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:contentDescription="@null"
+                android:src="@drawable/social_share"
+                android:visibility="gone" />
+        </RelativeLayout>
+
         <com.plmt.boommall.ui.view.srollview.slidingmenu.SlidingMenu
             android:id="@+id/goods_detail_expanded_menu"
             android:layout_width="match_parent"
+            android:layout_below="@+id/goods_detail_title_rl"
             android:layout_height="match_parent"
             android:scrollbars="none" >
 
@@ -387,8 +425,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_alignParentLeft="true"
-                                        android:layout_marginLeft="10dip"
                                         android:layout_centerVertical="true"
+                                        android:layout_marginLeft="10dip"
                                         android:orientation="horizontal" >
 
                                         <ImageButton
@@ -552,42 +590,6 @@
                 </com.plmt.boommall.ui.view.srollview.slidingmenu.YsnowWebView>
             </LinearLayout>
         </com.plmt.boommall.ui.view.srollview.slidingmenu.SlidingMenu>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:background="@color/red_title_bg" >
-
-            <ImageView
-                android:id="@+id/goods_detail_back_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dip"
-                android:paddingBottom="8dip"
-                android:paddingTop="8dip"
-                android:src="@drawable/back_selector" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/goods_detail"
-                android:textColor="@color/white"
-                android:textSize="@dimen/medium_text_size" />
-
-            <ImageView
-                android:id="@+id/goods_detail_share_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dip"
-                android:contentDescription="@null"
-                android:src="@drawable/social_share"
-                android:visibility="gone" />
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

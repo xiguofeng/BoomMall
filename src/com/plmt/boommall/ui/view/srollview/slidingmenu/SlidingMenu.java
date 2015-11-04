@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
+import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
@@ -50,6 +51,9 @@ public class SlidingMenu extends ScrollView {
 			wrapperContent = (YsnowWebView) wrapper.getChildAt(1);
 			WebSettings settings = wrapperContent.getSettings();
 			settings.setJavaScriptEnabled(true);
+			settings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+			settings.setSupportZoom(true);
+			settings.setBuiltInZoomControls(true);
 			wrapperContent.setWebViewClient(new WebViewClient() {
 				@Override
 				public boolean shouldOverrideUrlLoading(WebView view, String url) {

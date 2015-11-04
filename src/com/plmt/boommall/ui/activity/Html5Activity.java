@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebSettings.LayoutAlgorithm;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -64,6 +66,10 @@ public class Html5Activity extends Activity implements OnClickListener {
 		mBackIv.setOnClickListener(this);
 
 		webView = (BridgeWebView) findViewById(R.id.webView);
+		WebSettings settings = webView.getSettings();
+		settings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+		settings.setSupportZoom(true);
+		settings.setBuiltInZoomControls(true);
 
 		webView.setDefaultHandler(new DefaultHandler());
 

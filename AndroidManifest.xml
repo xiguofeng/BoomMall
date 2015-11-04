@@ -172,6 +172,7 @@
             android:name="com.plmt.boommall.ui.activity.OrderListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.PageIndicatorDefaults" >
         </activity>
         <activity
