@@ -24,6 +24,7 @@ import com.plmt.boommall.network.config.MsgRequest;
 import com.plmt.boommall.network.logic.CollectionLogic;
 import com.plmt.boommall.network.logic.CommetLogic;
 import com.plmt.boommall.ui.adapter.CommentsAdapter;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 
 public class MoreCommentsActivity extends Activity implements OnClickListener {
 
@@ -37,6 +38,8 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 
 	private String mId;
 
+	private CustomProgressDialog mProgressDialog;
+
 	Handler mHandler = new Handler() {
 
 		@Override
@@ -46,7 +49,8 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 			case CommetLogic.COMMENT_LIST_GET_SUC: {
 				if (null != msg.obj) {
 					mCommentList.clear();
-					mCommentList.addAll((Collection<? extends Comment>) msg.obj);
+					mCommentList
+							.addAll((Collection<? extends Comment>) msg.obj);
 					mCommentAdapter.notifyDataSetChanged();
 				}
 				break;
@@ -61,7 +65,9 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 			default:
 				break;
 			}
-
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
 		}
 
 	};
@@ -70,6 +76,7 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.more_comments);
+		mProgressDialog = new CustomProgressDialog(mContext);
 		initView();
 		initData();
 
@@ -92,7 +99,8 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 		mCommentsLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 			}
 		});
 	}
@@ -105,6 +113,7 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 	}
 
 	private void getData() {
+		mProgressDialog.show();
 		if (!TextUtils.isEmpty(mId)) {
 			mId = "22266";
 			CommetLogic.getList(mContext, mHandler, mId);
@@ -116,7 +125,8 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.more_comments_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			break;
 		}
 		default:
@@ -127,9 +137,11 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 			finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
