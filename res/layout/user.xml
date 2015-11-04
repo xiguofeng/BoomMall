@@ -47,28 +47,6 @@
                         android:padding="10dip"
                         android:text="登陆/注册"
                         android:textColor="@color/white" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/imageView1"
-                        android:layout_alignLeft="@+id/textView1"
-                        android:layout_below="@+id/textView1"
-                        android:src="@null" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/imageView1"
-                        android:layout_toRightOf="@+id/textView1"
-                        android:src="@null" />
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@null" />
                 </RelativeLayout>
 
                 <LinearLayout

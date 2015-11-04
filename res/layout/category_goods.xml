@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
-                android:layout_toLeftOf="@+id/category_goods_msg_iv"
+                android:layout_toLeftOf="@+id/category_goods_show_mode_iv"
                 android:layout_toRightOf="@+id/category_goods_back_iv"
                 android:background="@drawable/corners_search_bg_red"
                 android:focusable="true"

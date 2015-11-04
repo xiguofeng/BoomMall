@@ -84,27 +84,23 @@ public class SearchActivity extends Activity implements OnClickListener,
 					mGoodsLv.setVisibility(View.VISIBLE);
 					mSearchTagTv.setText(getString(R.string.find_goods));
 				} else {
-					alertInfo();
-					// Intent intent = new Intent(SearchActivity.this,
-					// SpecialGoodsActivity.class);
-					// intent.putExtra("goodsName", mSearchKey);
-					// startActivity(intent);
-					// overridePendingTransition(R.anim.push_left_in,
-					// R.anim.push_left_out);
-					// Toast.makeText(mContext, "没有查询到相关商品", Toast.LENGTH_SHORT)
-					// .show();
+					Toast.makeText(mContext, "没有查询到相关商品", Toast.LENGTH_SHORT)
+							.show();
 				}
 				break;
 			}
 			case SearchLogic.NORAML_GET_FAIL: {
-
+				Toast.makeText(mContext, "没有查询到相关商品", Toast.LENGTH_SHORT)
+						.show();
 				break;
 			}
 			case SearchLogic.NORAML_GET_EXCEPTION: {
+				Toast.makeText(mContext, "没有查询到相关商品", Toast.LENGTH_SHORT)
+				.show();
 				break;
 			}
 			case SearchLogic.HOT_KEY_GET_SUC: {
-				if(null!=msg.obj){
+				if (null != msg.obj) {
 					mHotWordList.clear();
 					mHotWordList.addAll((Collection<? extends String>) msg.obj);
 					mHotWordAdapter.notifyDataSetChanged();
