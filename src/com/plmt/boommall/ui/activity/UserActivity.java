@@ -227,10 +227,12 @@ public class UserActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-		if (!TextUtils.isEmpty(UserInfoManager.userInfo.getUsername())) {
-			mUserNameTv.setText(UserInfoManager.userInfo.getUsername());
+		if (!TextUtils.isEmpty(UserInfoManager.userInfo.getAccount())) {
+			mUserNameTv.setText(UserInfoManager.userInfo.getAccount());
 		} else if (UserInfoManager.getLoginIn(mContext)) {
 			mUserNameTv.setText("已登录");
+		}else{
+			mUserNameTv.setText("登陆/注册");
 		}
 	}
 

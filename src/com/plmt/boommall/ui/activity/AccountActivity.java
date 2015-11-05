@@ -6,10 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.plmt.boommall.R;
+import com.plmt.boommall.network.logic.AddressLogic;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog;
+import com.plmt.boommall.ui.view.iosdialog.AlertDialog;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.OnSheetItemClickListener;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.SheetItemColor;
+import com.plmt.boommall.utils.UserInfoManager;
 
 public class AccountActivity extends Activity implements OnClickListener {
 
@@ -18,6 +25,8 @@ public class AccountActivity extends Activity implements OnClickListener {
 	private RelativeLayout mAreaRl;
 	private RelativeLayout mRealNameAuthRl;
 	private RelativeLayout mCollectionRl;
+
+	private Button mExitBtn;
 
 	private ImageView mBackIv;
 
@@ -43,6 +52,9 @@ public class AccountActivity extends Activity implements OnClickListener {
 
 		mBackIv = (ImageView) findViewById(R.id.account_back_iv);
 		mBackIv.setOnClickListener(this);
+
+		mExitBtn = (Button) findViewById(R.id.account_exit_btn);
+		mExitBtn.setOnClickListener(this);
 	}
 
 	private void initData() {
@@ -78,6 +90,30 @@ public class AccountActivity extends Activity implements OnClickListener {
 			finish();
 			overridePendingTransition(R.anim.push_right_in,
 					R.anim.push_right_out);
+			break;
+		}
+		case R.id.account_exit_btn: {
+			new AlertDialog(AccountActivity.this)
+					.builder()
+					.setTitle(getString(R.string.prompt))
+					.setMsg(getString(R.string.login_exit))
+					.setPositiveButton(getString(R.string.confirm),
+							new OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									UserInfoManager.clearUserInfo(mContext);
+									UserInfoManager.setLoginIn(mContext, false);
+
+									finish();
+								}
+							})
+					.setNegativeButton(getString(R.string.cancal),
+							new OnClickListener() {
+								@Override
+								public void onClick(View v) {
+
+								}
+							}).show();
 			break;
 		}
 		default:

@@ -72,7 +72,7 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 					Toast.makeText(mContext,
 							getString(R.string.address_add_suc),
 							Toast.LENGTH_SHORT).show();
-				}else{
+				} else {
 					Toast.makeText(mContext,
 							getString(R.string.address_update_suc),
 							Toast.LENGTH_SHORT).show();
@@ -85,11 +85,14 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 				break;
 			}
 			case AddressLogic.ANDRESS_MODIFY_EXCEPTION: {
-
 				break;
 			}
 
 			case AddressLogic.ANDRESS_DEL_SUC: {
+				Toast.makeText(mContext,
+						getString(R.string.address_del_suc),
+						Toast.LENGTH_SHORT).show();
+				finish();
 				break;
 			}
 			case AddressLogic.ANDRESS_DEL_FAIL: {
@@ -161,6 +164,8 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 		if (ORIGIN_FROM_EDIT_ACTION.equals(mNowAction)) {
 			mAddress = (Address) getIntent().getSerializableExtra(ADDRESS_KEY);
 			fillUpData();
+		} else if (ORIGIN_FROM_EDIT_ACTION.equals(mNowAction)) {
+			mAddressId = getIntent().getStringExtra("addressId");
 		}
 		// mProgressDialog = new CustomProgressDialog(mContext);
 		// mProgressDialog.show();
@@ -275,8 +280,12 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 							new OnSheetItemClickListener() {
 								@Override
 								public void onClick(int which) {
-									mProgressDialog.show();
-									AddressLogic.del(mContext, mHandler, "");
+									if (ORIGIN_FROM_EDIT_ACTION
+											.equals(mNowAction)) {
+										mProgressDialog.show();
+										AddressLogic.del(mContext, mHandler,
+												mAddress.getId());
+									}
 								}
 							}).show();
 			break;
