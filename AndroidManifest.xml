@@ -259,6 +259,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
+        
+        <service android:name="com.plmt.boommall.service.AccountService" >
+            <intent-filter>
+                <action android:name="com.plmt.boommall.service.AccountService" />
+            </intent-filter>
+        </service>
 
         <!-- alipay sdk begin -->
         <activity
