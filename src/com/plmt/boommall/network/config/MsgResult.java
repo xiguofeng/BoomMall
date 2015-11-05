@@ -21,6 +21,11 @@ public class MsgResult {
 	public static final String RESULT_FAIL = "-1";
 
 	/**
+	 * 请求失败：session超时
+	 */
+	public static final String RESULT_SESSION_TIMEOUT = "-2";
+
+	/**
 	 * msg
 	 */
 	public static final String RESULT_MSG_TAG = "message";
@@ -29,7 +34,7 @@ public class MsgResult {
 	 * data
 	 */
 	public static final String RESULT_DATA_TAG = "data";
-	
+
 	/**
 	 * list
 	 */
@@ -62,7 +67,7 @@ public class MsgResult {
 	public static final String B2A_RESULT_SUCCESS_TAG = "STATE";
 
 	public static final String B2A_RESULT_DATA_TAG = "DATAS";
-	
+
 	public static final String ORDER_TAG = "OrderOld";
 
 }

@@ -71,6 +71,10 @@ public class AddressListActivity extends Activity implements OnClickListener,
 
 				break;
 			}
+			case AddressLogic.ANDRESS_LIST_GET_SESSION_TIME_OUT_FAIL: {
+
+				break;
+			}
 			case AddressLogic.ANDRESS_LIST_GET_EXCEPTION: {
 
 				break;
@@ -166,7 +170,8 @@ public class AddressListActivity extends Activity implements OnClickListener,
 				if (ORIGIN_FROM_ORDER_KEY.equals(mNowAction)) {
 					mProgressDialog.show();
 					mAddress = mAddresslist.get(position);
-					AddressLogic.setShippingAddress(mContext, mHandler, mAddress.getId());
+					AddressLogic.setShippingAddress(mContext, mHandler,
+							mAddress.getId());
 
 				}
 			}

@@ -205,7 +205,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 				break;
 			}
-			case AddressLogic.NET_ERROR: {
+			case PropertyLogic.NET_ERROR: {
 
 				break;
 			}

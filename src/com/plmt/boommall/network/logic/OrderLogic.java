@@ -41,61 +41,81 @@ public class OrderLogic {
 
 	public static final int ORDER_CREATE_FAIL = ORDER_CREATE_SUC + 1;
 
-	public static final int ORDER_CREATE_EXCEPTION = ORDER_CREATE_FAIL + 1;
+	public static final int ORDER_CREATE_SESSION_TIME_OUT = ORDER_CREATE_FAIL + 1;
+
+	public static final int ORDER_CREATE_EXCEPTION = ORDER_CREATE_SESSION_TIME_OUT + 1;
 
 	public static final int ORDER_PRE_INFO_GET_SUC = ORDER_CREATE_EXCEPTION + 1;
 
 	public static final int ORDER_PRE_INFO_GET_FAIL = ORDER_PRE_INFO_GET_SUC + 1;
 
-	public static final int ORDER_PRE_INFO_GET_EXCEPTION = ORDER_PRE_INFO_GET_FAIL + 1;
+	public static final int ORDER_PRE_INFO_GET_SESSION_TIME_OUT = ORDER_PRE_INFO_GET_FAIL + 1;
+
+	public static final int ORDER_PRE_INFO_GET_EXCEPTION = ORDER_PRE_INFO_GET_SESSION_TIME_OUT + 1;
 
 	public static final int ORDER_SET_ADDRESS_SUC = ORDER_PRE_INFO_GET_EXCEPTION + 1;
 
 	public static final int ORDER_SET_ADDRESS_FAIL = ORDER_SET_ADDRESS_SUC + 1;
 
-	public static final int ORDER_SET_ADDRESS_EXCEPTION = ORDER_SET_ADDRESS_FAIL + 1;
+	public static final int ORDER_SET_SESSION_TIME_OUT = ORDER_PRE_INFO_GET_FAIL + 1;
+
+	public static final int ORDER_SET_ADDRESS_EXCEPTION = ORDER_SET_SESSION_TIME_OUT + 1;
 
 	public static final int ORDERLIST_GET_SUC = ORDER_SET_ADDRESS_EXCEPTION + 1;
 
 	public static final int ORDERLIST_GET_FAIL = ORDERLIST_GET_SUC + 1;
 
-	public static final int ORDERLIST_GET_EXCEPTION = ORDERLIST_GET_FAIL + 1;
+	public static final int ORDERLIST_GET_SESSION_TIME_OUT = ORDERLIST_GET_FAIL + 1;
+
+	public static final int ORDERLIST_GET_EXCEPTION = ORDERLIST_GET_SESSION_TIME_OUT + 1;
 
 	public static final int ORDER_CANCEL_SUC = ORDERLIST_GET_EXCEPTION + 1;
 
 	public static final int ORDER_CANCEL_FAIL = ORDER_CANCEL_SUC + 1;
 
-	public static final int ORDER_CANCEL_EXCEPTION = ORDER_CANCEL_FAIL + 1;
+	public static final int ORDER_CANCEL_SESSION_TIME_OUT = ORDER_CANCEL_FAIL + 1;
+
+	public static final int ORDER_CANCEL_EXCEPTION = ORDER_CANCEL_SESSION_TIME_OUT + 1;
 
 	public static final int ORDER_PAY_TYPE_SET_SUC = ORDER_CANCEL_EXCEPTION + 1;
 
 	public static final int ORDER_PAY_TYPE_SET_FAIL = ORDER_PAY_TYPE_SET_SUC + 1;
 
-	public static final int ORDER_PAY_TYPE_SET_EXCEPTION = ORDER_PAY_TYPE_SET_FAIL + 1;
+	public static final int ORDER_PAY_TYPE_SET_SESSION_TIME_OUT = ORDER_PAY_TYPE_SET_FAIL + 1;
+
+	public static final int ORDER_PAY_TYPE_SET_EXCEPTION = ORDER_PAY_TYPE_SET_SESSION_TIME_OUT + 1;
 
 	public static final int ORDER_PRE_PAY_TYPE_SET_SUC = ORDER_PAY_TYPE_SET_EXCEPTION + 1;
 
 	public static final int ORDER_PRE_PAY_TYPE_SET_FAIL = ORDER_PRE_PAY_TYPE_SET_SUC + 1;
 
-	public static final int ORDER_PRE_PAY_TYPE_SET_EXCEPTION = ORDER_PRE_PAY_TYPE_SET_FAIL + 1;
+	public static final int ORDER_PRE_PAY_TYPE_SET_SESSION_TIME_OUT = ORDER_PRE_PAY_TYPE_SET_FAIL + 1;
+
+	public static final int ORDER_PRE_PAY_TYPE_SET_EXCEPTION = ORDER_PRE_PAY_TYPE_SET_SESSION_TIME_OUT + 1;
 
 	public static final int ORDER_PAY_RESULT_CHECK_SUC = ORDER_PRE_PAY_TYPE_SET_EXCEPTION + 1;
 
 	public static final int ORDER_PAY_RESULT_CHECK_FAIL = ORDER_PAY_RESULT_CHECK_SUC + 1;
 
-	public static final int ORDER_PAY_RESULT_CHECK_EXCEPTION = ORDER_PAY_RESULT_CHECK_FAIL + 1;
+	public static final int ORDER_PAY_RESULT_CHECK_SESSION_TIME_OUT = ORDER_PAY_RESULT_CHECK_FAIL + 1;
+
+	public static final int ORDER_PAY_RESULT_CHECK_EXCEPTION = ORDER_PAY_RESULT_CHECK_SESSION_TIME_OUT + 1;
 
 	public static final int ORDER_PAY_UNION_TN_GET_SUC = ORDER_PAY_RESULT_CHECK_EXCEPTION + 1;
 
 	public static final int ORDER_PAY_UNION_TN_GET_FAIL = ORDER_PAY_UNION_TN_GET_SUC + 1;
 
-	public static final int ORDER_PAY_UNION_TN_GET_EXCEPTION = ORDER_PAY_UNION_TN_GET_FAIL + 1;
+	public static final int ORDER_PAY_UNION_TN_GET_SESSION_TIME_OUT = ORDER_PAY_UNION_TN_GET_FAIL + 1;
+
+	public static final int ORDER_PAY_UNION_TN_GET_EXCEPTION = ORDER_PAY_UNION_TN_GET_SESSION_TIME_OUT + 1;
 
 	public static final int ORDER_PAY_INFO_GET_SUC = ORDER_PAY_UNION_TN_GET_EXCEPTION + 1;
 
 	public static final int ORDER_PAY_INFO_GET_FAIL = ORDER_PAY_INFO_GET_SUC + 1;
 
-	public static final int ORDER_PAY_INFO_GET_EXCEPTION = ORDER_PAY_INFO_GET_FAIL + 1;
+	public static final int ORDER_PAY_INFO_GET_SESSION_TIME_OUT = ORDER_PAY_INFO_GET_FAIL + 1;
+
+	public static final int ORDER_PAY_INFO_GET_EXCEPTION = ORDER_PAY_INFO_GET_SESSION_TIME_OUT + 1;
 
 	public static void createOrder(final Context context,
 			final Handler handler, PreOrder preOrder) {
@@ -103,11 +123,11 @@ public class OrderLogic {
 		try {
 			Address address = preOrder.getAddress();
 			Shipping shipping = preOrder.getShipping();
-			if(TextUtils.isEmpty(shipping.getTitle())){
+			if (TextUtils.isEmpty(shipping.getTitle())) {
 				shipping.setTitle("标准快递");
 			}
 			Payment payment = preOrder.getPayment();
-			if(TextUtils.isEmpty(payment.getTitle())){
+			if (TextUtils.isEmpty(payment.getTitle())) {
 				payment.setTitle("在线支付");
 			}
 			// URLEncoder.encode(UserInfoManager.getSession(context), "UTF-8")
@@ -174,6 +194,8 @@ public class OrderLogic {
 					message.what = ORDER_CREATE_SUC;
 					message.obj = orderID;
 					handler.sendMessage(message);
+				} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+					handler.sendEmptyMessage(ORDER_CREATE_SESSION_TIME_OUT);
 				} else {
 					handler.sendEmptyMessage(ORDER_CREATE_FAIL);
 				}
@@ -239,6 +261,8 @@ public class OrderLogic {
 				message.what = ORDER_PAY_INFO_GET_SUC;
 				message.obj = alipayMerchant;
 				handler.sendMessage(message);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(ORDER_PAY_INFO_GET_SESSION_TIME_OUT);
 			} else {
 				handler.sendEmptyMessage(ORDER_PAY_INFO_GET_FAIL);
 			}
@@ -297,6 +321,8 @@ public class OrderLogic {
 				message.what = ORDER_PAY_UNION_TN_GET_SUC;
 				message.obj = unionpayMerchant;
 				handler.sendMessage(message);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(ORDER_PAY_UNION_TN_GET_SESSION_TIME_OUT);
 			} else {
 				handler.sendEmptyMessage(ORDER_PAY_UNION_TN_GET_FAIL);
 			}
@@ -399,6 +425,8 @@ public class OrderLogic {
 				message.what = ORDER_PRE_INFO_GET_SUC;
 				message.obj = preOrder;
 				handler.sendMessage(message);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(ORDER_PRE_INFO_GET_SESSION_TIME_OUT);
 			} else {
 				handler.sendEmptyMessage(ORDER_PRE_INFO_GET_FAIL);
 			}
@@ -492,6 +520,8 @@ public class OrderLogic {
 				message.obj = msgMap;
 				handler.sendMessage(message);
 
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(ORDERLIST_GET_SESSION_TIME_OUT);
 			} else {
 				handler.sendEmptyMessage(ORDERLIST_GET_FAIL);
 			}

@@ -29,38 +29,47 @@ public class AddressLogic {
 
 	public static final int ANDRESS_GET_FAIL = ANDRESS_GET_SUC + 1;
 
-	public static final int ANDRESS_GET_EXCEPTION = ANDRESS_GET_FAIL + 1;
+	public static final int ANDRESS_GET_SESSION_TIME_OUT_FAIL = ANDRESS_GET_FAIL + 1;
+
+	public static final int ANDRESS_GET_EXCEPTION = ANDRESS_GET_SESSION_TIME_OUT_FAIL + 1;
 
 	public static final int ANDRESS_LIST_GET_SUC = ANDRESS_GET_EXCEPTION + 1;
 
 	public static final int ANDRESS_LIST_GET_FAIL = ANDRESS_LIST_GET_SUC + 1;
 
-	public static final int ANDRESS_LIST_GET_EXCEPTION = ANDRESS_LIST_GET_FAIL + 1;
+	public static final int ANDRESS_LIST_GET_SESSION_TIME_OUT_FAIL = ANDRESS_LIST_GET_FAIL + 1;
+
+	public static final int ANDRESS_LIST_GET_EXCEPTION = ANDRESS_LIST_GET_SESSION_TIME_OUT_FAIL + 1;
 
 	public static final int ANDRESS_MODIFY_SUC = ANDRESS_LIST_GET_EXCEPTION + 1;
 
 	public static final int ANDRESS_MODIFY_FAIL = ANDRESS_MODIFY_SUC + 1;
 
-	public static final int ANDRESS_MODIFY_EXCEPTION = ANDRESS_MODIFY_FAIL + 1;
+	public static final int ANDRESS_MODIFY_SESSION_TIME_OUT_FAIL = ANDRESS_MODIFY_FAIL + 1;
+
+	public static final int ANDRESS_MODIFY_EXCEPTION = ANDRESS_MODIFY_SESSION_TIME_OUT_FAIL + 1;
 
 	public static final int ANDRESS_DEL_SUC = ANDRESS_MODIFY_EXCEPTION + 1;
 
 	public static final int ANDRESS_DEL_FAIL = ANDRESS_DEL_SUC + 1;
 
-	public static final int ANDRESS_DEL_EXCEPTION = ANDRESS_DEL_FAIL + 1;
+	public static final int ANDRESS_DEL_SESSION_TIME_OUT_FAIL = ANDRESS_DEL_FAIL + 1;
+
+	public static final int ANDRESS_DEL_EXCEPTION = ANDRESS_DEL_SESSION_TIME_OUT_FAIL + 1;
 
 	public static final int ANDRESS_DATA_GET_SUC = ANDRESS_DEL_EXCEPTION + 1;
 
 	public static final int ANDRESS_DATA_GET_FAIL = ANDRESS_DATA_GET_SUC + 1;
 
 	public static final int ANDRESS_DATA_GET_EXCEPTION = ANDRESS_DATA_GET_FAIL + 1;
-	
+
 	public static final int ANDRESS_SET_SHIPPING_SUC = ANDRESS_DATA_GET_EXCEPTION + 1;
 
 	public static final int ANDRESS_SET_SHIPPING_FAIL = ANDRESS_SET_SHIPPING_SUC + 1;
 
-	public static final int ANDRESS_SET_SHIPPING_EXCEPTION = ANDRESS_SET_SHIPPING_FAIL + 1;
+	public static final int ANDRESS_SET_SHIPPING_SESSION_TIME_OUT_FAIL = ANDRESS_SET_SHIPPING_FAIL + 1;
 
+	public static final int ANDRESS_SET_SHIPPING_EXCEPTION = ANDRESS_SET_SHIPPING_SESSION_TIME_OUT_FAIL + 1;
 
 	public static void getList(final Context context, final Handler handler) {
 
@@ -117,6 +126,8 @@ public class AddressLogic {
 				message.what = ANDRESS_LIST_GET_SUC;
 				message.obj = addresslist;
 				handler.sendMessage(message);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(ANDRESS_LIST_GET_SESSION_TIME_OUT_FAIL);
 			} else {
 				handler.sendEmptyMessage(ANDRESS_LIST_GET_FAIL);
 			}
@@ -177,6 +188,8 @@ public class AddressLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				handler.sendEmptyMessage(ANDRESS_MODIFY_SUC);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(ANDRESS_MODIFY_SESSION_TIME_OUT_FAIL);
 			} else {
 				handler.sendEmptyMessage(ANDRESS_MODIFY_FAIL);
 			}
@@ -226,6 +239,8 @@ public class AddressLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				handler.sendEmptyMessage(ANDRESS_DEL_SUC);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(ANDRESS_DEL_SESSION_TIME_OUT_FAIL);
 			} else {
 				handler.sendEmptyMessage(ANDRESS_DEL_FAIL);
 			}
@@ -282,11 +297,12 @@ public class AddressLogic {
 			handler.sendEmptyMessage(ANDRESS_DATA_GET_EXCEPTION);
 		}
 	}
-	
-	public static void setShippingAddress(final Context context, final Handler handler,
-			final String id) {
 
-		String url = RequestUrl.HOST_URL + RequestUrl.address.setShippingAddress;
+	public static void setShippingAddress(final Context context,
+			final Handler handler, final String id) {
+
+		String url = RequestUrl.HOST_URL
+				+ RequestUrl.address.setShippingAddress;
 		JSONObject requestJson = new JSONObject();
 		try {
 			requestJson.put("sessionid",
@@ -298,7 +314,8 @@ public class AddressLogic {
 						@Override
 						public void onResponse(JSONObject response) {
 							if (null != response) {
-								Log.e("xxx_setShippingAddress", response.toString());
+								Log.e("xxx_setShippingAddress",
+										response.toString());
 								parseSetShippingAddressData(response, handler);
 							}
 
@@ -315,7 +332,7 @@ public class AddressLogic {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void parseSetShippingAddressData(JSONObject response,
 			Handler handler) {
 		try {
@@ -325,6 +342,8 @@ public class AddressLogic {
 				message.what = ANDRESS_SET_SHIPPING_SUC;
 				message.obj = response.toString();
 				handler.sendMessage(message);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(ANDRESS_SET_SHIPPING_SESSION_TIME_OUT_FAIL);
 			} else {
 				handler.sendEmptyMessage(ANDRESS_SET_SHIPPING_FAIL);
 			}

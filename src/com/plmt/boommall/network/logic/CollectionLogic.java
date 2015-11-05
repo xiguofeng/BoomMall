@@ -29,17 +29,23 @@ public class CollectionLogic {
 
 	public static final int COLLECTION_LIST_GET_FAIL = COLLECTION_LIST_GET_SUC + 1;
 
-	public static final int COLLECTION_LIST_GET_EXCEPTION = COLLECTION_LIST_GET_FAIL + 1;
+	public static final int COLLECTION_LIST_SESSION_TIME_OUT_FAIL = COLLECTION_LIST_GET_FAIL + 1;
+
+	public static final int COLLECTION_LIST_GET_EXCEPTION = COLLECTION_LIST_SESSION_TIME_OUT_FAIL + 1;
 
 	public static final int COLLECTION_ADD_SUC = COLLECTION_LIST_GET_EXCEPTION + 1;
 
 	public static final int COLLECTION_ADD_FAIL = COLLECTION_ADD_SUC + 1;
 
-	public static final int COLLECTION_ADD_EXCEPTION = COLLECTION_ADD_FAIL + 1;
+	public static final int COLLECTION_ADD_SESSION_TIME_OUT_FAIL = COLLECTION_ADD_FAIL + 1;
+
+	public static final int COLLECTION_ADD_EXCEPTION = COLLECTION_ADD_SESSION_TIME_OUT_FAIL + 1;
 
 	public static final int COLLECTION_DEL_SUC = COLLECTION_ADD_EXCEPTION + 1;
 
 	public static final int COLLECTION_DEL_FAIL = COLLECTION_DEL_SUC + 1;
+
+	public static final int COLLECTION_DEL_SESSION_TIME_OUT_FAIL = COLLECTION_DEL_FAIL + 1;
 
 	public static final int COLLECTION_DEL_EXCEPTION = COLLECTION_DEL_FAIL + 1;
 
@@ -101,6 +107,8 @@ public class CollectionLogic {
 				message.what = COLLECTION_LIST_GET_SUC;
 				message.obj = goodslist;
 				handler.sendMessage(message);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(COLLECTION_LIST_SESSION_TIME_OUT_FAIL);
 			} else {
 				handler.sendEmptyMessage(COLLECTION_LIST_GET_FAIL);
 			}
@@ -145,6 +153,8 @@ public class CollectionLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				handler.sendEmptyMessage(COLLECTION_ADD_SUC);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(COLLECTION_ADD_SESSION_TIME_OUT_FAIL);
 			} else {
 				String msg = response.getString("msg");
 				Message message = new Message();
@@ -196,6 +206,8 @@ public class CollectionLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				handler.sendEmptyMessage(COLLECTION_DEL_SUC);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(COLLECTION_DEL_SESSION_TIME_OUT_FAIL);
 			} else {
 				String msg = response.getString("msg");
 				Message message = new Message();

@@ -29,7 +29,9 @@ public class CommetLogic {
 
 	public static final int COMMENT_LIST_GET_FAIL = COMMENT_LIST_GET_SUC + 1;
 
-	public static final int COMMENT_LIST_GET_EXCEPTION = COMMENT_LIST_GET_FAIL + 1;
+	public static final int COMMENT_LIST_SESSION_TIME_OUT = COMMENT_LIST_GET_FAIL + 1;
+
+	public static final int COMMENT_LIST_GET_EXCEPTION = COMMENT_LIST_SESSION_TIME_OUT + 1;
 
 	public static void getList(final Context context, final Handler handler,
 			String id) {
@@ -71,12 +73,14 @@ public class CommetLogic {
 
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
-				JSONArray commentArray = response.getJSONArray(MsgResult.RESULT_DATA_TAG);
+				JSONArray commentArray = response
+						.getJSONArray(MsgResult.RESULT_DATA_TAG);
 				int size = commentArray.length();
 				ArrayList<Comment> commentlist = new ArrayList<>();
 				for (int i = 0; i < size; i++) {
 					JSONObject jsonObject = commentArray.getJSONObject(i);
-					JSONObject commentJsonObject = jsonObject.getJSONObject("comment");
+					JSONObject commentJsonObject = jsonObject
+							.getJSONObject("comment");
 					Comment comment = (Comment) JsonUtils.fromJsonToJava(
 							commentJsonObject, Comment.class);
 					commentlist.add(comment);
@@ -86,6 +90,8 @@ public class CommetLogic {
 				message.what = COMMENT_LIST_GET_SUC;
 				message.obj = commentlist;
 				handler.sendMessage(message);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(COMMENT_LIST_SESSION_TIME_OUT);
 			} else {
 				handler.sendEmptyMessage(COMMENT_LIST_GET_FAIL);
 			}

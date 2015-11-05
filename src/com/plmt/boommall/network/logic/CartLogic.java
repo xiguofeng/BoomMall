@@ -34,52 +34,65 @@ public class CartLogic {
 
 	public static final int CART_ADD_FAIL = CART_ADD_SUC + 1;
 
-	public static final int CART_ADD_EXCEPTION = CART_ADD_FAIL + 1;
+	public static final int CART_ADD_SESSION_TIME_OUT_FAIL = CART_ADD_FAIL + 1;
+
+	public static final int CART_ADD_EXCEPTION = CART_ADD_SESSION_TIME_OUT_FAIL + 1;
 
 	public static final int CART_LIST_GET_SUC = CART_ADD_EXCEPTION + 1;
 
 	public static final int CART_LIST_GET_FAIL = CART_LIST_GET_SUC + 1;
 
-	public static final int CART_LIST_GET_EXCEPTION = CART_LIST_GET_FAIL + 1;
+	public static final int CART_LIST_GET_SESSION_TIME_OUT_FAIL = CART_LIST_GET_FAIL + 1;
+
+	public static final int CART_LIST_GET_EXCEPTION = CART_LIST_GET_SESSION_TIME_OUT_FAIL + 1;
 
 	public static final int CART_UPDATE_SUC = CART_LIST_GET_EXCEPTION + 1;
 
 	public static final int CART_UPDATE_FAIL = CART_UPDATE_SUC + 1;
 
-	public static final int CART_UPDATE_EXCEPTION = CART_UPDATE_FAIL + 1;
+	public static final int CART_UPDATE_SESSION_TIME_OUT_FAIL = CART_UPDATE_FAIL + 1;
+
+	public static final int CART_UPDATE_EXCEPTION = CART_UPDATE_SESSION_TIME_OUT_FAIL + 1;
 
 	public static final int CART_DEL_SUC = CART_UPDATE_EXCEPTION + 1;
 
 	public static final int CART_DEL_FAIL = CART_DEL_SUC + 1;
 
-	public static final int CART_DEL_EXCEPTION = CART_DEL_FAIL + 1;
+	public static final int CART_DEL_SESSION_TIME_OUT_FAIL = CART_DEL_FAIL + 1;
+
+	public static final int CART_DEL_EXCEPTION = CART_DEL_SESSION_TIME_OUT_FAIL + 1;
 
 	public static final int CART_SET_SELECT_SUC = CART_DEL_EXCEPTION + 1;
 
 	public static final int CART_SET_SELECT_FAIL = CART_SET_SELECT_SUC + 1;
 
-	public static final int CART_SET_SELECT_EXCEPTION = CART_SET_SELECT_FAIL + 1;
+	public static final int CART_SET_SELECT_SESSION_TIME_OUT_FAIL = CART_SET_SELECT_FAIL + 1;
+
+	public static final int CART_SET_SELECT_EXCEPTION = CART_SET_SELECT_SESSION_TIME_OUT_FAIL + 1;
 
 	public static void getList(final Context context, final Handler handler) {
 
 		String url = RequestUrl.HOST_URL + RequestUrl.cart.list;
 		JSONObject requestJson = new JSONObject();
 		try {
-			requestJson.put("sessionid", "frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
 
-			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
-				@Override
-				public void onResponse(JSONObject response) {
-					if (null != response) {
-						Log.e("xxx_cartlist", response.toString());
-						// parseListData(response, handler);
-						parseListNewData(response, handler);
-					}
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_cartlist", response.toString());
+								// parseListData(response, handler);
+								parseListNewData(response, handler);
+							}
 
-				}
-			}, null);
+						}
+					}, null);
 
-			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
 
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
@@ -95,18 +108,21 @@ public class CartLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 
-				JSONObject cartJsonObject = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				JSONObject cartJsonObject = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
 
 				JSONArray goodsArray = cartJsonObject.getJSONArray("items");
 				int size = goodsArray.length();
 				ArrayList<Goods> tempGoodsList = new ArrayList<Goods>();
 				for (int i = 0; i < size; i++) {
 					JSONObject goodsJsonObject = goodsArray.getJSONObject(i);
-					Goods goods = (Goods) JsonUtils.fromJsonToJava(goodsJsonObject, Goods.class);
+					Goods goods = (Goods) JsonUtils.fromJsonToJava(
+							goodsJsonObject, Goods.class);
 					goods.setId(goodsJsonObject.getString("pid"));
 					goods.setScid(goodsJsonObject.getString("id"));
 					goods.setNum(goodsJsonObject.getString("qty"));
-					if (TextUtils.isEmpty(goods.getManufacturer()) || goods.getManufacturer().equals("null")) {
+					if (TextUtils.isEmpty(goods.getManufacturer())
+							|| goods.getManufacturer().equals("null")) {
 						goods.setManufacturer("0");
 					}
 					tempGoodsList.add(goods);
@@ -130,15 +146,18 @@ public class CartLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 
-				JSONObject cartJsonObject = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				JSONObject cartJsonObject = response
+						.getJSONObject(MsgResult.RESULT_DATA_TAG);
 
-				JSONArray shoppingCartArray = cartJsonObject.getJSONArray("items");
+				JSONArray shoppingCartArray = cartJsonObject
+						.getJSONArray("items");
 				int size = shoppingCartArray.length();
 				ArrayList<ShoppingCart> tempGoodsList = new ArrayList<ShoppingCart>();
 				for (int i = 0; i < size; i++) {
-					JSONObject goodsJsonObject = shoppingCartArray.getJSONObject(i);
-					ShoppingCart shoppingCart = (ShoppingCart) JsonUtils.fromJsonToJava(goodsJsonObject,
-							ShoppingCart.class);
+					JSONObject goodsJsonObject = shoppingCartArray
+							.getJSONObject(i);
+					ShoppingCart shoppingCart = (ShoppingCart) JsonUtils
+							.fromJsonToJava(goodsJsonObject, ShoppingCart.class);
 					if (TextUtils.isEmpty(shoppingCart.getManufacturer())
 							|| shoppingCart.getManufacturer().equals("null")) {
 						shoppingCart.setManufacturer("0");
@@ -151,6 +170,8 @@ public class CartLogic {
 				message.obj = tempGoodsList;
 				handler.sendMessage(message);
 
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(CART_LIST_GET_SESSION_TIME_OUT_FAIL);
 			} else {
 				handler.sendEmptyMessage(CART_LIST_GET_FAIL);
 			}
@@ -159,27 +180,31 @@ public class CartLogic {
 		}
 	}
 
-	public static void add(final Context context, final Handler handler, final String id, final String qty) {
+	public static void add(final Context context, final Handler handler,
+			final String id, final String qty) {
 
 		String url = RequestUrl.HOST_URL + RequestUrl.cart.add;
 		JSONObject requestJson = new JSONObject();
 		try {
-			requestJson.put("sessionid", "frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
 			requestJson.put("id", URLEncoder.encode(id, "UTF-8"));
 			requestJson.put("qty", URLEncoder.encode(qty, "UTF-8"));
 
-			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
-				@Override
-				public void onResponse(JSONObject response) {
-					if (null != response) {
-						Log.e("xxx_cart_add", response.toString());
-						parseAddData(response, handler);
-					}
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_cart_add", response.toString());
+								parseAddData(response, handler);
+							}
 
-				}
-			}, null);
+						}
+					}, null);
 
-			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
 
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
@@ -197,6 +222,8 @@ public class CartLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				handler.sendEmptyMessage(CART_ADD_SUC);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(CART_ADD_SESSION_TIME_OUT_FAIL);
 			} else {
 				String msgStr = response.getString("msg").trim();
 				Message message = new Message();
@@ -209,30 +236,36 @@ public class CartLogic {
 		}
 	}
 
-	public static void update(final Context context, final Handler handler, final String cartitemsid,
-			final String action, final String qty) {
+	public static void update(final Context context, final Handler handler,
+			final String cartitemsid, final String action, final String qty) {
 
 		String url = RequestUrl.HOST_URL + RequestUrl.cart.update;
 		Log.e("xxx_cart_update", url);
 		JSONObject requestJson = new JSONObject();
 		try {
-			requestJson.put("sessionid", "frontend=" + UserInfoManager.getSession(context));
-			requestJson.put("cartitemsid", URLEncoder.encode(cartitemsid, "UTF-8"));
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("cartitemsid",
+					URLEncoder.encode(cartitemsid, "UTF-8"));
 			requestJson.put("action", URLEncoder.encode("update_qty", "UTF-8"));
 			requestJson.put("qty", URLEncoder.encode(qty, "UTF-8"));
 
-			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
-				@Override
-				public void onResponse(JSONObject response) {
-					Log.e("xxx_cart_update_response", response.toString());
-					if (null != response) {
-						Log.e("xxx_cart_update_response", response.toString());
-						parseUpdateData(response, handler);
-					}
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							Log.e("xxx_cart_update_response",
+									response.toString());
+							if (null != response) {
+								Log.e("xxx_cart_update_response",
+										response.toString());
+								parseUpdateData(response, handler);
+							}
 
-				}
-			}, null);
-			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+						}
+					}, null);
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
 
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
@@ -251,6 +284,8 @@ public class CartLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				handler.sendEmptyMessage(CART_UPDATE_SUC);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(CART_UPDATE_SESSION_TIME_OUT_FAIL);
 			} else {
 				handler.sendEmptyMessage(CART_UPDATE_FAIL);
 			}
@@ -259,25 +294,30 @@ public class CartLogic {
 		}
 	}
 
-	public static void del(final Context context, final Handler handler, final String cartitemsid) {
+	public static void del(final Context context, final Handler handler,
+			final String cartitemsid) {
 
 		String url = RequestUrl.HOST_URL + RequestUrl.cart.del;
 		JSONObject requestJson = new JSONObject();
 		try {
-			requestJson.put("sessionid", "frontend=" + UserInfoManager.getSession(context));
-			requestJson.put("cartitemsid", URLEncoder.encode(cartitemsid, "UTF-8"));
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("cartitemsid",
+					URLEncoder.encode(cartitemsid, "UTF-8"));
 
-			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
-				@Override
-				public void onResponse(JSONObject response) {
-					if (null != response) {
-						Log.e("xxx_cart_del", response.toString());
-						parseDelData(response, handler);
-					}
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_cart_del", response.toString());
+								parseDelData(response, handler);
+							}
 
-				}
-			}, null);
-			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+						}
+					}, null);
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
 
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
@@ -295,6 +335,8 @@ public class CartLogic {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				handler.sendEmptyMessage(CART_DEL_SUC);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(CART_DEL_SESSION_TIME_OUT_FAIL);
 			} else {
 				handler.sendEmptyMessage(CART_DEL_FAIL);
 			}
@@ -303,25 +345,30 @@ public class CartLogic {
 		}
 	}
 
-	public static void setSelectItem(final Context context, final Handler handler, final String selectitems) {
+	public static void setSelectItem(final Context context,
+			final Handler handler, final String selectitems) {
 
 		String url = RequestUrl.HOST_URL + RequestUrl.cart.setSelectItem;
 		JSONObject requestJson = new JSONObject();
 		try {
-			requestJson.put("sessionid", "frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("sessionid",
+					"frontend=" + UserInfoManager.getSession(context));
 			requestJson.put("selectitems", selectitems);
 
-			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
-				@Override
-				public void onResponse(JSONObject response) {
-					if (null != response) {
-						Log.e("xxx_cart_SelectItem", response.toString());
-						parseSetSelectItemData(response, handler);
-					}
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_cart_SelectItem",
+										response.toString());
+								parseSetSelectItemData(response, handler);
+							}
 
-				}
-			}, null);
-			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+						}
+					}, null);
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
 
 			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
@@ -331,12 +378,15 @@ public class CartLogic {
 		}
 	}
 
-	private static void parseSetSelectItemData(JSONObject response, Handler handler) {
+	private static void parseSetSelectItemData(JSONObject response,
+			Handler handler) {
 
 		try {
 			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				handler.sendEmptyMessage(CART_SET_SELECT_SUC);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(CART_SET_SELECT_SESSION_TIME_OUT_FAIL);
 			} else {
 				handler.sendEmptyMessage(CART_SET_SELECT_FAIL);
 			}

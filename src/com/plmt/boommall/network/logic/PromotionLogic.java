@@ -28,13 +28,17 @@ public class PromotionLogic {
 
 	public static final int BANNER_GET_FAIL = BANNER_GET_SUC + 1;
 
-	public static final int BANNER_GET_EXCEPTION = BANNER_GET_FAIL + 1;
+	public static final int BANNER_GET_SESSION_TIME_OUT = BANNER_GET_FAIL + 1;
+
+	public static final int BANNER_GET_EXCEPTION = BANNER_GET_SESSION_TIME_OUT + 1;
 
 	public static final int ROUND_GET_SUC = BANNER_GET_EXCEPTION + 1;
 
 	public static final int ROUND_GET_FAIL = ROUND_GET_SUC + 1;
 
-	public static final int ROUND_GET_EXCEPTION = ROUND_GET_FAIL + 1;
+	public static final int ROUND_GET_SESSION_TIME_OUT = ROUND_GET_FAIL + 1;
+
+	public static final int ROUND_GET_EXCEPTION = ROUND_GET_SESSION_TIME_OUT + 1;
 
 	public static void getBannerList(final Context context,
 			final Handler handler) {
@@ -77,6 +81,8 @@ public class PromotionLogic {
 				message.what = BANNER_GET_SUC;
 				message.obj = bannerList;
 				handler.sendMessage(message);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(BANNER_GET_SESSION_TIME_OUT);
 			} else {
 				handler.sendEmptyMessage(BANNER_GET_FAIL);
 			}
@@ -127,6 +133,8 @@ public class PromotionLogic {
 				message.what = ROUND_GET_SUC;
 				message.obj = bannerList;
 				handler.sendMessage(message);
+			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
+				handler.sendEmptyMessage(ROUND_GET_SESSION_TIME_OUT);
 			} else {
 				handler.sendEmptyMessage(ROUND_GET_FAIL);
 			}
