@@ -32,7 +32,8 @@ import com.plmt.boommall.utils.UserInfoManager;
 /**
  * 登录界面
  */
-public class LoginActivity extends BaseActivity implements OnClickListener, TextWatcher {
+public class LoginActivity extends BaseActivity implements OnClickListener,
+		TextWatcher {
 	public static final String ORIGIN_FROM_NULL = "com.null";
 
 	public static final String ORIGIN_FROM_REG_KEY = "com.reg";
@@ -95,7 +96,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Text
 				break;
 			}
 			case UserLogic.LOGIN_FAIL: {
-				Toast.makeText(mContext, R.string.login_fail, Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, R.string.login_fail,
+						Toast.LENGTH_SHORT).show();
 				break;
 			}
 			case UserLogic.LOGIN_EXCEPTION: {
@@ -172,12 +174,15 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Text
 		mLoginBtn.setClickable(false);
 
 		mMultiStateView = (MultiStateView) findViewById(R.id.login_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
+				.findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(), "正在", Toast.LENGTH_SHORT).show();
+						mMultiStateView
+								.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(), "正在",
+								Toast.LENGTH_SHORT).show();
 					}
 				});
 
@@ -192,7 +197,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Text
 		if (UserInfoManager.getRememberPwd(mContext)) {
 			UserInfoManager.setUserInfo(mContext);
 
-			mAccountEt.setText(UserInfoManager.userInfo.getUsername());
+			mAccountEt.setText(UserInfoManager.userInfo.getAccount());
 			mPassWordEt.setText(UserInfoManager.userInfo.getPassword());
 		}
 
@@ -204,14 +209,15 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Text
 		mPassWord = mPassWordEt.getText().toString().trim();
 
 		if ("".equals(mAccount) || "".equals(mPassWord)) {
-			Toast.makeText(LoginActivity.this, mContext.getString(R.string.login_emptyname_or_emptypwd),
+			Toast.makeText(LoginActivity.this,
+					mContext.getString(R.string.login_emptyname_or_emptypwd),
 					Toast.LENGTH_SHORT).show();
 		} else {
 			mProgressDialog = new CustomProgressDialog(mContext);
 			mProgressDialog.show();
 
 			User user = new User();
-			user.setUsername(mAccount);
+			user.setAccount(mAccount);
 			user.setPassword(mPassWord);
 			UserLogic.login(mContext, mHandler, user);
 		}
@@ -229,20 +235,24 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Text
 
 		} else if (mNowAction.equals(ORIGIN_FROM_GOODS_DETAIL_KEY)) {
 			LoginActivity.this.finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 		} else if (mNowAction.equals(ORIGIN_FROM_CART_KEY)) {
 			LoginActivity.this.finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 		} else if (mNowAction.equals(ORIGIN_FROM_ORDER_KEY)) {
 
 		} else if (mNowAction.equals(ORIGIN_FROM_USER_KEY)) {
 			LoginActivity.this.finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 		}
 	}
 
 	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
 
 	}
 
@@ -288,23 +298,29 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Text
 		}
 
 		case R.id.login_reg_ll: {
-			Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+			Intent intent = new Intent(LoginActivity.this,
+					RegisterActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		}
 		case R.id.login_forget_pwd_ll: {
-			Intent intent = new Intent(LoginActivity.this, ForgetPwdActivity.class);
+			Intent intent = new Intent(LoginActivity.this,
+					ForgetPwdActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		}
 		case R.id.login_see_pwd_iv: {
 			if (!isShowPwd) {
-				mPassWordEt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+				mPassWordEt
+						.setTransformationMethod(HideReturnsTransformationMethod
+								.getInstance());
 				isShowPwd = !isShowPwd;
 			} else {
-				mPassWordEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+				mPassWordEt
+						.setTransformationMethod(PasswordTransformationMethod
+								.getInstance());
 				isShowPwd = !isShowPwd;
 			}
 			break;
@@ -318,7 +334,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Text
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 			LoginActivity.this.finish();
 			return true;
 		}

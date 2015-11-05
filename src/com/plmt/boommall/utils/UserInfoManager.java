@@ -15,15 +15,17 @@ public class UserInfoManager {
 
 	public static final String USER_FIRST_USE_KEY = "ISFIRSTUSE";
 
-	public static final String USER_ID_KEY = "user_id";
+	public static final String USER_ID_KEY = "id";
 
-	public static final String USER_NAME_KEY = "user_name";
+	public static final String USER_NAME_KEY = "name";
+
+	public static final String USER_ACCOUNT_KEY = "account";
 
 	public static final String USER_PWD_KEY = "password";
 
 	public static final String USER_SEX_KEY = "sex";
 
-	public static final String USER_PHONE_KEY = "user_phone";
+	public static final String USER_PHONE_KEY = "phone";
 
 	public static final String USER_ADDRESS_KEY = "address";
 
@@ -62,9 +64,11 @@ public class UserInfoManager {
 
 		UserInfoManager.userInfo.setId(userInfoPreferences.getString(
 				USER_ID_KEY, ""));
-
 		UserInfoManager.userInfo.setUsername(userInfoPreferences.getString(
 				USER_NAME_KEY, ""));
+
+		UserInfoManager.userInfo.setAccount(userInfoPreferences.getString(
+				USER_ACCOUNT_KEY, ""));
 		UserInfoManager.userInfo.setPassword(userInfoPreferences.getString(
 				USER_PWD_KEY, ""));
 
@@ -88,10 +92,11 @@ public class UserInfoManager {
 			SharedPreferences.Editor userInfoSp = context.getSharedPreferences(
 					USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE).edit();
 
-			userInfoSp.putString(USER_ID_KEY, null == user.getId() ? ""
-					: user.getId());
-
+			userInfoSp.putString(USER_ID_KEY,
+					null == user.getId() ? "" : user.getId());
 			userInfoSp.putString(USER_NAME_KEY, user.getUsername());
+
+			userInfoSp.putString(USER_ACCOUNT_KEY, user.getAccount());
 			userInfoSp.putString(USER_PWD_KEY, user.getPassword());
 
 			userInfoSp.putString(USER_SEX_KEY, null == user.getSex() ? ""
@@ -109,8 +114,9 @@ public class UserInfoManager {
 				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE).edit();
 
 		userInfoSp.putString(USER_ID_KEY, "");
-
 		userInfoSp.putString(USER_NAME_KEY, "");
+
+		userInfoSp.putString(USER_ACCOUNT_KEY, "");
 		userInfoSp.putString(USER_PWD_KEY, "");
 
 		userInfoSp.putString(USER_SEX_KEY, "");
@@ -123,6 +129,7 @@ public class UserInfoManager {
 		UserInfoManager.userInfo.setId("");
 
 		UserInfoManager.userInfo.setUsername("");
+		UserInfoManager.userInfo.setAccount("");
 		UserInfoManager.userInfo.setPassword("");
 		UserInfoManager.userInfo.setSex("");
 		UserInfoManager.userInfo.setSignature("");

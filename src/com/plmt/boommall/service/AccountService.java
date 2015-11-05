@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.TextureView;
 
 import com.baidu.location.BDLocation;
 import com.plmt.boommall.entity.User;
@@ -73,9 +75,12 @@ public class AccountService extends Service {
 		flags = START_STICKY;
 		UserInfoManager.setUserInfo(mContext);
 		User user = new User();
-		user.setUsername(UserInfoManager.userInfo.getUsername());
-		user.setPassword(UserInfoManager.userInfo.getPassword());
-		UserLogic.login(mContext, mHandler, user);
+		if (!TextUtils.isEmpty(UserInfoManager.userInfo.getAccount())
+				&& !TextUtils.isEmpty(UserInfoManager.userInfo.getPassword())) {
+			user.setAccount(UserInfoManager.userInfo.getAccount());
+			user.setPassword(UserInfoManager.userInfo.getPassword());
+			UserLogic.login(mContext, mHandler, user);
+		}
 		return super.onStartCommand(intent, flags, startId);
 	}
 

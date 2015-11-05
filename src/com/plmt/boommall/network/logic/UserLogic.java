@@ -76,7 +76,7 @@ public class UserLogic {
 		JSONObject requestJson = new JSONObject();
 		try {
 			requestJson.put("name",
-					URLEncoder.encode(user.getUsername(), "UTF-8"));
+					URLEncoder.encode(user.getAccount(), "UTF-8"));
 			requestJson.put("password",
 					URLEncoder.encode(user.getPassword(), "UTF-8"));
 
