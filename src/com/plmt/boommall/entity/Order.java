@@ -23,6 +23,8 @@ public class Order implements Serializable {
 
 	private String increment_id;
 
+	private String shipping_amount;
+
 	private ArrayList<Goods> goodsList;
 
 	public String getId() {
@@ -87,6 +89,14 @@ public class Order implements Serializable {
 
 	public void setIncrement_id(String increment_id) {
 		this.increment_id = increment_id;
+	}
+
+	public String getShipping_amount() {
+		return shipping_amount;
+	}
+
+	public void setShipping_amount(String shipping_amount) {
+		this.shipping_amount = shipping_amount;
 	}
 
 	public ArrayList<Goods> getGoodsList() {

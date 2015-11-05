@@ -6,6 +6,7 @@ import java.util.HashMap;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -29,7 +30,8 @@ public class OrderAdapter extends BaseAdapter {
 
 	private ListItemClickHelp mCallback;
 
-	public OrderAdapter(Context context, HashMap<String, Object> datas, ListItemClickHelp callback) {
+	public OrderAdapter(Context context, HashMap<String, Object> datas,
+			ListItemClickHelp callback) {
 		this.mContext = context;
 		this.mMap = datas;
 		this.mCallback = callback;
@@ -62,18 +64,30 @@ public class OrderAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.list_order_item, null);
 
 			holder = new ViewHolder();
-			holder.mId = (TextView) convertView.findViewById(R.id.list_order_group_id_tv);
-			holder.mTime = (TextView) convertView.findViewById(R.id.list_order_group_time_tv);
-			holder.mState = (TextView) convertView.findViewById(R.id.list_order_group_state_tv);
-			holder.mTotalMoneyTv = (TextView) convertView.findViewById(R.id.list_order_group_total_money_tv);
-			holder.mFreightMoneyTv = (TextView) convertView.findViewById(R.id.list_order_group_total_freight_tv);
-			holder.mNumTv = (TextView) convertView.findViewById(R.id.list_order_group_total_num_tv);
+			holder.mId = (TextView) convertView
+					.findViewById(R.id.list_order_group_id_tv);
+			holder.mTime = (TextView) convertView
+					.findViewById(R.id.list_order_group_time_tv);
+			holder.mState = (TextView) convertView
+					.findViewById(R.id.list_order_group_state_tv);
+			holder.mTotalMoneyTv = (TextView) convertView
+					.findViewById(R.id.list_order_group_total_money_tv);
+			holder.mFreightMoneyTv = (TextView) convertView
+					.findViewById(R.id.list_order_group_total_freight_tv);
+			holder.mNumTv = (TextView) convertView
+					.findViewById(R.id.list_order_group_total_num_tv);
 
-			holder.mCancelOrCommentBtn = (Button) convertView.findViewById(R.id.list_order_group_comment_or_cancel_btn);
-			holder.mViewBtn = (Button) convertView.findViewById(R.id.list_order_group_see_btn);
-			holder.mPayBtn = (Button) convertView.findViewById(R.id.list_order_group_continue_pay_btn);
-			holder.mWineLl = (LinearLayout) convertView.findViewById(R.id.list_order_group_wine_ll);
+			holder.mBtnLl = (LinearLayout) convertView
+					.findViewById(R.id.list_order_group_btn_ll);
+			holder.mCommentBtn = (Button) convertView
+					.findViewById(R.id.list_order_group_comment_btn);
+			holder.mViewBtn = (Button) convertView
+					.findViewById(R.id.list_order_group_see_btn);
+			holder.mPayBtn = (Button) convertView
+					.findViewById(R.id.list_order_group_continue_pay_btn);
 
+			holder.mGoodsLl = (LinearLayout) convertView
+					.findViewById(R.id.list_order_group_wine_ll);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -81,101 +95,84 @@ public class OrderAdapter extends BaseAdapter {
 
 		if (((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).size() > position) {
 
-			holder.mId.setText("订单号："+((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).get(position).getIncrement_id());
-			// holder.mTime.setText(((ArrayList<Order>) mMap
-			// .get(MsgResult.ORDER_TAG)).get(position).getCreated_time());
+			holder.mId.setText("订单号："
+					+ ((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).get(
+							position).getIncrement_id());
+			holder.mTime.setText(((ArrayList<Order>) mMap
+					.get(MsgResult.ORDER_TAG)).get(position).getCreated_time());
 
-			holder.mState.setText(((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).get(position).getStatusLabel());
+			holder.mState.setText(((ArrayList<Order>) mMap
+					.get(MsgResult.ORDER_TAG)).get(position).getStatusLabel());
 
-			// String orderStateCodeStr = String.valueOf(orderStateCode);
-			// String orderPayStateCodeStr = String
-			// .valueOf(((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG))
-			// .get(position).getPayStatus());
-			//
-			// holder.mPayBtn.setVisibility(View.GONE);
-			// holder.mCancelOrCommentBtn.setVisibility(View.GONE);
-			// holder.mViewBtn.setVisibility(View.GONE);
-			// if (orderStateCode > 6) {
-			// holder.mPayBtn.setVisibility(View.GONE);
-			// holder.mCancelOrCommentBtn.setVisibility(View.GONE);
-			// holder.mViewBtn.setVisibility(View.GONE);
-			// } else {
-			// holder.mViewBtn.setVisibility(View.VISIBLE);
-			// if (orderStateCodeStr.equals(OrderState.ORDER_STATUS_ORDERED)
-			// || orderStateCodeStr
-			// .equals(OrderState.ORDER_STATUS_GRABBED)) {
-			// holder.mCancelOrCommentBtn.setVisibility(View.VISIBLE);
-			// holder.mCancelOrCommentBtn.setText(mContext
-			// .getString(R.string.order_cancel));
-			// } else if (orderStateCodeStr
-			// .equals(OrderState.ORDER_STATUS_CONFIRMED)) {
-			// holder.mCancelOrCommentBtn.setVisibility(View.VISIBLE);
-			// holder.mCancelOrCommentBtn.setText(mContext
-			// .getString(R.string.add_comment));
-			// }
-			//
-			// if (OrderState.ORDER_STATUS_ORDERED.equals(orderStateCodeStr)
-			// && PayConstants.PAY_STATUS_UNPAID
-			// .equals(orderPayStateCodeStr)) {
-			// holder.mPayBtn.setVisibility(View.VISIBLE);
-			//
-			// holder.mCancelOrCommentBtn.setVisibility(View.VISIBLE);
-			// holder.mCancelOrCommentBtn.setText(mContext
-			// .getString(R.string.order_cancel));
-			//
-			// holder.mViewBtn.setVisibility(View.GONE);
-			// }
-			// }
-			//
-			// final int tempPosition = position;
-			// final View view = convertView;
-			// final int whichCancel = holder.mCancelOrCommentBtn.getId();
-			// final int whichPay = holder.mPayBtn.getId();
-			// final int whichView = holder.mViewBtn.getId();
-			//
-			// holder.mPayBtn.setOnClickListener(new OnClickListener() {
-			// @Override
-			// public void onClick(View v) {
-			//
-			// mCallback.onClick(view, v, tempPosition, whichPay);
-			//
-			// }
-			// });
-			//
-			// holder.mCancelOrCommentBtn
-			// .setOnClickListener(new OnClickListener() {
-			// @Override
-			// public void onClick(View v) {
-			//
-			// mCallback.onClick(view, v, tempPosition,
-			// whichCancel);
-			//
-			// }
-			// });
-			//
-			// holder.mViewBtn.setOnClickListener(new OnClickListener() {
-			// @Override
-			// public void onClick(View v) {
-			// mCallback.onClick(view, v, tempPosition, whichView);
-			// }
-			// });
+			String orderStateStr = String.valueOf(((ArrayList<Order>) mMap
+					.get(MsgResult.ORDER_TAG)).get(position).getStatusLabel());
 
-			holder.mWineLl.removeAllViews();
+			holder.mBtnLl.setVisibility(View.GONE);
+			holder.mPayBtn.setVisibility(View.GONE);
+			holder.mCommentBtn.setVisibility(View.GONE);
+			holder.mViewBtn.setVisibility(View.GONE);
+			if ("未支付".equals(orderStateStr)) {
+				holder.mBtnLl.setVisibility(View.VISIBLE);
+				holder.mPayBtn.setVisibility(View.VISIBLE);
+				holder.mCommentBtn.setVisibility(View.GONE);
+				holder.mViewBtn.setVisibility(View.GONE);
+			} else if ("已完成".equals(orderStateStr)) {
+				holder.mBtnLl.setVisibility(View.VISIBLE);
+				holder.mPayBtn.setVisibility(View.GONE);
+				holder.mCommentBtn.setVisibility(View.VISIBLE);
+				holder.mViewBtn.setVisibility(View.GONE);
+			}
+
+			final int tempPosition = position;
+			final View view = convertView;
+			final int whichCancel = holder.mCommentBtn.getId();
+			final int whichPay = holder.mPayBtn.getId();
+			final int whichView = holder.mViewBtn.getId();
+
+			holder.mPayBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					mCallback.onClick(view, v, tempPosition, whichPay);
+
+				}
+			});
+
+			holder.mCommentBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					mCallback.onClick(view, v, tempPosition, whichCancel);
+
+				}
+			});
+
+			holder.mViewBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mCallback.onClick(view, v, tempPosition, whichView);
+				}
+			});
+
+			holder.mGoodsLl.removeAllViews();
 
 			ArrayList<Goods> goodsList = new ArrayList<Goods>();
-			goodsList.addAll(((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).get(position).getGoodsList());
-			// goodsList.addAll(((ArrayList<Goods>) mMap
-			// .get(((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG))
-			// .get(position).getIncrement_id())));
+			goodsList.addAll(((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG))
+					.get(position).getGoodsList());
 			for (int i = 0; i < goodsList.size(); i++) {
 				// TODO
 				Goods goods = goodsList.get(i);
-				OrderGoodsView orderGoodsView = new OrderGoodsView(mContext, goods);
-				holder.mWineLl.addView(orderGoodsView);
+				OrderGoodsView orderGoodsView = new OrderGoodsView(mContext,
+						goods);
+				holder.mGoodsLl.addView(orderGoodsView);
 			}
 
-			holder.mTotalMoneyTv.setText("￥" +((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).get(position).getTotal());
-			holder.mFreightMoneyTv.setText("()");
+			holder.mTotalMoneyTv.setText("¥"
+					+ ((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).get(
+							position).getTotal());
+			holder.mFreightMoneyTv.setText("(运费：¥"
+					+ ((ArrayList<Order>) mMap.get(MsgResult.ORDER_TAG)).get(
+							position).getShipping_amount() + ")");
 			holder.mNumTv.setText("共" + goodsList.size() + "件商品," + "合计：");
 		}
 		return convertView;
@@ -195,13 +192,15 @@ public class OrderAdapter extends BaseAdapter {
 
 		public TextView mNumTv;
 
-		public Button mCancelOrCommentBtn;
+		public Button mCommentBtn;
 
 		public Button mViewBtn;
 
 		public Button mPayBtn;
 
-		public LinearLayout mWineLl;
+		public LinearLayout mGoodsLl;
+
+		public LinearLayout mBtnLl;
 
 	}
 

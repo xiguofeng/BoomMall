@@ -9,6 +9,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,14 +23,15 @@ import android.widget.TextView;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Order;
 import com.plmt.boommall.network.config.MsgRequest;
+import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.logic.OrderLogic;
 import com.plmt.boommall.ui.adapter.OrderAdapter;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 
-public class MyOrderListActivity extends Activity
-		implements OnClickListener, XListView.IXListViewListener, ListItemClickHelp {
+public class MyOrderListActivity extends Activity implements OnClickListener,
+		XListView.IXListViewListener, ListItemClickHelp {
 
 	public static final String ORIGIN_FROM_ALL_ACTION = "";
 
@@ -142,7 +144,9 @@ public class MyOrderListActivity extends Activity
 		} else if (ORIGIN_FROM_COMPLETE_ACTION.equals(mNowAction)) {
 			mTitleTv.setText(getString(R.string.order_uncomment));
 		}
-		OrderLogic.getOrders(mContext, mHandler, String.valueOf(mCurrentPageNum), String.valueOf(MsgRequest.PAGE_SIZE), mNowAction);
+		OrderLogic.getOrders(mContext, mHandler,
+				String.valueOf(mCurrentPageNum),
+				String.valueOf(MsgRequest.PAGE_SIZE), mNowAction);
 	}
 
 	private void onLoad() {
@@ -152,7 +156,8 @@ public class MyOrderListActivity extends Activity
 	}
 
 	private String getTime() {
-		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA).format(new Date());
+		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)
+				.format(new Date());
 	}
 
 	@Override
@@ -178,6 +183,32 @@ public class MyOrderListActivity extends Activity
 
 	@Override
 	public void onClick(View item, View widget, int position, int which) {
+		switch (which) {
+		case R.id.list_order_group_continue_pay_btn: {
+			Intent intent = new Intent(MyOrderListActivity.this,
+					PayActivity.class);
+			intent.putExtra(
+					"orderId",
+					((ArrayList<Order>) mMsgMap.get(MsgResult.ORDER_TAG)).get(
+							position).getIncrement_id());
+			intent.putExtra(
+					"price",
+					"¥"
+							+ ((ArrayList<Order>) mMsgMap
+									.get(MsgResult.ORDER_TAG)).get(position)
+									.getTotal());
+			startActivity(intent);
+			finish();
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+		case R.id.list_order_group_comment_btn: {
+
+			break;
+		}
+		default:
+			break;
+		}
 	}
 
 	@Override
@@ -185,7 +216,8 @@ public class MyOrderListActivity extends Activity
 		switch (v.getId()) {
 		case R.id.my_orders_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			break;
 		}
 		default:
@@ -195,10 +227,12 @@ public class MyOrderListActivity extends Activity
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 
 			finish();
-			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
