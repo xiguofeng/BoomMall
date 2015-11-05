@@ -1,5 +1,6 @@
 package com.plmt.boommall.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.ImageView;
 import cn.jpush.android.api.JPushInterface;
 
 import com.plmt.boommall.R;
+import com.plmt.boommall.service.AccountService;
+import com.plmt.boommall.utils.UserInfoManager;
 
 public class SplashActivity extends BaseActivity implements OnClickListener {
 
@@ -16,13 +19,17 @@ public class SplashActivity extends BaseActivity implements OnClickListener {
 	private final int SPLISH_DISPLAY_LENGTH = 2000; // 延迟2秒启动登陆界面
 
 	private ImageView mEnterIv;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 		initView();
-
+		if (UserInfoManager.getLoginIn(SplashActivity.this)) {
+			Intent intent = new Intent(SplashActivity.this,
+					AccountService.class);
+			startService(intent);
+		}
 	}
 
 	protected void findViewById() {
@@ -42,13 +49,13 @@ public class SplashActivity extends BaseActivity implements OnClickListener {
 		}, SPLISH_DISPLAY_LENGTH);
 
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		JPushInterface.onResume(SplashActivity.this);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
