@@ -10,6 +10,7 @@
     android:orientation="vertical" >
 
     <RelativeLayout
+        android:id="@+id/custom_classify_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
@@ -45,7 +46,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:visibility="invisible"
             android:src="@drawable/arrow" />
 
         <TextView

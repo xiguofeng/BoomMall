@@ -128,7 +128,8 @@ public class MainActivity extends Activity implements OnClickListener {
 			case PromotionLogic.BANNER_GET_SUC: {
 				if (null != msg.obj) {
 					mBannerActivityList.clear();
-					mBannerActivityList.addAll((Collection<? extends Banner>) msg.obj);
+					mBannerActivityList
+							.addAll((Collection<? extends Banner>) msg.obj);
 					showcircleimage();
 					isBannerNeedUpdate = false;
 				}
@@ -146,7 +147,8 @@ public class MainActivity extends Activity implements OnClickListener {
 			case PromotionLogic.ROUND_GET_SUC: {
 				if (null != msg.obj) {
 					mCategoryList.clear();
-					mCategoryList.addAll((Collection<? extends Banner>) msg.obj);
+					mCategoryList
+							.addAll((Collection<? extends Banner>) msg.obj);
 					mCategoryAdapter.notifyDataSetChanged();
 					isRoundNeedUpdate = false;
 				}
@@ -338,21 +340,22 @@ public class MainActivity extends Activity implements OnClickListener {
 		mSearchIv.setOnClickListener(this);
 
 		mSearchEt = (EditText) findViewById(R.id.main_search_et);
-		mSearchEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					// 此处为得到焦点时的处理内容
-					mSearchLl.setVisibility(View.GONE);
-					mSearchIv.setVisibility(View.VISIBLE);
-				} else {
-					// 此处为失去焦点时的处理内容
-					mSearchEt.setText("");
-					mSearchLl.setVisibility(View.VISIBLE);
-					mSearchIv.setVisibility(View.GONE);
-				}
-			}
-		});
+		mSearchEt
+				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							// 此处为得到焦点时的处理内容
+							mSearchLl.setVisibility(View.GONE);
+							mSearchIv.setVisibility(View.VISIBLE);
+						} else {
+							// 此处为失去焦点时的处理内容
+							mSearchEt.setText("");
+							mSearchLl.setVisibility(View.VISIBLE);
+							mSearchIv.setVisibility(View.GONE);
+						}
+					}
+				});
 
 		mStandardMsgLl = (LinearLayout) findViewById(R.id.main_msg_ll);
 		mStandardMsgLl.setOnClickListener(this);
@@ -387,7 +390,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		mCategoryGv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				Intent intent = new Intent(mContext, Html5Activity.class);
 				intent.putExtra("url", mCategoryList.get(position).getLink());
 				mContext.startActivity(intent);
@@ -472,13 +476,14 @@ public class MainActivity extends Activity implements OnClickListener {
 		// mFifthGoodsLv.setAdapter(mFifthGoodsAdapter);
 		// mFifthGoodsAdapter.notifyDataSetChanged();
 		// initialize your items array
-
+		mCategoryAndGoodsListLl.removeAllViews();
 		for (Entry<String, HomeRecommend> entry : mRecommendMap.entrySet()) {
 			Log.e("xxx_entry_key", entry.getKey());
 
 			// entry.getKey();
 			// entry.getValue();
-			CustomClassifyView cv = new CustomClassifyView(mContext, entry.getValue());
+			CustomClassifyView cv = new CustomClassifyView(mContext,
+					entry.getValue());
 			mCategoryAndGoodsListLl.addView(cv);
 		}
 
@@ -560,21 +565,27 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 
-			new AlertDialog(MainActivity.this).builder().setTitle(getString(R.string.prompt))
+			new AlertDialog(MainActivity.this)
+					.builder()
+					.setTitle(getString(R.string.prompt))
 					.setMsg(getString(R.string.exit_str))
-					.setPositiveButton(getString(R.string.confirm), new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							finish();
-						}
-					}).setNegativeButton(getString(R.string.cancal), new OnClickListener() {
-						@Override
-						public void onClick(View v) {
+					.setPositiveButton(getString(R.string.confirm),
+							new OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									finish();
+								}
+							})
+					.setNegativeButton(getString(R.string.cancal),
+							new OnClickListener() {
+								@Override
+								public void onClick(View v) {
 
-						}
-					}).show();
+								}
+							}).show();
 
 			// if ((System.currentTimeMillis() - exitTime) > 2000) {
 			// Toast.makeText(getApplicationContext(), R.string.exit,

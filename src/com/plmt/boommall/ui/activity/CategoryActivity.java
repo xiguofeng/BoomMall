@@ -51,6 +51,9 @@ public class CategoryActivity extends Activity implements OnClickListener {
 	private CategoryGvAdapter mSecondCategoryAdapter;
 	private ArrayList<Category> mSecondCategoryList = new ArrayList<Category>();
 
+	public static String sCategoryName;
+	public static boolean isNeedUpdate = false;
+
 	private CustomProgressDialog mProgressDialog;
 
 	Handler mHandler = new Handler() {
@@ -68,8 +71,12 @@ public class CategoryActivity extends Activity implements OnClickListener {
 					mTopCategoryAdapter.notifyDataSetChanged();
 
 					if (mTopCategoryList.size() > 0) {
-						GoodsLogic.getSubCategory(mContext, mHandler,
-								mTopCategoryList.get(0).getName());
+						if (isNeedUpdate) {
+							setShowFromMain();
+						} else {
+							GoodsLogic.getSubCategory(mContext, mHandler,
+									mTopCategoryList.get(0).getName());
+						}
 					}
 				}
 				break;
@@ -131,7 +138,7 @@ public class CategoryActivity extends Activity implements OnClickListener {
 					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
 							this);
 		}
-		
+
 		initView();
 		initData();
 	}
@@ -218,7 +225,35 @@ public class CategoryActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		HomeActivity.setCartMenuShow(false,"0");
+		HomeActivity.setCartMenuShow(false, "0");
+		if (mTopCategoryList.size() > 0) {
+			setShowFromMain();
+		}
+	}
+
+	public static void setDataFromMain(String categoryName) {
+		isNeedUpdate = true;
+		sCategoryName = categoryName;
+	}
+
+	public void setShowFromMain() {
+		if (isNeedUpdate) {
+			isNeedUpdate = false;
+			boolean isHas = false;
+			if (!TextUtils.isEmpty(sCategoryName)) {
+				for (int i = 0; i < mTopCategoryList.size(); i++) {
+					if (mTopCategoryList.get(i).getName().equals(sCategoryName)) {
+						isHas = true;
+					}
+				}
+			}
+			if (isHas) {
+				mTopCategoryAdapter.setmCurrentSelect(sCategoryName);
+				mTopCategoryAdapter.notifyDataSetChanged();
+				mProgressDialog.show();
+				GoodsLogic.getSubCategory(mContext, mHandler, sCategoryName);
+			}
+		}
 	}
 
 	@Override
@@ -234,7 +269,8 @@ public class CategoryActivity extends Activity implements OnClickListener {
 			break;
 		}
 		case R.id.category_search_ll: {
-			Intent intent = new Intent(CategoryActivity.this, SearchActivity.class);
+			Intent intent = new Intent(CategoryActivity.this,
+					SearchActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
