@@ -216,7 +216,7 @@ public class RequestUrl {
 		/**
 		 * 根据商品种类查询商品
 		 */
-		public String queryGoodsByCategoryNew = "/plp/getproductsnew";
+		public String queryGoodsByCategoryNew = "/plp/getProductsnew";
 
 		/**
 		 * 根据商品Id查询商品

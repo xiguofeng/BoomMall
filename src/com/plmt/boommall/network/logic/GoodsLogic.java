@@ -85,7 +85,7 @@ public class GoodsLogic {
 			requestJson.put("category", URLEncoder.encode(categoryName, "UTF-8"));
 			requestJson.put("c", pageNum);
 			requestJson.put("s", pageSize);
-			requestJson.put("orderitme", sortType);
+			requestJson.put("orderitem", sortType);
 			Log.e("xxx_orderitme", "orderitme:" + sortType);
 
 			BaseApplication.getInstanceRequestQueue()
