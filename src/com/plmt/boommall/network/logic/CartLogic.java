@@ -388,7 +388,11 @@ public class CartLogic {
 			} else if (sucResult.equals(MsgResult.RESULT_SESSION_TIMEOUT)) {
 				handler.sendEmptyMessage(CART_SET_SELECT_SESSION_TIME_OUT_FAIL);
 			} else {
-				handler.sendEmptyMessage(CART_SET_SELECT_FAIL);
+				String msgStr = response.getString("msg").trim();
+				Message message = new Message();
+				message.what = CART_SET_SELECT_FAIL;
+				message.obj = msgStr;
+				handler.sendMessage(message);
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(CART_SET_SELECT_EXCEPTION);

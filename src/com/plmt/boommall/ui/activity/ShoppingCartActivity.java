@@ -163,6 +163,8 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 			}
 			case CartLogic.CART_SET_SELECT_FAIL: {
 				if (null != msg.obj) {
+					Toast.makeText(mContext, (String) msg.obj,
+							Toast.LENGTH_LONG).show();
 				}
 				break;
 			}
@@ -249,7 +251,7 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 	}
 
 	private void refresh() {
-		//clear 
+		// clear
 		mGroup.clear();
 		mChild.clear();
 		mEAdapter.notifyDataSetChanged();
@@ -257,7 +259,7 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 		for (int i = 0; i < tempSize; i++) {
 			mGoodsElv.expandGroup(i);
 		}
-		
+
 		for (int i = 0; i < mShoppingCartList.size(); i++) {
 			String manuf = mShoppingCartList.get(i).getManufacturer();
 			boolean isGroupHas = false;
