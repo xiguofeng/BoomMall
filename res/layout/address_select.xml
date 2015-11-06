@@ -19,16 +19,37 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/gray_bg"
                 android:padding="10dip" >
 
                 <TextView
+                    android:id="@+id/address_select_cancel_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dip"
+                    android:layout_marginLeft="10dip"
+                    android:text="@string/cancal"
+                    android:textColor="@color/gray_character"
+                    android:textSize="@dimen/medium_text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:text="请选择省市区"
                     android:textColor="@color/black_character"
+                    android:textSize="@dimen/medium_text_size" />
+
+                <TextView
+                    android:id="@+id/address_select_confirm_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dip"
+                    android:text="@string/confirm"
+                    android:textColor="@color/red_title_bg"
                     android:textSize="@dimen/medium_text_size" />
             </RelativeLayout>
 
@@ -58,17 +79,6 @@
                     android:layout_weight="1" >
                 </com.plmt.boommall.ui.view.wheel.widget.WheelView>
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_confirm"
-                android:layout_width="match_parent"
-                android:layout_gravity="right"
-                android:layout_height="45dip"
-                android:gravity="center"
-                android:text="@string/confirm"
-                android:background="@drawable/corners_bg_gray"
-                android:textSize="@dimen/small_text_size"
-                android:textColor="@color/black" />
         </LinearLayout>
     </RelativeLayout>
 

@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.plmt.boommall.R;
@@ -34,7 +35,9 @@ public class AddressEditSelectActivity extends Activity implements
 	private WheelView mViewProvince;
 	private WheelView mViewCity;
 	private WheelView mViewDistrict;
-	private Button mBtnConfirm;
+
+	private TextView mCancelTv;
+	private TextView mConfirmTv;
 
 	private Context mContext;
 
@@ -112,7 +115,7 @@ public class AddressEditSelectActivity extends Activity implements
 		WindowManager m = getWindowManager();
 		Display d = m.getDefaultDisplay(); // 为获取屏幕宽、高
 		LayoutParams p = getWindow().getAttributes(); // 获取对话框当前的参数值
-		p.height = (int) (d.getHeight() * 0.4); // 高度设置为屏幕的0.5
+		p.height = (int) (d.getHeight() * 0.3); // 高度设置为屏幕的0.5
 		p.width = (int) (d.getWidth()); // 宽度设置为屏幕的宽度
 		// p.alpha = 1.0f; // 设置本身透明度
 		p.dimAmount = 0.6f;
@@ -123,7 +126,9 @@ public class AddressEditSelectActivity extends Activity implements
 		mViewProvince = (WheelView) findViewById(R.id.id_province);
 		mViewCity = (WheelView) findViewById(R.id.id_city);
 		mViewDistrict = (WheelView) findViewById(R.id.id_district);
-		mBtnConfirm = (Button) findViewById(R.id.btn_confirm);
+
+		mConfirmTv = (TextView) findViewById(R.id.address_select_confirm_tv);
+		mCancelTv = (TextView) findViewById(R.id.address_select_cancel_tv);
 	}
 
 	private void setUpListener() {
@@ -134,7 +139,8 @@ public class AddressEditSelectActivity extends Activity implements
 		// 添加change事件
 		mViewDistrict.addChangingListener(this);
 		// 添加onclick事件
-		mBtnConfirm.setOnClickListener(this);
+		mConfirmTv.setOnClickListener(this);
+		mCancelTv.setOnClickListener(this);
 	}
 
 	private void initData() {
@@ -259,7 +265,7 @@ public class AddressEditSelectActivity extends Activity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_confirm:
+		case R.id.address_select_confirm_tv: {
 			Intent intent = new Intent();
 			intent.putExtra("area", "" + mCurrentProvice.getName() + ","
 					+ mCurrentCity.getName() + "," + mCurrentDistrict.getName());
@@ -271,6 +277,11 @@ public class AddressEditSelectActivity extends Activity implements
 			finish();
 			showSelectedResult();
 			break;
+		}
+		case R.id.address_select_cancel_tv: {
+			finish();
+			break;
+		}
 		default:
 			break;
 		}
