@@ -506,11 +506,6 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.goods_detail_cart_ll: {
-			if (0 == mCartNum) {
-				Toast.makeText(mContext, R.string.cart_add_num_no_hint,
-						Toast.LENGTH_SHORT).show();
-				return;
-			}
 			if (!UserInfoManager.getLoginIn(mContext)) {
 				Intent intent = new Intent(GoodsDetailActivity.this,
 						LoginActivity.class);
@@ -518,6 +513,17 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				startActivity(intent);
 				overridePendingTransition(R.anim.push_left_in,
 						R.anim.push_left_out);
+			} else if (0 == mCartNum) {
+				ActivitiyInfoManager
+						.finishActivity("com.plmt.boommall.ui.activity.CategoryActivity");
+				ActivitiyInfoManager
+						.finishActivity("com.plmt.boommall.ui.activity.GoodsListActivity");
+				ActivitiyInfoManager
+						.finishActivity("com.plmt.boommall.ui.activity.Html5Activity");
+
+				finish();
+				ShoppingCartActivity.isNeedUpdate = true;
+				HomeActivity.setTab(HomeActivity.TAB_CART);
 			} else {
 				mProgressDialog = new CustomProgressDialog(mContext);
 				mProgressDialog.show();
