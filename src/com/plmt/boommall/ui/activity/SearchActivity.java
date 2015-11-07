@@ -22,6 +22,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,14 +40,15 @@ import com.plmt.boommall.ui.view.gridview.CustomGridView;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 import com.plmt.boommall.utils.CacheManager;
 
-public class SearchActivity extends Activity implements OnClickListener,
-		XListView.IXListViewListener {
+public class SearchActivity extends Activity implements OnClickListener, XListView.IXListViewListener {
 
 	private AutoClearEditText mSearchGoodsEt;
 
 	private ImageView mBackIv;
 	private TextView mSearchTagTv;
 	private TextView mSearchTv;
+
+	private LinearLayout mHotSearchLl;
 
 	private ListView mSearchHistroyLv;
 	private MySimpleAdapter mSimpleAdapter;
@@ -80,23 +82,21 @@ public class SearchActivity extends Activity implements OnClickListener,
 				mGoodsList.addAll((ArrayList<Goods>) msg.obj);
 				if (mGoodsList.size() > 0) {
 					mGoodsAdapter.notifyDataSetChanged();
+					mHotSearchLl.setVisibility(View.GONE);
 					mSearchHistroyLv.setVisibility(View.GONE);
 					mGoodsLv.setVisibility(View.VISIBLE);
 					mSearchTagTv.setText(getString(R.string.find_goods));
 				} else {
-					Toast.makeText(mContext, "没有查询到相关商品", Toast.LENGTH_SHORT)
-							.show();
+					Toast.makeText(mContext, "没有查询到相关商品", Toast.LENGTH_SHORT).show();
 				}
 				break;
 			}
 			case SearchLogic.NORAML_GET_FAIL: {
-				Toast.makeText(mContext, "没有查询到相关商品", Toast.LENGTH_SHORT)
-						.show();
+				Toast.makeText(mContext, "没有查询到相关商品", Toast.LENGTH_SHORT).show();
 				break;
 			}
 			case SearchLogic.NORAML_GET_EXCEPTION: {
-				Toast.makeText(mContext, "没有查询到相关商品", Toast.LENGTH_SHORT)
-				.show();
+				Toast.makeText(mContext, "没有查询到相关商品", Toast.LENGTH_SHORT).show();
 				break;
 			}
 			case SearchLogic.HOT_KEY_GET_SUC: {
@@ -157,6 +157,8 @@ public class SearchActivity extends Activity implements OnClickListener,
 		mBackIv = (ImageView) findViewById(R.id.search_back_iv);
 		mBackIv.setOnClickListener(this);
 
+		mHotSearchLl = (LinearLayout) findViewById(R.id.search_hot_ll);
+
 		initHotGv();
 		initXListView();
 	}
@@ -168,8 +170,7 @@ public class SearchActivity extends Activity implements OnClickListener,
 		mHotWordGv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				mSearchKey = mHotWordList.get(position);
 				mSearchGoodsEt.setText(mSearchKey);
 				getGoodsData(mSearchKey);
@@ -195,23 +196,19 @@ public class SearchActivity extends Activity implements OnClickListener,
 			}
 
 			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 				// Log.i(TAG, "正在滚动");
 			}
 		});
 		mGoodsLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (position > 0) {
-					Intent intent = new Intent(SearchActivity.this,
-							GoodsDetailActivity.class);
+					Intent intent = new Intent(SearchActivity.this, GoodsDetailActivity.class);
 					intent.setAction(GoodsDetailActivity.ORIGIN_FROM_SEAR_ACTION);
 					Bundle bundle = new Bundle();
-					bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
-							mGoodsList.get(position - 1).getId());
+					bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY, mGoodsList.get(position - 1).getId());
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
@@ -224,14 +221,12 @@ public class SearchActivity extends Activity implements OnClickListener,
 	private void initData() {
 		mSearchTv.setOnClickListener(this);
 
-		mSimpleAdapter = new MySimpleAdapter(SearchActivity.this,
-				mSearchHistoryList);
+		mSimpleAdapter = new MySimpleAdapter(SearchActivity.this, mSearchHistoryList);
 		mSearchHistroyLv.setAdapter(mSimpleAdapter);
 		mSearchHistroyLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				if (!TextUtils.isEmpty(mSearchHistoryList.get(position))) {
 					mSearchKey = mSearchHistoryList.get(position);
 					mSearchGoodsEt.setText(mSearchKey);
@@ -260,14 +255,12 @@ public class SearchActivity extends Activity implements OnClickListener,
 
 	private void getGoodsData(String keyword) {
 		mCustomProgressDialog.show();
-		SearchLogic.queryGoods(mContext, mHandler, keyword, "",
-				mCurrentPageNum, MsgRequest.PAGE_SIZE, mNowSortType);
+		SearchLogic.queryGoods(mContext, mHandler, keyword, "", mCurrentPageNum, MsgRequest.PAGE_SIZE, mNowSortType);
 		CacheManager.addSearchHistroy(getApplicationContext(), mSearchKey);
 	}
 
 	private String getTime() {
-		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)
-				.format(new Date());
+		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA).format(new Date());
 	}
 
 	@Override
@@ -281,33 +274,28 @@ public class SearchActivity extends Activity implements OnClickListener,
 	}
 
 	protected void alertInfo() {
-		showAlertDialog("查找信息", " 没有找到相关商品,继续查找！", "继续",
-				new DialogInterface.OnClickListener() {
+		showAlertDialog("查找信息", " 没有找到相关商品,继续查找！", "继续", new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						overridePendingTransition(R.anim.push_left_in,
-								R.anim.push_left_out);
-					}
-				}, "取消", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			}
+		}, "取消", new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
 	}
 
-	protected void showAlertDialog(String title, String message,
-			String positiveText,
-			DialogInterface.OnClickListener onPositiveClickListener,
-			String negativeText,
+	protected void showAlertDialog(String title, String message, String positiveText,
+			DialogInterface.OnClickListener onPositiveClickListener, String negativeText,
 			DialogInterface.OnClickListener onNegativeClickListener) {
 		new AlertDialog.Builder(this).setTitle(title).setMessage(message)
 				.setPositiveButton(positiveText, onPositiveClickListener)
-				.setNegativeButton(negativeText, onNegativeClickListener)
-				.show();
+				.setNegativeButton(negativeText, onNegativeClickListener).show();
 	}
 
 	@Override
@@ -317,11 +305,8 @@ public class SearchActivity extends Activity implements OnClickListener,
 			mSearchKey = mSearchGoodsEt.getText().toString().trim();
 			CacheManager.addSearchHistroy(getApplicationContext(), mSearchKey);
 			if ("".equals(mSearchKey)) {
-				Toast.makeText(
-						mContext,
-						mContext.getResources()
-								.getString(R.string.search_thing),
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, mContext.getResources().getString(R.string.search_thing), Toast.LENGTH_SHORT)
+						.show();
 			} else {
 				getGoodsData(mSearchKey);
 			}
@@ -329,8 +314,7 @@ public class SearchActivity extends Activity implements OnClickListener,
 		}
 		case R.id.search_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			break;
 		}
 		default:
@@ -340,11 +324,9 @@ public class SearchActivity extends Activity implements OnClickListener,
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 			finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

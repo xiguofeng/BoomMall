@@ -72,10 +72,10 @@ public class CollectionListActivity extends Activity
 
 	private int mCurrentPage = 1;
 	private int mCurrentPageNum = 1;
-	private int mCurrentViewMode = 0;
+	private int mCurrentViewMode = VIEW_MODE_LIST;
 
 	private CustomProgressDialog mProgressDialog;
-	
+
 	Handler mHandler = new Handler() {
 
 		@Override
@@ -85,7 +85,7 @@ public class CollectionListActivity extends Activity
 
 			case CollectionLogic.COLLECTION_LIST_GET_SUC: {
 				if (null != msg.obj) {
-					if(1==mCurrentPageNum){
+					if (1 == mCurrentPageNum) {
 						mGoodsList.clear();
 					}
 					mCurrentPageNum++;
@@ -113,22 +113,6 @@ public class CollectionListActivity extends Activity
 			case CollectionLogic.COLLECTION_LIST_GET_EXCEPTION: {
 				break;
 			}
-			case CollectionLogic.COLLECTION_DEL_SUC: {
-				mCurrentPageNum =1;
-				mProgressDialog.show();
-				refreshGoods();
-				Toast.makeText(mContext, "删除收藏成功！", Toast.LENGTH_SHORT).show();
-				break;
-			}
-			case CollectionLogic.COLLECTION_DEL_FAIL: {
-				if (null != msg.obj) {
-					Toast.makeText(mContext, "删除收藏失败：" + (String) msg.obj, Toast.LENGTH_SHORT).show();
-				}
-				break;
-			}
-			case CollectionLogic.COLLECTION_DEL_EXCEPTION: {
-				break;
-			}
 
 			default:
 				break;
@@ -138,6 +122,46 @@ public class CollectionListActivity extends Activity
 			}
 			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
 			onLoadComplete();
+		}
+
+	};
+
+	Handler mDelHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			int what = msg.what;
+			switch (what) {
+			case CollectionLogic.COLLECTION_DEL_SUC: {
+				mCurrentPageNum = 1;
+				mProgressDialog.show();
+				refreshGoods();
+				Toast.makeText(mContext, "删除收藏成功！", Toast.LENGTH_SHORT).show();
+				break;
+			}
+			case CollectionLogic.COLLECTION_DEL_FAIL: {
+				if (null != msg.obj) {
+					Toast.makeText(mContext, "删除收藏失败：" + (String) msg.obj, Toast.LENGTH_SHORT).show();
+				}
+				if (null != mProgressDialog && mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+				}
+				break;
+			}
+			case CollectionLogic.COLLECTION_DEL_EXCEPTION: {
+				if (null != mProgressDialog && mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+				}
+				break;
+			}
+
+			default: {
+				if (null != mProgressDialog && mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+				}
+				break;
+			}
+			}
 		}
 
 	};
@@ -314,9 +338,6 @@ public class CollectionListActivity extends Activity
 		CollectionLogic.getList(mContext, mHandler, mCurrentPageNum, MsgRequest.PAGE_SIZE);
 	}
 
-	private void search(String key) {
-	}
-
 	private void onLoadComplete() {
 		mGoodsLv.stopRefresh();
 		mGoodsLv.stopLoadMore();
@@ -329,28 +350,19 @@ public class CollectionListActivity extends Activity
 
 	@Override
 	public void onRefresh() {
-		mCurrentPageNum=1;
+		mCurrentPageNum = 1;
 		refreshGoods();
 
 	}
 
 	@Override
 	public void onLoadMore() {
-		Log.e("xxx_onLoadMore", "");
 		refreshGoods();
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.collection_list_search_iv: {
-			if (!TextUtils.isEmpty(mSearchEt.getText().toString().trim())) {
-				search(mSearchEt.getText().toString().trim());
-			} else {
-				Toast.makeText(mContext, getString(R.string.search_hint), Toast.LENGTH_SHORT).show();
-			}
-			break;
-		}
 		case R.id.collection_list_show_mode_iv: {
 			if (mCurrentViewMode == VIEW_MODE_GRID) {
 				showViewMode(VIEW_MODE_LIST);
@@ -375,7 +387,7 @@ public class CollectionListActivity extends Activity
 		switch (which) {
 		case R.id.list_collection_del_iv: {
 			mProgressDialog.show();
-			CollectionLogic.del(mContext, mHandler, mGoodsList.get(position).getId());
+			CollectionLogic.del(mContext, mDelHandler, mGoodsList.get(position).getId());
 			break;
 		}
 		default:
