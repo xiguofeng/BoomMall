@@ -16,6 +16,7 @@ import com.plmt.boommall.ui.adapter.GoodsGvPagingAdaper;
 import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
 import com.plmt.boommall.ui.adapter.RVGoodsAdapter;
 import com.plmt.boommall.ui.utils.ListItemClickHelp;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.gridview.paging.PagingGridView;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
@@ -73,6 +74,8 @@ public class CollectionListActivity extends Activity
 	private int mCurrentPageNum = 1;
 	private int mCurrentViewMode = 0;
 
+	private CustomProgressDialog mProgressDialog;
+	
 	Handler mHandler = new Handler() {
 
 		@Override
@@ -112,7 +115,7 @@ public class CollectionListActivity extends Activity
 			}
 			case CollectionLogic.COLLECTION_DEL_SUC: {
 				mCurrentPageNum =1;
-				mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+				mProgressDialog.show();
 				refreshGoods();
 				Toast.makeText(mContext, "删除收藏成功！", Toast.LENGTH_SHORT).show();
 				break;
@@ -130,7 +133,9 @@ public class CollectionListActivity extends Activity
 			default:
 				break;
 			}
-
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
 			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
 			onLoadComplete();
 		}
@@ -142,6 +147,7 @@ public class CollectionListActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.collection_list);
 		mContext = CollectionListActivity.this;
+		mProgressDialog = new CustomProgressDialog(mContext);
 		if (!ActivitiyInfoManager.activitityMap.containsKey(ActivitiyInfoManager.getCurrentActivityName(mContext))) {
 			ActivitiyInfoManager.activitityMap.put(ActivitiyInfoManager.getCurrentActivityName(mContext), this);
 		}
@@ -368,7 +374,7 @@ public class CollectionListActivity extends Activity
 	public void onClick(View item, View widget, int position, int which) {
 		switch (which) {
 		case R.id.list_collection_del_iv: {
-			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+			mProgressDialog.show();
 			CollectionLogic.del(mContext, mHandler, mGoodsList.get(position).getId());
 			break;
 		}
