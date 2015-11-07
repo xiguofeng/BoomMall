@@ -13,6 +13,8 @@ import android.view.TextureView;
 import com.baidu.location.BDLocation;
 import com.plmt.boommall.entity.User;
 import com.plmt.boommall.network.logic.UserLogic;
+import com.plmt.boommall.ui.activity.LoginActivity;
+import com.plmt.boommall.ui.activity.ShoppingCartActivity;
 import com.plmt.boommall.utils.UserInfoManager;
 
 public class AccountService extends Service {
@@ -20,6 +22,11 @@ public class AccountService extends Service {
 	public static final int TIME_UPDATE = 1;
 
 	private Context mContext;
+
+	private String mAccount;
+	private String mPassWord;
+
+	private User mUser = new User();
 
 	public static interface LoginCallback {
 
@@ -41,6 +48,9 @@ public class AccountService extends Service {
 					if (null != mLoginCallback) {
 						mLoginCallback.onLoginSuc();
 					}
+
+					UserLogic.getInfo(mContext, mHandler);
+					ShoppingCartActivity.isNeedUpdate = true;
 				}
 
 				break;
@@ -51,7 +61,26 @@ public class AccountService extends Service {
 			case UserLogic.LOGIN_EXCEPTION: {
 				break;
 			}
+			case UserLogic.USER_INFO_GET_SUC: {
+				if (null != msg.obj) {
+					mUser = (User) msg.obj;
+					mUser.setPassword(mPassWord);
 
+					UserInfoManager.setRememberPwd(mContext, true);
+					UserInfoManager.saveUserInfo(mContext, mUser);
+					UserInfoManager.setUserInfo(mContext);
+					UserInfoManager.setLoginIn(mContext, true);
+				}
+
+				break;
+
+			}
+			case UserLogic.USER_INFO_GET_FAIL: {
+				break;
+			}
+			case UserLogic.USER_INFO_GET_EXCEPTION: {
+				break;
+			}
 			case UserLogic.NET_ERROR: {
 				break;
 			}
@@ -77,8 +106,9 @@ public class AccountService extends Service {
 		User user = new User();
 		if (!TextUtils.isEmpty(UserInfoManager.userInfo.getAccount())
 				&& !TextUtils.isEmpty(UserInfoManager.userInfo.getPassword())) {
+			mPassWord = UserInfoManager.userInfo.getPassword();
 			user.setAccount(UserInfoManager.userInfo.getAccount());
-			user.setPassword(UserInfoManager.userInfo.getPassword());
+			user.setPassword(mPassWord);
 			UserLogic.login(mContext, mHandler, user);
 		}
 		return super.onStartCommand(intent, flags, startId);

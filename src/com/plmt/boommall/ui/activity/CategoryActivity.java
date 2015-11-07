@@ -51,6 +51,8 @@ public class CategoryActivity extends Activity implements OnClickListener {
 	private CategoryGvAdapter mSecondCategoryAdapter;
 	private ArrayList<Category> mSecondCategoryList = new ArrayList<Category>();
 
+	private LinearLayout mMsgLl;
+
 	public static String sCategoryName;
 	public static boolean isNeedUpdate = false;
 
@@ -66,16 +68,14 @@ public class CategoryActivity extends Activity implements OnClickListener {
 			case GoodsLogic.CATEGROY_TOP_LIST_GET_SUC: {
 				if (null != msg.obj) {
 					mTopCategoryList.clear();
-					mTopCategoryList
-							.addAll((Collection<? extends Category>) msg.obj);
+					mTopCategoryList.addAll((Collection<? extends Category>) msg.obj);
 					mTopCategoryAdapter.notifyDataSetChanged();
 
 					if (mTopCategoryList.size() > 0) {
 						if (isNeedUpdate) {
 							setShowFromMain();
 						} else {
-							GoodsLogic.getSubCategory(mContext, mHandler,
-									mTopCategoryList.get(0).getName());
+							GoodsLogic.getSubCategory(mContext, mHandler, mTopCategoryList.get(0).getName());
 						}
 					}
 				}
@@ -91,12 +91,10 @@ public class CategoryActivity extends Activity implements OnClickListener {
 			case GoodsLogic.CATEGROY_SUB_LIST_GET_SUC: {
 				if (null != msg.obj) {
 					mSecondCategoryList.clear();
-					mSecondCategoryList
-							.addAll((Collection<? extends Category>) msg.obj);
+					mSecondCategoryList.addAll((Collection<? extends Category>) msg.obj);
 					mSecondCategoryAdapter.notifyDataSetChanged();
 
-					ImageLoader.getInstance().displayImage(
-							mSecondCategoryList.get(0).getParentImageurl(),
+					ImageLoader.getInstance().displayImage(mSecondCategoryList.get(0).getParentImageurl(),
 							mCategoryHeadIv);
 
 				}
@@ -131,12 +129,8 @@ public class CategoryActivity extends Activity implements OnClickListener {
 		mProgressDialog = new CustomProgressDialog(mContext);
 		mProgressDialog.show();
 
-		if (!ActivitiyInfoManager.activitityMap
-				.containsKey(ActivitiyInfoManager
-						.getCurrentActivityName(mContext))) {
-			ActivitiyInfoManager.activitityMap
-					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
-							this);
+		if (!ActivitiyInfoManager.activitityMap.containsKey(ActivitiyInfoManager.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap.put(ActivitiyInfoManager.getCurrentActivityName(mContext), this);
 		}
 
 		initView();
@@ -151,22 +145,24 @@ public class CategoryActivity extends Activity implements OnClickListener {
 		mSearchIv.setOnClickListener(this);
 
 		mSearchEt = (EditText) findViewById(R.id.category_search_et);
-		mSearchEt
-				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
-					@Override
-					public void onFocusChange(View v, boolean hasFocus) {
-						if (hasFocus) {
-							// 此处为得到焦点时的处理内容
-							mSearchLl.setVisibility(View.GONE);
-							mSearchIv.setVisibility(View.VISIBLE);
-						} else {
-							// 此处为失去焦点时的处理内容
-							mSearchEt.setText("");
-							mSearchLl.setVisibility(View.VISIBLE);
-							mSearchIv.setVisibility(View.GONE);
-						}
-					}
-				});
+		mSearchEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					// 此处为得到焦点时的处理内容
+					mSearchLl.setVisibility(View.GONE);
+					mSearchIv.setVisibility(View.VISIBLE);
+				} else {
+					// 此处为失去焦点时的处理内容
+					mSearchEt.setText("");
+					mSearchLl.setVisibility(View.VISIBLE);
+					mSearchIv.setVisibility(View.GONE);
+				}
+			}
+		});
+
+		mMsgLl = (LinearLayout) findViewById(R.id.category_msg_ll);
+		mMsgLl.setOnClickListener(this);
 
 		initCategoryView();
 	}
@@ -179,40 +175,30 @@ public class CategoryActivity extends Activity implements OnClickListener {
 		mTopLevelLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				mTopCategoryAdapter.setmCurrentSelect(mTopCategoryList.get(
-						position).getName());
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				mTopCategoryAdapter.setmCurrentSelect(mTopCategoryList.get(position).getName());
 				mTopCategoryAdapter.notifyDataSetChanged();
 				mProgressDialog.show();
-				GoodsLogic.getSubCategory(mContext, mHandler, mTopCategoryList
-						.get(position).getName());
+				GoodsLogic.getSubCategory(mContext, mHandler, mTopCategoryList.get(position).getName());
 			}
 		});
 
 		mSecondLevelGv = (GridViewWithHeaderAndFooter) findViewById(R.id.category_second_gv);
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
-		mCategoryHeadView = layoutInflater.inflate(R.layout.view_gv_header,
-				null);
-		mCategoryHeadIv = (ImageView) mCategoryHeadView
-				.findViewById(R.id.view_gv_header_iv);
+		mCategoryHeadView = layoutInflater.inflate(R.layout.view_gv_header, null);
+		mCategoryHeadIv = (ImageView) mCategoryHeadView.findViewById(R.id.view_gv_header_iv);
 		mSecondLevelGv.addHeaderView(mCategoryHeadView);
-		mSecondCategoryAdapter = new CategoryGvAdapter(mContext,
-				mSecondCategoryList);
+		mSecondCategoryAdapter = new CategoryGvAdapter(mContext, mSecondCategoryList);
 		mSecondLevelGv.setAdapter(mSecondCategoryAdapter);
 		mSecondLevelGv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-				Intent intent = new Intent(CategoryActivity.this,
-						GoodsListActivity.class);
-				intent.putExtra("categoryName",
-						mSecondCategoryList.get(position).getName());
+				Intent intent = new Intent(CategoryActivity.this, GoodsListActivity.class);
+				intent.putExtra("categoryName", mSecondCategoryList.get(position).getName());
 				startActivity(intent);
-				overridePendingTransition(R.anim.push_left_in,
-						R.anim.push_left_out);
+				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			}
 		});
 
@@ -263,14 +249,18 @@ public class CategoryActivity extends Activity implements OnClickListener {
 			if (!TextUtils.isEmpty(mSearchEt.getText().toString().trim())) {
 
 			} else {
-				Toast.makeText(mContext, getString(R.string.search_hint),
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, getString(R.string.search_hint), Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
 		case R.id.category_search_ll: {
-			Intent intent = new Intent(CategoryActivity.this,
-					SearchActivity.class);
+			Intent intent = new Intent(CategoryActivity.this, SearchActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+		case R.id.category_msg_ll: {
+			Intent intent = new Intent(CategoryActivity.this, MsgActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
@@ -282,8 +272,7 @@ public class CategoryActivity extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 			HomeActivity.showMainByOnkey();
 			return true;
 		}
