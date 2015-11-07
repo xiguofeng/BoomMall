@@ -6,6 +6,21 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Category;
+import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.network.config.MsgRequest;
+import com.plmt.boommall.network.logic.CollectionLogic;
+import com.plmt.boommall.ui.adapter.CollectionAdapter;
+import com.plmt.boommall.ui.adapter.GoodsGvPagingAdaper;
+import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
+import com.plmt.boommall.ui.adapter.RVGoodsAdapter;
+import com.plmt.boommall.ui.utils.ListItemClickHelp;
+import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.ui.view.gridview.paging.PagingGridView;
+import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
+import com.plmt.boommall.utils.ActivitiyInfoManager;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -26,23 +41,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Category;
-import com.plmt.boommall.entity.Goods;
-import com.plmt.boommall.network.config.MsgRequest;
-import com.plmt.boommall.network.logic.CollectionLogic;
-import com.plmt.boommall.ui.adapter.CollectionAdapter;
-import com.plmt.boommall.ui.adapter.GoodsGvPagingAdaper;
-import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
-import com.plmt.boommall.ui.adapter.RVGoodsAdapter;
-import com.plmt.boommall.ui.utils.MyItemClickListener;
-import com.plmt.boommall.ui.view.MultiStateView;
-import com.plmt.boommall.ui.view.gridview.paging.PagingGridView;
-import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
-import com.plmt.boommall.utils.ActivitiyInfoManager;
-
-public class CollectionListActivity extends Activity implements
-		OnClickListener, MyItemClickListener, XListView.IXListViewListener {
+public class CollectionListActivity extends Activity
+		implements OnClickListener, ListItemClickHelp, XListView.IXListViewListener {
 	public static final int VIEW_MODE_LIST = 0;
 	public static final int VIEW_MODE_GRID = 1;
 
@@ -82,6 +82,9 @@ public class CollectionListActivity extends Activity implements
 
 			case CollectionLogic.COLLECTION_LIST_GET_SUC: {
 				if (null != msg.obj) {
+					if(1==mCurrentPageNum){
+						mGoodsList.clear();
+					}
 					mCurrentPageNum++;
 					mGoodsList.addAll((Collection<? extends Goods>) msg.obj);
 
@@ -107,6 +110,22 @@ public class CollectionListActivity extends Activity implements
 			case CollectionLogic.COLLECTION_LIST_GET_EXCEPTION: {
 				break;
 			}
+			case CollectionLogic.COLLECTION_DEL_SUC: {
+				mCurrentPageNum =1;
+				mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+				refreshGoods();
+				Toast.makeText(mContext, "删除收藏成功！", Toast.LENGTH_SHORT).show();
+				break;
+			}
+			case CollectionLogic.COLLECTION_DEL_FAIL: {
+				if (null != msg.obj) {
+					Toast.makeText(mContext, "删除收藏失败：" + (String) msg.obj, Toast.LENGTH_SHORT).show();
+				}
+				break;
+			}
+			case CollectionLogic.COLLECTION_DEL_EXCEPTION: {
+				break;
+			}
 
 			default:
 				break;
@@ -123,12 +142,8 @@ public class CollectionListActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.collection_list);
 		mContext = CollectionListActivity.this;
-		if (!ActivitiyInfoManager.activitityMap
-				.containsKey(ActivitiyInfoManager
-						.getCurrentActivityName(mContext))) {
-			ActivitiyInfoManager.activitityMap
-					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
-							this);
+		if (!ActivitiyInfoManager.activitityMap.containsKey(ActivitiyInfoManager.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap.put(ActivitiyInfoManager.getCurrentActivityName(mContext), this);
 		}
 		initView();
 		initData();
@@ -142,15 +157,12 @@ public class CollectionListActivity extends Activity implements
 
 	private void initView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.collection_list_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
-				.findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView
-								.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(),
-								"Fetching Data", Toast.LENGTH_SHORT).show();
+						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(), "Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
 
@@ -162,22 +174,21 @@ public class CollectionListActivity extends Activity implements
 		mSearchIv.setOnClickListener(this);
 
 		mSearchEt = (EditText) findViewById(R.id.collection_list_search_et);
-		mSearchEt
-				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
-					@Override
-					public void onFocusChange(View v, boolean hasFocus) {
-						if (hasFocus) {
-							// 此处为得到焦点时的处理内容
-							mSearchLl.setVisibility(View.GONE);
-							mSearchIv.setVisibility(View.VISIBLE);
-						} else {
-							// 此处为失去焦点时的处理内容
-							mSearchEt.setText("");
-							mSearchLl.setVisibility(View.VISIBLE);
-							mSearchIv.setVisibility(View.GONE);
-						}
-					}
-				});
+		mSearchEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					// 此处为得到焦点时的处理内容
+					mSearchLl.setVisibility(View.GONE);
+					mSearchIv.setVisibility(View.VISIBLE);
+				} else {
+					// 此处为失去焦点时的处理内容
+					mSearchEt.setText("");
+					mSearchLl.setVisibility(View.VISIBLE);
+					mSearchIv.setVisibility(View.GONE);
+				}
+			}
+		});
 
 		mSearchLl.setOnClickListener(new OnClickListener() {
 
@@ -209,7 +220,7 @@ public class CollectionListActivity extends Activity implements
 		mGoodsLv.setXListViewListener(this);
 		mGoodsLv.setRefreshTime(getTime());
 
-		mCollectionAdapter = new CollectionAdapter(mContext, mGoodsList);
+		mCollectionAdapter = new CollectionAdapter(mContext, mGoodsList, this);
 		mGoodsLv.setAdapter(mCollectionAdapter);
 
 		mGoodsLv.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -219,23 +230,19 @@ public class CollectionListActivity extends Activity implements
 			}
 
 			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 				// Log.i(TAG, "正在滚动");
 			}
 		});
 		mGoodsLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (position > 0) {
-					Intent intent = new Intent(CollectionListActivity.this,
-							GoodsDetailActivity.class);
+					Intent intent = new Intent(CollectionListActivity.this, GoodsDetailActivity.class);
 					intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
 					Bundle bundle = new Bundle();
-					bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
-							mGoodsList.get(position - 1).getId());
+					bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY, mGoodsList.get(position - 1).getId());
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
@@ -263,14 +270,11 @@ public class CollectionListActivity extends Activity implements
 		mGoodsGv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Intent intent = new Intent(CollectionListActivity.this,
-						GoodsDetailActivity.class);
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent intent = new Intent(CollectionListActivity.this, GoodsDetailActivity.class);
 				intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
 				Bundle bundle = new Bundle();
-				bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
-						mGoodsGvList.get(position).getId());
+				bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY, mGoodsGvList.get(position).getId());
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
@@ -282,14 +286,12 @@ public class CollectionListActivity extends Activity implements
 		mCurrentPageNum = 1;
 		mCurrentViewMode = mode;
 		if (mode == VIEW_MODE_LIST) {
-			mViewModeIv.setImageDrawable(getResources().getDrawable(
-					R.drawable.ic_grid_selector));
+			mViewModeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_grid_selector));
 			mGoodsGv.setVisibility(View.GONE);
 			mGoodsLv.setVisibility(View.VISIBLE);
 			mCollectionAdapter.notifyDataSetChanged();
 		} else {
-			mViewModeIv.setImageDrawable(getResources().getDrawable(
-					R.drawable.ic_list_selector));
+			mViewModeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_list_selector));
 			mGoodsLv.setVisibility(View.GONE);
 			mGoodsGv.setVisibility(View.VISIBLE);
 			if (mGoodsGv.getAdapter() == null) {
@@ -303,8 +305,7 @@ public class CollectionListActivity extends Activity implements
 	}
 
 	private void refreshGoods() {
-		CollectionLogic.getList(mContext, mHandler, mCurrentPageNum,
-				MsgRequest.PAGE_SIZE);
+		CollectionLogic.getList(mContext, mHandler, mCurrentPageNum, MsgRequest.PAGE_SIZE);
 	}
 
 	private void search(String key) {
@@ -317,8 +318,7 @@ public class CollectionListActivity extends Activity implements
 	}
 
 	private String getTime() {
-		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)
-				.format(new Date());
+		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA).format(new Date());
 	}
 
 	@Override
@@ -341,8 +341,7 @@ public class CollectionListActivity extends Activity implements
 			if (!TextUtils.isEmpty(mSearchEt.getText().toString().trim())) {
 				search(mSearchEt.getText().toString().trim());
 			} else {
-				Toast.makeText(mContext, getString(R.string.search_hint),
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, getString(R.string.search_hint), Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -356,8 +355,7 @@ public class CollectionListActivity extends Activity implements
 		}
 		case R.id.collection_list_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			break;
 		}
 
@@ -367,21 +365,26 @@ public class CollectionListActivity extends Activity implements
 	}
 
 	@Override
-	public void onItemClick(View view, int postion) {
-		Toast.makeText(mContext, "onItemClick:" + postion, Toast.LENGTH_SHORT)
-				.show();
-
+	public void onClick(View item, View widget, int position, int which) {
+		switch (which) {
+		case R.id.list_collection_del_iv: {
+			mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+			CollectionLogic.del(mContext, mHandler, mGoodsList.get(position).getId());
+			break;
+		}
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 			CollectionListActivity.this.finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
 }
