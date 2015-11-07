@@ -323,7 +323,7 @@ public class CollectionListActivity extends Activity
 
 	@Override
 	public void onRefresh() {
-		Log.e("xxx_onRefresh()", "");
+		mCurrentPageNum=1;
 		refreshGoods();
 
 	}
