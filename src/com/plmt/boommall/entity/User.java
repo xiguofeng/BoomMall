@@ -15,6 +15,11 @@ public class User {
 	 * 登录密码
 	 */
 	private String password;
+	
+	/**
+	 * 用户头像
+	 */
+	private String photo;
 
 	private String sex;
 
@@ -68,6 +73,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 	public String getSex() {
@@ -133,5 +146,7 @@ public class User {
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
+
+	
 
 }

@@ -67,6 +67,18 @@ public class UserLogic {
 	public static final int SET_REAL_FAIL = SET_REAL_SUC + 1;
 
 	public static final int SET_REAL_EXCEPTION = SET_REAL_FAIL + 1;
+	
+	public static final int LOGOUT_SUC = SET_REAL_EXCEPTION + 1;
+
+	public static final int LOGOUT_FAIL = LOGOUT_SUC + 1;
+
+	public static final int LOGOUT_EXCEPTION = LOGOUT_FAIL + 1;
+	
+	public static final int SET_USERPHOTO_SUC = LOGOUT_EXCEPTION + 1;
+
+	public static final int SET_USERPHOTO_FAIL = SET_USERPHOTO_SUC + 1;
+
+	public static final int SET_USERPHOTO_EXCEPTION = SET_USERPHOTO_FAIL + 1;
 
 	public static void login(final Context context, final Handler handler,
 			final User user) {
@@ -468,6 +480,99 @@ public class UserLogic {
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(SET_REAL_EXCEPTION);
+		}
+	}
+	
+	public static void logout(final Context context, final Handler handler) {
+
+		String url = RequestUrl.HOST_URL + RequestUrl.account.logout;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("session",
+					"frontend=" + UserInfoManager.getSession(context));
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_logout", response.toString());
+								parseLogoutData(response, handler);
+							}
+
+						}
+					}, null);
+			
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	private static void parseLogoutData(JSONObject response, Handler handler) {
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				handler.sendEmptyMessage(LOGOUT_SUC);
+			} else {
+				handler.sendEmptyMessage(LOGOUT_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(LOGOUT_EXCEPTION);
+		}
+	}
+	
+	
+	public static void setUserPhoto(final Context context, final Handler handler,
+			final String userphoto) {
+
+		// String url = "http://120.55.116.206:8060/mapi/checkout/setReal";
+		String url = RequestUrl.HOST_URL + RequestUrl.account.setUserPhoto;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("session",
+					"frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("userphoto", userphoto);
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url,
+					requestJson, new Listener<JSONObject>() {
+						@Override
+						public void onResponse(JSONObject response) {
+							if (null != response) {
+								Log.e("xxx_userphoto", response.toString());
+								parseSetUserPhotoData(response, handler);
+							}
+
+						}
+					}, null);
+
+			cookieRequest.setCookie("frontend="
+					+ UserInfoManager.getSession(context));
+
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void parseSetUserPhotoData(JSONObject response, Handler handler) {
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+				handler.sendEmptyMessage(SET_USERPHOTO_SUC);
+			} else {
+				handler.sendEmptyMessage(SET_USERPHOTO_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(SET_USERPHOTO_EXCEPTION);
 		}
 	}
 

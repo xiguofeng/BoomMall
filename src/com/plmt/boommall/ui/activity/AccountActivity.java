@@ -1,22 +1,22 @@
 package com.plmt.boommall.ui.activity;
 
+import com.plmt.boommall.R;
+import com.plmt.boommall.network.logic.UserLogic;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
+import com.plmt.boommall.ui.view.iosdialog.AlertDialog;
+import com.plmt.boommall.utils.UserInfoManager;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
-import com.plmt.boommall.R;
-import com.plmt.boommall.network.logic.AddressLogic;
-import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog;
-import com.plmt.boommall.ui.view.iosdialog.AlertDialog;
-import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.OnSheetItemClickListener;
-import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.SheetItemColor;
-import com.plmt.boommall.utils.UserInfoManager;
 
 public class AccountActivity extends Activity implements OnClickListener {
 
@@ -29,12 +29,48 @@ public class AccountActivity extends Activity implements OnClickListener {
 	private Button mExitBtn;
 
 	private ImageView mBackIv;
+	
+	private CustomProgressDialog mProgressDialog;
+	
+	Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			int what = msg.what;
+			switch (what) {
+			case UserLogic.LOGOUT_SUC: {
+				UserInfoManager.clearUserInfo(mContext);
+				UserInfoManager.setLoginIn(mContext, false);
+				finish();
+				break;
+			}
+			case UserLogic.LOGOUT_FAIL: {
+				break;
+			}
+			case UserLogic.LOGOUT_EXCEPTION: {
+				break;
+			}
+			case UserLogic.NET_ERROR: {
+				break;
+			}
+
+			default:
+				break;
+			}
+
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+		}
+
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.account);
 		mContext = AccountActivity.this;
+		mProgressDialog = new CustomProgressDialog(mContext);
 		initView();
 		initData();
 
@@ -58,7 +94,7 @@ public class AccountActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-
+		//mProgressDialog.show();
 	}
 
 	@Override
@@ -101,10 +137,8 @@ public class AccountActivity extends Activity implements OnClickListener {
 							new OnClickListener() {
 								@Override
 								public void onClick(View v) {
-									UserInfoManager.clearUserInfo(mContext);
-									UserInfoManager.setLoginIn(mContext, false);
-
-									finish();
+									mProgressDialog.show();
+									UserLogic.logout(mContext, mHandler);
 								}
 							})
 					.setNegativeButton(getString(R.string.cancal),

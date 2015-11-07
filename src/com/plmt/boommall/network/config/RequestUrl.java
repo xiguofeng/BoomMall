@@ -78,6 +78,16 @@ public class RequestUrl {
 		public String sendAuthCode = "/account/authCode";
 
 		public String setReal = "/checkout/setReal";
+		
+		/**
+		 * 退出
+		 */
+		public String logout = "/account/logout";
+		
+		/**
+		 * 設置用戶頭像
+		 */
+		public String setUserPhoto = "/user/setUserPhoto";
 
 	}
 
