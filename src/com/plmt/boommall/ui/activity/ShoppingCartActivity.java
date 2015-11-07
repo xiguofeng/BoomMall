@@ -359,7 +359,7 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 	private void updateCart() {
 		for (ShoppingCart shoppingcart : mShoppingCartListUpdateList) {
 			CartLogic.update(mContext, mHandler, shoppingcart.getId(), "",
-					shoppingcart.getQty());
+					shoppingcart.getNum());
 		}
 	}
 
