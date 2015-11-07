@@ -37,8 +37,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ShoppingCartActivity extends Activity implements ischeck,
-		OnClickListener, ListItemClickHelpWithID, OtherActivityClickHelp {
+public class ShoppingCartActivity extends Activity
+		implements ischeck, OnClickListener, ListItemClickHelpWithID, OtherActivityClickHelp {
 
 	public final static String EDITOR_MODE = "0";
 	public final static String COMPLETE_MODE = "1";
@@ -81,8 +81,7 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 			case CartLogic.CART_LIST_GET_SUC: {
 				if (null != msg.obj) {
 					mShoppingCartList.clear();
-					mShoppingCartList
-							.addAll((Collection<? extends ShoppingCart>) msg.obj);
+					mShoppingCartList.addAll((Collection<? extends ShoppingCart>) msg.obj);
 					refresh();
 					isNeedUpdate = false;
 				}
@@ -153,18 +152,15 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 			int what = msg.what;
 			switch (what) {
 			case CartLogic.CART_SET_SELECT_SUC: {
-				Intent intent = new Intent(ShoppingCartActivity.this,
-						CreateOrderActivity.class);
+				Intent intent = new Intent(ShoppingCartActivity.this, CreateOrderActivity.class);
 				startActivity(intent);
-				overridePendingTransition(R.anim.push_left_in,
-						R.anim.push_left_out);
+				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 				break;
 
 			}
 			case CartLogic.CART_SET_SELECT_FAIL: {
 				if (null != msg.obj) {
-					Toast.makeText(mContext, (String) msg.obj,
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(mContext, (String) msg.obj, Toast.LENGTH_LONG).show();
 				}
 				break;
 			}
@@ -350,16 +346,16 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 	}
 
 	private void modifyCart() {
-		mProgressDialog.show();
-		delCart();
-		updateCart();
-
+		if (mShoppingCartListDelList.size() > 0 || mShoppingCartListUpdateList.size() > 0) {
+			mProgressDialog.show();
+			delCart();
+			updateCart();
+		}
 	}
 
 	private void updateCart() {
 		for (ShoppingCart shoppingcart : mShoppingCartListUpdateList) {
-			CartLogic.update(mContext, mHandler, shoppingcart.getId(), "",
-					shoppingcart.getNum());
+			CartLogic.update(mContext, mHandler, shoppingcart.getId(), "", shoppingcart.getNum());
 		}
 	}
 
@@ -372,8 +368,7 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 	private void addUpdate(ShoppingCart shoppingcart) {
 		boolean isHasGoods = false;
 		for (int i = 0; i < mShoppingCartListUpdateList.size(); i++) {
-			if (mShoppingCartListUpdateList.get(i).getId()
-					.equals(shoppingcart.getId())) {
+			if (mShoppingCartListUpdateList.get(i).getId().equals(shoppingcart.getId())) {
 				mShoppingCartListUpdateList.set(i, shoppingcart);
 				isHasGoods = true;
 			}
@@ -425,8 +420,7 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 					}
 					isHasChecked = true;
 					mTotalMoney = String.valueOf(Float.parseFloat(mTotalMoney)
-							+ (Float.parseFloat(list.get(i).getFinalPrice()))
-							* Integer.parseInt(list.get(i).getQty()));
+							+ (Float.parseFloat(list.get(i).getFinalPrice())) * Integer.parseInt(list.get(i).getQty()));
 				}
 			}
 		}
@@ -463,8 +457,7 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 
 	@Override
 	public void ischekgroup(int groupposition, boolean ischeck) {
-		List<ShoppingCart> child = mChild.get(mGroup.get(groupposition)
-				.getManufacturer());
+		List<ShoppingCart> child = mChild.get(mGroup.get(groupposition).getManufacturer());
 		for (ShoppingCart bean : child) {
 			bean.setIscheck(ischeck);
 		}
@@ -481,8 +474,7 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 			break;
 		}
 		case R.id.shop_cart_login_btn: {
-			Intent intent = new Intent(ShoppingCartActivity.this,
-					LoginActivity.class);
+			Intent intent = new Intent(ShoppingCartActivity.this, LoginActivity.class);
 			intent.setAction(LoginActivity.ORIGIN_FROM_CART_KEY);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -494,16 +486,14 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 	}
 
 	@Override
-	public void onClick(View item, View widget, int position, int which,
-			String id) {
+	public void onClick(View item, View widget, int position, int which, String id) {
 		switch (which) {
 		case R.id.cart_goods_add_ib: {
 			ShoppingCart shoppingCart = getShoppingCartById(id);
 			int tempPosition = getPositionById(id);
 
 			if (null != shoppingCart) {
-				String num = String.valueOf(Integer.parseInt(shoppingCart
-						.getNum()) + 1);
+				String num = String.valueOf(Integer.parseInt(shoppingCart.getNum()) + 1);
 				shoppingCart.setNum(num);
 				mShoppingCartList.set(tempPosition, shoppingCart);
 				addUpdate(shoppingCart);
@@ -516,8 +506,7 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 			int tempPosition = getPositionById(id);
 			if (null != shoppingCart) {
 				if (Integer.parseInt(shoppingCart.getNum()) > 1) {
-					String num = String.valueOf(Integer.parseInt(shoppingCart
-							.getNum()) - 1);
+					String num = String.valueOf(Integer.parseInt(shoppingCart.getNum()) - 1);
 					shoppingCart.setNum(num);
 					mShoppingCartList.set(tempPosition, shoppingCart);
 					addUpdate(shoppingCart);
@@ -562,27 +551,23 @@ public class ShoppingCartActivity extends Activity implements ischeck,
 				JSONArray jsonArray = new JSONArray();
 				for (int i = 0; i < mSelectedShoppingCartList.size(); i++) {
 					JSONObject jsonObject = new JSONObject();
-					jsonObject.put("items_id", mSelectedShoppingCartList.get(i)
-							.getId());
+					jsonObject.put("items_id", mSelectedShoppingCartList.get(i).getId());
 					jsonArray.put(jsonObject);
 				}
 				String selectItems = jsonArray.toString();
 				// selectItems = "'" + selectItems + "'";
-				CartLogic.setSelectItem(mContext, mSetSelectHandler,
-						selectItems);
+				CartLogic.setSelectItem(mContext, mSetSelectHandler, selectItems);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		} else {
-			Toast.makeText(mContext, "请选择单一仓库的商品进行结算！", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(mContext, "请选择单一仓库的商品进行结算！", Toast.LENGTH_LONG).show();
 		}
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 			HomeActivity.showMainByOnkey();
 			return true;
 		}
