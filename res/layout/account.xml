@@ -164,7 +164,7 @@
                     android:layout_toRightOf="@+id/account_collection_iv"
                     android:paddingLeft="12dip"
                     android:paddingRight="10dip"
-                    android:text="@string/collection"
+                    android:text="@string/my_collection"
                     android:textColor="@color/black_character"
                     android:textSize="@dimen/middle_text_size" />
 
