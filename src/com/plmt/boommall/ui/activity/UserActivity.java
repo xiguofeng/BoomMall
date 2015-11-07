@@ -260,7 +260,7 @@ public class UserActivity extends Activity implements OnClickListener {
 		}
 		
 		if(!isHasPhotoLocal){
-			ImageLoader.getInstance().displayImage(UserInfoManager.userInfo.getPhoto(),
+			ImageLoader.getInstance().displayImage(UserInfoManager.userInfo.getUser_photo(),
 					headImage);
 		}
 	}

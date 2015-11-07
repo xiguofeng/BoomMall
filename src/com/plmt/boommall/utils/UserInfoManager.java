@@ -69,7 +69,7 @@ public class UserInfoManager {
 		UserInfoManager.userInfo.setUsername(userInfoPreferences.getString(
 				USER_NAME_KEY, ""));
 
-		UserInfoManager.userInfo.setPhone(userInfoPreferences.getString(
+		UserInfoManager.userInfo.setUser_photo(userInfoPreferences.getString(
 				USER_PHOTO_KEY, ""));
 
 		UserInfoManager.userInfo.setAccount(userInfoPreferences.getString(
@@ -101,7 +101,7 @@ public class UserInfoManager {
 					null == user.getId() ? "" : user.getId());
 			userInfoSp.putString(USER_NAME_KEY, user.getUsername());
 			
-			userInfoSp.putString(USER_PHOTO_KEY, user.getPhoto());
+			userInfoSp.putString(USER_PHOTO_KEY, user.getUser_photo());
 
 			userInfoSp.putString(USER_ACCOUNT_KEY, user.getAccount());
 			userInfoSp.putString(USER_PWD_KEY, user.getPassword());
@@ -140,7 +140,7 @@ public class UserInfoManager {
 		UserInfoManager.userInfo.setUsername("");
 		UserInfoManager.userInfo.setAccount("");
 		UserInfoManager.userInfo.setPassword("");
-		UserInfoManager.userInfo.setPhoto("");
+		UserInfoManager.userInfo.setUser_photo("");
 		UserInfoManager.userInfo.setSex("");
 		UserInfoManager.userInfo.setSignature("");
 		UserInfoManager.userInfo.setTimestamp("");

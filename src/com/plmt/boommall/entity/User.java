@@ -19,7 +19,7 @@ public class User {
 	/**
 	 * 用户头像
 	 */
-	private String photo;
+	private String user_photo;
 
 	private String sex;
 
@@ -75,12 +75,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getPhoto() {
-		return photo;
+	public String getUser_photo() {
+		return user_photo;
 	}
 
-	public void setPhoto(String photo) {
-		this.photo = photo;
+	public void setUser_photo(String user_photo) {
+		this.user_photo = user_photo;
 	}
 
 	public String getSex() {
@@ -146,7 +146,5 @@ public class User {
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
-
-	
 
 }
