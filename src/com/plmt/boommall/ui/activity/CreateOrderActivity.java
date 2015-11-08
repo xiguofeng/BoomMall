@@ -26,6 +26,7 @@ import com.plmt.boommall.entity.Address;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.entity.PayMoney;
 import com.plmt.boommall.entity.PreOrder;
+import com.plmt.boommall.entity.SubmitOrderResponse;
 import com.plmt.boommall.network.logic.AddressLogic;
 import com.plmt.boommall.network.logic.OrderLogic;
 import com.plmt.boommall.network.logic.PropertyLogic;
@@ -133,13 +134,19 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			case OrderLogic.ORDER_CREATE_SUC: {
 				if (null != msg.obj) {
 					ShoppingCartActivity.isNeedUpdate = true;
-					mOrderId = (String) msg.obj;
-					Intent intent = new Intent(CreateOrderActivity.this, PayActivity.class);
-					intent.putExtra("orderId", mOrderId);
-					intent.putExtra("price", "¥" + mPreOrder.getTotal());
-					startActivity(intent);
-					finish();
-					overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+					SubmitOrderResponse submitOrderResponse = (SubmitOrderResponse) msg.obj;
+					mOrderId = submitOrderResponse.getOrder_id();
+					if ("paid".equals(submitOrderResponse.getOrder_status())) {
+						Toast.makeText(mContext, "下单成功！", Toast.LENGTH_SHORT).show();
+						finish();
+					} else {
+						Intent intent = new Intent(CreateOrderActivity.this, PayActivity.class);
+						intent.putExtra("orderId", mOrderId);
+						intent.putExtra("price", "¥" + mPreOrder.getTotal());
+						startActivity(intent);
+						finish();
+						overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+					}
 				}
 				break;
 			}
@@ -393,7 +400,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 		if (null != balancePayMoney) {
 			mRemainingMoneyTv.setText("¥" + balancePayMoney.getValue());
-			if (0 != Double.parseDouble(balancePayMoney.getValue())) {
+			if (0.00 != Double.parseDouble(balancePayMoney.getValue())) {
 				isHasBalance = true;
 				mCheckRemainingCb.setChecked(true);
 			}
