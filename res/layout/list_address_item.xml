@@ -44,7 +44,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:singleLine="true"
-                    android:text="1"
                     android:textColor="@color/black_character"
                     android:textSize="@dimen/small_text_size" />
 
@@ -54,7 +53,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:singleLine="true"
-                    android:text="1"
                     android:textColor="@color/black_character"
                     android:textSize="@dimen/small_text_size" />
             </RelativeLayout>
@@ -66,7 +64,6 @@
                 android:layout_marginTop="10dip"
                 android:gravity="center_horizontal"
                 android:singleLine="true"
-                android:text="1"
                 android:textColor="@color/gray_character"
                 android:textSize="@dimen/small_text_size" />
         </LinearLayout>
@@ -99,6 +96,7 @@
             android:background="@null"
             android:button="@drawable/check_selector"
             android:focusable="false"
+            android:visibility="gone"
             android:gravity="center" />
 
         <TextView
@@ -108,6 +106,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/list_address_item_cb"
             android:singleLine="true"
+            android:visibility="gone"
             android:text="@string/default_address"
             android:textColor="@color/black_character"
             android:textSize="@dimen/small_text_size" />
