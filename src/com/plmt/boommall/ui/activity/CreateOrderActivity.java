@@ -1,6 +1,7 @@
 package com.plmt.boommall.ui.activity;
 
 import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +53,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private TextView mDeliveryWayTv;
 	private TextView mBmCardRemainingTv;
+
+	private RelativeLayout mRealNameRl;
 
 	private LinearLayout mGoodsViewLl;
 
@@ -99,7 +103,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					mPreOrder = (PreOrder) msg.obj;
 					fillUpData(mPreOrder);
 					if (isCreateOrder) {
-						OrderLogic.createOrder(mContext, mOrderInfoHandler, mPreOrder);
+						OrderLogic.createOrder(mContext, mOrderInfoHandler,
+								mPreOrder);
 					}
 				}
 				break;
@@ -137,15 +142,18 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					SubmitOrderResponse submitOrderResponse = (SubmitOrderResponse) msg.obj;
 					mOrderId = submitOrderResponse.getOrder_id();
 					if ("paid".equals(submitOrderResponse.getOrder_status())) {
-						Toast.makeText(mContext, "下单成功！", Toast.LENGTH_SHORT).show();
+						Toast.makeText(mContext, "下单成功！", Toast.LENGTH_SHORT)
+								.show();
 						finish();
 					} else {
-						Intent intent = new Intent(CreateOrderActivity.this, PayActivity.class);
+						Intent intent = new Intent(CreateOrderActivity.this,
+								PayActivity.class);
 						intent.putExtra("orderId", mOrderId);
 						intent.putExtra("price", "¥" + mPreOrder.getTotal());
 						startActivity(intent);
 						finish();
-						overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+						overridePendingTransition(R.anim.push_left_in,
+								R.anim.push_left_out);
 					}
 				}
 				break;
@@ -185,7 +193,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			}
 			case PropertyLogic.BALANCE_PAY_FAIL: {
 				if (null != msg.obj) {
-					Toast.makeText(mContext, (String) msg.obj, Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, (String) msg.obj,
+							Toast.LENGTH_SHORT).show();
 				}
 				break;
 			}
@@ -200,7 +209,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			}
 			case PropertyLogic.GIFTCARD_PAY_FAIL: {
 				if (null != msg.obj) {
-					Toast.makeText(mContext, (String) msg.obj, Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, (String) msg.obj,
+							Toast.LENGTH_SHORT).show();
 				}
 				break;
 			}
@@ -228,8 +238,12 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.create_order);
 		mContext = CreateOrderActivity.this;
 		mProgressDialog = new CustomProgressDialog(mContext);
-		if (!ActivitiyInfoManager.activitityMap.containsKey(ActivitiyInfoManager.getCurrentActivityName(mContext))) {
-			ActivitiyInfoManager.activitityMap.put(ActivitiyInfoManager.getCurrentActivityName(mContext), this);
+		if (!ActivitiyInfoManager.activitityMap
+				.containsKey(ActivitiyInfoManager
+						.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap
+					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
+							this);
 		}
 		initView();
 		initData();
@@ -237,12 +251,15 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private void initView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.create_order_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
+				.findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(), "Fetching Data", Toast.LENGTH_SHORT).show();
+						mMultiStateView
+								.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(),
+								"Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
 
@@ -272,45 +289,57 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mBmCardMoneyTv = (TextView) findViewById(R.id.create_order_bmcard_money_tv);
 
 		mCheckRemainingCb = (CheckBox) findViewById(R.id.create_order_bmcard_remaining_cb);
-		mCheckRemainingCb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (!isHasBalance) {
-					mProgressDialog.show();
-					if (isChecked) {
-						PropertyLogic.balancePay(mContext, mGiftCardHandler, "1");
-					} else {
-						PropertyLogic.balancePay(mContext, mGiftCardHandler, "0");
+		mCheckRemainingCb
+				.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (!isHasBalance) {
+							mProgressDialog.show();
+							if (isChecked) {
+								PropertyLogic.balancePay(mContext,
+										mGiftCardHandler, "1");
+							} else {
+								PropertyLogic.balancePay(mContext,
+										mGiftCardHandler, "0");
+							}
+						}
+						isHasBalance = false;
 					}
-				}
-				isHasBalance = false;
-			}
 
-		});
+				});
 
 		mCheckBmCardCb = (CheckBox) findViewById(R.id.create_order_bmcard_cb);
-		mCheckBmCardCb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (!isHasBmCard) {
-					String giftCardPwd = mInvoiceTitleEt.getText().toString().trim();
-					if (!TextUtils.isEmpty(giftCardPwd)) {
-						mProgressDialog.show();
-						if (isChecked) {
-							PropertyLogic.giftCardPay(mContext, mGiftCardHandler, giftCardPwd, "0");
-						} else {
-							PropertyLogic.giftCardPay(mContext, mGiftCardHandler, giftCardPwd, "1");
+		mCheckBmCardCb
+				.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (!isHasBmCard) {
+							String giftCardPwd = mInvoiceTitleEt.getText()
+									.toString().trim();
+							if (!TextUtils.isEmpty(giftCardPwd)) {
+								mProgressDialog.show();
+								if (isChecked) {
+									PropertyLogic.giftCardPay(mContext,
+											mGiftCardHandler, giftCardPwd, "0");
+								} else {
+									PropertyLogic.giftCardPay(mContext,
+											mGiftCardHandler, giftCardPwd, "1");
+								}
+							} else if (isChecked) {
+								mCheckBmCardCb.setChecked(false);
+							}
 						}
-					} else if (isChecked) {
-						mCheckBmCardCb.setChecked(false);
+						isHasBmCard = false;
 					}
-				}
-				isHasBmCard = false;
-			}
 
-		});
+				});
 		mGoodsViewLl = (LinearLayout) findViewById(R.id.create_order_goods_view_ll);
 		initInvoiceView();
+
+		mRealNameRl = (RelativeLayout) findViewById(R.id.create_order_real_name_auth_rl);
+		mRealNameRl.setOnClickListener(this);
 	}
 
 	private void initInvoiceView() {
@@ -346,6 +375,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		fillUpPayData();
 		fillUpDeliveryData();
 		fillUpGoods();
+		fillUpRealName();
 	}
 
 	private void fillUpAddressData(Address address) {
@@ -363,7 +393,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		ArrayList<Goods> goodsList = mPreOrder.getGoodsList();
 		for (int i = 0; i < goodsList.size(); i++) {
 			Goods goods = goodsList.get(i);
-			CreateOrderGoodsView orderGoodsView = new CreateOrderGoodsView(mContext, goods);
+			CreateOrderGoodsView orderGoodsView = new CreateOrderGoodsView(
+					mContext, goods);
 			mGoodsViewLl.addView(orderGoodsView);
 		}
 	}
@@ -425,6 +456,16 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mGoodsMoneyTv.setText("¥" + mPreOrder.getBase_total());
 	}
 
+	private void fillUpRealName() {
+		mRealNameRl.setVisibility(View.GONE);
+		if (!TextUtils.isEmpty(mPreOrder.getIs_out_country())
+				&& "0".equals(mPreOrder.getIs_out_country())
+				&& !TextUtils.isEmpty(mPreOrder.getIs_authentication())
+				&& "-1".equals(mPreOrder.getIs_authentication())) {
+			mRealNameRl.setVisibility(View.VISIBLE);
+		}
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
@@ -435,6 +476,12 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 				address.setTelephone(data.getStringExtra("telephone"));
 				address.setContent(data.getStringExtra("content"));
 				fillUpAddressData(address);
+				mProgressDialog.show();
+				OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
+				break;
+			}
+
+			case 501: {
 				mProgressDialog.show();
 				OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
 				break;
@@ -455,7 +502,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			break;
 		}
 		case R.id.create_order_address_ll: {
-			Intent intent = new Intent(CreateOrderActivity.this, AddressListActivity.class);
+			Intent intent = new Intent(CreateOrderActivity.this,
+					AddressListActivity.class);
 			intent.setAction(AddressListActivity.ORIGIN_FROM_ORDER_KEY);
 			startActivityForResult(intent, 500);
 			break;
@@ -463,12 +511,14 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 		case R.id.create_order_confirm_btn: {
 			if (!TextUtils.isEmpty(mPreOrder.getAddress().getId())
-					&& !TextUtils.isEmpty(mPreOrder.getAddress().getTelephone())) {
+					&& !TextUtils
+							.isEmpty(mPreOrder.getAddress().getTelephone())) {
 				mProgressDialog.show();
 				isCreateOrder = true;
 				OrderLogic.getOrderPreInfo(mContext, mOrderPreHandler);
 			} else {
-				Toast.makeText(mContext, R.string.address_hint, Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, R.string.address_hint,
+						Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -486,6 +536,13 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		case R.id.create_order_invoice_company_ll: {
 			clearInvoiceBackground();
 			mInvoiceCompanyIv.setImageResource(R.drawable.radio_selected);
+			break;
+		}
+		case R.id.create_order_real_name_auth_rl: {
+			Intent intent = new Intent(CreateOrderActivity.this,
+					RealNameAuthActivity.class);
+			intent.setAction(RealNameAuthActivity.ORIGIN_FROM_ORDER_CREATE_KEY);
+			startActivityForResult(intent, 501);
 			break;
 		}
 

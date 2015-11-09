@@ -42,6 +42,8 @@ public class User {
 	private String timestamp;
 
 	private String signature;
+	
+	private String is_authentication;
 
 	public String getId() {
 		return id;
@@ -146,5 +148,15 @@ public class User {
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
+
+	public String getIs_authentication() {
+		return is_authentication;
+	}
+
+	public void setIs_authentication(String is_authentication) {
+		this.is_authentication = is_authentication;
+	}
+
+	
 
 }

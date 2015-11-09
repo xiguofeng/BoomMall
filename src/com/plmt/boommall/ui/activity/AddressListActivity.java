@@ -261,7 +261,8 @@ public class AddressListActivity extends Activity implements OnClickListener,
 			intent.setAction(AddressEditActivity.ORIGIN_FROM_ADD_ACTION);
 			intent.putExtra("addressId", "0");
 			startActivityForResult(intent, 500);
-			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			overridePendingTransition(R.anim.push_right_in,
+					R.anim.push_right_out);
 			break;
 		}
 		default:

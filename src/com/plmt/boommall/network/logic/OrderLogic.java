@@ -189,8 +189,9 @@ public class OrderLogic {
 
 				JSONObject dataJsonObject = response
 						.getJSONObject(MsgResult.RESULT_DATA_TAG);
-				SubmitOrderResponse submitOrderResponse = (SubmitOrderResponse) JsonUtils.fromJsonToJava(
-						dataJsonObject, SubmitOrderResponse.class);
+				SubmitOrderResponse submitOrderResponse = (SubmitOrderResponse) JsonUtils
+						.fromJsonToJava(dataJsonObject,
+								SubmitOrderResponse.class);
 				String orderID = dataJsonObject.getString("order_id").trim();
 				if (!TextUtils.isEmpty(orderID)) {
 					Message message = new Message();
@@ -419,6 +420,10 @@ public class OrderLogic {
 				preOrder.setBase_total(dataJsonObject.getString("base_total"));
 				preOrder.setTotal(dataJsonObject.getString("total"));
 				preOrder.setBalance(dataJsonObject.getString("balance"));
+				preOrder.setIs_out_country(dataJsonObject
+						.getString("is_out_country"));
+				preOrder.setIs_authentication(dataJsonObject
+						.getString("is_authentication"));
 				preOrder.getGoodsList().addAll(goodsArrayList);
 				preOrder.getPayMoneyList().addAll(payMoneyArrayList);
 

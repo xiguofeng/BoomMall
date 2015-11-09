@@ -21,11 +21,18 @@ import com.plmt.boommall.R;
 import com.plmt.boommall.network.logic.UserLogic;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.utils.ImageUtils;
+import com.plmt.boommall.utils.UserInfoManager;
 import com.plmt.boommall.utils.cropimage.ChooseDialog;
 import com.plmt.boommall.utils.cropimage.CropHelper;
 import com.plmt.boommall.utils.cropimage.uitls.OSUtils;
 
 public class RealNameAuthActivity extends Activity implements OnClickListener {
+
+	public static final String ORIGIN_FROM_ORDER_CREATE_KEY = "com.ordercreate";
+
+	public static final String ORIGIN_FROM_ACCOUNT_KEY = "com.account";
+
+	private String mNowAction = ORIGIN_FROM_ACCOUNT_KEY;
 
 	private Context mContext;
 
@@ -54,12 +61,23 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case UserLogic.SET_REAL_SUC: {
-				Toast.makeText(mContext, "设置成功！",
-						Toast.LENGTH_SHORT).show();
-				RealNameAuthActivity.this.finish();
+				UserInfoManager.userInfo.setIs_authentication("0");
+				if (ORIGIN_FROM_ORDER_CREATE_KEY
+						.equals(ORIGIN_FROM_ORDER_CREATE_KEY)) {
+					Intent intent = new Intent();
+					intent.putExtra("set_result", "suc");
+					setResult(RESULT_OK, intent);
+					RealNameAuthActivity.this.finish();
+				} else {
+					Toast.makeText(mContext, "设置成功！", Toast.LENGTH_SHORT)
+							.show();
+					RealNameAuthActivity.this.finish();
+				}
 				break;
 			}
 			case UserLogic.SET_REAL_FAIL: {
+
+				Toast.makeText(mContext, "设置失败", Toast.LENGTH_SHORT).show();
 
 				break;
 			}
@@ -104,6 +122,7 @@ public class RealNameAuthActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
+		mNowAction = getIntent().getAction();
 		mCropHelper = new CropHelper(this, OSUtils.getSdCardDirectory()
 				+ "/head.png");
 		mDialog = new ChooseDialog(this, mCropHelper);

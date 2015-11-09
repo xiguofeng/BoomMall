@@ -14,7 +14,19 @@ public class PreOrder implements Serializable {
 	private String base_total;
 
 	private String balance;
-
+	
+	/**
+	 * -1 不需实名认证
+	 * 0需要
+	 */
+	private String is_out_country;
+	
+	/**
+	 * -1尚未实名认证
+	 * 0 已实名认证
+	 */
+	private String is_authentication;
+	
 	private Payment payment;
 
 	private Shipping shipping;
@@ -25,76 +37,91 @@ public class PreOrder implements Serializable {
 
 	private ArrayList<Goods> goodsList = new ArrayList<Goods>();
 
-	public final String getId() {
+	public String getId() {
 		return id;
 	}
 
-	public final void setId(String id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public final String getTotal() {
+	public String getTotal() {
 		return total;
 	}
 
-	public final void setTotal(String total) {
+	public void setTotal(String total) {
 		this.total = total;
 	}
 
-	public final String getBase_total() {
+	public String getBase_total() {
 		return base_total;
 	}
 
-	public final void setBase_total(String base_total) {
+	public void setBase_total(String base_total) {
 		this.base_total = base_total;
 	}
 
-	public final String getBalance() {
+	public String getBalance() {
 		return balance;
 	}
 
-	public final void setBalance(String balance) {
+	public void setBalance(String balance) {
 		this.balance = balance;
 	}
 
-	public final Payment getPayment() {
+	public String getIs_out_country() {
+		return is_out_country;
+	}
+
+	public void setIs_out_country(String is_out_country) {
+		this.is_out_country = is_out_country;
+	}
+
+	public String getIs_authentication() {
+		return is_authentication;
+	}
+
+	public void setIs_authentication(String is_authentication) {
+		this.is_authentication = is_authentication;
+	}
+
+	public Payment getPayment() {
 		return payment;
 	}
 
-	public final void setPayment(Payment payment) {
+	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}
 
-	public final Shipping getShipping() {
+	public Shipping getShipping() {
 		return shipping;
 	}
 
-	public final void setShipping(Shipping shipping) {
+	public void setShipping(Shipping shipping) {
 		this.shipping = shipping;
 	}
 
-	public final Address getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 
-	public final void setAddress(Address address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 
-	public final ArrayList<PayMoney> getPayMoneyList() {
+	public ArrayList<PayMoney> getPayMoneyList() {
 		return payMoneyList;
 	}
 
-	public final void setPayMoneyList(ArrayList<PayMoney> payMoneyList) {
+	public void setPayMoneyList(ArrayList<PayMoney> payMoneyList) {
 		this.payMoneyList = payMoneyList;
 	}
 
-	public final ArrayList<Goods> getGoodsList() {
+	public ArrayList<Goods> getGoodsList() {
 		return goodsList;
 	}
 
-	public final void setGoodsList(ArrayList<Goods> goodsList) {
+	public void setGoodsList(ArrayList<Goods> goodsList) {
 		this.goodsList = goodsList;
 	}
-
 }

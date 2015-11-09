@@ -26,8 +26,10 @@ public class UserInfoManager {
 	public static final String USER_SEX_KEY = "sex";
 
 	public static final String USER_PHONE_KEY = "phone";
-	
+
 	public static final String USER_PHOTO_KEY = "photo";
+
+	public static final String USER_IS_AUTHENTICATION = "is_authentication";
 
 	public static final String USER_ADDRESS_KEY = "address";
 
@@ -71,6 +73,8 @@ public class UserInfoManager {
 
 		UserInfoManager.userInfo.setUser_photo(userInfoPreferences.getString(
 				USER_PHOTO_KEY, ""));
+		UserInfoManager.userInfo.setIs_authentication(userInfoPreferences
+				.getString(USER_IS_AUTHENTICATION, ""));
 
 		UserInfoManager.userInfo.setAccount(userInfoPreferences.getString(
 				USER_ACCOUNT_KEY, ""));
@@ -100,8 +104,9 @@ public class UserInfoManager {
 			userInfoSp.putString(USER_ID_KEY,
 					null == user.getId() ? "" : user.getId());
 			userInfoSp.putString(USER_NAME_KEY, user.getUsername());
-			
+
 			userInfoSp.putString(USER_PHOTO_KEY, user.getUser_photo());
+			userInfoSp.putString(USER_IS_AUTHENTICATION, user.getIs_authentication());
 
 			userInfoSp.putString(USER_ACCOUNT_KEY, user.getAccount());
 			userInfoSp.putString(USER_PWD_KEY, user.getPassword());
@@ -122,8 +127,9 @@ public class UserInfoManager {
 
 		userInfoSp.putString(USER_ID_KEY, "");
 		userInfoSp.putString(USER_NAME_KEY, "");
-		
+
 		userInfoSp.putString(USER_PHOTO_KEY, "");
+		userInfoSp.putString(USER_IS_AUTHENTICATION, "");
 
 		userInfoSp.putString(USER_ACCOUNT_KEY, "");
 		userInfoSp.putString(USER_PWD_KEY, "");

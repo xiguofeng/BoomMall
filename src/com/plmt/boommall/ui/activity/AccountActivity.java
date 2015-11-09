@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class AccountActivity extends Activity implements OnClickListener {
 
@@ -25,6 +26,8 @@ public class AccountActivity extends Activity implements OnClickListener {
 	private RelativeLayout mAreaRl;
 	private RelativeLayout mRealNameAuthRl;
 	private RelativeLayout mCollectionRl;
+	
+	private TextView mRealNameAuthTv;
 
 	private Button mExitBtn;
 
@@ -72,8 +75,14 @@ public class AccountActivity extends Activity implements OnClickListener {
 		mContext = AccountActivity.this;
 		mProgressDialog = new CustomProgressDialog(mContext);
 		initView();
-		initData();
+		
 
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		initData();
 	}
 
 	private void initView() {
@@ -82,6 +91,7 @@ public class AccountActivity extends Activity implements OnClickListener {
 
 		mRealNameAuthRl = (RelativeLayout) findViewById(R.id.account_real_name_auth_rl);
 		mRealNameAuthRl.setOnClickListener(this);
+		mRealNameAuthTv = (TextView) findViewById(R.id.account_real_name_auth_tag_tv);
 
 		mCollectionRl = (RelativeLayout) findViewById(R.id.account_collection_rl);
 		mCollectionRl.setOnClickListener(this);
@@ -94,6 +104,9 @@ public class AccountActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
+		if("0".equals(UserInfoManager.userInfo.getIs_authentication())){
+			mRealNameAuthTv.setText("实名认证(已认证)");
+		}
 		//mProgressDialog.show();
 	}
 
@@ -111,6 +124,7 @@ public class AccountActivity extends Activity implements OnClickListener {
 		case R.id.account_real_name_auth_rl: {
 			Intent intent = new Intent(AccountActivity.this,
 					RealNameAuthActivity.class);
+			intent.setAction(RealNameAuthActivity.ORIGIN_FROM_ACCOUNT_KEY);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;

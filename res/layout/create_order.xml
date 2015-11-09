@@ -176,6 +176,57 @@
                     </LinearLayout>
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/create_order_real_name_auth_rl"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:background="@color/white"
+                    android:padding="3dip" >
+
+                    <ImageView
+                        android:id="@+id/create_order_real_name_auth_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dip"
+                        android:visibility="gone"
+                        android:src="@drawable/real_name" />
+
+                    <TextView
+                        android:id="@+id/create_order_real_name_auth_tag_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/create_order_real_name_auth_iv"
+                        android:paddingLeft="7dip"
+                        android:paddingRight="10dip"
+                        android:text="@string/real_name_auth"
+                        android:textColor="@color/black_character"
+                        android:textSize="@dimen/small_text_size" />
+
+                    <TextView
+                        android:id="@+id/create_order_real_name_auth_tv"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/create_order_real_name_auth_tag_tv"
+                        android:background="@null"
+                        android:imeOptions="actionNext"
+                        android:paddingBottom="6.0dip"
+                        android:paddingTop="6.0dip"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/middle_text_size" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="6dp"
+                        android:src="@drawable/arrow" />
+                </RelativeLayout>
+
                 <LinearLayout
                     android:id="@+id/create_order_goods_view_ll"
                     android:layout_width="match_parent"
@@ -221,8 +272,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:textColor="@color/black"
-                        android:visibility="gone"
-                        android:textSize="@dimen/small_text_size" />
+                        android:textSize="@dimen/small_text_size"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
                 <LinearLayout
