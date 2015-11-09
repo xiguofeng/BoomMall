@@ -561,7 +561,7 @@
                     android:background="@drawable/main_header_meun_bg"
                     android:contentDescription="@string/app_name"
                     android:scaleType="centerInside"
-                    android:src="@drawable/main_header_menu_msg" />
+                    android:src="@drawable/main_header_menu_simple_msg" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
