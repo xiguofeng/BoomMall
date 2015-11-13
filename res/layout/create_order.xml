@@ -191,8 +191,8 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dip"
-                        android:visibility="gone"
-                        android:src="@drawable/real_name" />
+                        android:src="@drawable/real_name"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/create_order_real_name_auth_tag_tv"
@@ -325,13 +325,16 @@
                     </RelativeLayout>
 
                     <LinearLayout
+                        android:id="@+id/create_order_invoice_line_ll"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dip"
-                        android:background="@drawable/h_line" >
+                        android:background="@drawable/h_line"
+                        android:orientation="horizontal" >
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/create_order_invoice_ll"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_toLeftOf="@+id/create_order_address_iv"
@@ -349,6 +352,7 @@
                             android:textSize="@dimen/small_text_size" />
 
                         <LinearLayout
+                            android:id="@+id/create_order_invoice_select_ll"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginTop="10dip"

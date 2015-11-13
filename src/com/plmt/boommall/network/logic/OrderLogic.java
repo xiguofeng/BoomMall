@@ -134,6 +134,10 @@ public class OrderLogic {
 			// URLEncoder.encode(UserInfoManager.getSession(context), "UTF-8")
 			requestJson.put("sessionid",
 					"frontend=" + UserInfoManager.getSession(context));
+			requestJson.put("invoiceTitle",
+					URLEncoder.encode(preOrder.getInvoiceTitle(), "UTF-8"));
+			requestJson.put("invoiceName",
+					URLEncoder.encode(preOrder.getInvoiceName(), "UTF-8"));
 			requestJson.put("cn_name",
 					URLEncoder.encode(address.getUsername(), "UTF-8"));
 			requestJson.put("cn_province", address.getCn_province());

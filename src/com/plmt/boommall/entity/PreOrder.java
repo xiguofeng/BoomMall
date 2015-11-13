@@ -15,6 +15,10 @@ public class PreOrder implements Serializable {
 
 	private String balance;
 	
+	private String invoiceTitle;
+	
+	private String invoiceName;
+	
 	/**
 	 * -1 不需实名认证
 	 * 0需要
@@ -67,6 +71,22 @@ public class PreOrder implements Serializable {
 
 	public void setBalance(String balance) {
 		this.balance = balance;
+	}
+
+	public String getInvoiceTitle() {
+		return invoiceTitle;
+	}
+
+	public void setInvoiceTitle(String invoiceTitle) {
+		this.invoiceTitle = invoiceTitle;
+	}
+
+	public String getInvoiceName() {
+		return invoiceName;
+	}
+
+	public void setInvoiceName(String invoiceName) {
+		this.invoiceName = invoiceName;
 	}
 
 	public String getIs_out_country() {

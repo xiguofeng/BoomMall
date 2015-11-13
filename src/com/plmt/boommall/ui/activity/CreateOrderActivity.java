@@ -58,6 +58,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private LinearLayout mGoodsViewLl;
 
+	private LinearLayout mInvoiceLl;
+	private LinearLayout mInvoiceLineLl;
+	private LinearLayout mInvoiceSelectLl;
 	private LinearLayout mInvoiceNotLl;
 	private LinearLayout mInvoicePersonLl;
 	private LinearLayout mInvoiceCompanyLl;
@@ -66,7 +69,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private ImageView mInvoicePersonIv;
 	private ImageView mInvoiceCompanyIv;
 
-	private EditText mInvoiceTitleEt;
+	private TextView mInvoiceTagTv;
+
+	private EditText mInvoiceNameEt;
 	private EditText mRemarkEt;
 
 	private TextView mGoodsMoneyTv;
@@ -88,6 +93,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 	private String mOrderId;
 	private boolean isCreateOrder = false;
+	private String mInvoiceTitle = "";
 
 	private PreOrder mSubmitpreOrder = new PreOrder();
 
@@ -103,6 +109,15 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					mPreOrder = (PreOrder) msg.obj;
 					fillUpData(mPreOrder);
 					if (isCreateOrder) {
+						if (!TextUtils.isEmpty(mInvoiceNameEt.getText()
+								.toString().trim())) {
+							mPreOrder.setInvoiceName(mInvoiceNameEt.getText()
+									.toString().trim());
+						} else {
+							mPreOrder.setInvoiceName("");
+						}
+						mPreOrder.setInvoiceTitle(mInvoiceTitle);
+
 						OrderLogic.createOrder(mContext, mOrderInfoHandler,
 								mPreOrder);
 					}
@@ -316,7 +331,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						if (!isHasBmCard) {
-							String giftCardPwd = mInvoiceTitleEt.getText()
+							String giftCardPwd = mInvoiceNameEt.getText()
 									.toString().trim();
 							if (!TextUtils.isEmpty(giftCardPwd)) {
 								mProgressDialog.show();
@@ -343,6 +358,10 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	}
 
 	private void initInvoiceView() {
+		mInvoiceLl = (LinearLayout) findViewById(R.id.create_order_invoice_ll);
+		mInvoiceLineLl = (LinearLayout) findViewById(R.id.create_order_invoice_line_ll);
+		mInvoiceSelectLl = (LinearLayout) findViewById(R.id.create_order_invoice_select_ll);
+
 		mInvoiceNotLl = (LinearLayout) findViewById(R.id.create_order_invoice_not_ll);
 		mInvoiceNotLl.setOnClickListener(this);
 		mInvoicePersonLl = (LinearLayout) findViewById(R.id.create_order_invoice_person_ll);
@@ -354,7 +373,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mInvoicePersonIv = (ImageView) findViewById(R.id.create_order_invoice_person_iv);
 		mInvoiceCompanyIv = (ImageView) findViewById(R.id.create_order_invoice_company_iv);
 
-		mInvoiceTitleEt = (EditText) findViewById(R.id.create_order_bmcard_pwd_et);
+		mInvoiceTagTv = (TextView) findViewById(R.id.create_order_address_invoice_tag_tv);
+
+		mInvoiceNameEt = (EditText) findViewById(R.id.create_order_bmcard_pwd_et);
 		mInvoiceNotIv.setImageResource(R.drawable.radio_selected);
 	}
 
@@ -376,6 +397,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		fillUpDeliveryData();
 		fillUpGoods();
 		fillUpRealName();
+		fillUpInvoice();
 	}
 
 	private void fillUpAddressData(Address address) {
@@ -466,6 +488,22 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	private void fillUpInvoice() {
+		mInvoiceTagTv.setText("发票信息(海外商品不支持提供发票服务)");
+		mInvoiceTagTv.setTextColor(getResources().getColor(
+				R.color.red_character));
+		mInvoiceSelectLl.setVisibility(View.GONE);
+		mInvoiceNameEt.setVisibility(View.GONE);
+		if (!TextUtils.isEmpty(mPreOrder.getIs_out_country())
+				&& "-1".equals(mPreOrder.getIs_out_country())) {
+
+			mInvoiceTagTv.setText("发票信息");
+			mInvoiceTagTv.setTextColor(getResources().getColor(R.color.black));
+			mInvoiceSelectLl.setVisibility(View.VISIBLE);
+			mInvoiceNameEt.setVisibility(View.VISIBLE);
+		}
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
@@ -526,16 +564,19 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		case R.id.create_order_invoice_not_ll: {
 			clearInvoiceBackground();
 			mInvoiceNotIv.setImageResource(R.drawable.radio_selected);
+			mInvoiceTitle = "";
 			break;
 		}
 		case R.id.create_order_invoice_person_ll: {
 			clearInvoiceBackground();
 			mInvoicePersonIv.setImageResource(R.drawable.radio_selected);
+			mInvoiceTitle = "个人";
 			break;
 		}
 		case R.id.create_order_invoice_company_ll: {
 			clearInvoiceBackground();
 			mInvoiceCompanyIv.setImageResource(R.drawable.radio_selected);
+			mInvoiceTitle = "公司";
 			break;
 		}
 		case R.id.create_order_real_name_auth_rl: {
