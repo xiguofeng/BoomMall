@@ -68,10 +68,12 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private ImageView mInvoiceNotIv;
 	private ImageView mInvoicePersonIv;
 	private ImageView mInvoiceCompanyIv;
+	
+	private EditText mInvoiceEt;
 
 	private TextView mInvoiceTagTv;
 
-	private EditText mInvoiceNameEt;
+	private EditText mBmCardEt;
 	private EditText mRemarkEt;
 
 	private TextView mGoodsMoneyTv;
@@ -109,9 +111,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					mPreOrder = (PreOrder) msg.obj;
 					fillUpData(mPreOrder);
 					if (isCreateOrder) {
-						if (!TextUtils.isEmpty(mInvoiceNameEt.getText()
+						if (!TextUtils.isEmpty(mInvoiceEt.getText()
 								.toString().trim())) {
-							mPreOrder.setInvoiceName(mInvoiceNameEt.getText()
+							mPreOrder.setInvoiceName(mInvoiceEt.getText()
 									.toString().trim());
 						} else {
 							mPreOrder.setInvoiceName("");
@@ -331,7 +333,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						if (!isHasBmCard) {
-							String giftCardPwd = mInvoiceNameEt.getText()
+							String giftCardPwd = mBmCardEt.getText()
 									.toString().trim();
 							if (!TextUtils.isEmpty(giftCardPwd)) {
 								mProgressDialog.show();
@@ -374,8 +376,9 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mInvoiceCompanyIv = (ImageView) findViewById(R.id.create_order_invoice_company_iv);
 
 		mInvoiceTagTv = (TextView) findViewById(R.id.create_order_address_invoice_tag_tv);
-
-		mInvoiceNameEt = (EditText) findViewById(R.id.create_order_bmcard_pwd_et);
+		mInvoiceEt = (EditText) findViewById(R.id.acreate_order_invoice_name_et);
+		
+		mBmCardEt = (EditText) findViewById(R.id.create_order_bmcard_pwd_et);
 		mInvoiceNotIv.setImageResource(R.drawable.radio_selected);
 	}
 
@@ -494,7 +497,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 				R.color.red_character));
 		
 		mInvoiceSelectLl.setVisibility(View.GONE);
-		mInvoiceNameEt.setVisibility(View.GONE);
+		mInvoiceEt.setVisibility(View.GONE);
 		
 		if (!TextUtils.isEmpty(mPreOrder.getIs_out_country())
 				&& "-1".equals(mPreOrder.getIs_out_country())) {
@@ -503,7 +506,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 			mInvoiceTagTv.setTextColor(getResources().getColor(R.color.black));
 			
 			mInvoiceSelectLl.setVisibility(View.VISIBLE);
-			mInvoiceNameEt.setVisibility(View.VISIBLE);
+			mInvoiceEt.setVisibility(View.VISIBLE);
 		}
 	}
 
