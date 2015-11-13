@@ -122,7 +122,7 @@ public class MyReceiver extends BroadcastReceiver {
 				try {
 					FileUtils.makeDirectory(FileUtils.BASE_PATH);
 					FileHelper.createSDFile("msg.txt");
-					String jsonArrayStr = FileHelper.readSDFile("msg.txt");
+					String jsonArrayStr = FileHelper.readFileSdcard("msg.txt");
 					JSONArray jsonArray;
 					
 					JSONArray newJsonArray = new JSONArray();

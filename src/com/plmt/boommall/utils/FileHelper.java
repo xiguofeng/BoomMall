@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.apache.http.util.EncodingUtils;
+
 import com.plmt.boommall.utils.cropimage.uitls.OSUtils;
 
 import android.content.Context;
@@ -69,7 +71,7 @@ public class FileHelper {
 			FileOutputStream os = new FileOutputStream(f);
 			DataOutputStream out = new DataOutputStream(os);
 			out.writeShort(2);
-			out.writeUTF("");
+			out.writeUTF("utf-8");
 			System.out.println(out);
 			fw.flush();
 			fw.close();
@@ -111,6 +113,22 @@ public class FileHelper {
 			e.printStackTrace();
 		}
 		return sb.toString();
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static String readFileSdcard(String fileName) {
+		String res = "";
+		try {
+			FileInputStream fin = new FileInputStream(OSUtils.getSdCardDirectory() + "/boommall/" + fileName);
+			int length = fin.available();
+			byte[] buffer = new byte[length];
+			fin.read(buffer);
+			res = EncodingUtils.getString(buffer, "UTF-8");
+			fin.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	public String getFILESPATH() {

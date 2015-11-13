@@ -111,7 +111,7 @@ public class MsgActivity extends Activity implements OnClickListener {
 			public void run() {
 				try {
 					FileHelper.createSDFile("msg.txt");
-					String jsonArrayStr = FileHelper.readSDFile("msg.txt");
+					String jsonArrayStr = FileHelper.readFileSdcard("msg.txt");
 					JSONArray jsonArray;
 
 					if (!TextUtils.isEmpty(jsonArrayStr)) {
