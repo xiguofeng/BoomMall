@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.entity.HomeRecommend;
@@ -106,6 +107,7 @@ public class CustomClassifyView extends LinearLayout {
 		}
 
 		mTitleNameTv.setText(homeRecommend.getName());
+		ImageLoader.getInstance().displayImage(homeRecommend.getImage(), mIv);
 
 		this.addView(layout);
 	}
