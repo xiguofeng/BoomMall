@@ -492,13 +492,16 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mInvoiceTagTv.setText("发票信息(海外商品不支持提供发票服务)");
 		mInvoiceTagTv.setTextColor(getResources().getColor(
 				R.color.red_character));
+		
 		mInvoiceSelectLl.setVisibility(View.GONE);
 		mInvoiceNameEt.setVisibility(View.GONE);
+		
 		if (!TextUtils.isEmpty(mPreOrder.getIs_out_country())
 				&& "-1".equals(mPreOrder.getIs_out_country())) {
 
 			mInvoiceTagTv.setText("发票信息");
 			mInvoiceTagTv.setTextColor(getResources().getColor(R.color.black));
+			
 			mInvoiceSelectLl.setVisibility(View.VISIBLE);
 			mInvoiceNameEt.setVisibility(View.VISIBLE);
 		}
