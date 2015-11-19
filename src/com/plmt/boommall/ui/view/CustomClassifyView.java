@@ -2,18 +2,6 @@ package com.plmt.boommall.ui.view;
 
 import java.util.ArrayList;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
@@ -25,6 +13,18 @@ import com.plmt.boommall.ui.activity.HomeActivity;
 import com.plmt.boommall.ui.adapter.MainGoodsAdapter;
 import com.plmt.boommall.ui.adapter.MainGoodsGvAdapter;
 import com.plmt.boommall.ui.view.gridview.CustomGridView;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class CustomClassifyView extends LinearLayout {
 
