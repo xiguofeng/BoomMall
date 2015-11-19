@@ -9,9 +9,11 @@ public class RequestUrl {
 
 	// http://120.55.116.206:8080/mapi
 	// public static final String HOST_URL = "http://120.55.116.206:8060/mapi";
-	public static final String HOST_URL = "http://120.55.116.206:8000/mapi";
+	//public static final String HOST_URL = "http://120.55.116.206:8000/mapi";
+	
+	public static final String HOST_URL = "http://appapi.wangpugo.com/mapi";
 
-	public static final String HOST_PAY_URL = "http://120.55.116.206:8000";
+	public static final String HOST_PAY_URL = "http://appapi.wangpugo.com";
 
 	public interface connect {
 		/**
