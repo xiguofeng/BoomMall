@@ -94,6 +94,7 @@
     <string name="upload_id_card">请上传身份证正反两面</string>
     <string name="upload_id_one_hint">海关需对海外购物查验身份信息，信息错误可能导致无法通关。</string>
     <string name="upload_id_two_hint">身份信息将加密报关，旺铺将保证您的信息安全。</string>
+    <string name="please_real_name_auth">请先进行实名认证</string>
 
     <!-- pay -->
     <string name="add_cart">加入购物车</string>

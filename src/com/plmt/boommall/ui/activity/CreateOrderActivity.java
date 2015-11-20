@@ -68,7 +68,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 	private ImageView mInvoiceNotIv;
 	private ImageView mInvoicePersonIv;
 	private ImageView mInvoiceCompanyIv;
-	
+
 	private EditText mInvoiceEt;
 
 	private TextView mInvoiceTagTv;
@@ -111,8 +111,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					mPreOrder = (PreOrder) msg.obj;
 					fillUpData(mPreOrder);
 					if (isCreateOrder) {
-						if (!TextUtils.isEmpty(mInvoiceEt.getText()
-								.toString().trim())) {
+						if (!TextUtils.isEmpty(mInvoiceEt.getText().toString()
+								.trim())) {
 							mPreOrder.setInvoiceName(mInvoiceEt.getText()
 									.toString().trim());
 						} else {
@@ -333,8 +333,8 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						if (!isHasBmCard) {
-							String giftCardPwd = mBmCardEt.getText()
-									.toString().trim();
+							String giftCardPwd = mBmCardEt.getText().toString()
+									.trim();
 							if (!TextUtils.isEmpty(giftCardPwd)) {
 								mProgressDialog.show();
 								if (isChecked) {
@@ -377,7 +377,7 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 
 		mInvoiceTagTv = (TextView) findViewById(R.id.create_order_address_invoice_tag_tv);
 		mInvoiceEt = (EditText) findViewById(R.id.acreate_order_invoice_name_et);
-		
+
 		mBmCardEt = (EditText) findViewById(R.id.create_order_bmcard_pwd_et);
 		mInvoiceNotIv.setImageResource(R.drawable.radio_selected);
 	}
@@ -495,16 +495,16 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		mInvoiceTagTv.setText("发票信息(海外商品不支持提供发票服务)");
 		mInvoiceTagTv.setTextColor(getResources().getColor(
 				R.color.red_character));
-		
+
 		mInvoiceSelectLl.setVisibility(View.GONE);
 		mInvoiceEt.setVisibility(View.GONE);
-		
+
 		if (!TextUtils.isEmpty(mPreOrder.getIs_out_country())
 				&& "-1".equals(mPreOrder.getIs_out_country())) {
 
 			mInvoiceTagTv.setText("发票信息");
 			mInvoiceTagTv.setTextColor(getResources().getColor(R.color.black));
-			
+
 			mInvoiceSelectLl.setVisibility(View.VISIBLE);
 			mInvoiceEt.setVisibility(View.VISIBLE);
 		}
@@ -554,6 +554,15 @@ public class CreateOrderActivity extends Activity implements OnClickListener {
 		}
 
 		case R.id.create_order_confirm_btn: {
+			if (!TextUtils.isEmpty(mPreOrder.getIs_out_country())
+					&& "0".equals(mPreOrder.getIs_out_country())
+					&& !TextUtils.isEmpty(mPreOrder.getIs_authentication())
+					&& "-1".equals(mPreOrder.getIs_authentication())) {
+				Toast.makeText(mContext, R.string.please_real_name_auth,
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
+
 			if (!TextUtils.isEmpty(mPreOrder.getAddress().getId())
 					&& !TextUtils
 							.isEmpty(mPreOrder.getAddress().getTelephone())) {
