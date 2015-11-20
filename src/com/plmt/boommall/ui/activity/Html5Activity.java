@@ -70,6 +70,8 @@ public class Html5Activity extends Activity implements OnClickListener {
 		settings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
 		settings.setSupportZoom(true);
 		settings.setBuiltInZoomControls(true);
+		//不设置缓存
+		settings.setAppCacheEnabled(false); 
 
 		webView.setDefaultHandler(new DefaultHandler());
 
