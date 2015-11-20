@@ -201,8 +201,10 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			}
 			case CartLogic.CART_ADD_FAIL: {
 				if (null != msg.obj) {
-					Toast.makeText(mContext, R.string.cart_add_fail,
-							Toast.LENGTH_SHORT).show();
+					String failMsg = getString(R.string.cart_add_fail) + ":"
+							+ (String) msg.obj;
+					Toast.makeText(mContext, failMsg, Toast.LENGTH_SHORT)
+							.show();
 				}
 
 				break;
