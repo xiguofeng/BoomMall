@@ -111,7 +111,7 @@ public class OrderAdapter extends BaseAdapter {
 			holder.mPayBtn.setVisibility(View.GONE);
 			holder.mCommentBtn.setVisibility(View.GONE);
 			holder.mViewBtn.setVisibility(View.GONE);
-			if ("未支付".equals(orderStateStr)) {
+			if ("待支付".equals(orderStateStr)) {
 				holder.mBtnLl.setVisibility(View.VISIBLE);
 				holder.mPayBtn.setVisibility(View.VISIBLE);
 				holder.mCommentBtn.setVisibility(View.GONE);
