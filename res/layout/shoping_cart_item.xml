@@ -47,8 +47,8 @@
                 android:layout_alignParentRight="true"
                 android:background="@color/orange_bg"
                 android:gravity="center"
-                android:visibility="gone"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <ImageView
                     android:id="@+id/cart_goods_collect_iv"
@@ -136,16 +136,32 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/cart_goods_count_tv"
+            <LinearLayout
+                android:id="@+id/cart_goods_count_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_marginTop="6dip"
-                android:maxLines="1"
-                android:text="299"
-                android:textColor="@color/gray_character"
-                android:textSize="@dimen/small_text_size" />
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/cart_goods_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="299"
+                    android:textColor="@color/gray_character"
+                    android:textSize="@dimen/small_text_size" />
+
+                <TextView
+                    android:id="@+id/cart_goods_saleable_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:layout_marginLeft="10dip"
+                    android:text="暂无库存"
+                    android:textColor="@color/red_character"
+                    android:textSize="@dimen/small_text_size" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/right_bottom_rl"

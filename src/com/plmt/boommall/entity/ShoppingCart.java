@@ -29,6 +29,8 @@ public class ShoppingCart {
 	private String finalPrice;
 
 	private String maxSaleQty;
+	
+	private String isSaleable;
 
 	private ArrayList<Goods> goodsList = new ArrayList<>();
 
@@ -134,6 +136,14 @@ public class ShoppingCart {
 
 	public void setMaxSaleQty(String maxSaleQty) {
 		this.maxSaleQty = maxSaleQty;
+	}
+
+	public String getIsSaleable() {
+		return isSaleable;
+	}
+
+	public void setIsSaleable(String isSaleable) {
+		this.isSaleable = isSaleable;
 	}
 
 	public ArrayList<Goods> getGoodsList() {

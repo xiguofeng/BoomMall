@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -69,6 +70,8 @@ public class ShoppingCartActivity extends Activity
 	public static boolean isCanSumbit = false;
 
 	public static boolean isNeedUpdate = false;
+
+	private boolean isHasNoSaleable = false;
 
 	private CustomProgressDialog mProgressDialog;
 
@@ -247,6 +250,7 @@ public class ShoppingCartActivity extends Activity
 	}
 
 	private void refresh() {
+		isHasNoSaleable = false;
 		// clear
 		mGroup.clear();
 		mChild.clear();
@@ -276,6 +280,13 @@ public class ShoppingCartActivity extends Activity
 				mChild.get(manuf).add(mShoppingCartList.get(i));
 			}
 			isGroupHas = false;
+
+			String isSaleable = mShoppingCartList.get(i).getIsSaleable();
+			if (TextUtils.isEmpty(isSaleable)) {
+				isHasNoSaleable = true;
+			} else if (!TextUtils.isEmpty(isSaleable) && !"1".equals(isSaleable)) {
+				isHasNoSaleable = true;
+			}
 		}
 
 		mEAdapter.notifyDataSetChanged();
@@ -545,6 +556,10 @@ public class ShoppingCartActivity extends Activity
 
 	@Override
 	public void onClick(int which) {
+		if(isHasNoSaleable){
+			Toast.makeText(mContext, "请删除无库存商品,再进行结算！", Toast.LENGTH_LONG).show();
+			return;
+		}
 		if (isCanSumbit) {
 			mProgressDialog.show();
 			try {

@@ -11,6 +11,7 @@ import com.plmt.boommall.ui.activity.ShopCartActivity;
 import com.plmt.boommall.ui.utils.ListItemClickHelpWithID;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -151,6 +152,7 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 			viewholder.mOriginalPrice = (TextView) convertView.findViewById(R.id.cart_goods_original_prices_tv);
 
 			viewholder.mCount = (TextView) convertView.findViewById(R.id.cart_goods_count_tv);
+			viewholder.mSaleableTv = (TextView) convertView.findViewById(R.id.cart_goods_saleable_tv);
 
 			viewholder.mAddIb = (ImageButton) convertView.findViewById(R.id.cart_goods_add_ib);
 			viewholder.mReduceIb = (ImageButton) convertView.findViewById(R.id.cart_goods_reduce_ib);
@@ -159,6 +161,7 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 			viewholder.mDelLl = (LinearLayout) convertView.findViewById(R.id.cart_goods_del_ll);
 			viewholder.mCollectionAndDelLl = (LinearLayout) convertView.findViewById(R.id.cart_goods_collect_del_ll);
 			viewholder.mUpdateCountLl = (LinearLayout) convertView.findViewById(R.id.right_bottom_rl);
+			viewholder.mCountAndSaleableLl = (LinearLayout) convertView.findViewById(R.id.cart_goods_count_ll);
 
 			viewholder.mNum = (EditText) convertView.findViewById(R.id.cart_goods_count_et);
 			viewholder.mIcon = (ImageView) convertView.findViewById(R.id.cart_goods_iv);
@@ -169,12 +172,19 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 
 		viewholder.mCollectionAndDelLl.setVisibility(View.GONE);
 		viewholder.mUpdateCountLl.setVisibility(View.GONE);
-		viewholder.mCount.setVisibility(View.GONE);
+		viewholder.mCountAndSaleableLl.setVisibility(View.GONE);
+		viewholder.mSaleableTv.setVisibility(View.GONE);
 		if (mNowMode.equals(ShopCartActivity.EDITOR_MODE)) {
 			viewholder.mCollectionAndDelLl.setVisibility(View.VISIBLE);
 			viewholder.mUpdateCountLl.setVisibility(View.VISIBLE);
 		} else {
-			viewholder.mCount.setVisibility(View.VISIBLE);
+			viewholder.mCountAndSaleableLl.setVisibility(View.VISIBLE);
+			String saleableflag = this.chiles.get(grouds.get(groupPosition).getManufacturer()).get(childPosition).getIsSaleable();
+			if(!TextUtils.isEmpty(saleableflag)&&!"1".equals(saleableflag)){
+				viewholder.mSaleableTv.setVisibility(View.VISIBLE);
+			}else if(TextUtils.isEmpty(saleableflag)){
+				viewholder.mSaleableTv.setVisibility(View.VISIBLE);
+			}
 		}
 
 		String fPrice = this.chiles.get(grouds.get(groupPosition).getManufacturer()).get(childPosition).getFinalPrice();
@@ -305,6 +315,8 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 		public TextView mOriginalPrice;
 
 		public TextView mCount;
+		
+		public TextView mSaleableTv;
 
 		public CheckBox mChildCb;
 
@@ -323,6 +335,8 @@ public class ShoppingCartAdapter extends BaseExpandableListAdapter {
 		public LinearLayout mDelLl;
 
 		public LinearLayout mUpdateCountLl;
+		
+		public LinearLayout mCountAndSaleableLl;
 	}
 
 	public interface ischeck {
