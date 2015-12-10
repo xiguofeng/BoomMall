@@ -99,7 +99,7 @@ public class MyReceiver extends BroadcastReceiver {
 				sb.append("\nkey:" + key + ", value:" + bundle.getBoolean(key));
 			} else if (key.equals("cn.jpush.android.EXTRA")) {
 				Log.e("Jpush_EXTRA", bundle.getString(key).toString());
-				msgDataSave(bundle.getString(key).toString());
+				msgDataSave1(bundle.getString(key).toString());
 				sb.append("\nkey:" + key + ", value:" + bundle.getBoolean(key));
 			} else {
 				sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
