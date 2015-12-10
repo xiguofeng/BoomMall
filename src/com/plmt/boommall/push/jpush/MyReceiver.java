@@ -9,8 +9,10 @@ import org.json.JSONObject;
 import com.plmt.boommall.entity.Msg;
 import com.plmt.boommall.ui.activity.MsgActivity;
 import com.plmt.boommall.utils.FileHelper;
+import com.plmt.boommall.utils.FileManager;
 import com.plmt.boommall.utils.FileUtils;
 import com.plmt.boommall.utils.JsonUtils;
+import com.plmt.boommall.utils.cropimage.uitls.OSUtils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,40 +35,55 @@ public class MyReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Bundle bundle = intent.getExtras();
-		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
+		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction()
+				+ ", extras: " + printBundle(bundle));
 
 		if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
-			String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
+			String regId = bundle
+					.getString(JPushInterface.EXTRA_REGISTRATION_ID);
 			Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
 			// send the Registration Id to your server...
 
-		} else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-			Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
+		} else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent
+				.getAction())) {
+			Log.d(TAG,
+					"[MyReceiver] 接收到推送下来的自定义消息: "
+							+ bundle.getString(JPushInterface.EXTRA_MESSAGE));
 			processCustomMessage(context, bundle);
 
-		} else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
+		} else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent
+				.getAction())) {
 			Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
-			int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
+			int notifactionId = bundle
+					.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
 			Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
 
-		} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
+		} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent
+				.getAction())) {
 			Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
 
 			// 打开自定义的Activity
 			Intent i = new Intent(context, MsgActivity.class);
 			i.putExtras(bundle);
 			// i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+					| Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			context.startActivity(i);
 
-		} else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
-			Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
+		} else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent
+				.getAction())) {
+			Log.d(TAG,
+					"[MyReceiver] 用户收到到RICH PUSH CALLBACK: "
+							+ bundle.getString(JPushInterface.EXTRA_EXTRA));
 			// 在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity，
 			// 打开一个网页等..
 
-		} else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
-			boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
-			Log.w(TAG, "[MyReceiver]" + intent.getAction() + " connected state change to " + connected);
+		} else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent
+				.getAction())) {
+			boolean connected = intent.getBooleanExtra(
+					JPushInterface.EXTRA_CONNECTION_CHANGE, false);
+			Log.w(TAG, "[MyReceiver]" + intent.getAction()
+					+ " connected state change to " + connected);
 		} else {
 			Log.d(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
 		}
@@ -96,13 +113,15 @@ public class MyReceiver extends BroadcastReceiver {
 		if (JpushMainActivity.isForeground) {
 			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-			Intent msgIntent = new Intent(JpushMainActivity.MESSAGE_RECEIVED_ACTION);
+			Intent msgIntent = new Intent(
+					JpushMainActivity.MESSAGE_RECEIVED_ACTION);
 			msgIntent.putExtra(JpushMainActivity.KEY_MESSAGE, message);
 			if (!ExampleUtil.isEmpty(extras)) {
 				try {
 					JSONObject extraJson = new JSONObject(extras);
 					if (null != extraJson && extraJson.length() > 0) {
-						msgIntent.putExtra(JpushMainActivity.KEY_EXTRAS, extras);
+						msgIntent
+								.putExtra(JpushMainActivity.KEY_EXTRAS, extras);
 					}
 				} catch (JSONException e) {
 
@@ -124,10 +143,11 @@ public class MyReceiver extends BroadcastReceiver {
 					FileHelper.createSDFile("msg.txt");
 					String jsonArrayStr = FileHelper.readFileSdcard("msg.txt");
 					JSONArray jsonArray;
-					
+
 					JSONArray newJsonArray = new JSONArray();
 					JSONObject jsonObject = new JSONObject(msg);
-					Msg newMsg = (Msg) JsonUtils.fromJsonToJava(jsonObject, Msg.class);
+					Msg newMsg = (Msg) JsonUtils.fromJsonToJava(jsonObject,
+							Msg.class);
 					mMsgList.add(newMsg);
 					newJsonArray.put(jsonObject);
 
@@ -143,11 +163,65 @@ public class MyReceiver extends BroadcastReceiver {
 					}
 					for (int i = 0; i < size; i++) {
 						JSONObject msgJsonObject = jsonArray.getJSONObject(i);
-						Msg msg = (Msg) JsonUtils.fromJsonToJava(msgJsonObject, Msg.class);
+						Msg msg = (Msg) JsonUtils.fromJsonToJava(msgJsonObject,
+								Msg.class);
 						newJsonArray.put(msgJsonObject);
 						mMsgList.add(msg);
 					}
-					FileHelper.writeSDFileNew(newJsonArray.toString(), "msg.txt");
+					FileHelper.writeSDFileNew(newJsonArray.toString(),
+							"msg.txt");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+
+	}
+
+	private static void msgDataSave1(final String msg) {
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					FileUtils.makeDirectory(FileUtils.BASE_PATH);
+					FileHelper.createSDFile("msg.txt");
+					String jsonArrayStr = FileManager.read(
+							OSUtils.getSdCardDirectory() + "/boommall/msg.txt",
+							"UTF-8");
+					JSONArray jsonArray;
+
+					JSONArray newJsonArray = new JSONArray();
+					JSONObject jsonObject = new JSONObject(msg);
+					Msg newMsg = (Msg) JsonUtils.fromJsonToJava(jsonObject,
+							Msg.class);
+					mMsgList.add(newMsg);
+					newJsonArray.put(jsonObject);
+
+					if (!TextUtils.isEmpty(jsonArrayStr)) {
+						jsonArray = new JSONArray(jsonArrayStr);
+					} else {
+						jsonArray = new JSONArray();
+					}
+
+					int size = jsonArray.length();
+					if (size >= 10) {
+						size = 9;
+					}
+					for (int i = 0; i < size; i++) {
+						JSONObject msgJsonObject = jsonArray.getJSONObject(i);
+						Msg msg = (Msg) JsonUtils.fromJsonToJava(msgJsonObject,
+								Msg.class);
+						newJsonArray.put(msgJsonObject);
+						mMsgList.add(msg);
+					}
+					
+					FileManager.write(newJsonArray.toString(),
+							OSUtils.getSdCardDirectory() + "/boommall/msg.txt",
+							"UTF-8");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				} catch (Exception e) {

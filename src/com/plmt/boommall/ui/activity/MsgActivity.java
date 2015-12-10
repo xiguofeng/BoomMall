@@ -25,7 +25,9 @@ import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Msg;
 import com.plmt.boommall.ui.adapter.MsgAdapter;
 import com.plmt.boommall.utils.FileHelper;
+import com.plmt.boommall.utils.FileManager;
 import com.plmt.boommall.utils.JsonUtils;
+import com.plmt.boommall.utils.cropimage.uitls.OSUtils;
 
 public class MsgActivity extends Activity implements OnClickListener {
 
@@ -111,7 +113,9 @@ public class MsgActivity extends Activity implements OnClickListener {
 			public void run() {
 				try {
 					FileHelper.createSDFile("msg.txt");
-					String jsonArrayStr = FileHelper.readFileSdcard("msg.txt");
+					String jsonArrayStr = FileManager.read(
+							OSUtils.getSdCardDirectory() + "/boommall/msg.txt",
+							"UTF-8");
 					JSONArray jsonArray;
 
 					if (!TextUtils.isEmpty(jsonArrayStr)) {

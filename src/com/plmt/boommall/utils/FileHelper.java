@@ -7,13 +7,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import org.apache.http.util.EncodingUtils;
 
-import com.plmt.boommall.utils.cropimage.uitls.OSUtils;
-
 import android.content.Context;
 import android.os.Environment;
+
+import com.plmt.boommall.utils.cropimage.uitls.OSUtils;
 
 public class FileHelper {
 	private Context context;
@@ -40,7 +41,8 @@ public class FileHelper {
 	 * @throws IOException
 	 */
 	public static File createSDFile(String fileName) throws IOException {
-		File file = new File(OSUtils.getSdCardDirectory() + "/boommall/" + fileName);
+		File file = new File(OSUtils.getSdCardDirectory() + "/boommall/"
+				+ fileName);
 		if (!file.exists()) {
 			file.createNewFile();
 		}
@@ -53,7 +55,8 @@ public class FileHelper {
 	 * @param fileName
 	 */
 	public static boolean deleteSDFile(String fileName) {
-		File file = new File(OSUtils.getSdCardDirectory() + "/boommall/" + fileName);
+		File file = new File(OSUtils.getSdCardDirectory() + "/boommall/"
+				+ fileName);
 		if (file == null || !file.exists() || file.isDirectory())
 			return false;
 		return file.delete();
@@ -66,7 +69,8 @@ public class FileHelper {
 		try {
 			FileWriter fw = new FileWriter(OSUtils.getSdCardDirectory()
 					+ "/ins/" + fileName);
-			File f = new File(OSUtils.getSdCardDirectory() + "/boommall/" + fileName);
+			File f = new File(OSUtils.getSdCardDirectory() + "/boommall/"
+					+ fileName);
 			fw.write(str);
 			FileOutputStream os = new FileOutputStream(f);
 			DataOutputStream out = new DataOutputStream(os);
@@ -84,10 +88,14 @@ public class FileHelper {
 		try {
 			FileOutputStream fout = new FileOutputStream(
 					OSUtils.getSdCardDirectory() + "/boommall/" + fileName);
-			byte[] bytes = str.getBytes();
-			fout.write(bytes);
+			OutputStreamWriter osw = new OutputStreamWriter(fout, "UTF-8");
+			osw.write(str);
+			osw.flush();
+			// byte[] bytes = str.getBytes();
+			// fout.write(bytes);
 			fout.close();
 		} catch (Exception e) {
+		} finally {
 		}
 	}
 
@@ -99,7 +107,8 @@ public class FileHelper {
 	 */
 	public static String readSDFile(String fileName) {
 		StringBuffer sb = new StringBuffer();
-		File file = new File(OSUtils.getSdCardDirectory() + "/boommall/" + fileName);
+		File file = new File(OSUtils.getSdCardDirectory() + "/boommall/"
+				+ fileName);
 		try {
 			FileInputStream fis = new FileInputStream(file);
 			int c;
@@ -114,12 +123,13 @@ public class FileHelper {
 		}
 		return sb.toString();
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public static String readFileSdcard(String fileName) {
 		String res = "";
 		try {
-			FileInputStream fin = new FileInputStream(OSUtils.getSdCardDirectory() + "/boommall/" + fileName);
+			FileInputStream fin = new FileInputStream(
+					OSUtils.getSdCardDirectory() + "/boommall/" + fileName);
 			int length = fin.available();
 			byte[] buffer = new byte[length];
 			fin.read(buffer);
