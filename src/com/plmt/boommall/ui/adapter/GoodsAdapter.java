@@ -3,6 +3,7 @@ package com.plmt.boommall.ui.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,22 +70,22 @@ public class GoodsAdapter extends BaseAdapter {
 		}
 
 		holder.mName.setText(mDatas.get(position).getName().trim());
-		String fPrice = mDatas.get(position).getFinalPrice();
-		if (fPrice.contains(".")) {
+		String fPrice = mDatas.get(position).getFinalPrice().trim();
+		/*if (fPrice.contains(".")) {
 			int index = fPrice.indexOf(".");
 			if (fPrice.length() > index + 2) {
 				fPrice = fPrice.substring(0, index + 2);
 			}
-		}
-		String yPrice = mDatas.get(position).getPrice();
-		if (yPrice.contains(".")) {
+		}*/
+		String yPrice = mDatas.get(position).getPrice().trim();
+		/*if (yPrice.contains(".")) {
 			int index = yPrice.indexOf(".");
 			if (yPrice.length() > index + 2) {
 				yPrice = yPrice.substring(0, index + 2);
 			}
-		}
-		holder.mPrice.setText("￥" + fPrice);
-		holder.mOriginalPrice.setText("原价￥" + yPrice);
+		}*/
+		holder.mPrice.setText("¥" + fPrice);
+		holder.mOriginalPrice.setText("原价¥" + yPrice);
 
 		ImageLoader.getInstance().displayImage(mDatas.get(position).getImage(),
 				holder.mIcon);
