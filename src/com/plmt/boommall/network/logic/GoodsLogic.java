@@ -18,11 +18,13 @@ import com.plmt.boommall.entity.HomeRecommend;
 import com.plmt.boommall.entity.RootName;
 import com.plmt.boommall.network.config.MsgResult;
 import com.plmt.boommall.network.config.RequestUrl;
+import com.plmt.boommall.network.utils.CookieRequest;
 import com.plmt.boommall.network.utils.JsonObjectRequestUtf;
 import com.plmt.boommall.network.volley.Request.Method;
 import com.plmt.boommall.network.volley.Response.Listener;
 import com.plmt.boommall.network.volley.toolbox.JsonObjectRequest;
 import com.plmt.boommall.utils.JsonUtils;
+import com.plmt.boommall.utils.UserInfoManager;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -116,7 +118,7 @@ public class GoodsLogic {
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				JSONObject dataJB = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
 
-				String total=dataJB.getString("productCount");
+				String total = dataJB.getString("productCount");
 				JSONArray jsonArray = dataJB.getJSONArray("productItems");
 				ArrayList<Goods> mTempGoodsList = new ArrayList<Goods>();
 				int size = jsonArray.length();
@@ -152,18 +154,34 @@ public class GoodsLogic {
 		try {
 			requestJson.put("id", URLEncoder.encode(id, "UTF-8"));
 
-			BaseApplication.getInstanceRequestQueue()
-					.add(new JsonObjectRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
-						@Override
-						public void onResponse(JSONObject response) {
-							if (null != response) {
-								Log.e("xxx_queryGoodsByID", response.toString());
-								parseGoodsByIdData(response, handler);
-							}
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
+				@Override
+				public void onResponse(JSONObject response) {
+					if (null != response) {
+						Log.e("xxx_submitOrder", response.toString());
+						parseGoodsByIdData(response, handler);
+					}
 
-						}
-					}, null));
+				}
+
+			}, null);
+			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
 			BaseApplication.getInstanceRequestQueue().start();
+
+			// BaseApplication.getInstanceRequestQueue()
+			// .add(new JsonObjectRequest(Method.POST, url, requestJson, new
+			// Listener<JSONObject>() {
+			// @Override
+			// public void onResponse(JSONObject response) {
+			// if (null != response) {
+			// Log.e("xxx_queryGoodsByID", response.toString());
+			// parseGoodsByIdData(response, handler);
+			// }
+			//
+			// }
+			// }, null));
+			// BaseApplication.getInstanceRequestQueue().start();
 
 		} catch (JSONException e) {
 			e.printStackTrace();
