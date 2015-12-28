@@ -1,5 +1,9 @@
 package com.plmt.boommall.ui.activity;
 
+import com.plmt.boommall.R;
+import com.plmt.boommall.service.AccountService;
+import com.plmt.boommall.utils.UserInfoManager;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,10 +11,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import cn.jpush.android.api.JPushInterface;
-
-import com.plmt.boommall.R;
-import com.plmt.boommall.service.AccountService;
-import com.plmt.boommall.utils.UserInfoManager;
 
 public class SplashActivity extends BaseActivity implements OnClickListener {
 
@@ -24,12 +24,13 @@ public class SplashActivity extends BaseActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
-		initView();
+		//initView();
 		if (UserInfoManager.getLoginIn(SplashActivity.this)) {
 			Intent intent = new Intent(SplashActivity.this,
 					AccountService.class);
 			startService(intent);
 		}
+		jump();
 	}
 
 	protected void findViewById() {
@@ -45,6 +46,25 @@ public class SplashActivity extends BaseActivity implements OnClickListener {
 			public void run() {
 				openActivity(HomeActivity.class);
 				SplashActivity.this.finish();
+			}
+		}, SPLISH_DISPLAY_LENGTH);
+
+	}
+	
+	protected void jump() {
+		// 启动三秒后进度到登陆界面
+		new Handler().postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				if (UserInfoManager.getIsFirstUse(SplashActivity.this)) {
+					UserInfoManager.setIsFirstUse(SplashActivity.this, false);
+					openActivity(GuideViewActivity.class);
+					SplashActivity.this.finish();
+				} else {
+					openActivity(HomeActivity.class);
+					SplashActivity.this.finish();
+				}
 			}
 		}, SPLISH_DISPLAY_LENGTH);
 

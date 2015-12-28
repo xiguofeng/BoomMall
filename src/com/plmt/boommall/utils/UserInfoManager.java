@@ -54,6 +54,8 @@ public class UserInfoManager {
 	public static final String USER_AUTH_IS_MUST = "is_must_auth";
 
 	public static final String USER_SESSION = "user_session";
+	
+	public static final String IS_FIRST_USE = "is_first_use";
 
 	public static User userInfo = new User();
 
@@ -476,5 +478,21 @@ public class UserInfoManager {
 		result = userInfo.getString(USER_INVOICE_KEY, "");
 
 		return result;
+	}
+	
+	
+	public static boolean getIsFirstUse(Context context) {
+		SharedPreferences userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE);
+
+		return userInfo.getBoolean(IS_FIRST_USE, true);
+
+	}
+
+	public static void setIsFirstUse(Context context, boolean isFirstUse) {
+		SharedPreferences.Editor userInfo = context.getSharedPreferences(
+				USER_INFO_PREFERNCE_KEY, Context.MODE_PRIVATE).edit();
+		userInfo.putBoolean(IS_FIRST_USE, isFirstUse);
+		userInfo.commit();
 	}
 }
