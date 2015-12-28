@@ -194,6 +194,12 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.plmt.boommall.ui.activity.SettingActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.plmt.boommall.ui.activity.IntegralActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
@@ -267,6 +273,12 @@
         </activity>
         <activity
             android:name="com.plmt.boommall.ui.activity.Html5Activity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.plmt.boommall.ui.activity.AboutActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >

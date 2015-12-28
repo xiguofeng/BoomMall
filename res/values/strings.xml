@@ -12,7 +12,8 @@
     <string name="setting">设置</string>
     <string name="my">我的</string>
     <string name="menu_share">分享</string>
-    <string name="goods_comment">商品评论</string>
+    <string name="about_us">关于我们</string>
+    <string name="check_version">检查新版本</string>
 
     <!-- loading -->
     <string name="loading">加载&#8230;</string>
@@ -252,5 +253,15 @@
     <string name="express">快递</string>
     <string name="quality">质量</string>
     <string name="publish">发布</string>
+    <string name="goods_comment">商品评论</string>
+    
+    <!-- about -->
+    <string name="about">关于我们</string>
+    <string name="app_breif">为您打造一站式跨境购物平台</string>
+    <string name="version_num">版本：V1.0</string>
+    <string name="website">网址：http://www.wangpugo.com</string>
+    <string name="ogg_company_phone">电话：40086 09901</string>
+    <string name="website_address">http://www.wangpugo.com</string>
+    <string name="copy_right">天星旺&#160;&#160;版权所有&#160;&#160;&#160;&#160;Copyright©2006-2015</string>
     
 </resources>

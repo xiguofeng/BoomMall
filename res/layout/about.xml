@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red_title_bg" >
+
+        <ImageView
+            android:id="@+id/about_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"
+            android:padding="10dp"
+            android:src="@drawable/back_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:text="@string/about"
+            android:textColor="@color/white"
+            android:textSize="@dimen/medium_text_size" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dip"
+        android:adjustViewBounds="true"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/launcher_logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dip"
+        android:gravity="center"
+        android:paddingLeft="60dip"
+        android:paddingRight="60dip"
+        android:text="@string/app_breif"
+        android:textColor="@color/gray_sp_character_bg"
+        android:textSize="@dimen/small_text_size" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:background="@color/white"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/about_version_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/about_version"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="marquee"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/about_version_iv"
+            android:gravity="center"
+            android:text="@string/version_num"
+            android:textColor="@color/gray_sp_character_bg"
+            android:textSize="@dimen/small_text_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/about_website_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/about_website"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="marquee"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/about_website_iv"
+            android:gravity="center"
+            android:text="@string/website"
+            android:textColor="@color/gray_sp_character_bg"
+            android:textSize="@dimen/small_text_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/about_ogg_company_phone_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/about_phone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="marquee"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/about_ogg_company_phone_iv"
+            android:gravity="center"
+            android:text="@string/ogg_company_phone"
+            android:textColor="@color/gray_sp_character_bg"
+            android:textSize="@dimen/small_text_size" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_bottom_bg"
+        android:layout_gravity="bottom"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:text="@string/copy_right"
+            android:textColor="@color/gray_sp_character_bg"
+            android:textSize="@dimen/small_text_size" />
+    </RelativeLayout>
+
+</LinearLayout>

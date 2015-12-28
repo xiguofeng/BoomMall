@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red_title_bg" >
+
+        <ImageView
+            android:id="@+id/setting_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"
+            android:padding="8dip"
+            android:src="@drawable/back_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/setting"
+            android:textColor="@color/white"
+            android:textSize="@dimen/large_text_size" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/setting_sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/setting_about_us_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="@color/white"
+                android:padding="10dip" >
+
+                <ImageView
+                    android:id="@+id/setting_about_us_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:visibility="gone"
+                    android:src="@drawable/address" />
+
+                <TextView
+                    android:id="@+id/setting_about_us_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/setting_about_us_iv"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:text="@string/about_us"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/middle_text_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/arrow" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/setting_check_version_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="@color/white"
+                android:padding="10dip" >
+
+                <ImageView
+                    android:id="@+id/setting_check_version_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="6dip"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    android:src="@drawable/collection_star" />
+
+                <TextView
+                    android:id="@+id/setting_check_version_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/setting_check_version_iv"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:text="@string/check_version"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/middle_text_size" />
+
+                <TextView
+                    android:id="@+id/setting_check_version_number_tv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/setting_check_version_tv"
+                    android:background="@null"
+                    android:textColor="@color/gray_character_title"
+                    android:textSize="@dimen/small_text_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/arrow" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/setting_bottom_division_ll"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dip"
+                android:paddingTop="5dip" >
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

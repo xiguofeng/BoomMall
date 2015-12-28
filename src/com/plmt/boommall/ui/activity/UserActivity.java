@@ -351,7 +351,7 @@ public class UserActivity extends Activity implements OnClickListener {
 			break;
 		}
 		case R.id.user_setting_ll: {
-			Intent intent = new Intent(UserActivity.this, MsgActivity.class);
+			Intent intent = new Intent(UserActivity.this, SettingActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
