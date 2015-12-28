@@ -240,5 +240,15 @@
     <string name="invoice_company">公司</string>
     <string name="invoice_hint">请输入发票抬头</string>
     
+    <!-- comment -->
+    <string name="comment">服务评价</string>
+    <string name="comment_please">请为我们的服务打分</string>
+    <string name="comment_very_good">非常满意</string>
+    <string name="comment_good">基本满意</string>
+    <string name="comment_not_good">不满意</string>
+    <string name="thanks_for_comment">感谢您的评价</string>
+    <string name="thanks_comment">感谢评价</string>
+    <string name="comment_result_suc">您已经获得100积分</string>
+    
 
 </resources>

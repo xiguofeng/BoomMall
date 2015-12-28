@@ -3,9 +3,14 @@ package com.plmt.boommall.ui.activity;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Comment;
+import com.plmt.boommall.network.logic.CommentLogic;
+import com.plmt.boommall.ui.adapter.CommentsAdapter;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
+
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,14 +22,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
-
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Comment;
-import com.plmt.boommall.network.config.MsgRequest;
-import com.plmt.boommall.network.logic.CollectionLogic;
-import com.plmt.boommall.network.logic.CommetLogic;
-import com.plmt.boommall.ui.adapter.CommentsAdapter;
-import com.plmt.boommall.ui.view.CustomProgressDialog;
 
 public class MoreCommentsActivity extends Activity implements OnClickListener {
 
@@ -46,7 +43,7 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			int what = msg.what;
 			switch (what) {
-			case CommetLogic.COMMENT_LIST_GET_SUC: {
+			case CommentLogic.COMMENT_LIST_GET_SUC: {
 				if (null != msg.obj) {
 					mCommentList.clear();
 					mCommentList
@@ -55,10 +52,10 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 				}
 				break;
 			}
-			case CommetLogic.COMMENT_LIST_GET_FAIL: {
+			case CommentLogic.COMMENT_LIST_GET_FAIL: {
 				break;
 			}
-			case CommetLogic.COMMENT_LIST_GET_EXCEPTION: {
+			case CommentLogic.COMMENT_LIST_GET_EXCEPTION: {
 				break;
 			}
 
@@ -116,7 +113,7 @@ public class MoreCommentsActivity extends Activity implements OnClickListener {
 		mProgressDialog.show();
 		if (!TextUtils.isEmpty(mId)) {
 			mId = "22266";
-			CommetLogic.getList(mContext, mHandler, mId);
+			CommentLogic.getList(mContext, mHandler, mId);
 		}
 	}
 
