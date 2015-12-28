@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gv_item_common_selector"
+    android:background="@color/white"
     android:gravity="center"
     android:padding="5dip"
     android:orientation="vertical" >
@@ -10,8 +10,8 @@
     <ImageView
         android:id="@+id/gv_category_common_iv"
         android:layout_width="match_parent"
-        android:layout_height="160dip"
-        android:scaleType="centerCrop" />
+        android:layout_height="90dip"
+        android:scaleType="center" />
 
     <TextView
         android:id="@+id/gv_category_common_name_tv"
@@ -19,6 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dip"
         android:textColor="@color/black_character"
-        android:textSize="@dimen/small_text_size" />
+        android:textSize="@dimen/micro_text_size" />
 
 </LinearLayout>
