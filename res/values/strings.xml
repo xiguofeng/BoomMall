@@ -47,6 +47,7 @@
     <string name="login_fail">登录失败</string>
     <string name="register_suc">注册成功</string>
     <string name="register_fail">注册失败</string>
+    <string name="modify_pwd">修改密码</string>
     <string name="modify_pwd_suc">修改密码成功</string>
     <string name="modify_pwd_fail">修改密码失败</string>
     <string name="register_emptyname_or_emptypwd">请正确填写注册信息</string>

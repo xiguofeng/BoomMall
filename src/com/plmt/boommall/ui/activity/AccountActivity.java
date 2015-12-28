@@ -26,6 +26,7 @@ public class AccountActivity extends Activity implements OnClickListener {
 	private RelativeLayout mAreaRl;
 	private RelativeLayout mRealNameAuthRl;
 	private RelativeLayout mCollectionRl;
+	private RelativeLayout mModifyPwdRl;
 	
 	private TextView mRealNameAuthTv;
 
@@ -95,6 +96,9 @@ public class AccountActivity extends Activity implements OnClickListener {
 
 		mCollectionRl = (RelativeLayout) findViewById(R.id.account_collection_rl);
 		mCollectionRl.setOnClickListener(this);
+		
+		mModifyPwdRl= (RelativeLayout) findViewById(R.id.account_modify_pwd_rl);
+		mModifyPwdRl.setOnClickListener(this);
 
 		mBackIv = (ImageView) findViewById(R.id.account_back_iv);
 		mBackIv.setOnClickListener(this);
@@ -132,6 +136,13 @@ public class AccountActivity extends Activity implements OnClickListener {
 		case R.id.account_collection_rl: {
 			Intent intent = new Intent(AccountActivity.this,
 					CollectionListActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+		case R.id.account_modify_pwd_rl: {
+			Intent intent = new Intent(AccountActivity.this,
+					ForgetPwdActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
