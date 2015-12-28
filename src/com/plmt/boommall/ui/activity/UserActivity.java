@@ -64,6 +64,7 @@ public class UserActivity extends Activity implements OnClickListener {
 	private String[] mCorpImgStr = { "照相", "从相册中选择" };
 
 	private LinearLayout mMsgLl;
+	private LinearLayout mSettingLl;
 	
 	private Bitmap mPhotoBit;
 	private boolean isHasPhotoLocal =false;
@@ -131,6 +132,9 @@ public class UserActivity extends Activity implements OnClickListener {
 
 		mMsgLl = (LinearLayout) findViewById(R.id.user_msg_ll);
 		mMsgLl.setOnClickListener(this);
+		
+		mSettingLl= (LinearLayout) findViewById(R.id.user_setting_ll);
+		mSettingLl.setOnClickListener(this);
 	}
 
 	private void intCropImage() {
@@ -341,6 +345,12 @@ public class UserActivity extends Activity implements OnClickListener {
 			break;
 		}
 		case R.id.user_msg_ll: {
+			Intent intent = new Intent(UserActivity.this, MsgActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+		case R.id.user_setting_ll: {
 			Intent intent = new Intent(UserActivity.this, MsgActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);

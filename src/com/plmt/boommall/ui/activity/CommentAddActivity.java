@@ -15,16 +15,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 
-public class CommentAddActivity extends Activity implements OnClickListener {
+public class CommentAddActivity extends Activity implements OnClickListener, OnRatingBarChangeListener {
 
 	private Context mContext;
 
-	private LinearLayout mVeryGoodLl;
-
-	private LinearLayout mGoodLl;
-
-	private LinearLayout mNotGoodLl;
+	private RatingBar mPriceRatingBar;
+	private RatingBar mExpressRatingBar;
+	private RatingBar mQualityRtingBar;
 
 	private ImageView mBackIv;
 
@@ -37,12 +37,13 @@ public class CommentAddActivity extends Activity implements OnClickListener {
 			int what = msg.what;
 			switch (what) {
 			case CommentLogic.COMMENT_ADD_SUC: {
-				/*Intent intent = new Intent(CommentAddActivity.this,
-						CommentsResultActivity.class);
-				startActivity(intent);
-				CommentAddActivity.this.finish();
-				overridePendingTransition(R.anim.push_left_in,
-						R.anim.push_left_out);*/
+				/*
+				 * Intent intent = new Intent(CommentAddActivity.this,
+				 * CommentsResultActivity.class); startActivity(intent);
+				 * CommentAddActivity.this.finish();
+				 * overridePendingTransition(R.anim.push_left_in,
+				 * R.anim.push_left_out);
+				 */
 
 				break;
 			}
@@ -74,72 +75,55 @@ public class CommentAddActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.comments);
 		mContext = CommentAddActivity.this;
 		mProgressDialog = new CustomProgressDialog(mContext);
-		setUpViews();
-		setUpListener();
-		setUpData();
+		initViews();
+		initData();
 	}
 
-	private void setUpViews() {
-		mVeryGoodLl = (LinearLayout) findViewById(R.id.comments_very_good_ll);
-		mGoodLl = (LinearLayout) findViewById(R.id.comments_good_ll);
-		mNotGoodLl = (LinearLayout) findViewById(R.id.comments_not_good_ll);
+	private void initViews() {
 
-		mBackIv = (ImageView) findViewById(R.id.comments_back_iv);
-	}
+		mPriceRatingBar = (RatingBar) findViewById(R.id.comment_price_ratingbar);
+		mExpressRatingBar = (RatingBar) findViewById(R.id.comment_express_ratingbar);
+		mQualityRtingBar = (RatingBar) findViewById(R.id.comment_quality_ratingbar);
 
-	private void setUpListener() {
-		mVeryGoodLl.setOnClickListener(this);
-		mGoodLl.setOnClickListener(this);
-		mNotGoodLl.setOnClickListener(this);
-
+		mBackIv = (ImageView) findViewById(R.id.comment_back_iv);
 		mBackIv.setOnClickListener(this);
 	}
 
-	private void setUpData() {
+	private void initData() {
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.comments_back_iv: {
+		case R.id.comment_back_iv: {
 			CommentAddActivity.this.finish();
-			break;
-		}
-		case R.id.comments_very_good_ll: {
-			if (!TextUtils.isEmpty(OrderManager.getsCurrentCommentOrderId())) {
-				if (null != mProgressDialog) {
-					mProgressDialog.show();
-				}
-				CommentLogic.addComment(CommentAddActivity.this, mHandler,
-						OrderManager.getsCurrentCommentOrderId(),
-						getString(R.string.comment_very_good),"id");
-			} else {
-
-			}
-			break;
-		}
-		case R.id.comments_good_ll: {
-			if (!TextUtils.isEmpty(OrderManager.getsCurrentCommentOrderId())) {
-				CommentLogic.addComment(CommentAddActivity.this, mHandler,
-						OrderManager.getsCurrentCommentOrderId(),
-						getString(R.string.comment_good),"id");
-			} else
-				break;
-		}
-		case R.id.comments_not_good_ll: {
-			if (!TextUtils.isEmpty(OrderManager.getsCurrentCommentOrderId())) {
-				CommentLogic.addComment(CommentAddActivity.this, mHandler,
-						OrderManager.getsCurrentCommentOrderId(),
-						getString(R.string.comment_not_good),"id");
-			} else {
-
-			}
 			break;
 		}
 
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+		final int numStars = ratingBar.getNumStars();
+		ratingBar.getId();
+		switch (ratingBar.getId()) {
+		case R.id.comment_price_ratingbar: {
+			break;
+		}
+		case R.id.comment_express_ratingbar: {
+			break;
+		}
+		case R.id.comment_quality_ratingbar: {
+			break;
+		}
+
+		default:
+			break;
+		}
+		
 	}
 
 }
