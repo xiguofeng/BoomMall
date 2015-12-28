@@ -43,8 +43,8 @@ import com.plmt.boommall.ui.view.gridview.paging.PagingGridView;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 import com.plmt.boommall.utils.ActivitiyInfoManager;
 
-public class GoodsListActivity extends Activity implements OnClickListener,
-		MyItemClickListener, XListView.IXListViewListener {
+public class GoodsListActivity extends Activity
+		implements OnClickListener, MyItemClickListener, XListView.IXListViewListener {
 	public static final int VIEW_MODE_LIST = 0;
 	public static final int VIEW_MODE_GRID = 1;
 
@@ -85,9 +85,12 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 	private String mNowSortType;
 
-	private int mCurrentPage = 1;
 	private int mCurrentPageNum = 1;
 	private int mCurrentViewMode = 0;
+
+	private int mTotalSize = 0;
+
+	private boolean mIsLoadComplete = true;
 
 	private CustomProgressDialog mProgressDialog;
 
@@ -100,6 +103,11 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 			case GoodsLogic.GOODS_LIST_BY_KEY_GET_SUC: {
 				if (null != msg.obj) {
+					Bundle bData = msg.getData();
+					if (null != bData) {
+						mTotalSize = Integer.parseInt(bData.getString("total"));
+					}
+
 					if (1 == mCurrentPageNum) {
 						mGoodsList.clear();
 						mGoodsGvList.clear();
@@ -109,8 +117,6 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 					if (mCurrentViewMode == VIEW_MODE_LIST) {
 						mGoodsAdapter.notifyDataSetChanged();
-						Log.e("xxx_mGoodsAdapter.notifyDataSetChanged",
-								"mGoodsAdapter.notifyDataSetChanged");
 						onLoadComplete();
 					} else {
 						if (mGoodsGv.getAdapter() == null) {
@@ -149,12 +155,8 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.goods_list);
 		mContext = GoodsListActivity.this;
-		if (!ActivitiyInfoManager.activitityMap
-				.containsKey(ActivitiyInfoManager
-						.getCurrentActivityName(mContext))) {
-			ActivitiyInfoManager.activitityMap
-					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
-							this);
+		if (!ActivitiyInfoManager.activitityMap.containsKey(ActivitiyInfoManager.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap.put(ActivitiyInfoManager.getCurrentActivityName(mContext), this);
 		}
 		initView();
 		initData();
@@ -168,15 +170,12 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 	private void initView() {
 		mMultiStateView = (MultiStateView) findViewById(R.id.goods_list_multiStateView);
-		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR)
-				.findViewById(R.id.retry)
+		mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR).findViewById(R.id.retry)
 				.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mMultiStateView
-								.setViewState(MultiStateView.VIEW_STATE_LOADING);
-						Toast.makeText(getApplicationContext(),
-								"Fetching Data", Toast.LENGTH_SHORT).show();
+						mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+						Toast.makeText(getApplicationContext(), "Fetching Data", Toast.LENGTH_SHORT).show();
 					}
 				});
 
@@ -187,22 +186,21 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		mSearchIv.setOnClickListener(this);
 
 		mSearchEt = (EditText) findViewById(R.id.goods_list_search_et);
-		mSearchEt
-				.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
-					@Override
-					public void onFocusChange(View v, boolean hasFocus) {
-						if (hasFocus) {
-							// 此处为得到焦点时的处理内容
-							mSearchLl.setVisibility(View.GONE);
-							mSearchIv.setVisibility(View.VISIBLE);
-						} else {
-							// 此处为失去焦点时的处理内容
-							mSearchEt.setText("");
-							mSearchLl.setVisibility(View.VISIBLE);
-							mSearchIv.setVisibility(View.GONE);
-						}
-					}
-				});
+		mSearchEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					// 此处为得到焦点时的处理内容
+					mSearchLl.setVisibility(View.GONE);
+					mSearchIv.setVisibility(View.VISIBLE);
+				} else {
+					// 此处为失去焦点时的处理内容
+					mSearchEt.setText("");
+					mSearchLl.setVisibility(View.VISIBLE);
+					mSearchIv.setVisibility(View.GONE);
+				}
+			}
+		});
 
 		mViewModeIv = (ImageView) findViewById(R.id.goods_list_show_mode_iv);
 		mViewModeIv.setOnClickListener(this);
@@ -241,17 +239,13 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	}
 
 	private void setFilterViewDefalut() {
-		mCompositeTv.setTextColor(getResources().getColor(
-				R.color.gray_character));
+		mCompositeTv.setTextColor(getResources().getColor(R.color.gray_character));
 		mPriceTv.setTextColor(getResources().getColor(R.color.gray_character));
 		mSalesTv.setTextColor(getResources().getColor(R.color.gray_character));
 
-		mCompositeIv.setImageDrawable(getResources().getDrawable(
-				R.drawable.arrow_down_top));
-		mPriceIv.setImageDrawable(getResources().getDrawable(
-				R.drawable.arrow_down_top));
-		mSalesIv.setImageDrawable(getResources().getDrawable(
-				R.drawable.arrow_down_top));
+		mCompositeIv.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down_top));
+		mPriceIv.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down_top));
+		mSalesIv.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down_top));
 	}
 
 	private void initListView() {
@@ -272,23 +266,19 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 			}
 
 			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 				// Log.i(TAG, "正在滚动");
 			}
 		});
 		mGoodsLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (position > 0) {
-					Intent intent = new Intent(GoodsListActivity.this,
-							GoodsDetailActivity.class);
+					Intent intent = new Intent(GoodsListActivity.this, GoodsDetailActivity.class);
 					intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
 					Bundle bundle = new Bundle();
-					bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
-							mGoodsList.get(position - 1).getId());
+					bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY, mGoodsList.get(position - 1).getId());
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
@@ -306,7 +296,9 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		mGoodsGv.setPagingableListener(new PagingGridView.Pagingable() {
 			@Override
 			public void onLoadMoreItems() {
-				if (mCurrentPage < 3) {
+				if (mCurrentPageNum == 1) {
+					fetchGoods(mNowSortType);
+				} else if (mCurrentPageNum * MsgRequest.PAGE_SIZE < mTotalSize) {
 					fetchGoods(mNowSortType);
 				} else {
 					mGoodsGv.onFinishLoading(false, null);
@@ -316,14 +308,11 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		mGoodsGv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Intent intent = new Intent(GoodsListActivity.this,
-						GoodsDetailActivity.class);
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent intent = new Intent(GoodsListActivity.this, GoodsDetailActivity.class);
 				intent.setAction(GoodsDetailActivity.ORIGIN_FROM_CATE_ACTION);
 				Bundle bundle = new Bundle();
-				bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY,
-						mGoodsGvList.get(position).getId());
+				bundle.putSerializable(GoodsDetailActivity.GOODS_ID_KEY, mGoodsGvList.get(position).getId());
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
@@ -332,22 +321,21 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 	@SuppressLint("NewApi")
 	private void showViewMode(int mode) {
-		mCurrentPageNum = 1;
 		mCurrentViewMode = mode;
+		mGoodsGvList.clear();
 		if (mode == VIEW_MODE_LIST) {
-			mViewModeIv.setImageDrawable(getResources().getDrawable(
-					R.drawable.ic_grid_selector));
+			mViewModeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_grid_selector));
 			mGoodsGv.setVisibility(View.GONE);
 			mGoodsLv.setVisibility(View.VISIBLE);
 			mGoodsAdapter.notifyDataSetChanged();
 		} else {
-			mViewModeIv.setImageDrawable(getResources().getDrawable(
-					R.drawable.ic_list_selector));
+			mViewModeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_list_selector));
 			mGoodsLv.setVisibility(View.GONE);
 			mGoodsGv.setVisibility(View.VISIBLE);
 			if (mGoodsGv.getAdapter() == null) {
 				mGoodsGv.setAdapter(mGoodsGvAdapter);
 			}
+			mGoodsGvAdapter.removeAllItems();
 			ArrayList<Goods> goodsList = new ArrayList<Goods>();
 			goodsList.addAll(mGoodsList);
 			mGoodsGvList.addAll(goodsList);
@@ -356,8 +344,8 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 	}
 
 	private void fetchGoods(String sortType) {
-		GoodsLogic.getGoodsListByCategory(mContext, mHandler, mCatgoryName,
-				mCurrentPageNum, MsgRequest.PAGE_SIZE, sortType);
+		GoodsLogic.getGoodsListByCategory(mContext, mHandler, mCatgoryName, mCurrentPageNum, MsgRequest.PAGE_SIZE,
+				sortType);
 	}
 
 	private void search(String key) {
@@ -367,11 +355,11 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		mGoodsLv.stopRefresh();
 		mGoodsLv.stopLoadMore();
 		mGoodsLv.setRefreshTime(getTime());
+		mIsLoadComplete = true;
 	}
 
 	private String getTime() {
-		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)
-				.format(new Date());
+		return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA).format(new Date());
 	}
 
 	@Override
@@ -383,8 +371,16 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void onLoadMore() {
-		Log.e("xxx_onLoadMore", "");
-		fetchGoods(mNowSortType);
+		if (mIsLoadComplete && mCurrentViewMode == VIEW_MODE_LIST && mTotalSize > mGoodsList.size()) {
+			fetchGoods(mNowSortType);
+			mIsLoadComplete = !mIsLoadComplete;
+		} else {
+			onLoadComplete();
+		}
+		// }else if(mCurrentViewMode == VIEW_MODE_GRID){
+		// fetchGoods(mNowSortType);
+		// mIsLoadComplete = !mIsLoadComplete;
+		// }
 	}
 
 	@Override
@@ -394,8 +390,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 			if (!TextUtils.isEmpty(mSearchEt.getText().toString().trim())) {
 				search(mSearchEt.getText().toString().trim());
 			} else {
-				Toast.makeText(mContext, getString(R.string.search_hint),
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, getString(R.string.search_hint), Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -410,10 +405,8 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 		case R.id.goods_list_composite_ll: {
 			setFilterViewDefalut();
-			mCompositeTv.setTextColor(getResources().getColor(
-					R.color.red_character));
-			mCompositeIv.setImageDrawable(getResources().getDrawable(
-					R.drawable.arrow_down_top));
+			mCompositeTv.setTextColor(getResources().getColor(R.color.red_character));
+			mCompositeIv.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down_top));
 			mCurrentPageNum = 1;
 			mNowSortType = "";
 			mProgressDialog = new CustomProgressDialog(mContext);
@@ -423,10 +416,8 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		}
 		case R.id.goods_list_price_ll: {
 			setFilterViewDefalut();
-			mPriceTv.setTextColor(getResources()
-					.getColor(R.color.red_character));
-			mPriceIv.setImageDrawable(getResources().getDrawable(
-					R.drawable.arrow_down_top));
+			mPriceTv.setTextColor(getResources().getColor(R.color.red_character));
+			mPriceIv.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down_top));
 			mCurrentPageNum = 1;
 			mNowSortType = "price";
 			mProgressDialog = new CustomProgressDialog(mContext);
@@ -436,10 +427,8 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		}
 		case R.id.goods_list_sales_ll: {
 			setFilterViewDefalut();
-			mSalesTv.setTextColor(getResources()
-					.getColor(R.color.red_character));
-			mSalesIv.setImageDrawable(getResources().getDrawable(
-					R.drawable.arrow_down_top));
+			mSalesTv.setTextColor(getResources().getColor(R.color.red_character));
+			mSalesIv.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down_top));
 			mCurrentPageNum = 1;
 			mNowSortType = "salestotal";
 			mProgressDialog = new CustomProgressDialog(mContext);
@@ -449,8 +438,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 		}
 
 		case R.id.goods_list_search_ll: {
-			Intent intent = new Intent(GoodsListActivity.this,
-					SearchActivity.class);
+			Intent intent = new Intent(GoodsListActivity.this, SearchActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
@@ -458,8 +446,7 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 		case R.id.goods_list_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			break;
 		}
 
@@ -470,18 +457,15 @@ public class GoodsListActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void onItemClick(View view, int postion) {
-		Toast.makeText(mContext, "onItemClick:" + postion, Toast.LENGTH_SHORT)
-				.show();
+		Toast.makeText(mContext, "onItemClick:" + postion, Toast.LENGTH_SHORT).show();
 
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 			GoodsListActivity.this.finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

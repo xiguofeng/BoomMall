@@ -25,6 +25,7 @@ import com.plmt.boommall.network.volley.toolbox.JsonObjectRequest;
 import com.plmt.boommall.utils.JsonUtils;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -115,6 +116,7 @@ public class GoodsLogic {
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				JSONObject dataJB = response.getJSONObject(MsgResult.RESULT_DATA_TAG);
 
+				String total=dataJB.getString("productCount");
 				JSONArray jsonArray = dataJB.getJSONArray("productItems");
 				ArrayList<Goods> mTempGoodsList = new ArrayList<Goods>();
 				int size = jsonArray.length();
@@ -128,6 +130,9 @@ public class GoodsLogic {
 				Message message = new Message();
 				message.what = GOODS_LIST_BY_KEY_GET_SUC;
 				message.obj = mTempGoodsList;
+				Bundle bData = new Bundle();
+				bData.putString("total", total);
+				message.setData(bData);
 				handler.sendMessage(message);
 
 			} else {
