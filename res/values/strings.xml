@@ -143,6 +143,7 @@
     <string name="up_push_see_detail">上拉查看图文详情</string>
     <string name="collection_already">已收藏</string>
     <string name="collection_not">未收藏</string>
+    <string name="clear_select">清除选项</string>
 
     <!-- cart -->
     <string name="shopping_cart">购物车</string>
