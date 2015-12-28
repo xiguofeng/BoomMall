@@ -74,6 +74,11 @@ public class Goods implements Serializable {
 	private String deliverytime;
 
 	private Comment comment;
+	
+	/**
+	 * 是否收藏
+	 */
+	private String inWishList; 
 
 	private ArrayList<String> litterImage;
 
@@ -269,6 +274,14 @@ public class Goods implements Serializable {
 		this.comment = comment;
 	}
 
+	public String getInWishList() {
+		return inWishList;
+	}
+
+	public void setInWishList(String inWishList) {
+		this.inWishList = inWishList;
+	}
+
 	public ArrayList<String> getLitterImage() {
 		return litterImage;
 	}
@@ -276,5 +289,7 @@ public class Goods implements Serializable {
 	public void setLitterImage(ArrayList<String> litterImage) {
 		this.litterImage = litterImage;
 	}
+
+
 
 }

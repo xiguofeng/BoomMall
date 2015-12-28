@@ -82,6 +82,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	public EditText mNum;
 
 	private LinearLayout mCollectionLl;
+	private TextView mCollectionTv;
 
 	private LinearLayout mCartLl;
 
@@ -187,12 +188,9 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				break;
 			}
 			case CartLogic.CART_ADD_SUC: {
-				ActivitiyInfoManager
-						.finishActivity("com.plmt.boommall.ui.activity.CategoryActivity");
-				ActivitiyInfoManager
-						.finishActivity("com.plmt.boommall.ui.activity.GoodsListActivity");
-				ActivitiyInfoManager
-						.finishActivity("com.plmt.boommall.ui.activity.Html5Activity");
+				ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.CategoryActivity");
+				ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.GoodsListActivity");
+				ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.Html5Activity");
 
 				finish();
 				ShoppingCartActivity.isNeedUpdate = true;
@@ -201,10 +199,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			}
 			case CartLogic.CART_ADD_FAIL: {
 				if (null != msg.obj) {
-					String failMsg = getString(R.string.cart_add_fail) + ":"
-							+ (String) msg.obj;
-					Toast.makeText(mContext, failMsg, Toast.LENGTH_SHORT)
-							.show();
+					String failMsg = getString(R.string.cart_add_fail) + ":" + (String) msg.obj;
+					Toast.makeText(mContext, failMsg, Toast.LENGTH_SHORT).show();
 				}
 
 				break;
@@ -236,13 +232,14 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 			case CollectionLogic.COLLECTION_ADD_SUC: {
 				isCollection = true;
+				mGoods.setInWishList("1");
+				fillUpCollection();
 				Toast.makeText(mContext, "添加收藏成功！", Toast.LENGTH_SHORT).show();
 				break;
 			}
 			case CollectionLogic.COLLECTION_ADD_FAIL: {
 				if (null != msg.obj) {
-					Toast.makeText(mContext, "收藏失败：" + (String) msg.obj,
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, "收藏失败：" + (String) msg.obj, Toast.LENGTH_SHORT).show();
 				}
 				break;
 			}
@@ -251,13 +248,14 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			}
 			case CollectionLogic.COLLECTION_DEL_SUC: {
 				isCollection = false;
+				mGoods.setInWishList("0");
+				fillUpCollection();
 				Toast.makeText(mContext, "删除收藏成功！", Toast.LENGTH_SHORT).show();
 				break;
 			}
 			case CollectionLogic.COLLECTION_DEL_FAIL: {
 				if (null != msg.obj) {
-					Toast.makeText(mContext, "删除收藏失败：" + (String) msg.obj,
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, "删除收藏失败：" + (String) msg.obj, Toast.LENGTH_SHORT).show();
 				}
 				break;
 			}
@@ -284,12 +282,8 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.goods_detail);
 		mContext = GoodsDetailActivity.this;
-		if (!ActivitiyInfoManager.activitityMap
-				.containsKey(ActivitiyInfoManager
-						.getCurrentActivityName(mContext))) {
-			ActivitiyInfoManager.activitityMap
-					.put(ActivitiyInfoManager.getCurrentActivityName(mContext),
-							this);
+		if (!ActivitiyInfoManager.activitityMap.containsKey(ActivitiyInfoManager.getCurrentActivityName(mContext))) {
+			ActivitiyInfoManager.activitityMap.put(ActivitiyInfoManager.getCurrentActivityName(mContext), this);
 		}
 		initView();
 		initData();
@@ -308,8 +302,11 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		initComment();
 
 		mCollectionLl = (LinearLayout) findViewById(R.id.goods_detail_collection_ll);
-		mCartLl = (LinearLayout) findViewById(R.id.goods_detail_cart_ll);
 		mCollectionLl.setOnClickListener(this);
+		mCollectionTv = (TextView) findViewById(R.id.goods_detail_collection_tv);
+		mCollectionIv = (ImageView) findViewById(R.id.goods_detail_collection_iv);
+
+		mCartLl = (LinearLayout) findViewById(R.id.goods_detail_cart_ll);
 		mCartLl.setOnClickListener(this);
 		mMoreCommentsRl = (RelativeLayout) findViewById(R.id.goods_detail_more_comment_rl);
 		mMoreCommentsRl.setOnClickListener(this);
@@ -318,7 +315,6 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		mBackIv = (ImageView) findViewById(R.id.goods_detail_back_iv);
 		mCartIv = (ImageView) findViewById(R.id.goods_detail_cart_iv);
 		mShareIv.setOnClickListener(this);
-		mCollectionIv = (ImageView) findViewById(R.id.goods_detail_collection_iv);
 		mBackIv.setOnClickListener(this);
 
 		mBuyNumView = new BadgeView(this, mCartIv);
@@ -359,8 +355,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void showcircleimage() {
-		mBannerAdapter = new GoodsDetailBannerAdapter(mContext,
-				mBannerActivityList);
+		mBannerAdapter = new GoodsDetailBannerAdapter(mContext, mBannerActivityList);
 		mViewFlow.setAdapter(mBannerAdapter);
 		mViewFlow.setViewGroup(mBannerFl);
 		mViewFlow.setmSideBuffer(mBannerActivityList.size()); // 实际图片张数
@@ -372,8 +367,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void initData() {
-		mGoodsId = (String) getIntent().getSerializableExtra(
-				GoodsDetailActivity.GOODS_ID_KEY);
+		mGoodsId = (String) getIntent().getSerializableExtra(GoodsDetailActivity.GOODS_ID_KEY);
 		if (!TextUtils.isEmpty(getIntent().getAction())) {
 			mNowAction = getIntent().getAction();
 		}
@@ -386,16 +380,13 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void fillUpGoodsData() {
-		mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods
-				.getName().trim() : "");
-		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥"
-				+ mGoods.getFinalPrice().trim() : "¥");
+		mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods.getName().trim() : "");
+		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥" + mGoods.getFinalPrice().trim() : "¥");
 
 		if (!"1".equals(mGoods.getIsSaleable())) {
 			mIsSaleAbleTv.setText("非现货");
 		}
-		if (!TextUtils.isEmpty(mGoods.getDeliverytime())
-				&& mGoods.getDeliverytime().equals("")) {
+		if (!TextUtils.isEmpty(mGoods.getDeliverytime()) && mGoods.getDeliverytime().equals("")) {
 			mDeliverytimeTv.setText("下单后" + mGoods.getDeliverytime() + "天发货");
 		}
 
@@ -403,6 +394,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 		fillUpBanner();
 		fillUpComment();
+		fillUpCollection();
 	}
 
 	private void fillUpBanner() {
@@ -417,22 +409,15 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	private void fillUpComment() {
 		mCommentRatioTv
-				.setText(!TextUtils.isEmpty(mGoods.getRating_avg()) ? mGoods
-						.getRating_avg().trim() + "%" : "0%");
-		mCommentPersonNumTv
-				.setText(!TextUtils.isEmpty(mGoods.getReview_total()) ? mGoods
-						.getReview_total().trim() + "人评论" : "0人评论");
-		mCommentTimeTv.setText(!TextUtils.isEmpty(mGoods.getComment()
-				.getCreated_at()) ? mGoods.getComment().getCreated_at().trim()
-				: "");
-		mCommentContentTv
-				.setText(!TextUtils.isEmpty(mGoods.getComment().getDetail()) ? mGoods
-						.getComment().getDetail().trim()
-						: "暂无评论");
-		mCommentNameTv
-				.setText(!TextUtils.isEmpty(mGoods.getComment().getNickname()) ? mGoods
-						.getComment().getNickname().trim()
-						: "");
+				.setText(!TextUtils.isEmpty(mGoods.getRating_avg()) ? mGoods.getRating_avg().trim() + "%" : "0%");
+		mCommentPersonNumTv.setText(
+				!TextUtils.isEmpty(mGoods.getReview_total()) ? mGoods.getReview_total().trim() + "人评论" : "0人评论");
+		mCommentTimeTv.setText(!TextUtils.isEmpty(mGoods.getComment().getCreated_at())
+				? mGoods.getComment().getCreated_at().trim() : "");
+		mCommentContentTv.setText(
+				!TextUtils.isEmpty(mGoods.getComment().getDetail()) ? mGoods.getComment().getDetail().trim() : "暂无评论");
+		mCommentNameTv.setText(
+				!TextUtils.isEmpty(mGoods.getComment().getNickname()) ? mGoods.getComment().getNickname().trim() : "");
 
 		setStar(Integer.parseInt(mGoods.getComment().getStart_avg()));
 	}
@@ -440,62 +425,43 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	private void setStar(int score) {
 		switch (score) {
 		case 1: {
-			mCommentScoreFirstIb
-					.setBackgroundResource(R.drawable.star_select_icon);
-			mCommentScoreSecondIb
-					.setBackgroundResource(R.drawable.star_defalut);
+			mCommentScoreFirstIb.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreSecondIb.setBackgroundResource(R.drawable.star_defalut);
 			mCommentScoreThirdIb.setBackgroundResource(R.drawable.star_defalut);
-			mCommentScoreFourthIb
-					.setBackgroundResource(R.drawable.star_defalut);
+			mCommentScoreFourthIb.setBackgroundResource(R.drawable.star_defalut);
 			mCommentScoreFifthIb.setBackgroundResource(R.drawable.star_defalut);
 			break;
 		}
 		case 2: {
-			mCommentScoreFirstIb
-					.setBackgroundResource(R.drawable.star_select_icon);
-			mCommentScoreSecondIb
-					.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreFirstIb.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreSecondIb.setBackgroundResource(R.drawable.star_select_icon);
 			mCommentScoreThirdIb.setBackgroundResource(R.drawable.star_defalut);
-			mCommentScoreFourthIb
-					.setBackgroundResource(R.drawable.star_defalut);
+			mCommentScoreFourthIb.setBackgroundResource(R.drawable.star_defalut);
 			mCommentScoreFifthIb.setBackgroundResource(R.drawable.star_defalut);
 			break;
 		}
 		case 3: {
-			mCommentScoreFirstIb
-					.setBackgroundResource(R.drawable.star_select_icon);
-			mCommentScoreSecondIb
-					.setBackgroundResource(R.drawable.star_select_icon);
-			mCommentScoreThirdIb
-					.setBackgroundResource(R.drawable.star_select_icon);
-			mCommentScoreFourthIb
-					.setBackgroundResource(R.drawable.star_defalut);
+			mCommentScoreFirstIb.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreSecondIb.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreThirdIb.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreFourthIb.setBackgroundResource(R.drawable.star_defalut);
 			mCommentScoreFifthIb.setBackgroundResource(R.drawable.star_defalut);
 			break;
 		}
 		case 4: {
-			mCommentScoreFirstIb
-					.setBackgroundResource(R.drawable.star_select_icon);
-			mCommentScoreSecondIb
-					.setBackgroundResource(R.drawable.star_select_icon);
-			mCommentScoreThirdIb
-					.setBackgroundResource(R.drawable.star_select_icon);
-			mCommentScoreFourthIb
-					.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreFirstIb.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreSecondIb.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreThirdIb.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreFourthIb.setBackgroundResource(R.drawable.star_select_icon);
 			mCommentScoreFifthIb.setBackgroundResource(R.drawable.star_defalut);
 			break;
 		}
 		case 5: {
-			mCommentScoreFirstIb
-					.setBackgroundResource(R.drawable.star_select_icon);
-			mCommentScoreSecondIb
-					.setBackgroundResource(R.drawable.star_select_icon);
-			mCommentScoreThirdIb
-					.setBackgroundResource(R.drawable.star_select_icon);
-			mCommentScoreFourthIb
-					.setBackgroundResource(R.drawable.star_select_icon);
-			mCommentScoreFifthIb
-					.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreFirstIb.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreSecondIb.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreThirdIb.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreFourthIb.setBackgroundResource(R.drawable.star_select_icon);
+			mCommentScoreFifthIb.setBackgroundResource(R.drawable.star_select_icon);
 			break;
 		}
 
@@ -504,24 +470,29 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	private void fillUpCollection() {
+		if (!TextUtils.isEmpty(mGoods.getInWishList()) && "1".equals(mGoods.getInWishList())) {
+			mCollectionIv.setImageResource(R.drawable.collection_normal_bottom);
+			mCollectionTv.setText(getString(R.string.collection_already));
+		}else{
+			mCollectionIv.setImageResource(R.drawable.collection_normal_bottom);
+			mCollectionTv.setText(getString(R.string.collection_not));
+		}
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.goods_detail_cart_ll: {
 			if (!UserInfoManager.getLoginIn(mContext)) {
-				Intent intent = new Intent(GoodsDetailActivity.this,
-						LoginActivity.class);
+				Intent intent = new Intent(GoodsDetailActivity.this, LoginActivity.class);
 				intent.setAction(LoginActivity.ORIGIN_FROM_GOODS_DETAIL_KEY);
 				startActivity(intent);
-				overridePendingTransition(R.anim.push_left_in,
-						R.anim.push_left_out);
+				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			} else if (0 == mCartNum) {
-				ActivitiyInfoManager
-						.finishActivity("com.plmt.boommall.ui.activity.CategoryActivity");
-				ActivitiyInfoManager
-						.finishActivity("com.plmt.boommall.ui.activity.GoodsListActivity");
-				ActivitiyInfoManager
-						.finishActivity("com.plmt.boommall.ui.activity.Html5Activity");
+				ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.CategoryActivity");
+				ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.GoodsListActivity");
+				ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.Html5Activity");
 
 				finish();
 				ShoppingCartActivity.isNeedUpdate = true;
@@ -529,16 +500,14 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			} else {
 				mProgressDialog = new CustomProgressDialog(mContext);
 				mProgressDialog.show();
-				CartLogic.add(mContext, mCartHandler, mGoods.getId(),
-						String.valueOf(mCartNum));
+				CartLogic.add(mContext, mCartHandler, mGoods.getId(), String.valueOf(mCartNum));
 			}
 			break;
 		}
 		case R.id.goods_detail_add_cart_btn: {
 
 			mAddCartBtn.setClickable(false);
-			if (TextUtils.isEmpty(mGoods.getNum())
-					|| "null".equals(mGoods.getNum())) {
+			if (TextUtils.isEmpty(mGoods.getNum()) || "null".equals(mGoods.getNum())) {
 				mGoods.setNum("0");
 			}
 			mCartNum++;
@@ -551,12 +520,10 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		}
 		case R.id.goods_detail_collection_ll: {
 			if (!UserInfoManager.getLoginIn(mContext)) {
-				Intent intent = new Intent(GoodsDetailActivity.this,
-						LoginActivity.class);
+				Intent intent = new Intent(GoodsDetailActivity.this, LoginActivity.class);
 				intent.setAction(LoginActivity.ORIGIN_FROM_GOODS_DETAIL_KEY);
 				startActivity(intent);
-				overridePendingTransition(R.anim.push_left_in,
-						R.anim.push_left_out);
+				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			} else {
 				mProgressDialog = new CustomProgressDialog(mContext);
 				mProgressDialog.show();
@@ -570,8 +537,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		}
 		case R.id.goods_detail_back_iv: {
 			finish();
-			overridePendingTransition(R.anim.push_right_in,
-					R.anim.push_right_out);
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			break;
 		}
 		case R.id.goods_detail_share_iv: {
@@ -580,16 +546,13 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 				title = mGoods.getName();
 			}
 			startActivity(Intent.createChooser(
-					new Intent(Intent.ACTION_SEND)
-							.putExtra(Intent.EXTRA_SUBJECT, title)
-							.putExtra(Intent.EXTRA_TEXT, title)
-							.setType(Constants.MIMETYPE_TEXT_PLAIN),
+					new Intent(Intent.ACTION_SEND).putExtra(Intent.EXTRA_SUBJECT, title)
+							.putExtra(Intent.EXTRA_TEXT, title).setType(Constants.MIMETYPE_TEXT_PLAIN),
 					getString(R.string.menu_share)));
 			break;
 		}
 		case R.id.goods_detail_more_comment_rl: {
-			Intent intent = new Intent(GoodsDetailActivity.this,
-					MoreCommentsActivity.class);
+			Intent intent = new Intent(GoodsDetailActivity.this, MoreCommentsActivity.class);
 			intent.putExtra("id", mGoodsId);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);

@@ -76,10 +76,11 @@
                     android:src="@drawable/collection_normal_bottom" />
 
                 <TextView
+                    android:id="@+id/goods_detail_collection_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dip"
-                    android:text="@string/collection"
+                    android:text="@string/collection_not"
                     android:textColor="@color/black_character"
                     android:textSize="@dimen/micro_small_text_size" />
             </LinearLayout>

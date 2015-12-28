@@ -8,12 +8,12 @@ public class RequestUrl {
 	public static final String NAMESPACE = "http://120.55.116.206";
 
 	// http://120.55.116.206:8080/mapi
-	// public static final String HOST_URL = "http://120.55.116.206:8060/mapi";
-	//public static final String HOST_URL = "http://120.55.116.206:8000/mapi";
-	
-	public static final String HOST_URL = "http://appapi.wangpugo.com/mapi";
-
-	public static final String HOST_PAY_URL = "http://appapi.wangpugo.com";
+	public static final String HOST_URL = "http://120.55.116.206:8000/mapi";
+	public static final String HOST_PAY_URL = "http://120.55.116.206:8000";
+	//
+	// public static final String HOST_URL = "http://appapi.wangpugo.com/mapi";
+	//
+	// public static final String HOST_PAY_URL = "http://appapi.wangpugo.com";
 
 	public interface connect {
 		/**
@@ -28,8 +28,7 @@ public class RequestUrl {
 		 * 搜索
 		 */
 		public String normal = "/search/normal";
-		
-		
+
 		/**
 		 * 热搜
 		 */
@@ -80,12 +79,12 @@ public class RequestUrl {
 		public String sendAuthCode = "/account/authCode";
 
 		public String setReal = "/checkout/setReal";
-		
+
 		/**
 		 * 退出
 		 */
 		public String logout = "/account/logout";
-		
+
 		/**
 		 * 設置用戶頭像
 		 */
@@ -207,14 +206,13 @@ public class RequestUrl {
 		public String del = "/favorite/delete";
 
 	}
-	
+
 	public interface comment {
 
 		/**
 		 * 评论列表
 		 */
 		public String list = "/pdp/listComment";
-
 
 	}
 
