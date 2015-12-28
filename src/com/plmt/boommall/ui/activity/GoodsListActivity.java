@@ -6,27 +6,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.entity.Goods;
@@ -42,6 +21,29 @@ import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.gridview.paging.PagingGridView;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 import com.plmt.boommall.utils.ActivitiyInfoManager;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class GoodsListActivity extends Activity
 		implements OnClickListener, MyItemClickListener, XListView.IXListViewListener {
@@ -65,6 +67,13 @@ public class GoodsListActivity extends Activity
 	private LinearLayout mSalesLl;
 	private TextView mSalesTv;
 	private ImageView mSalesIv;
+
+	private ImageView mFilterIv;
+	private DrawerLayout mDrawerLayout;
+	private boolean isFilterOpen = false;
+	
+	private TextView mFilterConfrimTv;
+    private TextView mFilterCancelTv;
 
 	private ArrayList<Category> mCategoryList = new ArrayList<Category>();
 	private RVCategoryAdapter mCategoryAdapter;
@@ -236,6 +245,11 @@ public class GoodsListActivity extends Activity
 		mCompositeLl.setOnClickListener(this);
 		mPriceLl.setOnClickListener(this);
 		mSalesLl.setOnClickListener(this);
+
+		mFilterIv = (ImageView) findViewById(R.id.goods_list_filter_iv);
+		mFilterIv.setOnClickListener(this);
+
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.goods_list_dl);
 	}
 
 	private void setFilterViewDefalut() {
@@ -247,6 +261,14 @@ public class GoodsListActivity extends Activity
 		mPriceIv.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down_top));
 		mSalesIv.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down_top));
 	}
+	
+	private void initDrawerLayout() {
+
+        mFilterConfrimTv = (TextView) findViewById(R.id.goods_list_filter_confirm_tv);
+        mFilterConfrimTv.setOnClickListener(this);
+        mFilterCancelTv = (TextView) findViewById(R.id.goods_list_filter_cancel_tv);
+        mFilterCancelTv.setOnClickListener(this);
+    }
 
 	private void initListView() {
 		mGoodsLv = (XListView) findViewById(R.id.goods_list_goods_xlv);
@@ -347,6 +369,12 @@ public class GoodsListActivity extends Activity
 		GoodsLogic.getGoodsListByCategory(mContext, mHandler, mCatgoryName, mCurrentPageNum, MsgRequest.PAGE_SIZE,
 				sortType);
 	}
+	
+    private void filter() {
+        mProgressDialog.show();
+      
+    }
+
 
 	private void search(String key) {
 	}
@@ -436,6 +464,24 @@ public class GoodsListActivity extends Activity
 			fetchGoods(mNowSortType);
 			break;
 		}
+		case R.id.goods_list_filter_iv: {
+			if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+				mDrawerLayout.closeDrawer(Gravity.RIGHT);
+			} else {
+				mDrawerLayout.openDrawer(Gravity.RIGHT);
+			}
+			break;
+		}
+		
+		  case R.id.goods_list_filter_confirm_tv: {
+              mDrawerLayout.closeDrawer(Gravity.RIGHT);
+              filter();
+              break;
+          }
+          case R.id.goods_list_filter_cancel_tv: {
+              mDrawerLayout.closeDrawer(Gravity.RIGHT);
+              break;
+          }
 
 		case R.id.goods_list_search_ll: {
 			Intent intent = new Intent(GoodsListActivity.this, SearchActivity.class);

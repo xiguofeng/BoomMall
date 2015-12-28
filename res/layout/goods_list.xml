@@ -196,6 +196,16 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/arrow_down_top" />
                 </LinearLayout>
+                
+                 <ImageView
+                        android:id="@+id/goods_list_filter_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="6dip"
+                        android:layout_marginRight="10dip"
+                        android:layout_marginLeft="5dip"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/filter" />
             </LinearLayout>
 
             <com.plmt.boommall.ui.view.MultiStateView
@@ -245,6 +255,45 @@
             android:background="@color/gray_bg"
             android:clickable="true"
             android:orientation="vertical" >
+            
+               <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/red_title_bg"
+                android:orientation="horizontal"
+                android:padding="10dip">
+
+                <TextView
+                    android:id="@+id/goods_list_filter_cancel_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    android:text="@string/cancel"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/middle_text_size"/>
+
+                <TextView
+                    android:id="@+id/goods_list_filter_confirm_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    android:text="@string/confirm"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/middle_text_size"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/filter"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/middle_text_size"/>
+            </RelativeLayout>
+            
 
             <Button
                 android:id="@+id/goods_list_filter_clear_btn"
