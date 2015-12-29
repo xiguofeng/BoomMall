@@ -24,9 +24,11 @@ import com.plmt.boommall.ui.view.gridview.paging.PagingGridView;
 import com.plmt.boommall.ui.view.listview.CustomListView;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 import com.plmt.boommall.utils.ActivitiyInfoManager;
+import com.plmt.boommall.utils.ScreenUtil;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +42,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -74,13 +77,13 @@ public class GoodsListActivity extends Activity
 	private ImageView mFilterIv;
 	private DrawerLayout mDrawerLayout;
 	private boolean isFilterOpen = false;
-	
+
 	private CustomListView mFilterPropertyLv;
 	private ArrayList<FilterProperty> mFilterPropertyList = new ArrayList<>();
 	private FilterPropertyAdapter mFilterPropertyAdapter;
-	
+
 	private TextView mFilterConfrimTv;
-    private TextView mFilterCancelTv;
+	private TextView mFilterCancelTv;
 
 	private ArrayList<Category> mCategoryList = new ArrayList<Category>();
 	private RVCategoryAdapter mCategoryAdapter;
@@ -97,6 +100,8 @@ public class GoodsListActivity extends Activity
 	private ImageView mViewModeIv;
 	private ImageView mBackIv;
 
+	private ImageView mBackTopIv;
+
 	private String mCatgoryName;
 
 	private String mNowSortType;
@@ -107,6 +112,9 @@ public class GoodsListActivity extends Activity
 	private int mTotalSize = 0;
 
 	private boolean mIsLoadComplete = true;
+
+	private boolean mScrollFlag = false;// 标记是否滑动
+	private int mLastVisibleItemPosition = 0;// 标记上次滑动位置
 
 	private CustomProgressDialog mProgressDialog;
 
@@ -223,6 +231,9 @@ public class GoodsListActivity extends Activity
 		mBackIv = (ImageView) findViewById(R.id.goods_list_back_iv);
 		mBackIv.setOnClickListener(this);
 
+		mBackTopIv = (ImageView) findViewById(R.id.goods_list_back_top_iv);
+		mBackTopIv.setOnClickListener(this);
+
 		initFilterView();
 		initDrawerLayout();
 		initListView();
@@ -269,24 +280,24 @@ public class GoodsListActivity extends Activity
 		mPriceIv.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down_top));
 		mSalesIv.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down_top));
 	}
-	
+
 	private void initDrawerLayout() {
 
-        mFilterConfrimTv = (TextView) findViewById(R.id.goods_list_filter_confirm_tv);
-        mFilterConfrimTv.setOnClickListener(this);
-        mFilterCancelTv = (TextView) findViewById(R.id.goods_list_filter_cancel_tv);
-        mFilterCancelTv.setOnClickListener(this);
-        
-        mFilterPropertyLv = (CustomListView) findViewById(R.id.goods_list_filter_lv);
-        FilterProperty filterProperty = new FilterProperty();
-        filterProperty.setId("id");
-        filterProperty.setTitle("title");
-        filterProperty.setContent("content");
-        mFilterPropertyList.add(filterProperty);
-        mFilterPropertyAdapter = new FilterPropertyAdapter(mContext, mFilterPropertyList);
-        mFilterPropertyLv.setAdapter(mFilterPropertyAdapter);
-        
-    }
+		mFilterConfrimTv = (TextView) findViewById(R.id.goods_list_filter_confirm_tv);
+		mFilterConfrimTv.setOnClickListener(this);
+		mFilterCancelTv = (TextView) findViewById(R.id.goods_list_filter_cancel_tv);
+		mFilterCancelTv.setOnClickListener(this);
+
+		mFilterPropertyLv = (CustomListView) findViewById(R.id.goods_list_filter_lv);
+		FilterProperty filterProperty = new FilterProperty();
+		filterProperty.setId("id");
+		filterProperty.setTitle("title");
+		filterProperty.setContent("content");
+		mFilterPropertyList.add(filterProperty);
+		mFilterPropertyAdapter = new FilterPropertyAdapter(mContext, mFilterPropertyList);
+		mFilterPropertyLv.setAdapter(mFilterPropertyAdapter);
+
+	}
 
 	private void initListView() {
 		mGoodsLv = (XListView) findViewById(R.id.goods_list_goods_xlv);
@@ -302,14 +313,51 @@ public class GoodsListActivity extends Activity
 		mGoodsLv.setOnScrollListener(new AbsListView.OnScrollListener() {
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				// Log.i(TAG, "滚动状态变化");
+				// TODO Auto-generated method stub
+				switch (scrollState) {
+				// 当不滚动时
+				case OnScrollListener.SCROLL_STATE_IDLE:// 是当屏幕停止滚动时
+					mScrollFlag = false;
+					// 判断滚动到底部
+//					if (mGoodsLv.getLastVisiblePosition() == (mGoodsLv.getCount() - 1)) {
+//						mBackTopIv.setVisibility(View.VISIBLE);
+//					}
+					// 判断滚动到顶部
+					if (mGoodsLv.getFirstVisiblePosition() == 0) {
+						mBackTopIv.setVisibility(View.GONE);
+					}
+
+					break;
+				case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:// 滚动时
+					mScrollFlag = true;
+					break;
+				case OnScrollListener.SCROLL_STATE_FLING:// 是当用户由于之前划动屏幕并抬起手指，屏幕产生惯性滑动时
+					mScrollFlag = true;
+					break;
+				}
+
 			}
 
+			/**
+			 * firstVisibleItem：当前能看见的第一个列表项ID（从0开始）
+			 * visibleItemCount：当前能看见的列表项个数（小半个也算） totalItemCount：列表项共数
+			 */
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				// Log.i(TAG, "正在滚动");
+				// 当开始滑动且ListView底部的Y轴点超出屏幕最大范围时，显示或隐藏顶部按钮
+				if (mScrollFlag && firstVisibleItem > 0) {
+					if (firstVisibleItem > mLastVisibleItemPosition) {// 下滑
+						mBackTopIv.setVisibility(View.VISIBLE);
+					} else if (firstVisibleItem < mLastVisibleItemPosition) {// 上滑
+						mBackTopIv.setVisibility(View.GONE);
+					} else {
+						return;
+					}
+					mLastVisibleItemPosition = firstVisibleItem;
+				}
 			}
 		});
+
 		mGoodsLv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -387,12 +435,15 @@ public class GoodsListActivity extends Activity
 		GoodsLogic.getGoodsListByCategory(mContext, mHandler, mCatgoryName, mCurrentPageNum, MsgRequest.PAGE_SIZE,
 				sortType);
 	}
-	
-    private void filter() {
-        mProgressDialog.show();
-      
-    }
 
+	private void filter() {
+		mProgressDialog.show();
+
+	}
+
+	private void showBackTop() {
+
+	}
 
 	private void search(String key) {
 	}
@@ -427,6 +478,11 @@ public class GoodsListActivity extends Activity
 		// fetchGoods(mNowSortType);
 		// mIsLoadComplete = !mIsLoadComplete;
 		// }
+	}
+
+	@Override
+	public void onScrollDown() {
+
 	}
 
 	@Override
@@ -490,16 +546,16 @@ public class GoodsListActivity extends Activity
 			}
 			break;
 		}
-		
-		  case R.id.goods_list_filter_confirm_tv: {
-              mDrawerLayout.closeDrawer(Gravity.RIGHT);
-              filter();
-              break;
-          }
-          case R.id.goods_list_filter_cancel_tv: {
-              mDrawerLayout.closeDrawer(Gravity.RIGHT);
-              break;
-          }
+
+		case R.id.goods_list_filter_confirm_tv: {
+			mDrawerLayout.closeDrawer(Gravity.RIGHT);
+			filter();
+			break;
+		}
+		case R.id.goods_list_filter_cancel_tv: {
+			mDrawerLayout.closeDrawer(Gravity.RIGHT);
+			break;
+		}
 
 		case R.id.goods_list_search_ll: {
 			Intent intent = new Intent(GoodsListActivity.this, SearchActivity.class);
@@ -511,6 +567,13 @@ public class GoodsListActivity extends Activity
 		case R.id.goods_list_back_iv: {
 			finish();
 			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			break;
+		}
+
+		case R.id.goods_list_back_top_iv: {
+			mGoodsAdapter.notifyDataSetChanged();
+			mGoodsLv.setSelection(0);
+			mBackTopIv.setVisibility(View.GONE);
 			break;
 		}
 

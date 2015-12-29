@@ -233,4 +233,10 @@ public class MyOrderListActivity extends Activity
 		return super.onKeyDown(keyCode, event);
 	}
 
+	@Override
+	public void onScrollDown() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

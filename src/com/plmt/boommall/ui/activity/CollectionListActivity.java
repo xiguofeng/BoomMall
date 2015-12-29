@@ -361,6 +361,11 @@ public class CollectionListActivity extends Activity
 	}
 
 	@Override
+	public void onScrollDown() {
+		
+	}
+	
+	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.collection_list_show_mode_iv: {

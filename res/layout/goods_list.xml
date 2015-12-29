@@ -21,231 +21,252 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/red_title_bg"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dip" >
-
-                <ImageView
-                    android:id="@+id/goods_list_show_mode_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:padding="5dip"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_grid_selector" />
-
-                <ImageView
-                    android:id="@+id/goods_list_back_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/back_selector" />
+                android:layout_height="match_parent" >
 
                 <RelativeLayout
-                    android:id="@+id/goods_list_search_rl"
+                    android:id="@+id/goods_list_title_rl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:layout_toLeftOf="@+id/goods_list_show_mode_iv"
-                    android:layout_toRightOf="@+id/goods_list_back_iv"
-                    android:background="@drawable/corners_search_bg_red"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:orientation="horizontal" >
-
-                    <LinearLayout
-                        android:id="@+id/goods_list_search_ll"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dip"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:orientation="horizontal" >
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/app_name"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/search" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dip"
-                            android:text="@string/search"
-                            android:textColor="@color/gray_character" />
-                    </LinearLayout>
-
-                    <EditText
-                        android:id="@+id/goods_list_search_et"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dip"
-                        android:layout_centerInParent="true"
-                        android:background="@null"
-                        android:paddingLeft="5dip"
-                        android:paddingRight="5dip"
-                        android:singleLine="true"
-                        android:textColor="@color/gray_character"
-                        android:visibility="gone" />
-
-                    <ImageView
-                        android:id="@+id/goods_list_search_iv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:contentDescription="@string/app_name"
-                        android:padding="8dip"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/search"
-                        android:visibility="gone" />
-                </RelativeLayout>
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal" >
-
-                <LinearLayout
-                    android:id="@+id/goods_list_composite_ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:background="@color/red_title_bg"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="5dip" >
 
-                    <TextView
-                        android:id="@+id/goods_list_composite_tv"
+                    <ImageView
+                        android:id="@+id/goods_list_show_mode_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dip"
-                        android:text="@string/composite"
-                        android:textColor="@color/red_character"
-                        android:textSize="@dimen/middle_text_size" />
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:padding="5dip"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_grid_selector" />
 
                     <ImageView
-                        android:id="@+id/goods_list_composite_iv"
+                        android:id="@+id/goods_list_back_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dip"
-                        android:contentDescription="@string/app_name"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/arrow_down_top" />
-                </LinearLayout>
+                        android:src="@drawable/back_selector" />
+
+                    <RelativeLayout
+                        android:id="@+id/goods_list_search_rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip"
+                        android:layout_toLeftOf="@+id/goods_list_show_mode_iv"
+                        android:layout_toRightOf="@+id/goods_list_back_iv"
+                        android:background="@drawable/corners_search_bg_red"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:orientation="horizontal" >
+
+                        <LinearLayout
+                            android:id="@+id/goods_list_search_ll"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dip"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:contentDescription="@string/app_name"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/search" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dip"
+                                android:text="@string/search"
+                                android:textColor="@color/gray_character" />
+                        </LinearLayout>
+
+                        <EditText
+                            android:id="@+id/goods_list_search_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dip"
+                            android:layout_centerInParent="true"
+                            android:background="@null"
+                            android:paddingLeft="5dip"
+                            android:paddingRight="5dip"
+                            android:singleLine="true"
+                            android:textColor="@color/gray_character"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/goods_list_search_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@string/app_name"
+                            android:padding="8dip"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/search"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+                </RelativeLayout>
 
                 <LinearLayout
-                    android:id="@+id/goods_list_price_ll"
+                    android:id="@+id/goods_list_sort_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_below="@id/goods_list_title_rl"
+                    android:background="@color/white"
                     android:gravity="center"
                     android:orientation="horizontal" >
 
-                    <TextView
-                        android:id="@+id/goods_list_price_tv"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/goods_list_composite_ll"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dip"
-                        android:text="@string/price"
-                        android:textColor="@color/gray_character"
-                        android:textSize="@dimen/middle_text_size" />
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="5dip" >
+
+                        <TextView
+                            android:id="@+id/goods_list_composite_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dip"
+                            android:text="@string/composite"
+                            android:textColor="@color/red_character"
+                            android:textSize="@dimen/middle_text_size" />
+
+                        <ImageView
+                            android:id="@+id/goods_list_composite_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dip"
+                            android:contentDescription="@string/app_name"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/arrow_down_top" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/goods_list_price_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/goods_list_price_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dip"
+                            android:text="@string/price"
+                            android:textColor="@color/gray_character"
+                            android:textSize="@dimen/middle_text_size" />
+
+                        <ImageView
+                            android:id="@+id/goods_list_price_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dip"
+                            android:contentDescription="@string/app_name"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/arrow_down_top" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/goods_list_sales_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/goods_list_sales_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dip"
+                            android:text="@string/sales"
+                            android:textColor="@color/gray_character"
+                            android:textSize="@dimen/middle_text_size" />
+
+                        <ImageView
+                            android:id="@+id/goods_list_sales_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dip"
+                            android:contentDescription="@string/app_name"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/arrow_down_top" />
+                    </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/goods_list_price_iv"
+                        android:id="@+id/goods_list_filter_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dip"
-                        android:contentDescription="@string/app_name"
+                        android:layout_marginRight="10dip"
+                        android:padding="6dip"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/arrow_down_top" />
+                        android:src="@drawable/filter" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/goods_list_sales_ll"
+                <com.plmt.boommall.ui.view.MultiStateView
+                    android:id="@+id/goods_list_multiStateView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/goods_list_sort_ll"
+                    android:layout_marginTop="1dip"
+                    app:msv_emptyView="@layout/empty_view"
+                    app:msv_errorView="@layout/error_view"
+                    app:msv_loadingView="@layout/loading_view"
+                    app:msv_viewState="content" >
 
-                    <TextView
-                        android:id="@+id/goods_list_sales_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dip"
-                        android:text="@string/sales"
-                        android:textColor="@color/gray_character"
-                        android:textSize="@dimen/middle_text_size" />
-
-                    <ImageView
-                        android:id="@+id/goods_list_sales_iv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <com.plmt.boommall.ui.view.gridview.paging.PagingGridView
+                        android:id="@+id/goods_list_goods_pgv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="5dip"
-                        android:contentDescription="@string/app_name"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/arrow_down_top" />
-                </LinearLayout>
+                        android:layout_marginRight="5dip"
+                        android:cacheColorHint="#00000000"
+                        android:dividerHeight="0.5dip"
+                        android:fastScrollEnabled="false"
+                        android:horizontalSpacing="5dip"
+                        android:listSelector="@android:color/transparent"
+                        android:numColumns="2"
+                        android:scrollbars="none"
+                        android:verticalSpacing="5dip"
+                        android:visibility="gone" />
+
+                    <com.plmt.boommall.ui.view.listview.pullrefresh.XListView
+                        android:id="@+id/goods_list_goods_xlv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:cacheColorHint="#00000000"
+                        android:divider="@null"
+                        android:dividerHeight="1dip"
+                        android:fastScrollEnabled="false"
+                        android:focusable="true"
+                        android:scrollbars="none" />
+                </com.plmt.boommall.ui.view.MultiStateView>
 
                 <ImageView
-                    android:id="@+id/goods_list_filter_iv"
+                    android:id="@+id/goods_list_back_top_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="20dip"
                     android:layout_marginRight="10dip"
-                    android:padding="6dip"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/filter" />
-            </LinearLayout>
-
-            <com.plmt.boommall.ui.view.MultiStateView
-                android:id="@+id/goods_list_multiStateView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="1dip"
-                app:msv_emptyView="@layout/empty_view"
-                app:msv_errorView="@layout/error_view"
-                app:msv_loadingView="@layout/loading_view"
-                app:msv_viewState="content" >
-
-                <com.plmt.boommall.ui.view.gridview.paging.PagingGridView
-                    android:id="@+id/goods_list_goods_pgv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:cacheColorHint="#00000000"
-                    android:dividerHeight="0.5dip"
-                    android:fastScrollEnabled="false"
-                    android:horizontalSpacing="5dip"
-                    android:listSelector="@android:color/transparent"
-                    android:numColumns="2"
-                    android:scrollbars="none"
-                    android:verticalSpacing="5dip"
-                    android:visibility="gone" />
-
-                <com.plmt.boommall.ui.view.listview.pullrefresh.XListView
-                    android:id="@+id/goods_list_goods_xlv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:cacheColorHint="#00000000"
-                    android:divider="@null"
-                    android:dividerHeight="1dip"
-                    android:fastScrollEnabled="false"
-                    android:focusable="true"
-                    android:scrollbars="none" />
-            </com.plmt.boommall.ui.view.MultiStateView>
+                    android:visibility="gone"
+                    android:src="@drawable/back_top" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout

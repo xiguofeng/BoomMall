@@ -272,6 +272,11 @@ public class SearchActivity extends Activity implements OnClickListener, XListVi
 	public void onLoadMore() {
 
 	}
+	
+	@Override
+	public void onScrollDown() {
+		
+	}
 
 	protected void alertInfo() {
 		showAlertDialog("查找信息", " 没有找到相关商品,继续查找！", "继续", new DialogInterface.OnClickListener() {

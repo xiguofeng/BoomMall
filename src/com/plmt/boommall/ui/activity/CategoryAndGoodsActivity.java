@@ -269,6 +269,12 @@ public class CategoryAndGoodsActivity extends Activity implements
 		Log.e("xxx_onLoadMore", "");
 		refreshGoods();
 	}
+	
+	@Override
+	public void onScrollDown() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public void onClick(View v) {
