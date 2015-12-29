@@ -3,7 +3,6 @@ package com.plmt.boommall.ui.activity;
 import com.plmt.boommall.R;
 import com.plmt.boommall.network.logic.CommentLogic;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
-import com.plmt.boommall.utils.OrderManager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,10 +12,12 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class CommentAddActivity extends Activity implements OnClickListener, OnRatingBarChangeListener {
 
@@ -27,6 +28,9 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 	private RatingBar mQualityRtingBar;
 
 	private ImageView mBackIv;
+	private TextView mSubmitTv;
+
+	private EditText mDetailEt;
 
 	protected CustomProgressDialog mProgressDialog;
 
@@ -37,6 +41,7 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 			int what = msg.what;
 			switch (what) {
 			case CommentLogic.COMMENT_ADD_SUC: {
+				Toast.makeText(mContext, "评价成功！", Toast.LENGTH_SHORT).show();
 				/*
 				 * Intent intent = new Intent(CommentAddActivity.this,
 				 * CommentsResultActivity.class); startActivity(intent);
@@ -85,11 +90,32 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 		mExpressRatingBar = (RatingBar) findViewById(R.id.comment_express_ratingbar);
 		mQualityRtingBar = (RatingBar) findViewById(R.id.comment_quality_ratingbar);
 
+		mDetailEt = (EditText) findViewById(R.id.comment_detail_et);
+
 		mBackIv = (ImageView) findViewById(R.id.comment_back_iv);
 		mBackIv.setOnClickListener(this);
+		mSubmitTv = (TextView) findViewById(R.id.comment_submit_tv);
+		mSubmitTv.setOnClickListener(this);
 	}
 
 	private void initData() {
+	}
+
+	private void addComment() {
+		if (mPriceRatingBar.getNumStars() == 0
+				|| mExpressRatingBar.getNumStars() == 0 && mQualityRtingBar.getNumStars() == 0) {
+			Toast.makeText(mContext, "请打分！", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		if (TextUtils.isEmpty(mDetailEt.getText().toString().trim())) {
+			Toast.makeText(mContext, "亲，您的评价对我们很重要哦！", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
+		mProgressDialog.show();
+		CommentLogic.addComment(mContext, mHandler, "goodsId", String.valueOf(mPriceRatingBar.getNumStars()),
+				String.valueOf(5+mExpressRatingBar.getNumStars()), String.valueOf(10+mQualityRtingBar.getNumStars()),
+				mDetailEt.getText().toString().trim(), "nickname");
 	}
 
 	@Override
@@ -97,6 +123,10 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 		switch (v.getId()) {
 		case R.id.comment_back_iv: {
 			CommentAddActivity.this.finish();
+			break;
+		}
+		case R.id.comment_submit_tv: {
+			addComment();
 			break;
 		}
 
@@ -123,7 +153,7 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 		default:
 			break;
 		}
-		
+
 	}
 
 }

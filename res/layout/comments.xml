@@ -32,7 +32,7 @@
             android:textSize="@dimen/medium_text_size" />
 
         <TextView
-            android:id="@+id/comment_submit"
+            android:id="@+id/comment_submit_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -149,6 +149,7 @@
             android:textSize="@dimen/middle_text_size" />
 
         <EditText
+            android:id="@+id/comment_detail_et"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
             android:layout_height="80dp"

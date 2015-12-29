@@ -213,7 +213,9 @@ public class RequestUrl {
 		 * 评论列表
 		 */
 		public String list = "/pdp/listComment";
-
+		
+		public String add = "/pdp/postComment";
+		
 	}
 
 	public interface goods {
