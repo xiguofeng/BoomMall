@@ -155,6 +155,10 @@ public class AddressEditActivity extends Activity implements OnClickListener, Te
 		mDelIv = (ImageView) findViewById(R.id.address_add_del_iv);
 		mBackIv.setOnClickListener(this);
 		mDelIv.setOnClickListener(this);
+		
+		mConsigneeEt.addTextChangedListener(this);
+		mContactWayEt.addTextChangedListener(this);
+		mAddressDetailEt.addTextChangedListener(this);
 	}
 
 	private void initData() {
@@ -215,7 +219,7 @@ public class AddressEditActivity extends Activity implements OnClickListener, Te
 			}
 		}
 
-		if (!TextUtils.isEmpty(mAddressDetailEt.getText().toString().trim())
+		if (!TextUtils.isEmpty(mConsigneeEt.getText().toString().trim())
 				&& !TextUtils.isEmpty(mAddressDetailEt.getText().toString().trim()) && isRight) {
 			mSaveBtn.setClickable(true);
 			mSaveBtn.setBackgroundResource(R.drawable.corners_bg_red_all);
@@ -312,13 +316,13 @@ public class AddressEditActivity extends Activity implements OnClickListener, Te
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		checkInput();
+		
 
 	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
-		// TODO Auto-generated method stub
+		checkInput();
 
 	}
 
