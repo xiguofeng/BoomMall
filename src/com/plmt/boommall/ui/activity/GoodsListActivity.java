@@ -8,9 +8,11 @@ import java.util.Locale;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Category;
+import com.plmt.boommall.entity.FilterProperty;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.config.MsgRequest;
 import com.plmt.boommall.network.logic.GoodsLogic;
+import com.plmt.boommall.ui.adapter.FilterPropertyAdapter;
 import com.plmt.boommall.ui.adapter.GoodsAdapter;
 import com.plmt.boommall.ui.adapter.GoodsGvPagingAdaper;
 import com.plmt.boommall.ui.adapter.RVCategoryAdapter;
@@ -19,6 +21,7 @@ import com.plmt.boommall.ui.utils.MyItemClickListener;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
 import com.plmt.boommall.ui.view.MultiStateView;
 import com.plmt.boommall.ui.view.gridview.paging.PagingGridView;
+import com.plmt.boommall.ui.view.listview.CustomListView;
 import com.plmt.boommall.ui.view.listview.pullrefresh.XListView;
 import com.plmt.boommall.utils.ActivitiyInfoManager;
 
@@ -71,6 +74,10 @@ public class GoodsListActivity extends Activity
 	private ImageView mFilterIv;
 	private DrawerLayout mDrawerLayout;
 	private boolean isFilterOpen = false;
+	
+	private CustomListView mFilterPropertyLv;
+	private ArrayList<FilterProperty> mFilterPropertyList = new ArrayList<>();
+	private FilterPropertyAdapter mFilterPropertyAdapter;
 	
 	private TextView mFilterConfrimTv;
     private TextView mFilterCancelTv;
@@ -217,6 +224,7 @@ public class GoodsListActivity extends Activity
 		mBackIv.setOnClickListener(this);
 
 		initFilterView();
+		initDrawerLayout();
 		initListView();
 		initGridView();
 		showViewMode(VIEW_MODE_LIST);
@@ -268,6 +276,16 @@ public class GoodsListActivity extends Activity
         mFilterConfrimTv.setOnClickListener(this);
         mFilterCancelTv = (TextView) findViewById(R.id.goods_list_filter_cancel_tv);
         mFilterCancelTv.setOnClickListener(this);
+        
+        mFilterPropertyLv = (CustomListView) findViewById(R.id.goods_list_filter_lv);
+        FilterProperty filterProperty = new FilterProperty();
+        filterProperty.setId("id");
+        filterProperty.setTitle("title");
+        filterProperty.setContent("content");
+        mFilterPropertyList.add(filterProperty);
+        mFilterPropertyAdapter = new FilterPropertyAdapter(mContext, mFilterPropertyList);
+        mFilterPropertyLv.setAdapter(mFilterPropertyAdapter);
+        
     }
 
 	private void initListView() {
