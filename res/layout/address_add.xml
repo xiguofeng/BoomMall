@@ -137,6 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/address_add_input_contact_way_tv"
                     android:background="@null"
+                    android:numeric="integer"
                     android:hint="@string/contact_way_hint"
                     android:imeOptions="actionNext"
                     android:maxLines="1"

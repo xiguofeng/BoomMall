@@ -1,12 +1,24 @@
 package com.plmt.boommall.ui.activity;
 
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Address;
+import com.plmt.boommall.network.logic.AddressLogic;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.OnSheetItemClickListener;
+import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.SheetItemColor;
+import com.plmt.boommall.utils.VerifyUtils;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -16,15 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.Address;
-import com.plmt.boommall.network.logic.AddressLogic;
-import com.plmt.boommall.ui.view.CustomProgressDialog;
-import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog;
-import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.OnSheetItemClickListener;
-import com.plmt.boommall.ui.view.iosdialog.ActionSheetDialog.SheetItemColor;
-
-public class AddressEditActivity extends Activity implements OnClickListener {
+public class AddressEditActivity extends Activity implements OnClickListener, TextWatcher {
 
 	public static final String ORIGIN_FROM_ADD_ACTION = "address.add";
 
@@ -69,13 +73,9 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 			switch (msg.what) {
 			case AddressLogic.ANDRESS_MODIFY_SUC: {
 				if (mNowAction.equals(ORIGIN_FROM_ADD_ACTION)) {
-					Toast.makeText(mContext,
-							getString(R.string.address_add_suc),
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, getString(R.string.address_add_suc), Toast.LENGTH_SHORT).show();
 				} else {
-					Toast.makeText(mContext,
-							getString(R.string.address_update_suc),
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, getString(R.string.address_update_suc), Toast.LENGTH_SHORT).show();
 				}
 				finish();
 				break;
@@ -89,9 +89,7 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 			}
 
 			case AddressLogic.ANDRESS_DEL_SUC: {
-				Toast.makeText(mContext,
-						getString(R.string.address_del_suc),
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, getString(R.string.address_del_suc), Toast.LENGTH_SHORT).show();
 				finish();
 				break;
 			}
@@ -203,6 +201,30 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 		mAreaTv.setText(bAddr);
 	}
 
+	private synchronized void checkInput() {
+		String telOrMobile = mContactWayEt.getText().toString().trim();
+
+		boolean isRight = false;
+		if (!TextUtils.isEmpty(telOrMobile)) {
+			if (VerifyUtils.isMobile(telOrMobile) || VerifyUtils.isPhone(telOrMobile)) {
+				isRight = true;
+			} else {
+				isRight = false;
+				CharSequence html = Html.fromHtml("<font color='red'>格式不正确</font>");
+				mContactWayEt.setError(html);
+			}
+		}
+
+		if (!TextUtils.isEmpty(mAddressDetailEt.getText().toString().trim())
+				&& !TextUtils.isEmpty(mAddressDetailEt.getText().toString().trim()) && isRight) {
+			mSaveBtn.setClickable(true);
+			mSaveBtn.setBackgroundResource(R.drawable.corners_bg_red_all);
+		}else{
+			mSaveBtn.setClickable(false);
+			mSaveBtn.setBackgroundResource(R.drawable.corners_bg_gray_all);
+		}
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
@@ -227,8 +249,7 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.address_add_input_area_rl: {
 			if (!TextUtils.isEmpty(mAddressData)) {
-				Intent intent = new Intent(AddressEditActivity.this,
-						AddressEditSelectActivity.class);
+				Intent intent = new Intent(AddressEditActivity.this, AddressEditSelectActivity.class);
 				intent.putExtra("addressData", mAddressData);
 				startActivityForResult(intent, 500);
 			} else {
@@ -241,28 +262,21 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 			mAddressDetail = mAddressDetailEt.getText().toString().trim();
 			mContactWay = mContactWayEt.getText().toString().trim();
 
-			if (!TextUtils.isEmpty(mConsignee)
-					&& !TextUtils.isEmpty(mProviceCode)
-					&& !TextUtils.isEmpty(mCityCode)
-					&& !TextUtils.isEmpty(mDistrictCode)
-					&& !TextUtils.isEmpty(mPostCode)
-					&& !TextUtils.isEmpty(mAddressDetail)
-					&& !TextUtils.isEmpty(mContactWay)) {
+			if (!TextUtils.isEmpty(mConsignee) && !TextUtils.isEmpty(mProviceCode) && !TextUtils.isEmpty(mCityCode)
+					&& !TextUtils.isEmpty(mDistrictCode) && !TextUtils.isEmpty(mPostCode)
+					&& !TextUtils.isEmpty(mAddressDetail) && !TextUtils.isEmpty(mContactWay)) {
 
 				mProgressDialog.show();
 				if (ORIGIN_FROM_ADD_ACTION.equals(mNowAction)) {
-					AddressLogic.update(mContext, mHandler, "0", mConsignee,
-							mProviceCode, mCityCode, mDistrictCode,
+					AddressLogic.update(mContext, mHandler, "0", mConsignee, mProviceCode, mCityCode, mDistrictCode,
 							mAddressDetail, mPostCode, mContactWay, "CN");
 				} else {
-					AddressLogic.update(mContext, mHandler, mAddress.getId(),
-							mConsignee, mProviceCode, mCityCode, mDistrictCode,
-							mAddressDetail, mPostCode, mContactWay, "CN");
+					AddressLogic.update(mContext, mHandler, mAddress.getId(), mConsignee, mProviceCode, mCityCode,
+							mDistrictCode, mAddressDetail, mPostCode, mContactWay, "CN");
 				}
 
 			} else {
-				Toast.makeText(mContext, getString(R.string.address_hint),
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, getString(R.string.address_hint), Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -271,28 +285,40 @@ public class AddressEditActivity extends Activity implements OnClickListener {
 			break;
 		}
 		case R.id.address_add_del_iv: {
-			new ActionSheetDialog(AddressEditActivity.this)
-					.builder()
-					.setTitle(getString(R.string.is_del_address_title))
-					.setCancelable(false)
-					.setCanceledOnTouchOutside(false)
-					.addSheetItem(getString(R.string.del), SheetItemColor.Blue,
-							new OnSheetItemClickListener() {
-								@Override
-								public void onClick(int which) {
-									if (ORIGIN_FROM_EDIT_ACTION
-											.equals(mNowAction)) {
-										mProgressDialog.show();
-										AddressLogic.del(mContext, mHandler,
-												mAddress.getId());
-									}
-								}
-							}).show();
+			new ActionSheetDialog(AddressEditActivity.this).builder().setTitle(getString(R.string.is_del_address_title))
+					.setCancelable(false).setCanceledOnTouchOutside(false)
+					.addSheetItem(getString(R.string.del), SheetItemColor.Blue, new OnSheetItemClickListener() {
+						@Override
+						public void onClick(int which) {
+							if (ORIGIN_FROM_EDIT_ACTION.equals(mNowAction)) {
+								mProgressDialog.show();
+								AddressLogic.del(mContext, mHandler, mAddress.getId());
+							}
+						}
+					}).show();
 			break;
 		}
 		default:
 			break;
 		}
+
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		checkInput();
+
+	}
+
+	@Override
+	public void afterTextChanged(Editable s) {
+		// TODO Auto-generated method stub
 
 	}
 
