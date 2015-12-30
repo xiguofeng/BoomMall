@@ -454,6 +454,7 @@
                                     android:background="@drawable/corners_bg_red_all"
                                     android:gravity="center"
                                     android:text="@string/aog_notice"
+                                    android:visibility="gone"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/micro_small_text_size" />
                             </LinearLayout>
