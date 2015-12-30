@@ -155,7 +155,7 @@
                         <FrameLayout
                             android:id="@+id/goods_detail_framelayout"
                             android:layout_width="fill_parent"
-                            android:layout_height="360dip" >
+                            android:layout_height="320dip" >
 
                             <com.plmt.boommall.ui.view.viewflow.ViewFlow
                                 android:id="@+id/goods_detail_viewflow"
@@ -658,7 +658,7 @@
                                 android:id="@+id/goods_detail_see_h5_rl"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="55dip"
+                                android:layout_marginBottom="70dp"
                                 android:layout_marginTop="15dip"
                                 android:background="@drawable/item_common_selector"
                                 android:gravity="center_vertical"

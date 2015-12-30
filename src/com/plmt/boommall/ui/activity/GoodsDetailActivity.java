@@ -439,9 +439,11 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	private void fillUpGoodsData() {
 		mGoodsNameTv.setText(!TextUtils.isEmpty(mGoods.getName()) ? mGoods.getName().trim() : "");
 		mGoodsPriceTv.setText(!TextUtils.isEmpty(mGoods.getFinalPrice()) ? "¥" + mGoods.getFinalPrice().trim() : "¥");
-
+		
+		mAOGBtn.setVisibility(View.GONE);
 		if (!"1".equals(mGoods.getIsSaleable())) {
 			mIsSaleAbleTv.setText("非现货");
+			mAOGBtn.setVisibility(View.VISIBLE);
 		}
 		if (!TextUtils.isEmpty(mGoods.getDeliverytime()) && mGoods.getDeliverytime().equals("")) {
 			mDeliverytimeTv.setText("下单后" + mGoods.getDeliverytime() + "天发货");
