@@ -349,11 +349,14 @@ public class GoodsListActivity extends Activity
 					if (firstVisibleItem > mLastVisibleItemPosition) {// 下滑
 						mBackTopIv.setVisibility(View.VISIBLE);
 					} else if (firstVisibleItem < mLastVisibleItemPosition) {// 上滑
-						mBackTopIv.setVisibility(View.GONE);
+						//mBackTopIv.setVisibility(View.GONE);
 					} else {
 						return;
 					}
 					mLastVisibleItemPosition = firstVisibleItem;
+				}
+				if(firstVisibleItem == 0){
+					mBackTopIv.setVisibility(View.GONE);
 				}
 			}
 		});
@@ -565,7 +568,7 @@ public class GoodsListActivity extends Activity
 		}
 
 		case R.id.goods_list_back_iv: {
-			finish();
+			ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.GoodsListActivity");
 			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			break;
 		}
@@ -591,7 +594,7 @@ public class GoodsListActivity extends Activity
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-			GoodsListActivity.this.finish();
+			ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.GoodsListActivity");
 			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			return true;
 		}
