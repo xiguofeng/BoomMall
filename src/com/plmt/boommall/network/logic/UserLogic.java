@@ -521,7 +521,11 @@ public class UserLogic {
 			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
 				handler.sendEmptyMessage(LOGOUT_SUC);
 			} else {
-				handler.sendEmptyMessage(LOGOUT_FAIL);
+				String msg=response.getString("msg");
+				Message message = new Message();
+				message.what = LOGOUT_FAIL;
+				message.obj = msg;
+				handler.sendMessage(message);
 			}
 		} catch (JSONException e) {
 			handler.sendEmptyMessage(LOGOUT_EXCEPTION);

@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AccountActivity extends Activity implements OnClickListener {
 
@@ -49,6 +50,11 @@ public class AccountActivity extends Activity implements OnClickListener {
 				break;
 			}
 			case UserLogic.LOGOUT_FAIL: {
+				if(null!=msg.obj){
+					Toast.makeText(mContext, (String)msg.obj, Toast.LENGTH_SHORT).show();
+				}else{
+					Toast.makeText(mContext, "退出失败！", Toast.LENGTH_SHORT).show();
+				}
 				break;
 			}
 			case UserLogic.LOGOUT_EXCEPTION: {
