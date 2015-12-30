@@ -60,7 +60,7 @@ public class CommentLogic {
 							public void onResponse(JSONObject response) {
 								if (null != response) {
 									Log.e("xxx_Comment_add", response.toString());
-									// parseAddData(response, handler);
+									parseAddData(response, handler);
 								}
 
 							}
@@ -86,7 +86,12 @@ public class CommentLogic {
 			if (result.getString(MsgResult.RESULT_TAG).equals(MsgResult.RESULT_SUCCESS)) {
 				handler.sendEmptyMessage(COMMENT_ADD_SUC);
 			} else {
-				handler.sendEmptyMessage(COMMENT_ADD_FAIL);
+				String msg=result.getString("msg");
+				Message message = new Message();
+				message.what = COMMENT_ADD_FAIL;
+				message.obj = msg;
+				handler.sendMessage(message);
+				//handler.sendEmptyMessage(COMMENT_ADD_FAIL);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

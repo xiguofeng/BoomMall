@@ -78,13 +78,22 @@ public class CommentGoodsListActivity extends Activity implements OnClickListene
 	private void initData() {
 		mOrder = (Order) getIntent().getSerializableExtra(
 				CommentGoodsListActivity.ORDER_KEY);
+		if(null!=mOrder){
+			fillUpData();
+		}
+	}
+	
+	private void fillUpData(){
+		mGoodsList.clear();
+		mGoodsList.addAll(mOrder.getGoodsList());
+		mGoodsAdapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.comment_goods_list_back_iv: {
-			finish();
+			ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.CommentGoodsListActivity");
 			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			break;
 		}
@@ -101,7 +110,7 @@ public class CommentGoodsListActivity extends Activity implements OnClickListene
 			Intent intent = new Intent(CommentGoodsListActivity.this,CommentAddActivity.class);
 			Bundle bundle = new Bundle();
 			bundle.putSerializable(CommentAddActivity.GOODS_KEY,
-					mGoodsList.get(which));
+					mGoodsList.get(position));
 			intent.putExtras(bundle);
 		    startActivity(intent);
 		    
@@ -117,7 +126,7 @@ public class CommentGoodsListActivity extends Activity implements OnClickListene
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-			CommentGoodsListActivity.this.finish();
+			ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.CommentGoodsListActivity");
 			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			return true;
 		}

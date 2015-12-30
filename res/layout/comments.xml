@@ -19,8 +19,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dip"
             android:padding="5dip"
-            android:scaleType="centerCrop"
-            android:src="@drawable/back_selector" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -37,8 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:padding="8dip"
             android:layout_marginRight="5dip"
+            android:padding="8dip"
             android:text="@string/publish"
             android:textColor="@color/white"
             android:textSize="@dimen/middle_text_size" />
@@ -47,7 +46,36 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white" >
+
+        <ImageView
+            android:id="@+id/comment_goods_iv"
+            android:layout_width="60dp"
+            android:layout_height="90dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:padding="5dip"
+            android:scaleType="centerCrop"
+            android:src="@drawable/back_selector" />
+
+        <TextView
+            android:id="@+id/comment_goods_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/comment_goods_iv"
+            android:layout_centerVertical="true"
+            android:padding="8dip"
+            android:textColor="@color/black_character_title"
+            android:textSize="@dimen/middle_text_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white"
+        android:layout_marginTop="10dp"
         android:paddingBottom="10dp"
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
@@ -68,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:numStars="5"
-            android:rating="4" >
+            android:rating="0" >
         </RatingBar>
     </RelativeLayout>
 
@@ -97,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:numStars="5"
-            android:rating="4" >
+            android:rating="0" >
         </RatingBar>
     </RelativeLayout>
 
@@ -126,7 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:numStars="5"
-            android:rating="4" >
+            android:rating="0" >
         </RatingBar>
     </RelativeLayout>
 
@@ -151,8 +179,8 @@
         <EditText
             android:id="@+id/comment_detail_et"
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_height="80dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/corners_bg_red"
             android:textColor="@color/black_character_title"
             android:textSize="@dimen/middle_text_size" />

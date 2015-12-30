@@ -1,9 +1,11 @@
 package com.plmt.boommall.ui.activity;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.CommentLogic;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
+import com.plmt.boommall.utils.ActivitiyInfoManager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,8 +25,11 @@ import android.widget.Toast;
 public class CommentAddActivity extends Activity implements OnClickListener, OnRatingBarChangeListener {
 
 	public static final String GOODS_KEY = "GoodsKey";
-	
+
 	private Context mContext;
+
+	private ImageView mGoodsIv;
+	private TextView mGoodsNameTv;
 
 	private RatingBar mPriceRatingBar;
 	private RatingBar mExpressRatingBar;
@@ -34,9 +39,9 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 	private TextView mSubmitTv;
 
 	private EditText mDetailEt;
-	
+
 	private Goods mGoods;
-	
+
 	protected CustomProgressDialog mProgressDialog;
 
 	Handler mHandler = new Handler() {
@@ -47,19 +52,17 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 			switch (what) {
 			case CommentLogic.COMMENT_ADD_SUC: {
 				Toast.makeText(mContext, "评价成功！", Toast.LENGTH_SHORT).show();
-				/*
-				 * Intent intent = new Intent(CommentAddActivity.this,
-				 * CommentsResultActivity.class); startActivity(intent);
-				 * CommentAddActivity.this.finish();
-				 * overridePendingTransition(R.anim.push_left_in,
-				 * R.anim.push_left_out);
-				 */
-
+				ActivitiyInfoManager.finishActivity("com.plmt.boommall.ui.activity.CommentGoodsListActivity");
+				finish();
+				overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 				break;
 			}
 			case CommentLogic.COMMENT_ADD_FAIL: {
-				// Toast.makeText(mContext, R.string.login_fail,
-				// Toast.LENGTH_SHORT).show();
+				if (null != msg.obj) {
+					Toast.makeText(mContext, (String) msg.obj, Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(mContext, R.string.login_fail, Toast.LENGTH_SHORT).show();
+				}
 				break;
 			}
 			case CommentLogic.COMMENT_ADD_EXCEPTION: {
@@ -90,10 +93,16 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 	}
 
 	private void initViews() {
+		mGoodsIv = (ImageView) findViewById(R.id.comment_goods_iv);
+		mGoodsNameTv = (TextView) findViewById(R.id.comment_goods_name_tv);
 
 		mPriceRatingBar = (RatingBar) findViewById(R.id.comment_price_ratingbar);
 		mExpressRatingBar = (RatingBar) findViewById(R.id.comment_express_ratingbar);
 		mQualityRtingBar = (RatingBar) findViewById(R.id.comment_quality_ratingbar);
+
+		mPriceRatingBar.setOnRatingBarChangeListener(this);
+		mExpressRatingBar.setOnRatingBarChangeListener(this);
+		mQualityRtingBar.setOnRatingBarChangeListener(this);
 
 		mDetailEt = (EditText) findViewById(R.id.comment_detail_et);
 
@@ -104,13 +113,16 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 	}
 
 	private void initData() {
-		mGoods = (Goods) getIntent().getSerializableExtra(
-				CommentAddActivity.GOODS_KEY);
+		mGoods = (Goods) getIntent().getSerializableExtra(CommentAddActivity.GOODS_KEY);
+		if (null != mGoods) {
+			ImageLoader.getInstance().displayImage(mGoods.getImage(), mGoodsIv);
+			mGoodsNameTv.setText(mGoods.getName());
+		}
 	}
 
 	private void addComment() {
-		if (mPriceRatingBar.getNumStars() == 0
-				|| mExpressRatingBar.getNumStars() == 0 && mQualityRtingBar.getNumStars() == 0) {
+		if (mPriceRatingBar.getNumStars() == 0 || mExpressRatingBar.getNumStars() == 0
+				|| mQualityRtingBar.getNumStars() == 0) {
 			Toast.makeText(mContext, "请打分！", Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -118,11 +130,11 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 			Toast.makeText(mContext, "亲，您的评价对我们很重要哦！", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		
+
 		mProgressDialog.show();
-		CommentLogic.addComment(mContext, mHandler, "goodsId", String.valueOf(mPriceRatingBar.getNumStars()),
-				String.valueOf(5+mExpressRatingBar.getNumStars()), String.valueOf(10+mQualityRtingBar.getNumStars()),
-				mDetailEt.getText().toString().trim(), "nickname");
+		CommentLogic.addComment(mContext, mHandler, mGoods.getId(), String.valueOf(mPriceRatingBar.getNumStars()),
+				String.valueOf(5 + mExpressRatingBar.getNumStars()),
+				String.valueOf(10 + mQualityRtingBar.getNumStars()), mDetailEt.getText().toString().trim(), "nickname");
 	}
 
 	@Override
