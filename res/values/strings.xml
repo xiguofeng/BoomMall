@@ -27,7 +27,7 @@
     <string name="prompt">提示</string>
     <string name="confirm">确定</string>
     <string name="cancal">取消</string>
-    <string name="num_digits">0123456789</string>
+    <string name="num_digits">0123456789.</string>
     <string name="submit">提交</string>
     <string name="save">保存</string>
     <string name="del">删除</string>
@@ -146,6 +146,11 @@
     <string name="collection_already">已收藏</string>
     <string name="collection_not">未收藏</string>
     <string name="clear_select">清除选项</string>
+    <string name="reduce_price_notice">降价通知</string>
+    <string name="aog_notice">到货通知</string>
+    <string name="price_expect">期望价格</string>
+    <string name="sms_notice">短信通知</string>
+    <string name="hint_phone_input_please">请输入手机号</string>
 
     <!-- cart -->
     <string name="shopping_cart">购物车</string>

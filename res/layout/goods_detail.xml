@@ -45,8 +45,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dip"
                 android:contentDescription="@null"
-                android:src="@drawable/social_share"
-                android:visibility="gone" />
+                android:src="@drawable/social_share" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -132,8 +131,8 @@
             android:id="@+id/goods_detail_expanded_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/goods_detail_title_rl"
             android:layout_above="@+id/goods_detail_bottom_menu_rl"
+            android:layout_below="@+id/goods_detail_title_rl"
             android:scrollbars="none" >
 
             <LinearLayout
@@ -205,7 +204,7 @@
 
                             <TextView
                                 android:id="@+id/goods_detail_name_tv"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dip"
                                 android:layout_marginTop="15dip"
@@ -213,15 +212,34 @@
                                 android:textColor="@color/black_character"
                                 android:textSize="@dimen/middle_text_size" />
 
-                            <TextView
-                                android:id="@+id/goods_detail_price_tv"
-                                android:layout_width="wrap_content"
+                            <RelativeLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dip"
-                                android:layout_marginLeft="15dip"
-                                android:layout_marginTop="10dip"
-                                android:textColor="@color/red_character"
-                                android:textSize="@dimen/middle_text_size" />
+                                android:layout_marginTop="5dp" >
+
+                                <TextView
+                                    android:id="@+id/goods_detail_price_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_marginLeft="15dip"
+                                    android:layout_marginTop="10dip"
+                                    android:textColor="@color/red_character"
+                                    android:textSize="@dimen/large_text_size" />
+
+                                <Button
+                                    android:id="@+id/goods_detail_reduced_price_btn"
+                                    android:layout_width="70dip"
+                                    android:layout_height="28dip"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="10dip"
+                                    android:background="@drawable/corners_bg_red_all"
+                                    android:gravity="center"
+                                    android:text="@string/reduce_price_notice"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/micro_small_text_size" />
+                            </RelativeLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -420,6 +438,24 @@
                                     android:text="下单后后1-2天发货"
                                     android:textColor="@color/black_character"
                                     android:textSize="@dimen/small_text_size" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1" >
+                                </LinearLayout>
+
+                                <Button
+                                    android:id="@+id/goods_detail_aog_btn"
+                                    android:layout_width="70dip"
+                                    android:layout_height="28dip"
+                                    android:layout_gravity="end"
+                                    android:layout_marginRight="10dip"
+                                    android:background="@drawable/corners_bg_red_all"
+                                    android:gravity="center"
+                                    android:text="@string/aog_notice"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/micro_small_text_size" />
                             </LinearLayout>
                         </LinearLayout>
 

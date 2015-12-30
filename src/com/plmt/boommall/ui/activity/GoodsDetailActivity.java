@@ -27,9 +27,11 @@ import com.plmt.boommall.R;
 import com.plmt.boommall.config.Constants;
 import com.plmt.boommall.entity.Ads;
 import com.plmt.boommall.entity.Goods;
+import com.plmt.boommall.network.config.RequestUrl.notice;
 import com.plmt.boommall.network.logic.CartLogic;
 import com.plmt.boommall.network.logic.CollectionLogic;
 import com.plmt.boommall.network.logic.GoodsLogic;
+import com.plmt.boommall.network.logic.NoticeLogic;
 import com.plmt.boommall.ui.adapter.GoodsDetailBannerAdapter;
 import com.plmt.boommall.ui.view.BadgeView;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
@@ -95,6 +97,9 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 	public ImageButton mReduceIb;
 
 	private Button mAddCartBtn;
+
+	private Button mPriceReduceBtn;
+	private Button mAOGBtn;
 
 	private ImageView mBackIv;
 
@@ -277,6 +282,53 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 	};
 
+	private Handler mNoticeHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case NoticeLogic.PRICE_REDUCE_SET_SUC: {
+
+				break;
+			}
+			case NoticeLogic.PRICE_REDUCE_SET_FAIL: {
+
+				break;
+			}
+			case NoticeLogic.PRICE_REDUCE_SET_EXCEPTION: {
+
+				break;
+			}
+			case NoticeLogic.AOG_SET_SUC: {
+				 Toast.makeText(mContext, "添加通知成功！", Toast.LENGTH_SHORT).show();
+				break;
+			}
+			case NoticeLogic.AOG_SET_FAIL: {
+				if(null!=msg.obj){
+					Toast.makeText(mContext, (String)msg.obj, Toast.LENGTH_SHORT).show();
+				}else{
+					Toast.makeText(mContext, "添加通知失败！", Toast.LENGTH_SHORT).show();
+				}
+				break;
+			}
+			case NoticeLogic.AOG_SET_EXCEPTION: {
+
+				break;
+			}
+			case NoticeLogic.NET_ERROR: {
+
+				break;
+			}
+			default:
+				break;
+			}
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
+		}
+
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -323,6 +375,11 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 
 		mAddCartBtn = (Button) findViewById(R.id.goods_detail_add_cart_btn);
 		mAddCartBtn.setOnClickListener(this);
+
+		mPriceReduceBtn = (Button) findViewById(R.id.goods_detail_reduced_price_btn);
+		mPriceReduceBtn.setOnClickListener(this);
+		mAOGBtn = (Button) findViewById(R.id.goods_detail_aog_btn);
+		mAOGBtn.setOnClickListener(this);
 
 		mGoodsNameTv = (TextView) findViewById(R.id.goods_detail_name_tv);
 		mGoodsPriceTv = (TextView) findViewById(R.id.goods_detail_price_tv);
@@ -474,7 +531,7 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 		if (!TextUtils.isEmpty(mGoods.getInWishList()) && "1".equals(mGoods.getInWishList())) {
 			mCollectionIv.setImageResource(R.drawable.collection_normal_bottom);
 			mCollectionTv.setText(getString(R.string.collection_already));
-		}else{
+		} else {
 			mCollectionIv.setImageResource(R.drawable.collection_normal_bottom);
 			mCollectionTv.setText(getString(R.string.collection_not));
 		}
@@ -556,6 +613,40 @@ public class GoodsDetailActivity extends Activity implements OnClickListener {
 			intent.putExtra("id", mGoodsId);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+		case R.id.goods_detail_reduced_price_btn: {
+			if (!UserInfoManager.getLoginIn(mContext)) {
+				Intent intent = new Intent(GoodsDetailActivity.this, LoginActivity.class);
+				intent.setAction(LoginActivity.ORIGIN_FROM_GOODS_DETAIL_KEY);
+				startActivity(intent);
+				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			} else {
+				Intent intent = new Intent(GoodsDetailActivity.this, NoticePriceReduceActivity.class);
+				intent.putExtra("sku", mGoods.getSku());
+				intent.putExtra("price", mGoods.getFinalPrice());
+				startActivity(intent);
+				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+				// NoticeLogic.setPriceReduce(mContext, mNoticeHandler,
+				// mGoods.getSku(), price, phone);
+			}
+			break;
+		}
+
+		case R.id.goods_detail_aog_btn: {
+			if (!UserInfoManager.getLoginIn(mContext)) {
+				Intent intent = new Intent(GoodsDetailActivity.this, LoginActivity.class);
+				intent.setAction(LoginActivity.ORIGIN_FROM_GOODS_DETAIL_KEY);
+				startActivity(intent);
+				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			} else {
+				mProgressDialog = new CustomProgressDialog(mContext);
+				mProgressDialog.show();
+				if (TextUtils.isEmpty(UserInfoManager.userInfo.getAccount())) {
+					UserInfoManager.setUserInfo(mContext);
+				}
+				NoticeLogic.setAOG(mContext, mNoticeHandler, mGoods.getSku(), UserInfoManager.userInfo.getAccount());
+			}
 			break;
 		}
 

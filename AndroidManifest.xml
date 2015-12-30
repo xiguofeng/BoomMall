@@ -143,6 +143,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
+         <activity
+            android:name="com.plmt.boommall.ui.activity.NoticePriceReduceActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name="com.plmt.boommall.ui.activity.CreateOrderActivity"
             android:configChanges="orientation|keyboardHidden"

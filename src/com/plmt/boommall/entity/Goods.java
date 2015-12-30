@@ -81,6 +81,11 @@ public class Goods implements Serializable {
 	private String inWishList; 
 
 	private ArrayList<String> litterImage;
+	
+	/**
+	 * 产品序列号
+	 */
+	private String sku;
 
 	public String getId() {
 		return id;
@@ -290,6 +295,13 @@ public class Goods implements Serializable {
 		this.litterImage = litterImage;
 	}
 
+	public String getSku() {
+		return sku;
+	}
 
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
 
+	
 }

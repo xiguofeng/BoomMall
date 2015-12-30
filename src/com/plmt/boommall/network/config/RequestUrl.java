@@ -35,6 +35,19 @@ public class RequestUrl {
 		public String getHotWords = "/search/getHotWords";
 
 	}
+	
+	public interface notice {
+		/**
+		 * 降价通知
+		 */
+		public String priceReduce = "/pdp/alertPrice";
+
+		/**
+		 * 到货提醒
+		 */
+		public String aog = "/pdp/alertStock";
+
+	}
 
 	public interface promotion {
 
