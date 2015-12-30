@@ -1,6 +1,7 @@
 package com.plmt.boommall.ui.activity;
 
 import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.logic.CommentLogic;
 import com.plmt.boommall.ui.view.CustomProgressDialog;
 
@@ -21,6 +22,8 @@ import android.widget.Toast;
 
 public class CommentAddActivity extends Activity implements OnClickListener, OnRatingBarChangeListener {
 
+	public static final String GOODS_KEY = "GoodsKey";
+	
 	private Context mContext;
 
 	private RatingBar mPriceRatingBar;
@@ -31,7 +34,9 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 	private TextView mSubmitTv;
 
 	private EditText mDetailEt;
-
+	
+	private Goods mGoods;
+	
 	protected CustomProgressDialog mProgressDialog;
 
 	Handler mHandler = new Handler() {
@@ -99,6 +104,8 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 	}
 
 	private void initData() {
+		mGoods = (Goods) getIntent().getSerializableExtra(
+				CommentAddActivity.GOODS_KEY);
 	}
 
 	private void addComment() {

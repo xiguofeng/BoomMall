@@ -201,13 +201,12 @@ public class MyOrderListActivity extends Activity
 			break;
 		}
 		case R.id.list_order_group_comment_btn: {
-			Intent intent = new Intent(MyOrderListActivity.this, CommentAddActivity.class);
-			intent.putExtra("orderId",
-					((ArrayList<Order>) mMsgMap.get(MsgResult.ORDER_TAG)).get(position).getIncrement_id());
-			intent.putExtra("price",
-					"¥" + ((ArrayList<Order>) mMsgMap.get(MsgResult.ORDER_TAG)).get(position).getTotal());
+			Intent intent = new Intent(MyOrderListActivity.this, CommentGoodsListActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putSerializable(CommentGoodsListActivity.ORDER_KEY,
+					((ArrayList<Order>) mMsgMap.get(MsgResult.ORDER_TAG)).get(position));
+			intent.putExtras(bundle);
 			startActivity(intent);
-			///finish();
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		}

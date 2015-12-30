@@ -247,7 +247,13 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
-         <activity
+        <activity
+            android:name="com.plmt.boommall.ui.activity.CommentGoodsListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.plmt.boommall.ui.activity.CommentAddActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
@@ -283,7 +289,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
-        
+
         <service android:name="com.plmt.boommall.service.AccountService" >
             <intent-filter>
                 <action android:name="com.plmt.boommall.service.AccountService" />
