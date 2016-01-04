@@ -52,7 +52,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class GoodsListActivity extends Activity
-		implements OnClickListener, MyItemClickListener, XListView.IXListViewListener {
+		implements OnClickListener, MyItemClickListener, XListView.IXListViewListener,PagingGridView.ScrollListener {
 	public static final int VIEW_MODE_LIST = 0;
 	public static final int VIEW_MODE_GRID = 1;
 
@@ -383,6 +383,7 @@ public class GoodsListActivity extends Activity
 		mGoodsGv = (PagingGridView) findViewById(R.id.goods_list_goods_pgv);
 		mGoodsGvAdapter = new GoodsGvPagingAdaper();
 		// mGoodsGv.setAdapter(mGoodsGvAdapter);
+		mGoodsGv.setmListener(this);
 		mGoodsGv.setHasMoreItems(true);
 		mGoodsGv.setPagingableListener(new PagingGridView.Pagingable() {
 			@Override
@@ -487,6 +488,15 @@ public class GoodsListActivity extends Activity
 	public void onScrollDown() {
 
 	}
+	
+	@Override
+	public void onPagingScrollDown(boolean isShowBackTop) {
+		if(isShowBackTop){
+			mBackTopIv.setVisibility(View.VISIBLE);
+		}else{
+			mBackTopIv.setVisibility(View.GONE);
+		}
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -574,8 +584,19 @@ public class GoodsListActivity extends Activity
 		}
 
 		case R.id.goods_list_back_top_iv: {
-			mGoodsAdapter.notifyDataSetChanged();
-			mGoodsLv.setSelection(0);
+			
+			if (mCurrentViewMode == VIEW_MODE_GRID) {
+				
+				mGoodsGv.post(new Runnable() {
+				    @Override
+				    public void run() {
+				    	mGoodsGv.scrollTo(0, 0);
+				    } 
+				});
+			} else {
+				mGoodsAdapter.notifyDataSetChanged();
+				mGoodsLv.setSelection(0);
+			}
 			mBackTopIv.setVisibility(View.GONE);
 			break;
 		}
@@ -600,4 +621,5 @@ public class GoodsListActivity extends Activity
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
 }
