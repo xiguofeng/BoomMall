@@ -265,6 +265,8 @@
     <string name="quality">质量</string>
     <string name="publish">发布</string>
     <string name="goods_comment">商品评论</string>
+    <string name="nickname">昵称</string>
+    
     
     <!-- about -->
     <string name="about">关于我们</string>

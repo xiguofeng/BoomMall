@@ -42,11 +42,40 @@
             android:textColor="@color/white"
             android:textSize="@dimen/middle_text_size" />
     </RelativeLayout>
+    
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nickname"
+            android:textColor="@color/black_character_title"
+            android:textSize="@dimen/middle_text_size" />
+
+        <EditText
+            android:id="@+id/comment_nickname_et"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:lines="1"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/black_character_title"
+            android:textSize="@dimen/middle_text_size" />
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         android:background="@color/white" >
 
         <ImageView
@@ -120,7 +149,7 @@
 
         <RatingBar
             android:id="@+id/comment_express_ratingbar"
-            style="?android:attr/ratingBarStyleIndicator"
+            style="@style/commentRatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -149,7 +178,7 @@
 
         <RatingBar
             android:id="@+id/comment_quality_ratingbar"
-            style="?android:attr/ratingBarStyleIndicator"
+            style="@style/commentRatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -179,7 +208,10 @@
         <EditText
             android:id="@+id/comment_detail_et"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
+            android:lines="5"
+            android:lineSpacingExtra="5sp"
+            android:gravity="left|top"
             android:layout_marginTop="10dp"
             android:background="@drawable/corners_bg_red"
             android:textColor="@color/black_character_title"

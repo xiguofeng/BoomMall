@@ -38,6 +38,7 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 	private ImageView mBackIv;
 	private TextView mSubmitTv;
 
+	private EditText mNickNameEt;
 	private EditText mDetailEt;
 
 	private Goods mGoods;
@@ -105,6 +106,7 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 		mQualityRtingBar.setOnRatingBarChangeListener(this);
 
 		mDetailEt = (EditText) findViewById(R.id.comment_detail_et);
+		mNickNameEt= (EditText) findViewById(R.id.comment_nickname_et);
 
 		mBackIv = (ImageView) findViewById(R.id.comment_back_iv);
 		mBackIv.setOnClickListener(this);
@@ -121,6 +123,11 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 	}
 
 	private void addComment() {
+		if (TextUtils.isEmpty(mNickNameEt.getText().toString().trim())) {
+			Toast.makeText(mContext, "亲，请输入昵称！", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 		if (mPriceRatingBar.getNumStars() == 0 || mExpressRatingBar.getNumStars() == 0
 				|| mQualityRtingBar.getNumStars() == 0) {
 			Toast.makeText(mContext, "请打分！", Toast.LENGTH_SHORT).show();
@@ -134,7 +141,7 @@ public class CommentAddActivity extends Activity implements OnClickListener, OnR
 		mProgressDialog.show();
 		CommentLogic.addComment(mContext, mHandler, mGoods.getId(), String.valueOf(mPriceRatingBar.getNumStars()),
 				String.valueOf(5 + mExpressRatingBar.getNumStars()),
-				String.valueOf(10 + mQualityRtingBar.getNumStars()), mDetailEt.getText().toString().trim(), "nickname");
+				String.valueOf(10 + mQualityRtingBar.getNumStars()), mDetailEt.getText().toString().trim(), mNickNameEt.getText().toString().trim());
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class CommentLogic {
 				requestJson.put("post_2", express);
 				requestJson.put("post_3", quality);
 				requestJson.put("nickname", URLEncoder.encode(nickname, "UTF-8"));
-				requestJson.put("detail", "frontend=" + UserInfoManager.getSession(context));
+				requestJson.put("detail", detail);
 
 				CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson,
 						new Listener<JSONObject>() {
