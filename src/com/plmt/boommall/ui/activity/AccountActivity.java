@@ -170,7 +170,7 @@ public class AccountActivity extends Activity implements OnClickListener {
 		}
 		case R.id.account_aog_notify_rl: {
 			Intent intent = new Intent(AccountActivity.this,
-					PriceReduceListActivity.class);
+					AOGListActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;

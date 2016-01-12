@@ -29,23 +29,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class NoticePriceReduceActivity extends Activity implements OnClickListener , TextWatcher{
+public class NoticePriceReduceActivity extends Activity implements OnClickListener, TextWatcher {
 
 	private Context mContext;
 
 	private LinearLayout mPhoneLl;
 
 	private TextView mVersionTv;
-	
+
 	private EditText mPhoneNoEt;
 	private EditText mPriceEt;
-	
+
 	private CheckBox mUseSmsCb;
 
 	private ImageView mBackIv;
-	
+
 	private Button mConfrimBtn;
-	
+
 	private String mFinalPrice;
 	private String mSuk;
 
@@ -57,15 +57,15 @@ public class NoticePriceReduceActivity extends Activity implements OnClickListen
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case NoticeLogic.PRICE_REDUCE_SET_SUC: {
-                Toast.makeText(mContext, "添加通知成功！", Toast.LENGTH_SHORT).show();
-                finish();
-                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+				Toast.makeText(mContext, "添加通知成功！", Toast.LENGTH_SHORT).show();
+				finish();
+				overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 				break;
 			}
 			case NoticeLogic.PRICE_REDUCE_SET_FAIL: {
-				if(null!=msg.obj){
-					Toast.makeText(mContext, (String)msg.obj, Toast.LENGTH_SHORT).show();
-				}else{
+				if (null != msg.obj) {
+					Toast.makeText(mContext, (String) msg.obj, Toast.LENGTH_SHORT).show();
+				} else {
 					Toast.makeText(mContext, "添加通知失败！", Toast.LENGTH_SHORT).show();
 				}
 				break;
@@ -104,19 +104,19 @@ public class NoticePriceReduceActivity extends Activity implements OnClickListen
 	}
 
 	private void initView() {
-		mPhoneLl= (LinearLayout) findViewById(R.id.price_reduce_phone_ll);
+		mPhoneLl = (LinearLayout) findViewById(R.id.price_reduce_phone_ll);
 
 		mPriceEt = (EditText) findViewById(R.id.price_reduce_price_expect_et);
 		mPhoneNoEt = (EditText) findViewById(R.id.price_reduce_phone_et);
 
 		mPriceEt.addTextChangedListener(this);
 		mPhoneNoEt.addTextChangedListener(this);
-	        
+
 		mUseSmsCb = (CheckBox) findViewById(R.id.price_reduce_sms_cb);
 		mUseSmsCb.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked){
+				if (isChecked) {
 					mPhoneLl.setVisibility(View.VISIBLE);
 				}
 			}
@@ -124,21 +124,21 @@ public class NoticePriceReduceActivity extends Activity implements OnClickListen
 		});
 		mBackIv = (ImageView) findViewById(R.id.price_reduce_back_iv);
 		mBackIv.setOnClickListener(this);
-		
-		mConfrimBtn= (Button) findViewById(R.id.price_reduce_submit_btn);
+
+		mConfrimBtn = (Button) findViewById(R.id.price_reduce_submit_btn);
 		mConfrimBtn.setOnClickListener(this);
 	}
 
 	private void initData() {
-		mSuk=getIntent().getStringExtra("sku");
-		mFinalPrice =getIntent().getStringExtra("price");
+		mSuk = getIntent().getStringExtra("sku");
+		mFinalPrice = getIntent().getStringExtra("price");
 		if (TextUtils.isEmpty(UserInfoManager.userInfo.getAccount())) {
 			UserInfoManager.setUserInfo(mContext);
 		}
 		mPhoneNoEt.setText(UserInfoManager.userInfo.getAccount());
 	}
-	
-	private synchronized void checkInput() {
+
+	private void checkInput() {
 		String Mobile = mPhoneNoEt.getText().toString().trim();
 
 		boolean isRight = false;
@@ -155,26 +155,26 @@ public class NoticePriceReduceActivity extends Activity implements OnClickListen
 		if (!TextUtils.isEmpty(mPriceEt.getText().toString().trim()) && isRight) {
 			mConfrimBtn.setClickable(true);
 			mConfrimBtn.setBackgroundResource(R.drawable.corners_bg_red_all);
-		}else{
+		} else {
 			mConfrimBtn.setClickable(false);
 			mConfrimBtn.setBackgroundResource(R.drawable.corners_bg_gray_all);
 		}
 	}
-	
-	private void setPriceReduceNotice(){
+
+	private void setPriceReduceNotice() {
 		mProgressDialog.show();
-		NoticeLogic.setPriceReduce(mContext, mNoticeHandler,
-				mSuk, mPriceEt.getText().toString().trim(), mPhoneNoEt.getText().toString().trim());
+		NoticeLogic.setPriceReduce(mContext, mNoticeHandler, mSuk, mPriceEt.getText().toString().trim(),
+				mPhoneNoEt.getText().toString().trim());
 	}
 
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		
+
 	}
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		
+
 	}
 
 	@Override
@@ -198,11 +198,13 @@ public class NoticePriceReduceActivity extends Activity implements OnClickListen
 			break;
 		}
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		finish();
-		overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+			finish();
+			overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+		}
 		return super.onKeyDown(keyCode, event);
 	}
 }

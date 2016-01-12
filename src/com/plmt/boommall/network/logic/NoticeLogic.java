@@ -209,8 +209,7 @@ public class NoticeLogic {
 		}
 	}
 
-	public static void getAOG(final Context context, final Handler handler, String sku, String phone)
-			throws JSONException {
+	public static void getAOG(final Context context, final Handler handler){
 
 		String url = RequestUrl.HOST_URL + RequestUrl.notice.aog;
 		JSONObject requestJson = new JSONObject();
