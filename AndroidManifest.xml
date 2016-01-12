@@ -483,6 +483,22 @@
             android:value="4a853065b3f58bc1447b2acb" />
         <!-- </>值来自开发者平台取得的AppKey -->
         <!-- jpush end -->
+        
+        
+        <!-- QQ open start -->
+         <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent222222" />
+ 				<!-- 100380359 100381104 222222 -->
+            </intent-filter>
+        </activity>
+         <!-- QQ open end -->
     </application>
 
 </manifest>
