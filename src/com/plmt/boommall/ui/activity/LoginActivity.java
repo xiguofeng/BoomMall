@@ -1,5 +1,16 @@
 package com.plmt.boommall.ui.activity;
 
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.User;
+import com.plmt.boommall.network.logic.UserLogic;
+import com.plmt.boommall.openapi.qq.QQApiUtil;
+import com.plmt.boommall.openapi.qq.QQOpenApi;
+import com.plmt.boommall.openapi.qq.QQOpenApi.OnCompelete;
+import com.plmt.boommall.ui.view.AutoClearEditText;
+import com.plmt.boommall.ui.view.CustomProgressDialog;
+import com.plmt.boommall.ui.view.MultiStateView;
+import com.plmt.boommall.utils.UserInfoManager;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -21,19 +32,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.User;
-import com.plmt.boommall.network.logic.UserLogic;
-import com.plmt.boommall.ui.view.AutoClearEditText;
-import com.plmt.boommall.ui.view.CustomProgressDialog;
-import com.plmt.boommall.ui.view.MultiStateView;
-import com.plmt.boommall.utils.UserInfoManager;
-
 /**
  * 登录界面
  */
 public class LoginActivity extends BaseActivity implements OnClickListener,
-		TextWatcher {
+		TextWatcher,OnCompelete {
 	public static final String ORIGIN_FROM_NULL = "com.null";
 
 	public static final String ORIGIN_FROM_REG_KEY = "com.reg";
@@ -202,6 +205,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		}
 
 	}
+	
+	@Override
+    protected void onDestroy() {
+        super.onDestroy();
+        QQApiUtil.release();
+    }
 
 	private void login() {
 		// 获取用户的登录信息，连接服务器，获取登录状态
@@ -249,7 +258,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 					R.anim.push_right_out);
 		}
 	}
-
+	
+	private void loginByQQ(){
+		QQOpenApi qqOpenApi  =QQOpenApi.getInstance(mContext, this);
+		qqOpenApi.initData();
+		qqOpenApi.getTencentInstance();
+		qqOpenApi.login(this);
+	}
+	
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
@@ -293,7 +309,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			break;
 		}
 		case R.id.login_qq_login_ll: {
-			login();
+			loginByQQ();
 			break;
 		}
 
@@ -331,6 +347,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		}
 
 	}
+	
+	//QQ doCompelete
+	@Override
+	public void doCompelete() {
+		//TODO
+	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -341,5 +363,4 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-
 }
