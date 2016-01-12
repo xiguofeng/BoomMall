@@ -211,7 +211,7 @@ public class NoticeLogic {
 
 	public static void getAOG(final Context context, final Handler handler){
 
-		String url = RequestUrl.HOST_URL + RequestUrl.notice.aog;
+		String url = RequestUrl.HOST_URL + RequestUrl.notice.getAog;
 		JSONObject requestJson = new JSONObject();
 		CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
 			@Override

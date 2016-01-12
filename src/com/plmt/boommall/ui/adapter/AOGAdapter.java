@@ -73,7 +73,7 @@ public class AOGAdapter extends BaseAdapter {
 		}
 		
 		holder.mName.setText(mDatas.get(position).getProduct_name().trim());
-		holder.mPrice.setText("￥" + mDatas.get(position).getProduct_price());
+		//holder.mPrice.setText("￥" + mDatas.get(position).getProduct_price());
 
 		ImageLoader.getInstance().displayImage(mDatas.get(position).getProduct_image(),
 				holder.mIcon);

@@ -175,6 +175,7 @@ public class PriceReduceListActivity extends Activity
 	}
 
 	private void refreshGoods() {
+		mProgressDialog.show();
 		NoticeLogic.getPriceReduce(mContext, mHandler);
 	}
 

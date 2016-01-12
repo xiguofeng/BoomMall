@@ -34,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:orientation="vertical"
+            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/list_aog_del_iv"
             android:layout_toRightOf="@+id/list_aog_goods_iv">
