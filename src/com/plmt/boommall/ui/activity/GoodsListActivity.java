@@ -4,10 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import com.plmt.boommall.R;
 import com.plmt.boommall.entity.Category;
+import com.plmt.boommall.entity.Filter;
 import com.plmt.boommall.entity.FilterProperty;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.network.config.MsgRequest;
@@ -81,6 +84,8 @@ public class GoodsListActivity extends Activity
 	private CustomListView mFilterPropertyLv;
 	private ArrayList<FilterProperty> mFilterPropertyList = new ArrayList<>();
 	private FilterPropertyAdapter mFilterPropertyAdapter;
+	
+	private HashMap<String, ArrayList<Filter>> mFilterMap =new HashMap<>();
 
 	private TextView mFilterConfrimTv;
 	private TextView mFilterCancelTv;
@@ -103,6 +108,7 @@ public class GoodsListActivity extends Activity
 	private ImageView mBackTopIv;
 
 	private String mCatgoryName;
+	private String mCatgoryID;
 
 	private String mNowSortType;
 
@@ -170,6 +176,38 @@ public class GoodsListActivity extends Activity
 				mProgressDialog.dismiss();
 			}
 			onLoadComplete();
+		}
+
+	};
+	
+	Handler mFilterHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			int what = msg.what;
+			switch (what) {
+			case GoodsLogic.FILTE_GET_SUC: {
+				if (null != msg.obj) {
+					mFilterMap.clear();
+					mFilterMap.putAll((Map<? extends String, ? extends ArrayList<Filter>>) msg.obj);
+					fillUpFilterData();
+				}
+				break;
+			}
+			case GoodsLogic.FILTE_GET_FAIL: {
+				break;
+			}
+			case GoodsLogic.FILTE_GET_EXCEPTION: {
+				break;
+			}
+
+			default:
+				break;
+			}
+
+			if (null != mProgressDialog && mProgressDialog.isShowing()) {
+				mProgressDialog.dismiss();
+			}
 		}
 
 	};
@@ -243,6 +281,7 @@ public class GoodsListActivity extends Activity
 
 	private void initData() {
 		mCatgoryName = getIntent().getStringExtra("categoryName");
+		mCatgoryID= getIntent().getStringExtra("categoryID");
 		mProgressDialog = new CustomProgressDialog(mContext);
 		mProgressDialog.show();
 		fetchGoods(mNowSortType);
@@ -289,11 +328,6 @@ public class GoodsListActivity extends Activity
 		mFilterCancelTv.setOnClickListener(this);
 
 		mFilterPropertyLv = (CustomListView) findViewById(R.id.goods_list_filter_lv);
-		FilterProperty filterProperty = new FilterProperty();
-		filterProperty.setId("id");
-		filterProperty.setTitle("title");
-		filterProperty.setContent("content");
-		mFilterPropertyList.add(filterProperty);
 		mFilterPropertyAdapter = new FilterPropertyAdapter(mContext, mFilterPropertyList);
 		mFilterPropertyLv.setAdapter(mFilterPropertyAdapter);
 
@@ -439,6 +473,29 @@ public class GoodsListActivity extends Activity
 		GoodsLogic.getGoodsListByCategory(mContext, mHandler, mCatgoryName, mCurrentPageNum, MsgRequest.PAGE_SIZE,
 				sortType);
 	}
+	
+	private void getFilter(String price,String brand,String continent){
+		GoodsLogic.getFilter(mContext, mFilterHandler, mCatgoryID, price, brand, continent);
+	}
+	
+	private void fillUpFilterData(){
+		mFilterPropertyList.clear();
+		for (String key : mFilterMap.keySet()) {
+			FilterProperty filterProperty = new FilterProperty();
+			filterProperty.setId(key);
+			if("price".equals(key)){
+				filterProperty.setTitle("价格");	
+			} else if("color".equals(key)){
+				filterProperty.setTitle("颜色");	
+			}else if("brand_filter".equals(key)){
+				filterProperty.setTitle("品牌");	
+			}else if("continent".equals(key)){
+				filterProperty.setTitle("国际");	
+			}
+			mFilterPropertyList.add(filterProperty);
+		}
+		mFilterPropertyAdapter.notifyDataSetChanged();
+	}
 
 	private void filter() {
 		mProgressDialog.show();
@@ -556,6 +613,7 @@ public class GoodsListActivity extends Activity
 				mDrawerLayout.closeDrawer(Gravity.RIGHT);
 			} else {
 				mDrawerLayout.openDrawer(Gravity.RIGHT);
+				getFilter("","","");
 			}
 			break;
 		}

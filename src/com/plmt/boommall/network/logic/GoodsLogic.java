@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import com.plmt.boommall.BaseApplication;
 import com.plmt.boommall.entity.Category;
 import com.plmt.boommall.entity.Comment;
+import com.plmt.boommall.entity.Filter;
 import com.plmt.boommall.entity.Goods;
 import com.plmt.boommall.entity.HomeRecommend;
 import com.plmt.boommall.entity.RootName;
@@ -77,6 +78,12 @@ public class GoodsLogic {
 	public static final int CATEGROY_HOME_LIST_GET_FAIL = CATEGROY_HOME_LIST_GET_SUC + 1;
 
 	public static final int CATEGROY_HOME_LIST_GET_EXCEPTION = CATEGROY_HOME_LIST_GET_FAIL + 1;
+	
+	public static final int FILTE_GET_SUC = CATEGROY_HOME_LIST_GET_EXCEPTION + 1;
+
+	public static final int FILTE_GET_FAIL = FILTE_GET_SUC + 1;
+
+	public static final int FILTE_GET_EXCEPTION = FILTE_GET_FAIL + 1;
 
 	public static void getGoodsListByCategory(final Context context, final Handler handler, String categoryName,
 			final int pageNum, final int pageSize, final String sortType) {
@@ -492,4 +499,103 @@ public class GoodsLogic {
 			handler.sendEmptyMessage(CATEGROY_HOME_LIST_GET_EXCEPTION);
 		}
 	}
+	
+	public static void getFilter(final Context context, final Handler handler, String category_id,String attribute_price,String attribute_brand_filter,String attribute_continent) {
+		String url = RequestUrl.HOST_URL + RequestUrl.goods.getFilter;
+		JSONObject requestJson = new JSONObject();
+		try {
+			requestJson.put("category_id", URLEncoder.encode(category_id, "UTF-8"));
+			requestJson.put("attribute_price", URLEncoder.encode(attribute_price, "UTF-8"));
+			requestJson.put("attribute_brand_filter", URLEncoder.encode(attribute_brand_filter, "UTF-8"));
+			requestJson.put("attribute_continent", URLEncoder.encode(attribute_continent, "UTF-8"));
+
+			CookieRequest cookieRequest = new CookieRequest(Method.POST, url, requestJson, new Listener<JSONObject>() {
+				@Override
+				public void onResponse(JSONObject response) {
+					if (null != response) {
+						Log.e("xxx_getFilter", response.toString());
+						parseFilterData(response, handler);
+					}
+				}
+			}, null);
+			cookieRequest.setCookie("frontend=" + UserInfoManager.getSession(context));
+			BaseApplication.getInstanceRequestQueue().add(cookieRequest);
+			BaseApplication.getInstanceRequestQueue().start();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void parseFilterData(JSONObject response, Handler handler) {
+
+		try {
+			String sucResult = response.getString(MsgResult.RESULT_TAG).trim();
+			if (sucResult.equals(MsgResult.RESULT_SUCCESS)) {
+               Log.e("xxx_1", "suc");
+				HashMap<String, ArrayList<Filter>> filterMap = new LinkedHashMap<>();
+				JSONObject jsonObject =response.getJSONObject(MsgResult.RESULT_DATA_TAG);
+				
+				if(jsonObject.has("price")){
+					ArrayList<Filter> priceFilterList = new ArrayList<Filter>();
+					JSONArray priceJsonArray = jsonObject.getJSONArray("price");
+					for(int i=0;i<priceJsonArray.length();i++){
+						JSONObject priceJsonObject = priceJsonArray.getJSONObject(i);
+						Filter priceFilter = (Filter) JsonUtils.fromJsonToJava(priceJsonObject,
+								Filter.class);
+						priceFilterList.add(priceFilter);
+					}
+					filterMap.put("price", priceFilterList);
+				}
+				
+				if(jsonObject.has("color")){
+					ArrayList<Filter> colorFilterList = new ArrayList<Filter>();
+					JSONArray colorJsonArray = jsonObject.getJSONArray("color");
+					for(int i=0;i<colorJsonArray.length();i++){
+						JSONObject colorJsonObject = colorJsonArray.getJSONObject(i);
+						Filter colorFilter = (Filter) JsonUtils.fromJsonToJava(colorJsonObject,
+								Filter.class);
+						colorFilterList.add(colorFilter);
+					}
+					filterMap.put("color", colorFilterList);
+				}
+				
+				if(jsonObject.has("brand_filter")){
+					ArrayList<Filter> brandFilterList = new ArrayList<Filter>();
+					JSONArray brandJsonArray = jsonObject.getJSONArray("brand_filter");
+					for(int i=0;i<brandJsonArray.length();i++){
+						JSONObject brandJsonObject = brandJsonArray.getJSONObject(i);
+						Filter brandFilter = (Filter) JsonUtils.fromJsonToJava(brandJsonObject,
+								Filter.class);
+						brandFilterList.add(brandFilter);
+					}
+					filterMap.put("brand_filter", brandFilterList);
+				}
+				
+				if(jsonObject.has("continent")){
+					ArrayList<Filter> continentFilterList = new ArrayList<Filter>();
+					JSONArray continentJsonArray = jsonObject.getJSONArray("continent");
+					for(int i=0;i<continentJsonArray.length();i++){
+						JSONObject continentJsonObject = continentJsonArray.getJSONObject(i);
+						Filter continentFilter = (Filter) JsonUtils.fromJsonToJava(continentJsonObject,
+								Filter.class);
+						continentFilterList.add(continentFilter);
+					}
+					filterMap.put("continent", continentFilterList);
+				}
+
+				Message message = new Message();
+				message.what = FILTE_GET_SUC;
+				message.obj = filterMap;
+				handler.sendMessage(message);
+			} else {
+				handler.sendEmptyMessage(FILTE_GET_FAIL);
+			}
+		} catch (JSONException e) {
+			handler.sendEmptyMessage(FILTE_GET_EXCEPTION);
+		}
+	}
+	
 }

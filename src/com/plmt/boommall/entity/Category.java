@@ -5,8 +5,10 @@ import java.io.Serializable;
 public class Category implements Serializable {
 
 	private static final long serialVersionUID = 8912365559481657349L;
-
+	
 	private String id;
+	
+	private String category_id;
 
 	private String name;
 
@@ -22,6 +24,14 @@ public class Category implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getCategory_id() {
+		return category_id;
+	}
+
+	public void setCategory_id(String category_id) {
+		this.category_id = category_id;
 	}
 
 	public String getName() {

@@ -197,6 +197,7 @@ public class CategoryActivity extends Activity implements OnClickListener {
 
 				Intent intent = new Intent(CategoryActivity.this, GoodsListActivity.class);
 				intent.putExtra("categoryName", mSecondCategoryList.get(position).getName());
+				intent.putExtra("categoryID", mSecondCategoryList.get(position).getCategory_id());
 				startActivity(intent);
 				overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			}

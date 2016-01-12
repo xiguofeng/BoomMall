@@ -288,6 +288,11 @@ public class RequestUrl {
 		 * 获取首页分类商品
 		 */
 		public String queryHomeCategory = "/category/getHomeCategory";
+		
+		/**
+		 * 获取筛选数据
+		 */
+		public String getFilter = "/plp/getFilter";
 
 	}
 
