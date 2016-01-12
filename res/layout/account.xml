@@ -188,8 +188,8 @@
                     android:layout_marginRight="10dp"
                     android:src="@drawable/arrow" />
             </RelativeLayout>
-            
-             <RelativeLayout
+
+            <RelativeLayout
                 android:id="@+id/account_modify_pwd_rl"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -224,6 +224,106 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/account_modify_pwd_tv"
+                    android:background="@null"
+                    android:paddingBottom="6.0dip"
+                    android:paddingTop="6.0dip"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/small_text_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/arrow" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/account_price_reduce_notify_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="@color/white"
+                android:padding="6dip" >
+
+                <ImageView
+                    android:id="@+id/account_price_reduce_notify_iv"
+                    android:layout_width="22dip"
+                    android:layout_height="22dip"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="6dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/collection_star" />
+
+                <TextView
+                    android:id="@+id/account_price_reduce_notify_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/account_price_reduce_notify_iv"
+                    android:paddingLeft="12dip"
+                    android:paddingRight="10dip"
+                    android:text="@string/reduce_price_notice"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/middle_text_size" />
+
+                <TextView
+                    android:id="@+id/account_price_reduce_notify_tv1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/account_price_reduce_notify_tv"
+                    android:background="@null"
+                    android:paddingBottom="6.0dip"
+                    android:paddingTop="6.0dip"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/small_text_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/arrow" />
+            </RelativeLayout>
+            
+            <RelativeLayout
+                android:id="@+id/account_aog_notify_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="@color/white"
+                android:padding="6dip" >
+
+                <ImageView
+                    android:id="@+id/account_aog_notify_iv"
+                    android:layout_width="22dip"
+                    android:layout_height="22dip"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="6dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/collection_star" />
+
+                <TextView
+                    android:id="@+id/account_aog_notify_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/account_aog_notify_iv"
+                    android:paddingLeft="12dip"
+                    android:paddingRight="10dip"
+                    android:text="@string/aog_notice"
+                    android:textColor="@color/black_character"
+                    android:textSize="@dimen/middle_text_size" />
+
+                <TextView
+                    android:id="@+id/account_aog_notify_tv1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/account_aog_notify_tv"
                     android:background="@null"
                     android:paddingBottom="6.0dip"
                     android:paddingTop="6.0dip"

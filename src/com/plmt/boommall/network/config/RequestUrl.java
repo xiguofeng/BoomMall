@@ -46,6 +46,27 @@ public class RequestUrl {
 		 * 到货提醒
 		 */
 		public String aog = "/pdp/alertStock";
+		
+		/**
+		 * 客户降价提醒列表接口
+		 */
+		public String getPriceReduce = "/user/getAlertPrice";
+		
+		/**
+		 * 客户到货提醒列表接口
+		 */
+		public String getAog = "/user/getAlertStock";
+		
+		/**
+		 * 客户关闭降价提醒接口
+		 */
+		public String closePriceReduce = "/user/closePrice";
+		
+		/**
+		 * 客户关闭到货提醒列表接口
+		 */
+		public String closeAog = "/user/closeStock";
+		
 
 	}
 

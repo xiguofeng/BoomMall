@@ -28,6 +28,8 @@ public class AccountActivity extends Activity implements OnClickListener {
 	private RelativeLayout mRealNameAuthRl;
 	private RelativeLayout mCollectionRl;
 	private RelativeLayout mModifyPwdRl;
+	private RelativeLayout mPriceReduceRl;
+	private RelativeLayout mAOGRl;
 	
 	private TextView mRealNameAuthTv;
 
@@ -105,6 +107,12 @@ public class AccountActivity extends Activity implements OnClickListener {
 		
 		mModifyPwdRl= (RelativeLayout) findViewById(R.id.account_modify_pwd_rl);
 		mModifyPwdRl.setOnClickListener(this);
+		
+		mPriceReduceRl = (RelativeLayout) findViewById(R.id.account_price_reduce_notify_rl);
+		mPriceReduceRl.setOnClickListener(this);
+		
+		mAOGRl= (RelativeLayout) findViewById(R.id.account_aog_notify_rl);
+		mAOGRl.setOnClickListener(this);
 
 		mBackIv = (ImageView) findViewById(R.id.account_back_iv);
 		mBackIv.setOnClickListener(this);
@@ -149,6 +157,20 @@ public class AccountActivity extends Activity implements OnClickListener {
 		case R.id.account_modify_pwd_rl: {
 			Intent intent = new Intent(AccountActivity.this,
 					ForgetPwdActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+		case R.id.account_price_reduce_notify_rl: {
+			Intent intent = new Intent(AccountActivity.this,
+					PriceReduceListActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		}
+		case R.id.account_aog_notify_rl: {
+			Intent intent = new Intent(AccountActivity.this,
+					PriceReduceListActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 			break;
