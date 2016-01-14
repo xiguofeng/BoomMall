@@ -55,7 +55,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class GoodsListActivity extends Activity
-		implements OnClickListener, MyItemClickListener, XListView.IXListViewListener,PagingGridView.ScrollListener {
+		implements OnClickListener, MyItemClickListener, XListView.IXListViewListener, PagingGridView.ScrollListener {
 	public static final int VIEW_MODE_LIST = 0;
 	public static final int VIEW_MODE_GRID = 1;
 
@@ -82,10 +82,11 @@ public class GoodsListActivity extends Activity
 	private boolean isFilterOpen = false;
 
 	private CustomListView mFilterPropertyLv;
-	private ArrayList<FilterProperty> mFilterPropertyList = new ArrayList<>();
+	private ArrayList<Filter> mFilterPropertyList = new ArrayList<>();
 	private FilterPropertyAdapter mFilterPropertyAdapter;
-	
-	private HashMap<String, ArrayList<Filter>> mFilterMap =new HashMap<>();
+
+	private HashMap<String, ArrayList<Filter>> mFilterMap = new HashMap<>();
+	private ArrayList<Filter> mRootFilterList = new ArrayList<>();
 
 	private TextView mFilterConfrimTv;
 	private TextView mFilterCancelTv;
@@ -179,7 +180,7 @@ public class GoodsListActivity extends Activity
 		}
 
 	};
-	
+
 	Handler mFilterHandler = new Handler() {
 
 		@Override
@@ -281,7 +282,7 @@ public class GoodsListActivity extends Activity
 
 	private void initData() {
 		mCatgoryName = getIntent().getStringExtra("categoryName");
-		mCatgoryID= getIntent().getStringExtra("categoryID");
+		mCatgoryID = getIntent().getStringExtra("categoryID");
 		mProgressDialog = new CustomProgressDialog(mContext);
 		mProgressDialog.show();
 		fetchGoods(mNowSortType);
@@ -330,6 +331,17 @@ public class GoodsListActivity extends Activity
 		mFilterPropertyLv = (CustomListView) findViewById(R.id.goods_list_filter_lv);
 		mFilterPropertyAdapter = new FilterPropertyAdapter(mContext, mFilterPropertyList);
 		mFilterPropertyLv.setAdapter(mFilterPropertyAdapter);
+		mFilterPropertyLv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				if ("1".equals(mFilterPropertyList.get(position).getLevel())) {
+					setFilterContent(mFilterPropertyList.get(position).getId());
+				} else {
+					setFilterRoot(mFilterPropertyList.get(position));
+				}
+			}
+		});
 
 	}
 
@@ -353,9 +365,10 @@ public class GoodsListActivity extends Activity
 				case OnScrollListener.SCROLL_STATE_IDLE:// 是当屏幕停止滚动时
 					mScrollFlag = false;
 					// 判断滚动到底部
-//					if (mGoodsLv.getLastVisiblePosition() == (mGoodsLv.getCount() - 1)) {
-//						mBackTopIv.setVisibility(View.VISIBLE);
-//					}
+					// if (mGoodsLv.getLastVisiblePosition() ==
+					// (mGoodsLv.getCount() - 1)) {
+					// mBackTopIv.setVisibility(View.VISIBLE);
+					// }
 					// 判断滚动到顶部
 					if (mGoodsLv.getFirstVisiblePosition() == 0) {
 						mBackTopIv.setVisibility(View.GONE);
@@ -383,13 +396,13 @@ public class GoodsListActivity extends Activity
 					if (firstVisibleItem > mLastVisibleItemPosition) {// 下滑
 						mBackTopIv.setVisibility(View.VISIBLE);
 					} else if (firstVisibleItem < mLastVisibleItemPosition) {// 上滑
-						//mBackTopIv.setVisibility(View.GONE);
+						// mBackTopIv.setVisibility(View.GONE);
 					} else {
 						return;
 					}
 					mLastVisibleItemPosition = firstVisibleItem;
 				}
-				if(firstVisibleItem == 0){
+				if (firstVisibleItem == 0) {
 					mBackTopIv.setVisibility(View.GONE);
 				}
 			}
@@ -473,24 +486,56 @@ public class GoodsListActivity extends Activity
 		GoodsLogic.getGoodsListByCategory(mContext, mHandler, mCatgoryName, mCurrentPageNum, MsgRequest.PAGE_SIZE,
 				sortType);
 	}
-	
-	private void getFilter(String price,String brand,String continent){
+
+	private void getFilter(String price, String brand, String continent) {
 		GoodsLogic.getFilter(mContext, mFilterHandler, mCatgoryID, price, brand, continent);
 	}
-	
-	private void fillUpFilterData(){
+
+	private void setFilterRoot(Filter filter) {
+		mFilterPropertyList.clear();
+		for (Filter rootFilter : mRootFilterList) {
+			if (rootFilter.getId().equals(filter.getId())) {
+				rootFilter.setContent(filter.getLabel());
+				rootFilter.setValue(filter.getValue());
+			}
+			rootFilter.setLevel("1");
+			mFilterPropertyList.add(rootFilter);
+		}
+		mFilterPropertyAdapter.notifyDataSetChanged();
+	}
+
+	private void setFilterContent(String key) {
+		mRootFilterList.clear();
+		mRootFilterList.addAll(mFilterPropertyList);
+		mFilterPropertyList.clear();
+		ArrayList<Filter> filterPropertyList = new ArrayList<>();
+		filterPropertyList.addAll(mFilterMap.get(key));
+		for (Filter filter : filterPropertyList) {
+			filter.setId(key);
+			filter.setTitle(filter.getLabel());
+			filter.setLevel("2");
+			filter.setContent("");
+			mFilterPropertyList.add(filter);
+		}
+		mFilterPropertyAdapter.notifyDataSetChanged();
+	}
+
+	private void fillUpFilterData() {
 		mFilterPropertyList.clear();
 		for (String key : mFilterMap.keySet()) {
-			FilterProperty filterProperty = new FilterProperty();
+			Filter filterProperty = new Filter();
 			filterProperty.setId(key);
-			if("price".equals(key)){
-				filterProperty.setTitle("价格");	
-			} else if("color".equals(key)){
-				filterProperty.setTitle("颜色");	
-			}else if("brand_filter".equals(key)){
-				filterProperty.setTitle("品牌");	
-			}else if("continent".equals(key)){
-				filterProperty.setTitle("国际");	
+			filterProperty.setLevel("1");
+			filterProperty.setContent("全部");
+			filterProperty.setValue("全部");
+			if ("price".equals(key)) {
+				filterProperty.setTitle("价格");
+			} else if ("color".equals(key)) {
+				filterProperty.setTitle("颜色");
+			} else if ("brand_filter".equals(key)) {
+				filterProperty.setTitle("品牌");
+			} else if ("continent".equals(key)) {
+				filterProperty.setTitle("国际");
 			}
 			mFilterPropertyList.add(filterProperty);
 		}
@@ -545,12 +590,12 @@ public class GoodsListActivity extends Activity
 	public void onScrollDown() {
 
 	}
-	
+
 	@Override
 	public void onPagingScrollDown(boolean isShowBackTop) {
-		if(isShowBackTop){
+		if (isShowBackTop) {
 			mBackTopIv.setVisibility(View.VISIBLE);
-		}else{
+		} else {
 			mBackTopIv.setVisibility(View.GONE);
 		}
 	}
@@ -613,7 +658,7 @@ public class GoodsListActivity extends Activity
 				mDrawerLayout.closeDrawer(Gravity.RIGHT);
 			} else {
 				mDrawerLayout.openDrawer(Gravity.RIGHT);
-				getFilter("","","");
+				getFilter("", "", "");
 			}
 			break;
 		}
@@ -642,14 +687,14 @@ public class GoodsListActivity extends Activity
 		}
 
 		case R.id.goods_list_back_top_iv: {
-			
+
 			if (mCurrentViewMode == VIEW_MODE_GRID) {
-				
+
 				mGoodsGv.post(new Runnable() {
-				    @Override
-				    public void run() {
-				    	mGoodsGv.scrollTo(0, 0);
-				    } 
+					@Override
+					public void run() {
+						mGoodsGv.scrollTo(0, 0);
+					}
 				});
 			} else {
 				mGoodsAdapter.notifyDataSetChanged();

@@ -10,6 +10,16 @@ public class Filter implements Serializable {
 	
 	private String value;
 
+	private String id;
+
+	private String title;
+	
+	private String content;
+	
+	private String url;
+	
+	private String level;
+
 	public String getLabel() {
 		return label;
 	}
@@ -24,5 +34,45 @@ public class Filter implements Serializable {
 
 	public void setValue(String value) {
 		this.value = value;
-	}	
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
 }

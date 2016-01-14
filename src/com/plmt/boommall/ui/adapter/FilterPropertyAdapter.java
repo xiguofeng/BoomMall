@@ -2,7 +2,11 @@ package com.plmt.boommall.ui.adapter;
 
 import java.util.ArrayList;
 
+import com.plmt.boommall.R;
+import com.plmt.boommall.entity.Filter;
+
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +14,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.plmt.boommall.R;
-import com.plmt.boommall.entity.FilterProperty;
-
 public class FilterPropertyAdapter extends BaseAdapter {
 
 	private Context mContext;
 
-	private ArrayList<FilterProperty> mDatas;
+	private ArrayList<Filter> mDatas;
 
 	private LayoutInflater mInflater;
 
-	public FilterPropertyAdapter(Context context, ArrayList<FilterProperty> datas) {
+	public FilterPropertyAdapter(Context context, ArrayList<Filter> datas) {
 		this.mContext = context;
 		this.mDatas = datas;
 		mInflater = LayoutInflater.from(mContext);
@@ -66,8 +67,11 @@ public class FilterPropertyAdapter extends BaseAdapter {
 		}
 
 		holder.mName.setText(mDatas.get(position).getTitle().trim());
-		holder.mContent.setText("全部");
-		//holder.mContent.setText(mDatas.get(position).getContent().trim());
+		if ("1".equals(mDatas.get(position).getLevel())) {
+			holder.mContent.setText(TextUtils.isEmpty(mDatas.get(position).getContent().trim()) ? "全部"
+					: mDatas.get(position).getContent().trim());
+		}
+		// holder.mContent.setText(mDatas.get(position).getContent().trim());
 		// holder.mOriginalPrice.setText("原价￥" +
 		// mDatas.get(position).getPrice());
 		//
